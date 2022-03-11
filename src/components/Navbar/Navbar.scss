@@ -1,8 +1,22 @@
-.btn-nostyle {
-  border: none;
-  background-color: inherit;
+// .btn-nostyle {
+//   border: none;
+//   background-color: inherit;
+// }
+// .dropdown-menu[data-bs-popper] {
+//   left: -5.2em;
+//   top: 2.75em;
+// }
+
+.SearchBar {
+  &-form-border {
+    border: 1px solid #cfcfcf;
+  }
 }
-.dropdown-menu[data-bs-popper] {
-  left: -5.2em;
-  top: 2.75em;
+.Navbar {
+  &-search-input {
+    width: 65vw;
+    @media (min-width: 576px) {
+      width: 50vw;
+    }
+  }
 }

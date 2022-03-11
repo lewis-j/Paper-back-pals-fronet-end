@@ -7,20 +7,6 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.scss";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
-} from "reactstrap";
 import logo from "../../Assets/imgs/pppals.png";
 
 // library.add(fas);
