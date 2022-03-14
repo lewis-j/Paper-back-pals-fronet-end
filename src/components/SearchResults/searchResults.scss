@@ -1,0 +1,9 @@
+@import "../../style/variables.scss";
+
+.card {
+  &-border {
+    width: 15em;
+    margin: 5px auto;
+    box-shadow: $border-colors 1px 1px 12px;
+  }
+}

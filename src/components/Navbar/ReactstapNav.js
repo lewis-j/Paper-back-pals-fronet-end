@@ -10,6 +10,7 @@ import {
   NavLink,
   Button,
   Input,
+  Form,
 } from "reactstrap";
 import UserOffCanvas from "./UserOffCanvas";
 import SearchBar from "./SearchBar";
@@ -17,26 +18,41 @@ import logo from "../../Assets/imgs/pppals.png";
 import BottomNav from "./BottomNav";
 import "./Navbar.scss";
 
-const TopNav = (props) => {
+const TopNav = ({ searchBooks }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const expandSize = "md";
 
   return (
     <div>
-      <Navbar color="light" container expand={expandSize} fixed="top" light>
+      <Navbar color="light" container expand={expandSize} light>
         <NavbarToggler
           onClick={() => {
             setIsOpen(!isOpen);
           }}
         />
         {isSearching ? (
-          <Input
-            name="search"
-            type="search"
-            placeholder="Search Book"
-            className="Navbar-search-input"
-          />
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log("Searching", query);
+              searchBooks(query);
+              setQuery("");
+              setIsSearching(false);
+            }}
+          >
+            <Input
+              name="search"
+              type="search"
+              placeholder="Search Book"
+              className="Navbar-search-input"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+            />
+          </Form>
         ) : (
           <img src={logo} style={{ width: "9rem" }} />
         )}
@@ -53,19 +69,9 @@ const TopNav = (props) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
         </Button>
         <Collapse navbar isOpen={isOpen}>
-          <Nav className="me-auto" navbar>
+          <Nav className="me-auto Navbar-li-border" navbar>
             <NavItem>
               <NavLink href="#">Home</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Profile
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Notifications
-              </NavLink>
             </NavItem>
             <NavItem>
               <NavLink className={`d-none d-${expandSize}-block`} href="#">
@@ -77,6 +83,17 @@ const TopNav = (props) => {
                 library
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink className={`d-block d-${expandSize}-none`} href="#">
+                Profile
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className={`d-block d-${expandSize}-none`} href="#">
+                Notifications
+              </NavLink>
+            </NavItem>
+
             <NavItem>
               <NavLink className={`d-block d-${expandSize}-none`} href="#">
                 Friends
@@ -94,7 +111,12 @@ const TopNav = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        <SearchBar expandSize={expandSize} />
+        <SearchBar
+          expandSize={expandSize}
+          query={query}
+          setQuery={setQuery}
+          searchBooks={searchBooks}
+        />
         <UserOffCanvas expandSize={expandSize} />
         <BottomNav expandSize={expandSize} />
       </Navbar>

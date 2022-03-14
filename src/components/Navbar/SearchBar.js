@@ -9,15 +9,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.scss";
 
-const SearchBar = ({ expandSize }) => {
+const SearchBar = ({ expandSize, query, setQuery, searchBooks }) => {
   return (
     <div className={`d-none d-${expandSize}-block`}>
-      <Form className="d-flex bg-white rounded-pill SearchBar-form-border">
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          searchBooks(query);
+          setQuery("");
+        }}
+        className="d-flex bg-white rounded-pill SearchBar-form-border"
+      >
         <Input
           name="search"
           placeholder="Search books"
           type="search"
           className="border-0 border-start rounded-pill"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
         />
         <button className="border-0 border-end rounded-pill bg-white">
           <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
