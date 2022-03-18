@@ -1,9 +1,57 @@
 @import "../../style/variables.scss";
 
-.card {
-  &-border {
-    width: 15em;
-    margin: 5px auto;
-    box-shadow: $border-colors 1px 1px 12px;
+.search-spinner {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+}
+
+.box {
+  height: 20em;
+  max-width: 18em;
+  position: relative;
+  margin: 0.5em auto;
+  border: solid 1px $box-border-colors;
+  border-radius: 0.15em;
+  box-shadow: 1px 1px 5px $shadow-color;
+  background-color: white;
+
+  &-container {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &-title {
+    text-align: left;
+    margin: 5% 15%;
+    font-family: $heading-font;
+
+    h6 {
+      font-size: 0.9em;
+    }
+
+    small {
+      font-size: 0.8em;
+    }
+  }
+
+  &-description {
+    margin-right: 5%;
+  }
+
+  &-img {
+    height: 50%;
+    margin-top: 2%;
+    box-shadow: 2px 2px 5px $shadow-color;
+  }
+  &-button {
+    margin-bottom: 2%;
+    position: absolute;
+    bottom: 5px;
   }
 }

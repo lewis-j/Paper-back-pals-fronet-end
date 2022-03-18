@@ -1,3 +1,4 @@
+@import "../../style/variables.scss";
 .SearchBar {
   &-form-border {
     border: 1px solid #cfcfcf;
@@ -10,7 +11,9 @@
       width: 50vw;
     }
   }
-  &-li-border li {
-    border-bottom: solid lightgrey 1px;
-  }
+}
+
+.navbar-custom {
+  background-image: linear-gradient($gradient-color-1, #ababab);
+  z-index: 2;
 }

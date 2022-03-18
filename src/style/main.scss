@@ -1,4 +1,12 @@
-.search-spinner {
-  position: absolute;
-  top: 50vh;
+@import "./variables.scss";
+
+.App {
+  background-color: $app-background;
+}
+
+h3,
+h2,
+h1 {
+  font-family: $heading-font;
+  font-weight: 600;
 }

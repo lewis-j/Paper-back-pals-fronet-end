@@ -1,1 +1,13 @@
-$border-colors: rgb(163, 158, 158);
+@import url("https://fonts.googleapis.com/css2?family=Nixie+One&family=Prompt:wght@200&display=swap");
+//colors
+$box-border-colors: #d7d7d7;
+$box-color: #e7f3f5;
+$app-background: #f3f3f3;
+$shadow-color: #7c7c7c;
+//gradient color
+$gradient-color-1: #2e2e2e;
+$gradient-color-2: white;
+
+//fonts
+$heading-font: "Nixie One", cursive;
+$paragraph-font: "Prompt", sans-serif;

@@ -1,70 +1,79 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardImg,
-  ToastHeader,
-  CardFooter,
-} from "reactstrap";
+  faCropSimple,
+  faInfo,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { Container, Row, Col, Button, Spinner } from "reactstrap";
 import "./searchResults.scss";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import actions from "../../redux/actions";
 
-const mapStateToProps = (state) => {
-  return state;
+const shortenString = (string, length) => {
+  const tempString = string.substring(0, 50);
+  const lastIndex = tempString.lastIndexOf(" ");
+  return tempString.substring(0, lastIndex) + "...";
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addBook: (bookData) => {
-      dispatch({ type: actions.ADD_BOOK_LIBRARY, data: bookData });
-    },
-  };
-};
-
-const SearchResults = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(({ bookResults = [], addBook }) => {
+const SearchResults = ({ bookResults, isLoading = "false" }) => {
   console.log("book results", bookResults);
+
+  const dispatch = useDispatch();
+
   const renderedCards = bookResults.map((item, i) => {
+    const info = item.volumeInfo;
+    const { title, description = "", authors } = info;
     let thumbnail,
       result = "";
-    if (item?.volumeInfo?.imageLinks?.thumbnail) {
-      thumbnail = item.volumeInfo.imageLinks.thumbnail;
+    if ((result = info?.imageLinks?.thumbnail)) {
+      thumbnail = result;
+
       console.log("thumbs:", thumbnail);
+    } else {
+      return null;
     }
+    let shortTitle = title;
+
+    console.log("title lenths", i, shortTitle.length);
+    if (shortTitle.length > 50) {
+      shortTitle = shortenString(shortTitle, 50);
+    }
+
     return (
-      <Col xs="12" sm="6" md="4" lg="3" key={item.id}>
-        <Card className="card-border">
-          <CardImg style={{ height: "20em" }} src={thumbnail} />
-          <CardFooter>
-            <FontAwesomeIcon
-              className="btn btn-outline-dark"
-              type="button"
-              icon={faPlus}
-              onClick={(e) => {
-                console.log("icon clicked");
-                addBook(item.volumeInfo);
+      <Col xs="12" sm="6" md="4" xl="3" key={item.id}>
+        <div className="box">
+          <div className="box-container">
+            <div className="box-title">
+              {" "}
+              <h6>{shortTitle}</h6>
+              <small className="box-subtitle">{authors[0]}</small>
+            </div>
+
+            <img className="box-img" src={thumbnail} />
+            <Button
+              className="box-button"
+              onClick={() => {
+                dispatch({ type: actions.ADD_BOOK_LIBRARY, data: info });
               }}
-            />
-          </CardFooter>
-        </Card>
+            >
+              Add <FontAwesomeIcon icon={faPlus} />
+            </Button>
+          </div>
+        </div>
       </Col>
     );
   });
 
   return (
-    <Container>
-      <div>
-        <Row>{renderedCards}</Row>
-      </div>
+    <Container fluid="md" className="main-container">
+      {!isLoading ? (
+        <Row className="row-margin">{renderedCards}</Row>
+      ) : (
+        <Spinner type="grow" className="search-spinner"></Spinner>
+      )}
     </Container>
   );
-});
+};
 
 export default SearchResults;

@@ -18,7 +18,8 @@ const UserOffCanvas = ({ expandSize }) => {
     <div className={`d-none d-${expandSize}-block ms-2`}>
       <Button
         color="light"
-        className="text-decoration-none text-reset"
+        className="text-decoration-none text-reset border-0"
+        style={{ backgroundColor: "inherit" }}
         onClick={() => {
           setCanvasToggle(!canvasToggle);
         }}

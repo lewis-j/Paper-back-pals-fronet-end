@@ -16,6 +16,7 @@ import UserOffCanvas from "./UserOffCanvas";
 import SearchBar from "./SearchBar";
 import logo from "../../Assets/imgs/pppals.png";
 import BottomNav from "./BottomNav";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 
 const TopNav = ({ searchBooks }) => {
@@ -23,10 +24,16 @@ const TopNav = ({ searchBooks }) => {
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const expandSize = "md";
+  const navigate = useNavigate();
 
   return (
     <div>
-      <Navbar color="light" container expand={expandSize} light>
+      <Navbar
+        container="md"
+        expand={expandSize}
+        light
+        className="navbar-custom"
+      >
         <NavbarToggler
           onClick={() => {
             setIsOpen(!isOpen);
@@ -71,7 +78,14 @@ const TopNav = ({ searchBooks }) => {
         <Collapse navbar isOpen={isOpen}>
           <Nav className="me-auto Navbar-li-border" navbar>
             <NavItem>
-              <NavLink href="#">Home</NavLink>
+              <NavLink
+                active
+                onClick={() => {
+                  navigate("./");
+                }}
+              >
+                Home
+              </NavLink>
             </NavItem>
             <NavItem>
               <NavLink className={`d-none d-${expandSize}-block`} href="#">

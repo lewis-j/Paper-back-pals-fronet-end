@@ -1,0 +1,101 @@
+@import "../../style/variables.scss";
+.main-img {
+  //Photo by <a href="https://unsplash.com/@ninjason?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jason Leung</a> on <a href="https://unsplash.com/s/photos/books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  //https://ishadeed.com/article/clip-path/#multiple-angled-effects
+  $clip-angle: 5em;
+  $clip-height: 1em;
+  $div-height: calc(#{$clip-angle} + #{$clip-height});
+  background: url("../../Assets/imgs/home_background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: 70vh;
+  position: absolute;
+  top: 0;
+  background-attachment: fixed;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - #{$clip-angle}), 0 100%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0%;
+    z-index: 1;
+    width: 100%;
+    height: $div-height;
+    background-color: #0606069e;
+    clip-path: polygon(
+      0 $clip-angle,
+      100% 0,
+      100% calc(100% - #{$clip-angle}),
+      0 100%
+    );
+  }
+}
+
+.hero {
+  &-container {
+    height: 100vh;
+    background-image: linear-gradient(
+      45deg,
+      $gradient-color-1,
+      $gradient-color-2
+    );
+    box-shadow: 2px 1px 10px black;
+  }
+  &-demo-btn {
+    a {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}
+
+.filter::after {
+  background-color: rgba(0, 0, 0, 0.4);
+  content: " ";
+  display: block;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tint {
+  position: relative;
+}
+
+.tint::before {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.37);
+  top: 0;
+  left: 0;
+  display: block;
+  content: "";
+}
+
+.app-discription {
+  position: relative;
+  top: 75vh;
+
+  h2 {
+    color: white;
+    text-align: center;
+  }
+}
+.tutorial {
+  h3 {
+    font-family: $heading-font;
+  }
+  p {
+    font-family: $paragraph-font;
+  }
+}
