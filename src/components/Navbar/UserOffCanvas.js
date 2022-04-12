@@ -10,10 +10,18 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { logout } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const UserOffCanvas = ({ expandSize }) => {
   const [canvasToggle, setCanvasToggle] = useState(false);
   const userName = "Lewis";
+  const navigate = useNavigate();
+  const logoutUser = () => {
+    logout().then(() => {
+      navigate("/login");
+    });
+  };
   return (
     <div className={`d-none d-${expandSize}-block ms-2`}>
       <Button
@@ -58,7 +66,9 @@ const UserOffCanvas = ({ expandSize }) => {
               <NavLink href="#">Settings</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="#">Log Out</NavLink>
+              <NavLink onClick={logoutUser} style={{ cursor: "pointer" }}>
+                Log Out
+              </NavLink>
             </NavItem>
           </Nav>
         </OffcanvasBody>

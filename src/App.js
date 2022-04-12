@@ -8,6 +8,9 @@ import store from "./redux/store";
 import { Provider } from "react-redux";
 import "./style/main.scss";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import Login from "./components/Authentication/Login";
+import Signup from "./components/Authentication/Signup";
+import ResetPassword from "./components/Authentication/ResetPassword";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,14 +40,23 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Navbar searchBooks={searchBooks} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />}>
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
 
           <Route
             path="/search"
             element={
-              <SearchResults bookResults={bookResults} isLoading={isLoading} />
+              <>
+                <Navbar searchBooks={searchBooks} />
+                <SearchResults
+                  bookResults={bookResults}
+                  isLoading={isLoading}
+                />
+              </>
             }
           />
         </Routes>

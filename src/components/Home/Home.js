@@ -2,18 +2,22 @@ import React from "react";
 import { Button, Container, Row, Col } from "reactstrap";
 import "./Home.scss";
 import Footer from "../Footer";
+import { Outlet } from "react-router-dom";
 import logo_white from "../../Assets/imgs/pppals_white.png";
 import messy_books from "../../Assets/imgs/messy_books.jpg";
 import { HashLink as Link } from "react-router-hash-link";
 
 const Hero = () => {
   return (
-    <div className="Hero-container">
-      <div className="main-img d-flex flex-column align-items-center justify-content-center">
+    <div
+      className="Hero-container container-fluid"
+      style={{ paddingLeft: 0, paddingRight: 0 }}
+    >
+      <div className="main-img d-flex align-items-center ">
         <div className="filter"></div>
 
         <div
-          className="pop d-flex flex-row flex-column text-align-center"
+          className="pop d-flex flex-column text-align-center"
           style={{ zIndex: 2 }}
         >
           <img src={logo_white} alt="Paper back pals logo" />
@@ -32,7 +36,11 @@ const Hero = () => {
             </Button>
           </div>
         </div>
+        <div style={{ zIndex: 2 }}>
+          <Outlet />
+        </div>
       </div>
+
       <div className="Hero-app-discription text-center text-white">
         <h2> A social book tracker</h2>
         <p className="mx-auto mt-4">
