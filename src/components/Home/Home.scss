@@ -34,7 +34,7 @@
   }
 }
 
-.hero {
+.Hero {
   &-container {
     height: 100vh;
     background-image: linear-gradient(
@@ -48,9 +48,33 @@
     a {
       text-decoration: none;
       color: white;
+    }
+  }
+  &-btns {
+    button {
+      transition: transform 0.3s ease-in-out;
       &:hover {
-        color: black;
+        transform: scale(1.2);
+        box-shadow: 5px 5px 10px white;
+        background-color: inherit;
+        color: white;
       }
+    }
+  }
+  &-app-discription {
+    position: relative;
+    top: 62vh;
+
+    @media (min-width: 768px) {
+      top: 71vh;
+    }
+
+    h2 {
+      color: white;
+      text-align: center;
+    }
+    p {
+      width: 70%;
     }
   }
 }
@@ -82,15 +106,6 @@
   content: "";
 }
 
-.app-discription {
-  position: relative;
-  top: 75vh;
-
-  h2 {
-    color: white;
-    text-align: center;
-  }
-}
 .tutorial {
   h3 {
     font-family: $heading-font;

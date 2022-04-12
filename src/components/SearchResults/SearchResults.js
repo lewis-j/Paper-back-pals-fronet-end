@@ -1,14 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCropSimple,
-  faInfo,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col, Button, Spinner } from "reactstrap";
 import "./searchResults.scss";
 import { useDispatch } from "react-redux";
-import actions from "../../redux/actions";
+import { bookActionCreators } from "../../redux/actions/actionCreator";
+
+const { addBook } = bookActionCreators;
 
 const shortenString = (string, length) => {
   const tempString = string.substring(0, 50);
@@ -22,11 +20,11 @@ const SearchResults = ({ bookResults, isLoading = "false" }) => {
   const dispatch = useDispatch();
 
   const renderedCards = bookResults.map((item, i) => {
-    const info = item.volumeInfo;
-    const { title, description = "", authors } = info;
+    const bookInfo = item.volumeInfo;
+    const { title, description = "", authors } = bookInfo;
     let thumbnail,
       result = "";
-    if ((result = info?.imageLinks?.thumbnail)) {
+    if ((result = bookInfo?.imageLinks?.thumbnail)) {
       thumbnail = result;
 
       console.log("thumbs:", thumbnail);
@@ -50,15 +48,22 @@ const SearchResults = ({ bookResults, isLoading = "false" }) => {
               <small className="box-subtitle">{authors[0]}</small>
             </div>
 
-            <img className="box-img" src={thumbnail} />
-            <Button
-              className="box-button"
-              onClick={() => {
-                dispatch({ type: actions.ADD_BOOK_LIBRARY, data: info });
-              }}
-            >
-              Add <FontAwesomeIcon icon={faPlus} />
-            </Button>
+            <img className="box-img" src={thumbnail} alt={shortTitle} />
+            <div className="box-button">
+              <Button outline color="secondary" className="rounded-circle me-2">
+                <FontAwesomeIcon icon={faUser} />
+              </Button>
+              <Button
+                outline
+                color="secondary"
+                className="rounded-circle"
+                onClick={() => {
+                  dispatch(addBook(bookInfo));
+                }}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+            </div>
           </div>
         </div>
       </Col>

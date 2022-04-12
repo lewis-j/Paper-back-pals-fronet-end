@@ -8,7 +8,7 @@ import { HashLink as Link } from "react-router-hash-link";
 
 const Hero = () => {
   return (
-    <div className="hero-container">
+    <div className="Hero-container">
       <div className="main-img d-flex flex-column align-items-center justify-content-center">
         <div className="filter"></div>
 
@@ -16,12 +16,12 @@ const Hero = () => {
           className="pop d-flex flex-row flex-column text-align-center"
           style={{ zIndex: 2 }}
         >
-          <img src={logo_white} />
-          <div className="mt-2 d-flex justify-content-center">
+          <img src={logo_white} alt="Paper back pals logo" />
+          <div className="mt-2 d-flex justify-content-center Hero-btns">
             <Button
               outline
               color="light"
-              className="me-4 border-0 border-bottom hero-demo-btn"
+              className="me-5 border-0 border-bottom Hero-demo-btn"
             >
               <Link smooth to="/#Demo">
                 Demo
@@ -33,8 +33,14 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="app-discription">
-        <h2>Share the power of paper</h2>
+      <div className="Hero-app-discription text-center text-white">
+        <h2> A social book tracker</h2>
+        <p className="mx-auto mt-4">
+          Sometimes we all lend out books only to foget were they ended up. And
+          sometimes we don't realize we're holding onto books that we barrowed
+          from someone else. This is a web app that helps you to keep track of
+          the paperback books that you lent or barrowed between your friends.
+        </p>
       </div>
     </div>
   );

@@ -3,10 +3,9 @@ import Navbar from "./components/Navbar";
 import SearchResults from "./components/SearchResults";
 import Home from "./components/Home";
 import axios from "axios";
-import { Spinner } from "reactstrap";
 import { useState } from "react";
 import store from "./redux/store";
-import * as ReactRedux from "react-redux";
+import { Provider } from "react-redux";
 import "./style/main.scss";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
@@ -36,7 +35,7 @@ function App() {
   };
 
   return (
-    <ReactRedux.Provider store={store}>
+    <Provider store={store}>
       <div className="App">
         <Navbar searchBooks={searchBooks} />
         <Routes>
@@ -50,7 +49,7 @@ function App() {
           />
         </Routes>
       </div>
-    </ReactRedux.Provider>
+    </Provider>
   );
 }
 

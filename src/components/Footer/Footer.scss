@@ -1,7 +1,10 @@
 .Footer {
-  background-color: #8d8d8d;
-  &-git-icon {
-    padding: 2em;
+  background-color: #725137a1;
+  &-icons {
+    padding: 1em;
     font-size: 2em;
+  }
+  &-other {
+    padding-top: 2em;
   }
 }
