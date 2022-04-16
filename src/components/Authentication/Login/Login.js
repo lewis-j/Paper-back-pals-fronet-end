@@ -12,6 +12,9 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { auth, loginEmailPsw, loginGoogle } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import "../authentication.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Login() {
   const emailRef = useRef();
@@ -30,15 +33,15 @@ export default function Login() {
       return;
     }
     if (user) {
-      navigate("/search");
+      navigate("/");
     }
   }, [user, loading]);
 
   return (
     <>
-      <Card>
+      <Card className="authentication">
         <CardBody>
-          <h2 className="text-center- my-4">Log In</h2>
+          <h2 className="text-center my-4">Log In</h2>
           {error && <Alert color="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <FormGroup id="email">
@@ -53,20 +56,20 @@ export default function Login() {
               Log In
             </Button>
             <Button
-              color="danger"
+              style={{ backgroundColor: "#911f16" }}
               disabled={loading}
               className="w-100 mt-2"
               onClick={loginGoogle}
             >
-              Sign in With Google
+              <FontAwesomeIcon icon={faGoogle} /> Sign in with Google
             </Button>
           </Form>
           <div className="w-100 text-center mt-2">
-            <Link to="/reset-password">Forgot Password?</Link>
+            <Link to="../reset-password">Forgot Password?</Link>
           </div>
         </CardBody>
         <div className="w-100 text-center mt-2">
-          Need an account? <Link to="/signup">Sign Up</Link>
+          Need an account? <Link to="../signup">Sign Up</Link>
         </div>
       </Card>
     </>

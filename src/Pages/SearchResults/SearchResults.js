@@ -19,7 +19,7 @@ const SearchResults = ({ bookResults, isLoading = "false" }) => {
 
   const dispatch = useDispatch();
 
-  const renderedCards = bookResults.map((item, i) => {
+  const renderCards = bookResults.map((item, i) => {
     const bookInfo = item.volumeInfo;
     const { title, description = "", authors } = bookInfo;
     let thumbnail,
@@ -73,7 +73,7 @@ const SearchResults = ({ bookResults, isLoading = "false" }) => {
   return (
     <Container fluid="md" className="main-container">
       {!isLoading ? (
-        <Row className="row-margin">{renderedCards}</Row>
+        <Row className="row-margin">{renderCards}</Row>
       ) : (
         <Spinner type="grow" className="search-spinner"></Spinner>
       )}

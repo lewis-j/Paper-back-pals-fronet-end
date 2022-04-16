@@ -19,7 +19,7 @@ const UserOffCanvas = ({ expandSize }) => {
   const navigate = useNavigate();
   const logoutUser = () => {
     logout().then(() => {
-      navigate("/login");
+      navigate("/home");
     });
   };
   return (

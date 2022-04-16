@@ -41,7 +41,7 @@ export default function ResetPassword() {
     <>
       <Card>
         <CardBody>
-          <h2 className="text-center- mb-4">Password Reset</h2>
+          <h2 className="text-center mb-4">Password Reset</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
@@ -54,11 +54,11 @@ export default function ResetPassword() {
             </Button>
           </Form>
           <div className="w-100 text-center mt-2">
-            <Link to="/login">Log In</Link>
+            <Link to="../">Log In</Link>
           </div>
         </CardBody>
         <div className="w-100 text-center mt-2">
-          Need an account? <Link to="/signup">Sign Up</Link>
+          Need an account? <Link to="../signup">Sign Up</Link>
         </div>
       </Card>
     </>

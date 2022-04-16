@@ -9,36 +9,34 @@ import { HashLink as Link } from "react-router-hash-link";
 
 const Hero = () => {
   return (
-    <div
-      className="Hero-container container-fluid"
-      style={{ paddingLeft: 0, paddingRight: 0 }}
-    >
+    <div className="Hero-container" style={{ paddingLeft: 0, paddingRight: 0 }}>
       <div className="main-img d-flex align-items-center ">
         <div className="filter"></div>
-
-        <div
-          className="pop d-flex flex-column text-align-center"
-          style={{ zIndex: 2 }}
-        >
-          <img src={logo_white} alt="Paper back pals logo" />
-          <div className="mt-2 d-flex justify-content-center Hero-btns">
-            <Button
-              outline
-              color="light"
-              className="me-5 border-0 border-bottom Hero-demo-btn"
+        <Container style={{ height: "80%" }}>
+          <Row>
+            <Col
+              md="6"
+              className="pop d-flex flex-column"
+              style={{ zIndex: 2 }}
             >
-              <Link smooth to="/#Demo">
-                Demo
-              </Link>
-            </Button>
-            <Button outline color="light" className="border-0 border-bottom">
-              Login
-            </Button>
-          </div>
-        </div>
-        <div style={{ zIndex: 2 }}>
-          <Outlet />
-        </div>
+              <img src={logo_white} alt="Paper back pals logo" />
+              <div className="mt-2 d-flex justify-content-center Hero-btns">
+                <Button
+                  outline
+                  color="light"
+                  className="me-5 border-0 border-bottom Hero-demo-btn"
+                >
+                  <Link smooth to="../home/#Demo">
+                    Demo
+                  </Link>
+                </Button>
+              </div>
+            </Col>
+            <Col md="6" style={{ zIndex: 2 }}>
+              <Outlet />
+            </Col>
+          </Row>
+        </Container>
       </div>
 
       <div className="Hero-app-discription text-center text-white">

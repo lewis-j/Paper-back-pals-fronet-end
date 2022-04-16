@@ -16,7 +16,7 @@ import UserOffCanvas from "./UserOffCanvas";
 import SearchBar from "./SearchBar";
 import logo from "../../Assets/imgs/pppals.png";
 import BottomNav from "./BottomNav";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 
 const TopNav = ({ searchBooks }) => {
@@ -134,6 +134,7 @@ const TopNav = ({ searchBooks }) => {
         <UserOffCanvas expandSize={expandSize} />
         <BottomNav expandSize={expandSize} />
       </Navbar>
+      <Outlet />
     </div>
   );
 };

@@ -72,7 +72,7 @@ export default function Signup() {
           </Form>
         </CardBody>
         <div className="w-100 text-center mt-2">
-          Have an account? <Link to="/login">Log In</Link>{" "}
+          Have an account? <Link to="../">Log In</Link>{" "}
         </div>
       </Card>
     </>
