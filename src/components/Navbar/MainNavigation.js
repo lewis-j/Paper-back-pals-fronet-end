@@ -32,7 +32,7 @@ const TopNav = ({ searchBooks }) => {
         container="md"
         expand={expandSize}
         light
-        className="navbar-custom"
+        className="Navbar__custom"
       >
         <NavbarToggler
           onClick={() => {
@@ -53,7 +53,7 @@ const TopNav = ({ searchBooks }) => {
               name="search"
               type="search"
               placeholder="Search Book"
-              className="Navbar-search-input"
+              className="Navbar__search__input"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -61,7 +61,7 @@ const TopNav = ({ searchBooks }) => {
             />
           </Form>
         ) : (
-          <img src={logo} style={{ width: "9rem" }} />
+          <img src={logo} style={{ width: "9rem" }} alt="Paperback Pals Logo" />
         )}
 
         <Button

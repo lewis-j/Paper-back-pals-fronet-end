@@ -4,13 +4,20 @@ import "./Home.scss";
 import Footer from "../Footer";
 import { Outlet } from "react-router-dom";
 import logo_white from "../../Assets/imgs/pppals_white.png";
-import messy_books from "../../Assets/imgs/messy_books.jpg";
+import images from "../../Assets/imgs/landingImages";
 import { HashLink as Link } from "react-router-hash-link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import tutorialContent from "../../Assets/content/tutorialContent";
 
 const Hero = () => {
+  const { assortment_books } = images;
   return (
-    <div className="Hero-container" style={{ paddingLeft: 0, paddingRight: 0 }}>
-      <div className="main-img d-flex align-items-center ">
+    <div
+      className="Hero__container"
+      style={{ paddingLeft: 0, paddingRight: 0 }}
+    >
+      <div className="Hero__main-img d-flex align-items-center ">
         <div className="filter"></div>
         <Container style={{ height: "80%" }}>
           <Row>
@@ -20,14 +27,15 @@ const Hero = () => {
               style={{ zIndex: 2 }}
             >
               <img src={logo_white} alt="Paper back pals logo" />
-              <div className="mt-2 d-flex justify-content-center Hero-btns">
+              <div className="mt-2 d-flex justify-content-center Hero__btns">
                 <Button
                   outline
                   color="light"
-                  className="me-5 border-0 border-bottom Hero-demo-btn"
+                  className="me-5 border-0 border-bottom Hero__demo__btn"
                 >
                   <Link smooth to="../home/#Demo">
                     Demo
+                    <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
                   </Link>
                 </Button>
               </div>
@@ -39,7 +47,7 @@ const Hero = () => {
         </Container>
       </div>
 
-      <div className="Hero-app-discription text-center text-white">
+      <div className="Hero__app-discription text-center text-white">
         <h2> A social book tracker</h2>
         <p className="mx-auto mt-4">
           Sometimes we all lend out books only to foget were they ended up. And
@@ -76,42 +84,9 @@ const MediaObject = ({ img, header, paragraph, imgRight = false }) => {
 };
 
 const TutorialSection = () => {
-  const tutContent = [
-    {
-      header: "Find Books you'd like to lend",
-      paragraph:
-        "Add a list of books to your lending library and let friends request to barrow them!",
-      img: {
-        src: "https://img.freepik.com/free-photo/creative-assortment-with-different-books_23-2148851019.jpg?w=1380",
-        alt: "pile of books",
-      },
-      imgRight: false,
-    },
-    {
-      header: "Give your friends your paperback book",
-      paragraph:
-        "Approve their book request, and once you've passed that book on to them confirm the pass was completed",
-      img: {
-        src: "https://img.freepik.com/free-photo/front-view-composition-with-different-books_23-2148851051.jpg?t=st=1647497953~exp=1647498553~hmac=2189c71f0c8bc0382e656a30340f7f2392483ee0afcc467919247018d87b73ae&w=1380",
-        alt: "passing a book",
-      },
-      imgRight: true,
-    },
-    {
-      header: "Track Your friends reading progress",
-      paragraph:
-        "Check in to see your freinds remaining page counts. See how far they are from their projected due date.",
-      img: {
-        src: "https://img.freepik.com/free-photo/book-library-with-open-textbook_1150-5920.jpg?t=st=1647584191~exp=1647584791~hmac=6ffaae826056a60743dec04e24754a88905330edb049fb1fc9143bbc50dda822&w=1380",
-        alt: "passing a book",
-      },
-      imgRight: false,
-    },
-  ];
-
   return (
     <Container className="mt-md-5 tutorial" id="Demo">
-      {tutContent.map((content, i) => {
+      {tutorialContent.map((content, i) => {
         return (
           <MediaObject
             key={i}

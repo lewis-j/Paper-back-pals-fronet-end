@@ -1,1 +1,1 @@
-export { default } from "./ReactstapNav";
+export { default } from "./MainNavigation";

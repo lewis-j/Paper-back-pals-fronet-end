@@ -1,12 +1,7 @@
 import React from "react";
-import { InputGroup, Input, InputGroupText, FormGroup, Form } from "reactstrap";
+import { Input, Form } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faBook,
-  faBookmark,
-  faCircleUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.scss";
 
 const SearchBar = ({ expandSize, query, setQuery, searchBooks }) => {
@@ -18,7 +13,7 @@ const SearchBar = ({ expandSize, query, setQuery, searchBooks }) => {
           searchBooks(query);
           setQuery("");
         }}
-        className="d-flex bg-white rounded-pill SearchBar-form-border"
+        className="d-flex bg-white rounded-pill SearchBar__form__border"
       >
         <Input
           name="search"

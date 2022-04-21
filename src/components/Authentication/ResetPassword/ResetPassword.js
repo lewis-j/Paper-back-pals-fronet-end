@@ -12,6 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { auth, sendPasswordReset } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import "../authentication.scss";
 
 export default function ResetPassword() {
   const emailRef = useRef();
@@ -39,7 +40,7 @@ export default function ResetPassword() {
 
   return (
     <>
-      <Card>
+      <Card className="authentication">
         <CardBody>
           <h2 className="text-center mb-4">Password Reset</h2>
           {error && <Alert variant="danger">{error}</Alert>}

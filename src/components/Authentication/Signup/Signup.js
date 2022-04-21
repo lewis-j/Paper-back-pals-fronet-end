@@ -12,6 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import "../authentication.scss";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -48,7 +49,7 @@ export default function Signup() {
 
   return (
     <>
-      <Card>
+      <Card className="authentication">
         <CardBody>
           <h2 className="text-center- mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}

@@ -23,7 +23,7 @@ const Footer = () => {
     <footer className="Footer mt-5 d-flex justify-content-between align-items-center ">
       <Container>
         <Row>
-          <Col md="4" className="Footer-icons">
+          <Col md="4" className="Footer__icons">
             <a
               className="text-dark me-2"
               href="https://github.com/lewis-j/paperbackpals"
@@ -34,7 +34,7 @@ const Footer = () => {
               <FontAwesomeIcon icon={faAt}></FontAwesomeIcon>
             </a>
           </Col>
-          <Col className="order-md-last Footer-other">
+          <Col className="order-md-last Footer__other">
             <InputGroup>
               <Input />
               <Button>Sign Up</Button>
@@ -43,7 +43,7 @@ const Footer = () => {
           <Col>
             <p
               id="acknowledgements"
-              className="justify-content-center me-5 Footer-other"
+              className="justify-content-center me-5 Footer__other"
             >
               Acknowledgements section
             </p>
@@ -60,16 +60,30 @@ const Footer = () => {
                   <ListGroupItem
                     action
                     href="https://www.freepik.com/photos/novel"
+                    onClick={() => {
+                      window.open("https://www.freepik.com/photos/novel");
+                    }}
                   >
-                    <a href="https://www.freepik.com/photos/novel">
-                      Novel photo created by freepik - www.freepik.com
-                    </a>
+                    Novel photo created by freepik - www.freepik.com
+                  </ListGroupItem>
+                  <ListGroupItem
+                    action
+                    onClick={() => {
+                      window.open(
+                        "https://www.freepik.com/photos/library-books"
+                      );
+                    }}
+                  >
+                    Library books photo created by jcomp - www.freepik.com
                   </ListGroupItem>
                 </ListGroup>
               </PopoverBody>
             </Popover>
           </Col>
         </Row>
+        <div className="Footer__copyright">
+          <p>Copyright© 2022 Paperback Pals </p>
+        </div>
       </Container>
     </footer>
   );

@@ -1,0 +1,32 @@
+@import "../../style/variables.scss";
+
+.LentBookSm {
+  &__container {
+    border: 1px solid $box-border-colors;
+    border-radius: 5px;
+    width: 9em;
+    height: 15em;
+  }
+  &__img {
+    margin: 2% auto;
+    width: 8em;
+    height: 12em;
+  }
+  &__info {
+    display: flex;
+    flex-direction: row;
+  }
+  &__avatar {
+    width: 2em;
+    border-radius: 1em;
+    margin: 5% 3%;
+  }
+  &__progress {
+    height: 18%;
+  }
+
+  &__menu {
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+}

@@ -1,5 +1,6 @@
 //https://blog.logrocket.com/user-authentication-firebase-react-apps/
 
+import axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
@@ -29,18 +30,22 @@ const googleProvider = new GoogleAuthProvider();
 const loginGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
-    console.log("google auth:", res);
-    // const user = res.user;
-    // const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    // const docs = await getDocs(q);
-    // if (docs.docs.length === 0) {
-    //   await addDoc(collection(db, "users"), {
-    //     uid: user.uid,
-    //     name: user.displayName,
-    //     authProvider: "google",
-    //     email: user.email,
-    //   });
-    // }
+    console.log("google auth:", res.user);
+    const { displayName, email, uid, accessToken } = res.user;
+
+    const result = await axios.post(
+      `${process.env.REACT_APP_NEST_URI}/users`,
+      {
+        userId: uid,
+        username: displayName,
+        email: email,
+      },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+
+    console.log("response from /users:", result);
   } catch (err) {
     console.error(err);
     alert(err.message);

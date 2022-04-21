@@ -17,22 +17,23 @@ import PrivateRoute from "./components/PrivateRoute";
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [bookResults, setBookResults] = useState([]);
+  const [searchQueryTitle, setSearchQueryTitle] = useState("");
 
   let navigate = useNavigate();
 
   const searchBooks = (query) => {
     navigate("/search-results");
 
-    console.log("searching for books!", query);
+    setSearchQueryTitle(query);
     setIsLoading(true);
     axios
       .get(
-        `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=${12}`
+        `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${0}&maxResults=${12}`
       )
       .then((res) => {
         setIsLoading(false);
-        console.log("data", res.data);
         setBookResults(res.data.items);
+        console.log(res.data.items);
       })
       .catch((error) => {
         console.error(error);
@@ -64,6 +65,7 @@ function App() {
                 <SearchResults
                   bookResults={bookResults}
                   isLoading={isLoading}
+                  queryTitle={searchQueryTitle}
                 />
               }
             />

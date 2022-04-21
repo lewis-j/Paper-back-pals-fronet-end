@@ -1,19 +1,18 @@
 @import "../../style/variables.scss";
 .SearchBar {
-  &-form-border {
+  &__form__border {
     border: 1px solid #cfcfcf;
   }
 }
 .Navbar {
-  &-search-input {
+  &__search__input {
     width: 65vw;
     @media (min-width: 576px) {
       width: 50vw;
     }
   }
-}
-
-.navbar-custom {
-  background-image: linear-gradient($gradient-color-1, #ababab);
-  z-index: 2;
+  &__custom {
+    background-image: linear-gradient($gradient-color-1, #ababab);
+    z-index: 2;
+  }
 }
