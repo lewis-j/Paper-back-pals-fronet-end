@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Form,
@@ -17,25 +17,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Login() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const [user, loading, error] = useAuthState(auth);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
+    setError("");
     e.preventDefault();
-    loginEmailPsw(emailRef.current.value, passwordRef.current.value);
-  }
+    const msg = await loginEmailPsw(email, password);
+    setError(msg);
+  };
 
   useEffect(() => {
     if (loading) {
-      // maybe trigger a loading screen
-      return;
+      console.log("loading some stuff");
+      // return;
     }
     if (user) {
-      navigate("/");
+      navigate("/dashboard");
     }
-  }, [user, loading]);
+  }, [user, loading, navigate]);
 
   return (
     <>
@@ -46,11 +49,21 @@ export default function Login() {
           <Form onSubmit={handleSubmit}>
             <FormGroup id="email">
               <Label>Email</Label>
-              <Input type="email" ref={emailRef} required />
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </FormGroup>
             <FormGroup id="password">
               <Label>Password</Label>
-              <Input type="password" ref={passwordRef} required />
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </FormGroup>
             <Button disabled={loading} className="w-100 mt-2" type="submit">
               Log In

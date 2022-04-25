@@ -15,9 +15,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import "../authentication.scss";
 
 export default function Signup() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [customError, setCustomError] = useState("");
   const [user, loading, error] = useAuthState(auth);
 
@@ -36,13 +36,11 @@ export default function Signup() {
   function handleSubmit(e) {
     e.preventDefault();
     setCustomError("");
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    if (password !== confirmPassword) {
       return setCustomError("Passwords do not match");
     }
-    registerWithEmailAndPassword(
-      emailRef.current.value,
-      passwordRef.current.value
-    ).then(() => {
+
+    registerWithEmailAndPassword(email, password).then(() => {
       navigate("/");
     });
   }
@@ -57,15 +55,30 @@ export default function Signup() {
           <Form onSubmit={handleSubmit}>
             <FormGroup id="email">
               <Label>Email</Label>
-              <Input type="email" ref={emailRef} required />
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </FormGroup>
             <FormGroup id="password">
               <Label>Password</Label>
-              <Input type="password" ref={passwordRef} required />
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </FormGroup>
             <FormGroup id="password-confirm">
               <Label>Password Confrimation</Label>
-              <Input type="password" ref={passwordConfirmRef} required />
+              <Input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
             </FormGroup>
             <Button disabled={loading} className="w-100" type="submit">
               Sign up

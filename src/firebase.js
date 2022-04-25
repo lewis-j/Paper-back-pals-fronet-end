@@ -27,7 +27,16 @@ const auth = getAuth(app);
 
 const googleProvider = new GoogleAuthProvider();
 
+const firebaseParseErrorMsg = (err, defualtMsg) => {
+  let message = "";
+  const reg = /(?<=(auth\/)).*(?=\))/;
+  message = err.message.match(reg);
+  message = message ? message[0].split("-").join(" ") : defualtMsg;
+  return message;
+};
+
 const loginGoogle = async () => {
+  let message = "";
   try {
     const res = await signInWithPopup(auth, googleProvider);
     console.log("google auth:", res.user);
@@ -48,16 +57,17 @@ const loginGoogle = async () => {
     console.log("response from /users:", result);
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    message = firebaseParseErrorMsg(err, "Failed to login");
   }
+  return message;
 };
 
 const loginEmailPsw = async (email, password) => {
   try {
-    return await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    return firebaseParseErrorMsg(err, "Failed to login");
   }
 };
 
