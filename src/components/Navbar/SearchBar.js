@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Form } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import "./Navbar.scss";
+import "./Navbar-custom.scss";
 
-const SearchBar = ({ expandSize, query, setQuery, searchBooks }) => {
+const SearchBar = ({ expandSize, searchBooks, isLoading }) => {
+  const [query, setQuery] = useState("");
+
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+    searchBooks(query);
+    setQuery("");
+  };
+
   return (
     <div className={`d-none d-${expandSize}-block`}>
       <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          searchBooks(query);
-          setQuery("");
-        }}
+        onSubmit={onSubmitForm}
         className="d-flex bg-white rounded-pill SearchBar__form__border"
       >
         <Input
@@ -25,7 +29,10 @@ const SearchBar = ({ expandSize, query, setQuery, searchBooks }) => {
             setQuery(e.target.value);
           }}
         />
-        <button className="border-0 border-end rounded-pill bg-white">
+        <button
+          className="border-0 border-end rounded-pill bg-white "
+          disabled={isLoading}
+        >
           <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
         </button>
       </Form>

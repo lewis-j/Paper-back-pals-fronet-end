@@ -1,29 +1,31 @@
 import React from "react";
-import "./LentBookSm.scss";
+import "./UserBookCardSm.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { Progress } from "reactstrap";
 
-const LentBookSm = ({
+const UserBookCardSm = ({
   bookData: { coverImg, title, dueDate, lender, lenderImg, progressValue },
-  index,
 }) => {
   return (
-    <div className="LentBookSm__container">
-      <div className="LentBookSm__img">
+    <div className="UserBookCardSm__container">
+      <div className="UserBookCardSm__img">
         <img src={coverImg} alt={`${title} book cover`} />
       </div>
-      <div className="LentBookSm__info">
+      <div className="UserBookCardSm__info">
         <img
-          className="LentBookSm__avatar"
+          className="UserBookCardSm__avatar"
           src={lenderImg}
           alt={`${lender} avatar`}
         />
-        <div className="LentBookSm__tracking">
-          <div className="LentBookSm__duedate">{dueDate}</div>
-          <Progress className="LentBookSm__progress" value={progressValue} />
+        <div className="UserBookCardSm__tracking">
+          <div className="UserBookCardSm__duedate">{dueDate}</div>
+          <Progress
+            className="UserBookCardSm__progress"
+            value={progressValue}
+          />
         </div>
-        <div className="LentBookSm__menu">
+        <div className="UserBookCardSm__menu">
           <FontAwesomeIcon size="lg" icon={faEllipsisVertical} />
         </div>
       </div>
@@ -31,4 +33,4 @@ const LentBookSm = ({
   );
 };
 
-export default LentBookSm;
+export default UserBookCardSm;

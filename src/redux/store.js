@@ -1,6 +1,8 @@
-import { createStore } from "redux";
-import reducer from "./reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import userBooksReducer from "./userBooksSlice";
 
-let store = createStore(reducer);
-
-export default store;
+export const store = configureStore({
+  reducer: {
+    userBooks: userBooksReducer,
+  },
+});

@@ -1,15 +1,16 @@
 export const processBookResults = (item) => {
   const bookInfo = item.volumeInfo;
-  const { title, authors } = bookInfo;
-  let thumbnail,
+  let thumbnail = null,
     result = "";
   if ((result = bookInfo?.imageLinks?.thumbnail)) {
     thumbnail = result;
-  } else {
-    return null;
   }
-  let shortTitle = title;
-  let shortAuthor = authors[0];
+  let shortTitle = bookInfo.title;
+  let shortAuthor = "No author info";
+
+  if (bookInfo?.authors) {
+    shortAuthor = bookInfo?.authors[0];
+  }
 
   if (shortTitle.length > 50) {
     shortTitle = shortenString(shortTitle, 50);
@@ -19,6 +20,7 @@ export const processBookResults = (item) => {
   }
 
   return {
+    id: item.id,
     title: shortTitle,
     author: shortAuthor,
     thumbnail,

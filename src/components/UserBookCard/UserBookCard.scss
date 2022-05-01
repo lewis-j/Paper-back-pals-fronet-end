@@ -1,0 +1,9 @@
+@import "../../style/variables.scss";
+.UserBookCard {
+  &__container {
+    box-shadow: $standard-box-shadow;
+  }
+  &__progress {
+    height: 0.5em;
+  }
+}

@@ -1,17 +1,15 @@
 import React from "react";
 import { Button, Container, Row, Col } from "reactstrap";
-import "./Home.scss";
+import "./LandingPage.scss";
 import Footer from "../Footer";
 import { Outlet } from "react-router-dom";
 import logo_white from "../../Assets/imgs/pppals_white.png";
-import images from "../../Assets/imgs/landingImages";
 import { HashLink as Link } from "react-router-hash-link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import tutorialContent from "../../Assets/content/tutorialContent";
 
 const Hero = () => {
-  const { assortment_books } = images;
   return (
     <div
       className="Hero__container"
@@ -101,7 +99,7 @@ const TutorialSection = () => {
   );
 };
 
-const Home = () => {
+const LandingPage = () => {
   return (
     <>
       <Hero />
@@ -111,4 +109,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LandingPage;

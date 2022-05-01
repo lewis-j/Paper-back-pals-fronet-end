@@ -7,31 +7,30 @@ import {
   NavbarToggler,
   Nav,
   NavItem,
-  NavLink,
   Button,
   Input,
   Form,
 } from "reactstrap";
 import UserOffCanvas from "./UserOffCanvas";
 import SearchBar from "./SearchBar";
-import logo from "../../Assets/imgs/pppals.png";
+import logo from "../../Assets/imgs/pppals_white.png";
 import BottomNav from "./BottomNav";
-import { Outlet, useNavigate } from "react-router-dom";
-import "./Navbar.scss";
+import { Outlet } from "react-router-dom";
+import * as NavLinks from "./navLinks";
+import "./Navbar-custom.scss";
 
 const TopNav = ({ searchBooks }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const expandSize = "md";
-  const navigate = useNavigate();
 
   return (
     <div>
       <Navbar
         container="md"
         expand={expandSize}
-        light
+        dark
         className="Navbar__custom"
       >
         <NavbarToggler
@@ -73,55 +72,35 @@ const TopNav = ({ searchBooks }) => {
             setIsSearching(!isSearching);
           }}
         >
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
+          <FontAwesomeIcon icon={faMagnifyingGlass} color="white" size="lg" />
         </Button>
         <Collapse navbar isOpen={isOpen}>
-          <Nav className="me-auto Navbar-li-border" navbar>
+          <Nav className="me-auto Navbar__li" navbar>
             <NavItem>
-              <NavLink
-                active
-                onClick={() => {
-                  navigate("./");
-                }}
-              >
-                Home
-              </NavLink>
+              <NavLinks.Home />
             </NavItem>
             <NavItem>
-              <NavLink className={`d-none d-${expandSize}-block`} href="#">
-                Borrowed
-              </NavLink>
+              <NavLinks.Borrowed className={`d-none d-${expandSize}-block`} />
             </NavItem>
             <NavItem>
-              <NavLink className={`d-none d-${expandSize}-block`} href="#">
-                library
-              </NavLink>
+              <NavLinks.Library className={`d-none d-${expandSize}-block`} />
             </NavItem>
             <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Profile
-              </NavLink>
+              <NavLinks.Profile className={`d-block d-${expandSize}-none`} />
             </NavItem>
             <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Notifications
-              </NavLink>
-            </NavItem>
-
-            <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Friends
-              </NavLink>
+              <NavLinks.Notifications
+                className={`d-block d-${expandSize}-none`}
+              />
             </NavItem>
             <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Settings
-              </NavLink>
+              <NavLinks.Friends className={`d-block d-${expandSize}-none`} />
             </NavItem>
             <NavItem>
-              <NavLink className={`d-block d-${expandSize}-none`} href="#">
-                Log Out
-              </NavLink>
+              <NavLinks.Settings className={`d-block d-${expandSize}-none`} />
+            </NavItem>
+            <NavItem>
+              <NavLinks.Logout className={`d-block d-${expandSize}-none`} />
             </NavItem>
           </Nav>
         </Collapse>

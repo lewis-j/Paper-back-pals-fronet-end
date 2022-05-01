@@ -29,7 +29,7 @@ export default function Signup() {
       return;
     }
     if (user) {
-      navigate("/dashboard");
+      navigate("/home");
     }
   }, [user, loading]);
 
@@ -41,7 +41,7 @@ export default function Signup() {
     }
 
     registerWithEmailAndPassword(email, password).then(() => {
-      navigate("/");
+      navigate("/home");
     });
   }
 

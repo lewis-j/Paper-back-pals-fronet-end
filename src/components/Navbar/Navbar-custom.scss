@@ -1,0 +1,47 @@
+@import "../../style/variables.scss";
+.SearchBar {
+  &__form__border {
+    border: 1px solid #cfcfcf;
+  }
+}
+.Navbar {
+  &__search__input {
+    width: 65vw;
+    @media (min-width: 576px) {
+      width: 50vw;
+    }
+  }
+  &__custom {
+    background-image: linear-gradient($gradient-color-1, #ababab);
+    z-index: 2;
+  }
+}
+
+.NavLinks {
+  color: #cfcfcf;
+  text-decoration: none;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  &:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
+  &__active {
+    color: white;
+    text-decoration: underline;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.UserOffCanvas {
+  background-image: linear-gradient($gradient-color-1, #707070);
+  .offcanvas-header {
+    color: white;
+  }
+  li {
+    margin-bottom: 1em;
+  }
+}

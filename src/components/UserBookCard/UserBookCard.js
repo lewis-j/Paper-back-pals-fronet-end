@@ -9,11 +9,11 @@ import {
   Progress,
 } from "reactstrap";
 
-import "./currentRead.scss";
+import "./UserBookCard.scss";
 
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 
-const CurrentRead = ({
+const UserBookCard = ({
   currentBook: {
     title,
     author,
@@ -28,7 +28,10 @@ const CurrentRead = ({
   const readingProgress = getProgressInPercent(currentPage, pageCount);
 
   return (
-    <Card className="my-3 mx-auto" style={{ maxWidth: "540px" }}>
+    <Card
+      className="my-3 mx-auto UserBookCard__container"
+      style={{ maxWidth: "540px" }}
+    >
       <Row className="g-0">
         <Col md="3">
           <img src={coverImg} className="img-fluid rounded-start" alt="..." />
@@ -51,7 +54,7 @@ const CurrentRead = ({
               </small>
               <Progress
                 value={readingProgress}
-                className="CurrentRead__progress"
+                className="UserBookCard__progress"
               />
             </CardFooter>
           </CardBody>
@@ -61,4 +64,4 @@ const CurrentRead = ({
   );
 };
 
-export default CurrentRead;
+export default UserBookCard;

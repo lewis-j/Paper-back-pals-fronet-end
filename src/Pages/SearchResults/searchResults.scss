@@ -13,7 +13,7 @@
   margin: 0.5em auto;
   border: solid 1px $box-border-colors;
   border-radius: 0.15em;
-  box-shadow: 1px 1px 5px $shadow-color;
+  box-shadow: $standard-box-shadow;
   background-color: white;
 
   &-container {

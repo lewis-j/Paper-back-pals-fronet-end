@@ -10,19 +10,12 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { logout } from "../../firebase";
-import { useNavigate } from "react-router-dom";
+import * as NavLinks from "./navLinks";
 
 const UserOffCanvas = ({ expandSize }) => {
   const [canvasToggle, setCanvasToggle] = useState(false);
   const userName = "Lewis";
-  const navigate = useNavigate();
-  const logoutUser = () => {
-    console.log("logging out user");
-    logout().then(() => {
-      navigate("/home");
-    });
-  };
+
   return (
     <div className={`d-none d-${expandSize}-block ms-2`}>
       <Button
@@ -33,11 +26,12 @@ const UserOffCanvas = ({ expandSize }) => {
           setCanvasToggle(!canvasToggle);
         }}
       >
-        <FontAwesomeIcon icon={faCircleUser} size="xl" />
+        <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />
       </Button>
       <Offcanvas
         direction="end"
         isOpen={canvasToggle}
+        className="UserOffCanvas"
         toggle={() => {
           setCanvasToggle(!canvasToggle);
         }}
@@ -52,24 +46,22 @@ const UserOffCanvas = ({ expandSize }) => {
         <OffcanvasBody>
           <Nav vertical tabs>
             <NavItem>
-              <NavLink href="#">Profile</NavLink>
+              <NavLinks.Profile />
             </NavItem>
             <NavItem>
-              <NavLink href="#">Notifications</NavLink>
+              <NavLinks.Notifications />
             </NavItem>
             <NavItem>
-              <NavLink href="#">Friends</NavLink>
+              <NavLinks.Friends />
             </NavItem>
             <NavItem>
-              <NavLink href="#">Messages</NavLink>
+              <NavLinks.Messages />
             </NavItem>
             <NavItem>
-              <NavLink href="#">Settings</NavLink>
+              <NavLinks.Settings />
             </NavItem>
             <NavItem>
-              <NavLink onClick={logoutUser} style={{ cursor: "pointer" }}>
-                Log Out
-              </NavLink>
+              <NavLinks.Logout />
             </NavItem>
           </Nav>
         </OffcanvasBody>

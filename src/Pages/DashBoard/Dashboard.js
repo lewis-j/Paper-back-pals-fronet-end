@@ -1,8 +1,8 @@
 import React from "react";
 import Slider from "react-slick";
 import { Container } from "reactstrap";
-import CurrentRead from "../../components/CurrentRead/CurrentRead";
-import LentBookSm from "../../components/LentBookSm";
+import CurrentRead from "../../components/UserBookCard/UserBookCard";
+import UserBookCardSm from "../../components/UserBookCardSm";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -104,7 +104,7 @@ const checkedBooks = [
 const renderCheckedCards = checkedBooks.map((bookData, idx) => {
   return (
     <div key={bookData.lenderId}>
-      <LentBookSm bookData={bookData} index={idx} />
+      <UserBookCardSm bookData={bookData} index={idx} />
     </div>
   );
 });
@@ -134,7 +134,7 @@ const Dashboard = () => {
         <CurrentRead currentBook={bookData} />
         <SectionTitle title="Checked out Books" />
         <SimpleSlider />
-        <LentBookSm bookData={bookData} index={5} />
+        <UserBookCardSm bookData={bookData} />
       </Container>
     </div>
   );

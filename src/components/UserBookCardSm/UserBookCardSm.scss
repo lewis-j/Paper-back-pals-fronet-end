@@ -1,16 +1,22 @@
 @import "../../style/variables.scss";
 
-.LentBookSm {
+.UserBookCardSm {
   &__container {
     border: 1px solid $box-border-colors;
     border-radius: 5px;
-    width: 9em;
-    height: 15em;
+    width: 10em;
+    height: 15.25em;
+    margin: 0px auto;
+    box-shadow: $standard-box-shadow;
   }
   &__img {
     margin: 2% auto;
-    width: 8em;
+    width: 9em;
     height: 12em;
+    img {
+      height: 12.3em;
+      width: 9em;
+    }
   }
   &__info {
     display: flex;
