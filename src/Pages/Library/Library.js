@@ -1,88 +1,67 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "reactstrap";
-import UserBookCardSm from "../../components/UserBookCardSm";
+import UserBookCardSm from "../../components/UserBookCardSm/UserBookCardSm";
+import Placeholder from "../../components/UserBookCardSm/Placeholder";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBooks } from "../../redux/userBooksSlice";
 import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 
-const userBooks = [
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "GIRL WITH THE DRAGON TATTOO",
-    author: "Stieg Larson",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "1",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "GIRL WITH THE DRAGON TATTOO",
-    author: "Stieg Larson",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "1",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=lMM4jgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    title: "Harry Potter",
-    author: "JK Rolling",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "1",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "GIRL WITH THE DRAGON TATTOO",
-    author: "Stieg Larson",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "1",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-];
-
 const Library = () => {
-  const renderBooks = userBooks.map((bookData) => {
-    bookData.progressValue = getProgressInPercent(
-      bookData.currentPage,
-      bookData.pageCount
-    );
+  const dispatch = useDispatch();
+  const { books, status, error } = useSelector((state) => state.userBooks);
 
-    return (
-      <Col>
-        <UserBookCardSm bookData={bookData} />
-      </Col>
-    );
-  });
+  console.log("error", error);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchBooks());
+    }
+  }, [dispatch, status]);
+
+  const RenderUserBooksSection = () => {
+    if (!books) return <></>;
+
+    if (status === "loading")
+      return [...Array(12).keys()].map((i) => (
+        <Col sm="4" md="3" xl="2" className="placeholder-glow mb-3" key={i}>
+          <Placeholder />
+        </Col>
+      ));
+    return books.map((bookData, i) => {
+      const progressValue = getProgressInPercent(
+        bookData.currentPage,
+        bookData.pageCount
+      );
+
+      return (
+        <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+          <UserBookCardSm bookData={{ ...bookData, progressValue }} />
+        </Col>
+      );
+    });
+  };
+
+  console.log("books from slice", books);
 
   return (
     <>
       <Container>
-        <div>
-          <h1>Your Library</h1>
+        <div className="Library__title__container">
+          <h1 className="Library__title">Your Library</h1>
         </div>
         <div>
-          <h4>Checked Out Books</h4>
+          <h4 className="Library__subtitle">Checked Out Books</h4>
         </div>
-        <Row>{renderBooks}</Row>
+        <Row className="Library__section1">
+          <RenderUserBooksSection />
+        </Row>
+        <div>
+          <h4 className="Library__subtitle">Checked in Books</h4>
+        </div>
+        <Row className="Library__section1">
+          <RenderUserBooksSection />
+        </Row>
       </Container>
     </>
   );

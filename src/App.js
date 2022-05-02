@@ -82,7 +82,7 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route path="home" element={<Dashboard />} />
+            <Route index element={<Dashboard />} />
             <Route
               path="search-results"
               element={

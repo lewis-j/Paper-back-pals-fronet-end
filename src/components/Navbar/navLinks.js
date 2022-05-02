@@ -10,7 +10,7 @@ const generateClass = (className) => {
 
 export const Home = ({ className }) => {
   return (
-    <NavLink className={generateClass(className)} to="home">
+    <NavLink className={generateClass(className)} to="/">
       Home
     </NavLink>
   );

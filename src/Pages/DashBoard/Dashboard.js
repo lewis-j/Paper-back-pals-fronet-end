@@ -1,8 +1,8 @@
 import React from "react";
 import Slider from "react-slick";
 import { Container } from "reactstrap";
-import CurrentRead from "../../components/UserBookCard/UserBookCard";
-import UserBookCardSm from "../../components/UserBookCardSm";
+import CurrentRead from "../../components/UserBookCard";
+import UserBookCardSm from "../../components/UserBookCardSm/UserBookCardSm";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
