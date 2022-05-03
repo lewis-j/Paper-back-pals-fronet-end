@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, cloneElement } from "react";
 import { Col, Container, Row } from "reactstrap";
-import UserBookCardSm from "../../components/UserBookCardSm/UserBookCardSm";
-import Placeholder from "../../components/UserBookCardSm/Placeholder";
+import { UserBookCardSm } from "../../components/UserBookCardSm";
+import Placeholder from "../../components/Placeholders/PlaceholderCardSm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks } from "../../redux/userBooksSlice";
 import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
+import BookCard from "../../components/BookCard";
 
 const Library = () => {
   const dispatch = useDispatch();
@@ -19,12 +20,16 @@ const Library = () => {
     }
   }, [dispatch, status]);
 
-  const RenderUserBooksSection = () => {
+  const checkedOutBooks = books.filter((book) => book.status === "CHECKED_OUT");
+  const checkedInBooks = books.filter((book) => book.status !== "CHECKED_OUT");
+
+  const renderCheckedOutSection = (checkedOutBooks, status) => {
+    const books = checkedOutBooks;
     if (!books) return <></>;
 
     if (status === "loading")
       return [...Array(12).keys()].map((i) => (
-        <Col sm="4" md="3" xl="2" className="placeholder-glow mb-3" key={i}>
+        <Col sm="4" md="3" xl="2" key={i} className="mb-3">
           <Placeholder />
         </Col>
       ));
@@ -42,6 +47,27 @@ const Library = () => {
     });
   };
 
+  const renderCheckedInSection = (checkedInBooks, status) => {
+    const books = checkedInBooks;
+    if (!books) return <></>;
+
+    if (status === "loading")
+      return [...Array(12).keys()].map((i) => (
+        <Col sm="4" md="3" xl="2" key={i} className="mb-3">
+          <Placeholder />
+        </Col>
+      ));
+    return books.map((bookData, i) => {
+      const { coverImg, title, status } = bookData;
+
+      return (
+        <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+          <BookCard coverImg={coverImg} title={title} status={status} />
+        </Col>
+      );
+    });
+  };
+
   console.log("books from slice", books);
 
   return (
@@ -54,13 +80,13 @@ const Library = () => {
           <h4 className="Library__subtitle">Checked Out Books</h4>
         </div>
         <Row className="Library__section1">
-          <RenderUserBooksSection />
+          {renderCheckedOutSection(checkedOutBooks, status)}
         </Row>
         <div>
           <h4 className="Library__subtitle">Checked in Books</h4>
         </div>
         <Row className="Library__section1">
-          <RenderUserBooksSection />
+          {renderCheckedInSection(checkedInBooks, status)}
         </Row>
       </Container>
     </>

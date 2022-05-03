@@ -104,7 +104,6 @@ const LandingPage = () => {
     <>
       <Hero />
       <TutorialSection />
-      <Footer />
     </>
   );
 };

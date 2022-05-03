@@ -14,6 +14,7 @@ import ResetPassword from "./components/Authentication/ResetPassword";
 import Dashboard from "./Pages/DashBoard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import Library from "./Pages/Library";
+import Footer from "./components/Footer";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -97,6 +98,7 @@ function App() {
             <Route path="library" element={<Library />} />
           </Route>
         </Routes>
+        <Footer />{" "}
       </div>
     </Provider>
   );
