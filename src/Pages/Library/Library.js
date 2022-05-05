@@ -1,4 +1,4 @@
-import React, { useEffect, cloneElement } from "react";
+import React, { useEffect, cloneElement, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { UserBookCardSm } from "../../components/UserBookCardSm";
 import Placeholder from "../../components/Placeholders/PlaceholderCardSm";
@@ -7,10 +7,14 @@ import { fetchBooks } from "../../redux/userBooksSlice";
 import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 import BookCard from "../../components/BookCard";
+import { Button } from "reactstrap";
 
 const Library = () => {
   const dispatch = useDispatch();
   const { books, status, error } = useSelector((state) => state.userBooks);
+
+  const checkedInState = useState(12);
+  const checkedOutState = useState(12);
 
   console.log("error", error);
 
@@ -20,12 +24,37 @@ const Library = () => {
     }
   }, [dispatch, status]);
 
-  const checkedOutBooks = books.filter((book) => book.status === "CHECKED_OUT");
-  const checkedInBooks = books.filter((book) => book.status !== "CHECKED_OUT");
+  const mapCheckedOutBooks = (bookData, i) => {
+    const progressValue = getProgressInPercent(
+      bookData.currentPage,
+      bookData.pageCount
+    );
+    return (
+      <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+        <UserBookCardSm bookData={{ ...bookData, progressValue }} />
+      </Col>
+    );
+  };
 
-  const renderCheckedOutSection = (checkedOutBooks, status) => {
-    const books = checkedOutBooks;
-    if (!books) return <></>;
+  const mapCheckedInBooks = (bookData, i) => {
+    const { coverImg, title, status } = bookData;
+
+    return (
+      <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+        <BookCard coverImg={coverImg} title={title} status={status} />
+      </Col>
+    );
+  };
+
+  const checkedOutBooks = books
+    .filter((book) => book.status === "CHECKED_OUT")
+    .map(mapCheckedOutBooks);
+  const checkedInBooks = books
+    .filter((book) => book.status !== "CHECKED_OUT")
+    .map(mapCheckedInBooks);
+
+  const renderSection = (section, status, state) => {
+    if (!section) return <div>Currently no books</div>;
 
     if (status === "loading")
       return [...Array(12).keys()].map((i) => (
@@ -33,42 +62,23 @@ const Library = () => {
           <Placeholder />
         </Col>
       ));
-    return books.map((bookData, i) => {
-      const progressValue = getProgressInPercent(
-        bookData.currentPage,
-        bookData.pageCount
-      );
 
-      return (
-        <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
-          <UserBookCardSm bookData={{ ...bookData, progressValue }} />
-        </Col>
-      );
-    });
+    const [renderBookCount, setRenderBookCount] = state;
+    return (
+      <>
+        {section.slice(0, renderBookCount)}
+        {section.length > renderBookCount && (
+          <Button
+            onClick={() => {
+              setRenderBookCount((previousState) => previousState + 12);
+            }}
+          >
+            Show more
+          </Button>
+        )}
+      </>
+    );
   };
-
-  const renderCheckedInSection = (checkedInBooks, status) => {
-    const books = checkedInBooks;
-    if (!books) return <></>;
-
-    if (status === "loading")
-      return [...Array(12).keys()].map((i) => (
-        <Col sm="4" md="3" xl="2" key={i} className="mb-3">
-          <Placeholder />
-        </Col>
-      ));
-    return books.map((bookData, i) => {
-      const { coverImg, title, status } = bookData;
-
-      return (
-        <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
-          <BookCard coverImg={coverImg} title={title} status={status} />
-        </Col>
-      );
-    });
-  };
-
-  console.log("books from slice", books);
 
   return (
     <>
@@ -80,13 +90,13 @@ const Library = () => {
           <h4 className="Library__subtitle">Checked Out Books</h4>
         </div>
         <Row className="Library__section1">
-          {renderCheckedOutSection(checkedOutBooks, status)}
+          {renderSection(checkedOutBooks, status, checkedOutState)}
         </Row>
         <div>
           <h4 className="Library__subtitle">Checked in Books</h4>
         </div>
         <Row className="Library__section1">
-          {renderCheckedInSection(checkedInBooks, status)}
+          {renderSection(checkedInBooks, status, checkedInState)}
         </Row>
       </Container>
     </>
