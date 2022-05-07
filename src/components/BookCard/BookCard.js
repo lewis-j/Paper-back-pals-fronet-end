@@ -4,7 +4,6 @@ import React from "react";
 import "./BookCard.scss";
 
 const BookCard = ({ coverImg, title, status }) => {
-  console.log("pending", status);
   return (
     <div className="BookCard__container">
       {status === "PENDING" && (

@@ -15,6 +15,8 @@ const Library = () => {
 
   const checkedInState = useState(12);
   const checkedOutState = useState(12);
+  const loadingInSection = useState(false);
+  const loadingOutSection = useState(false);
 
   console.log("error", error);
 
@@ -24,6 +26,15 @@ const Library = () => {
     }
   }, [dispatch, status]);
 
+  const menuList = [
+    {
+      text: "message friend",
+      clickHandler: (i) => {
+        console.log("itemclicked: ", i);
+      },
+    },
+  ];
+
   const mapCheckedOutBooks = (bookData, i) => {
     const progressValue = getProgressInPercent(
       bookData.currentPage,
@@ -31,7 +42,10 @@ const Library = () => {
     );
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
-        <UserBookCardSm bookData={{ ...bookData, progressValue }} />
+        <UserBookCardSm
+          bookData={{ ...bookData, progressValue }}
+          menuList={menuList}
+        />
       </Col>
     );
   };
@@ -53,7 +67,7 @@ const Library = () => {
     .filter((book) => book.status !== "CHECKED_OUT")
     .map(mapCheckedInBooks);
 
-  const renderSection = (section, status, state) => {
+  const renderSection = (section, status, state, loadingSectionState) => {
     if (!section) return <div>Currently no books</div>;
 
     if (status === "loading")
@@ -64,13 +78,30 @@ const Library = () => {
       ));
 
     const [renderBookCount, setRenderBookCount] = state;
+    const [loadingSection, setLoadingSection] = loadingSectionState;
+    const renderBooks = section.slice(0, renderBookCount);
+    const loadingCount = section.slice(
+      renderBookCount,
+      renderBookCount + 12
+    ).length;
+
     return (
       <>
-        {section.slice(0, renderBookCount)}
+        {renderBooks}
+        {loadingSection &&
+          [...Array(loadingCount).keys()].map((i) => (
+            <Col sm="4" md="3" xl="2" key={i} className="mb-3">
+              <Placeholder />
+            </Col>
+          ))}
         {section.length > renderBookCount && (
           <Button
             onClick={() => {
-              setRenderBookCount((previousState) => previousState + 12);
+              setLoadingSection(true);
+              setTimeout(() => {
+                setLoadingSection(false);
+                setRenderBookCount((previousState) => previousState + 12);
+              }, 600);
             }}
           >
             Show more
@@ -90,13 +121,23 @@ const Library = () => {
           <h4 className="Library__subtitle">Checked Out Books</h4>
         </div>
         <Row className="Library__section1">
-          {renderSection(checkedOutBooks, status, checkedOutState)}
+          {renderSection(
+            checkedOutBooks,
+            status,
+            checkedOutState,
+            loadingOutSection
+          )}
         </Row>
         <div>
           <h4 className="Library__subtitle">Checked in Books</h4>
         </div>
         <Row className="Library__section1">
-          {renderSection(checkedInBooks, status, checkedInState)}
+          {renderSection(
+            checkedInBooks,
+            status,
+            checkedInState,
+            loadingInSection
+          )}
         </Row>
       </Container>
     </>
