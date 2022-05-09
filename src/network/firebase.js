@@ -12,7 +12,12 @@ import {
   signOut,
   updateEmail,
   updatePassword,
+  updateProfile,
+  onAuthStateChanged,
+  getIdToken,
 } from "firebase/auth";
+
+import * as userServices from "./users";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -28,62 +33,70 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 const firebaseParseErrorMsg = (err, defualtMsg) => {
-  let message = "";
+  let message = null;
   const reg = /(?<=(auth\/)).*(?=\))/;
   message = err.message.match(reg);
   message = message ? message[0].split("-").join(" ") : defualtMsg;
   return message;
 };
 
-const loginGoogle = async () => {
-  let message = "";
-  try {
-    const res = await signInWithPopup(auth, googleProvider);
-    console.log("google auth:", res.user);
-    const { displayName, email, uid, accessToken } = res.user;
-
-    const result = await axios.post(
-      `${process.env.REACT_APP_NEST_URI}/users`,
-      {
-        userId: uid,
-        username: displayName,
-        email: email,
-      },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-
-    console.log("response from /users:", result);
-  } catch (err) {
-    console.error(err);
-    message = firebaseParseErrorMsg(err, "Failed to login");
-  }
-  return message;
+const fetchUser = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          localStorage.setItem("isAuthenticated", true);
+          resolve(userServices.getOneUser(currentUser.accessToken));
+        } else {
+          localStorage.setItem("isAuthenticated", false);
+          resolve({ user: null });
+        }
+        unsubscribe();
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
 
-const loginEmailPsw = async (email, password) => {
+const loginGoogle = async () => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const res = await signInWithPopup(auth, googleProvider);
+    console.log("google auth:", res.user.accessToken);
+
+    return userServices.createNewUser(res.user.accessToken);
+  } catch (err) {
+    console.log(err);
+    return Promise.reject(
+      firebaseParseErrorMsg(err, "Could not log in to google")
+    );
+  }
+};
+
+const loginWithForm = async ({ email, password }) => {
+  try {
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    console.log("response", res);
+    return userServices.getOneUser(res.user.accessToken);
   } catch (err) {
     console.error(err);
-    return firebaseParseErrorMsg(err, "Failed to login");
+    return Promise.reject(firebaseParseErrorMsg(err, "Failed to login"));
   }
 };
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    // const user = res.user;
-    // await addDoc(collection(db, "users"), {
-    //   uid: user.uid,
-    //   name,
-    //   authProvider: "local",
-    //   email,
-    // });
+    await updateProfile(res.user, {
+      displayName: name,
+    });
+    const token = await getIdToken(res.user, true);
+    return await userServices.createNewUser(token);
   } catch (err) {
-    console.error(err);
-    alert(err.message);
+    console.log("error in register form", err);
+    return Promise.reject(
+      firebaseParseErrorMsg(err, "Failed to register new user")
+    );
   }
 };
 
@@ -97,12 +110,13 @@ const sendPasswordReset = async (email) => {
 };
 
 const logout = async () => {
-  return await signOut(auth);
+  await signOut(auth);
 };
 
 const setNewEmail = async (user, email) => {
   try {
-    return await updateEmail(user, email);
+    const res = await updateEmail(user, email);
+    return userServices.updateOneUser(res.user.accessToken);
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -119,8 +133,9 @@ const setNewPsw = async (user, password) => {
 
 export {
   auth,
+  fetchUser,
   loginGoogle,
-  loginEmailPsw,
+  loginWithForm,
   registerWithEmailAndPassword,
   sendPasswordReset,
   setNewEmail,

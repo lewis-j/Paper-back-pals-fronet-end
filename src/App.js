@@ -1,11 +1,8 @@
-// import "./App.css";
 import Navbar from "./components/Navbar";
 import SearchResults from "./Pages/SearchResults";
 import LandingPage from "./components/LandingPage";
 import axios from "axios";
-import { useState } from "react";
-import { store } from "./redux/store";
-import { Provider } from "react-redux";
+import { useEffect, useState } from "react";
 import "./style/main.scss";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/Authentication/Login";
@@ -15,6 +12,9 @@ import Dashboard from "./Pages/DashBoard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import Library from "./Pages/Library";
 import Footer from "./components/Footer";
+import { useSelector, useDispatch } from "react-redux";
+import * as condition from "./redux/status";
+import { fetchUser } from "./redux/user/userSlice";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +22,17 @@ function App() {
   const [searchQueryTitle, setSearchQueryTitle] = useState("");
 
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userStatus = useSelector((state) => state.user.status);
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (userStatus === condition.IDLE) {
+      dispatch(fetchUser());
+    }
+  }, [userStatus, dispatch]);
+
+  console.log("Fetched User::", user);
 
   const fetchBooks = async (query, startIndex = 0) => {
     setSearchQueryTitle(query);
@@ -66,41 +77,39 @@ function App() {
   };
 
   return (
-    <Provider store={store}>
-      <div className="App">
-        <Routes>
-          <Route path="landing-page" element={<LandingPage />}>
-            <Route index element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-          </Route>
+    <div className="App">
+      <Routes>
+        <Route path="landing-page" element={<LandingPage />}>
+          <Route index element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
 
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Navbar searchBooks={fetchBooks} isLoading={isLoading} />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
           <Route
-            path="/"
+            path="search-results"
             element={
-              <PrivateRoute>
-                <Navbar searchBooks={fetchBooks} isLoading={isLoading} />
-              </PrivateRoute>
+              <SearchResults
+                bookResults={bookResults}
+                isLoading={isLoading}
+                queryTitle={searchQueryTitle}
+                fetchBooks={fetchBooks}
+              />
             }
-          >
-            <Route index element={<Dashboard />} />
-            <Route
-              path="search-results"
-              element={
-                <SearchResults
-                  bookResults={bookResults}
-                  isLoading={isLoading}
-                  queryTitle={searchQueryTitle}
-                  fetchBooks={fetchBooks}
-                />
-              }
-            />
-            <Route path="library" element={<Library />} />
-          </Route>
-        </Routes>
-        <Footer />{" "}
-      </div>
-    </Provider>
+          />
+          <Route path="library" element={<Library />} />
+        </Route>
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 

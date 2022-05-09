@@ -1,17 +1,22 @@
-import React, { useEffect, cloneElement, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { UserBookCardSm } from "../../components/UserBookCardSm";
 import Placeholder from "../../components/Placeholders/PlaceholderCardSm";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBooks } from "../../redux/userBooksSlice";
+import { fetchBooks } from "../../redux/userBook/userBooksSlice";
 import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 import BookCard from "../../components/BookCard";
 import { Button } from "reactstrap";
+import * as condition from "../../redux/status";
 
 const Library = () => {
   const dispatch = useDispatch();
-  const { books, status, error } = useSelector((state) => state.userBooks);
+  const {
+    books,
+    status: fetchStatus,
+    error,
+  } = useSelector((state) => state.userBooks);
 
   const checkedInState = useState(12);
   const checkedOutState = useState(12);
@@ -21,10 +26,10 @@ const Library = () => {
   console.log("error", error);
 
   useEffect(() => {
-    if (status === "idle") {
+    if (fetchStatus === condition.IDLE) {
       dispatch(fetchBooks());
     }
-  }, [dispatch, status]);
+  }, [dispatch, fetchStatus]);
 
   const menuList = [
     {
@@ -67,10 +72,10 @@ const Library = () => {
     .filter((book) => book.status !== "CHECKED_OUT")
     .map(mapCheckedInBooks);
 
-  const renderSection = (section, status, state, loadingSectionState) => {
+  const renderSection = (section, fetchStatus, state, loadingSectionState) => {
     if (!section) return <div>Currently no books</div>;
 
-    if (status === "loading")
+    if (fetchStatus === condition.LOADING)
       return [...Array(12).keys()].map((i) => (
         <Col sm="4" md="3" xl="2" key={i} className="mb-3">
           <Placeholder />
@@ -123,7 +128,7 @@ const Library = () => {
         <Row className="Library__section1">
           {renderSection(
             checkedOutBooks,
-            status,
+            fetchStatus,
             checkedOutState,
             loadingOutSection
           )}
@@ -134,7 +139,7 @@ const Library = () => {
         <Row className="Library__section1">
           {renderSection(
             checkedInBooks,
-            status,
+            fetchStatus,
             checkedInState,
             loadingInSection
           )}

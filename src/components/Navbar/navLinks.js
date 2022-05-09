@@ -1,6 +1,8 @@
-import { logout } from "../../firebase";
+import { logout } from "../../network/firebase";
 import { NavLink } from "react-router-dom";
 import "./Navbar-custom.scss";
+import { useDispatch } from "react-redux";
+import { resetStatus } from "../../redux/user/userSlice";
 
 const generateClass = (className) => {
   const _className = `${className} NavLinks`;
@@ -50,12 +52,18 @@ export const Settings = ({ className }) => (
     Settings
   </NavLink>
 );
-export const Logout = ({ className }) => (
-  <NavLink
-    className={generateClass(className)}
-    to="landing-page"
-    onClick={logout}
-  >
-    Logout
-  </NavLink>
-);
+export const Logout = ({ className }) => {
+  const dispatch = useDispatch();
+  return (
+    <NavLink
+      className={generateClass(className)}
+      to="landing-page"
+      onClick={() => {
+        dispatch(resetStatus());
+        logout();
+      }}
+    >
+      Logout
+    </NavLink>
+  );
+};

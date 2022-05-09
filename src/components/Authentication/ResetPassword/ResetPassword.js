@@ -10,7 +10,7 @@ import {
   Input,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, sendPasswordReset } from "../../../firebase";
+import { auth, sendPasswordReset } from "../../../network/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "../authentication.scss";
 

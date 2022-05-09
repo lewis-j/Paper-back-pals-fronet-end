@@ -10,24 +10,35 @@ import {
   Input,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, loginEmailPsw, loginGoogle } from "../../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { loginGoogle, loginWithForm } from "../../../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+// import { useAuthState } from "react-firebase-hooks/auth";
 import "../authentication.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import * as condition from "../../../redux/status";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [user, loading] = useAuthState(auth);
+  // const [error, setError] = useState("");
+  // const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    currentUser: user,
+    status,
+    error,
+  } = useSelector((state) => state.user);
+
+  const loading = status === condition.LOADING;
 
   const handleSubmit = async (e) => {
-    setError("");
+    // setError("");
     e.preventDefault();
-    const msg = await loginEmailPsw(email, password);
-    setError(msg);
+    dispatch(loginWithForm({ email, password }));
+    // const msg = await loginWithForm(email, password);
+    // setError(msg);
   };
 
   useEffect(() => {
@@ -72,7 +83,7 @@ export default function Login() {
               style={{ backgroundColor: "#911f16" }}
               disabled={loading}
               className="w-100 mt-2"
-              onClick={loginGoogle}
+              onClick={() => dispatch(loginGoogle())}
             >
               <FontAwesomeIcon icon={faGoogle} /> Sign in with Google
             </Button>

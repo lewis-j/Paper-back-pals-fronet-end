@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Form,
@@ -10,13 +10,14 @@ import {
   CardBody,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, registerWithEmailAndPassword } from "../../../firebase";
+import { auth, registerWithEmailAndPassword } from "../../../network/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "../authentication.scss";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [customError, setCustomError] = useState("");
   const [user, loading, error] = useAuthState(auth);
@@ -29,7 +30,7 @@ export default function Signup() {
       return;
     }
     if (user) {
-      navigate("/home");
+      navigate("/");
     }
   }, [user, loading]);
 
@@ -39,9 +40,11 @@ export default function Signup() {
     if (password !== confirmPassword) {
       return setCustomError("Passwords do not match");
     }
+    let trimmedName = name;
+    trimmedName = trimmedName.trim().replace(/\s+/g, " ");
 
-    registerWithEmailAndPassword(email, password).then(() => {
-      navigate("/home");
+    registerWithEmailAndPassword(trimmedName, email, password).then(() => {
+      navigate("/");
     });
   }
 
@@ -53,6 +56,15 @@ export default function Signup() {
           {error && <Alert variant="danger">{error}</Alert>}
           {customError && <Alert variant="danger">{customError}</Alert>}
           <Form onSubmit={handleSubmit}>
+            <FormGroup id="name">
+              <Label>Name</Label>
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </FormGroup>
             <FormGroup id="email">
               <Label>Email</Label>
               <Input

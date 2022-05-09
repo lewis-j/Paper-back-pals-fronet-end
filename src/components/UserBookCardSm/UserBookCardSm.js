@@ -33,7 +33,7 @@ const UserBookCardSm = ({
           <img
             src={coverImg}
             alt={`${title} book cover`}
-            referrerpolicy="no-referrer"
+            referrerPolicy="no-referrer"
           />
         </div>
         <div className="UserBookCardSm__info">

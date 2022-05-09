@@ -1,16 +1,16 @@
 import React from "react";
-import { auth } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import * as condition from "../../redux/status";
 
 const PrivateRoute = ({ children }) => {
-  const [user, loading] = useAuthState(auth);
+  const { currentUser, status } = useSelector((state) => state.user);
 
-  if (loading) {
+  if (status !== condition.SUCCEEDED) {
     return <div />;
   }
 
-  return user ? children : <Navigate to="/landing-page" />;
+  return currentUser ? children : <Navigate to="/landing-page" />;
 };
 
 export default PrivateRoute;
