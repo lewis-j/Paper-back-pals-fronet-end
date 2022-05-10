@@ -17,7 +17,7 @@ import {
   getIdToken,
 } from "firebase/auth";
 
-import * as userServices from "./users";
+import * as userServices from "./userApi";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -45,10 +45,10 @@ const fetchUser = () => {
     try {
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
-          localStorage.setItem("isAuthenticated", true);
+          // localStorage.setItem("isAuthenticated", true);
           resolve(userServices.getOneUser(currentUser.accessToken));
         } else {
-          localStorage.setItem("isAuthenticated", false);
+          // localStorage.setItem("isAuthenticated", false);
           resolve({ user: null });
         }
         unsubscribe();
@@ -61,10 +61,7 @@ const fetchUser = () => {
 
 const loginGoogle = async () => {
   try {
-    const res = await signInWithPopup(auth, googleProvider);
-    console.log("google auth:", res.user.accessToken);
-
-    return userServices.createNewUser(res.user.accessToken);
+    return await signInWithPopup(auth, googleProvider);
   } catch (err) {
     console.log(err);
     return Promise.reject(
@@ -73,25 +70,19 @@ const loginGoogle = async () => {
   }
 };
 
-const loginWithForm = async ({ email, password }) => {
+const loginWithForm = async (email, password) => {
   try {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-    console.log("response", res);
-    return userServices.getOneUser(res.user.accessToken);
+    return await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     console.error(err);
     return Promise.reject(firebaseParseErrorMsg(err, "Failed to login"));
   }
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (email, password) => {
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(res.user, {
-      displayName: name,
-    });
-    const token = await getIdToken(res.user, true);
-    return await userServices.createNewUser(token);
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+    return user;
   } catch (err) {
     console.log("error in register form", err);
     return Promise.reject(

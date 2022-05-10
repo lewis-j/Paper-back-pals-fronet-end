@@ -10,8 +10,10 @@ import {
   CardBody,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, registerWithEmailAndPassword } from "../../../network/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../../redux/user/userSlice";
+import * as condition from "../../../redux/status";
+// import { useAuthState } from "react-firebase-hooks/auth";
 import "../authentication.scss";
 
 export default function Signup() {
@@ -20,9 +22,18 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [customError, setCustomError] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  // const [user, loading, error] = useAuthState(auth);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {
+    currentUser: user,
+    status,
+    error,
+  } = useSelector((state) => state.user);
+
+  const loading = status === condition.LOADING;
 
   useEffect(() => {
     if (loading) {
@@ -34,7 +45,7 @@ export default function Signup() {
     }
   }, [user, loading]);
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setCustomError("");
     if (password !== confirmPassword) {
@@ -43,10 +54,8 @@ export default function Signup() {
     let trimmedName = name;
     trimmedName = trimmedName.trim().replace(/\s+/g, " ");
 
-    registerWithEmailAndPassword(trimmedName, email, password).then(() => {
-      navigate("/");
-    });
-  }
+    dispatch(registerUser({ username: trimmedName, email, password }));
+  };
 
   return (
     <>

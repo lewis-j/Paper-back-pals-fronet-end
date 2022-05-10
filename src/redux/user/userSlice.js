@@ -1,5 +1,5 @@
-import { faRProject } from "@fortawesome/free-brands-svg-icons";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as asyncActions from "./userAsyncActions";
 import * as firebase from "../../network/firebase";
 import * as status from "../status";
 
@@ -15,6 +15,7 @@ const pendingReducer = (state) => {
 };
 
 const fulfilledReducer = (state, { payload: { user } }) => {
+  console.log("fulffilled user action: ", user);
   state.status = status.SUCCEEDED;
   state.error = null;
   state.currentUser = user;
@@ -24,18 +25,20 @@ export const fetchUser = createAsyncThunk("user/fetchUser", firebase.fetchUser);
 
 export const registerUser = createAsyncThunk(
   "user/createUser",
-  firebase.registerWithEmailAndPassword
+  asyncActions.registerUser
 );
 
 export const loginGoogle = createAsyncThunk(
   "user/googleLogin",
-  firebase.loginGoogle
+  asyncActions.loginWithGoogle
 );
 
 export const loginWithForm = createAsyncThunk(
   "user/FormLogin",
-  firebase.loginWithForm
+  asyncActions.loginWithForm
 );
+
+export const logout = createAsyncThunk("user/logout", asyncActions.logout);
 
 export const userSlice = createSlice({
   name: "user",
@@ -44,11 +47,7 @@ export const userSlice = createSlice({
     status: status.IDLE,
     error: null,
   },
-  reducers: {
-    resetStatus: (state) => {
-      state.status = status.IDLE;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [registerUser.pending]: pendingReducer,
     [registerUser.rejected]: rejectionReducer,
@@ -62,6 +61,11 @@ export const userSlice = createSlice({
     [fetchUser.pending]: pendingReducer,
     [fetchUser.rejected]: rejectionReducer,
     [fetchUser.fulfilled]: fulfilledReducer,
+    [logout.pending]: pendingReducer,
+    [logout.fulfilled]: (state) => {
+      state.currentUser = null;
+      state.status = status.SUCCEEDED;
+    },
   },
 });
 

@@ -1,5 +1,5 @@
-import { logout } from "../../network/firebase";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/user/userSlice";
 import "./Navbar-custom.scss";
 import { useDispatch } from "react-redux";
 import { resetStatus } from "../../redux/user/userSlice";
@@ -54,16 +54,19 @@ export const Settings = ({ className }) => (
 );
 export const Logout = ({ className }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  console.log("classname", className);
+  let linkClass = `${className} NavLinks`;
   return (
-    <NavLink
-      className={generateClass(className)}
-      to="landing-page"
-      onClick={() => {
-        dispatch(resetStatus());
-        logout();
+    <div
+      className={linkClass}
+      // to="landing-page"
+      onClick={async () => {
+        await dispatch(logout()).unwrap();
+        navigate("/landing-page");
       }}
     >
       Logout
-    </NavLink>
+    </div>
   );
 };
