@@ -1,8 +1,7 @@
 import React from "react";
-import Slider from "react-slick";
+import BookSlider from "../../components/BookSlider";
 import { Container } from "reactstrap";
 import CurrentRead from "../../components/UserBookCard";
-import { UserBookCardSm } from "../../components/UserBookCardSm";
 
 const bookData = {
   coverImg:
@@ -99,24 +98,7 @@ const checkedBooks = [
   },
 ];
 
-const renderCheckedCards = checkedBooks.map((bookData, idx) => {
-  return (
-    <div key={bookData.lenderId}>
-      <UserBookCardSm bookData={bookData} index={idx} />
-    </div>
-  );
-});
 
-const SimpleSlider = () => {
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-  };
-  return <Slider {...settings}>{renderCheckedCards}</Slider>;
-};
 
 const SectionTitle = ({ title }) => (
   <h3 style={{ maxWidth: "540px" }} className="mx-auto mt-5">
@@ -131,8 +113,7 @@ const Dashboard = () => {
         <SectionTitle title="Current Read" />
         <CurrentRead currentBook={bookData} />
         <SectionTitle title="Checked out Books" />
-        <SimpleSlider />
-        <UserBookCardSm bookData={bookData} />
+        <BookSlider books={checkedBooks} />
       </Container>
     </div>
   );

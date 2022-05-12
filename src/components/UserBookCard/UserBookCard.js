@@ -34,7 +34,7 @@ const UserBookCard = ({
     >
       <Row className="g-0">
         <Col md="3">
-          <img src={coverImg} className="img-fluid rounded-start" alt="..." />
+          <img src={coverImg} className="img-fluid rounded-start" alt={title}  referrerpolicy="no-referrer"/>
         </Col>
         <Col md="9">
           <CardBody>
