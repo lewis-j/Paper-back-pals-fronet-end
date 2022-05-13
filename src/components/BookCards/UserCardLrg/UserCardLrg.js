@@ -9,11 +9,11 @@ import {
   Progress,
 } from "reactstrap";
 
-import "./UserBookCard.scss";
+import "./UserCardLrg.scss";
 
-import { getProgressInPercent } from "../../utilities/bookUtilities";
+import { getProgressInPercent } from "../../../utilities/bookUtilities";
 
-const UserBookCard = ({
+const UserCardLrg = ({
   currentBook: {
     title,
     author,
@@ -34,7 +34,12 @@ const UserBookCard = ({
     >
       <Row className="g-0">
         <Col md="3">
-          <img src={coverImg} className="img-fluid rounded-start" alt={title}  referrerpolicy="no-referrer"/>
+          <img
+            src={coverImg}
+            className="img-fluid rounded-start"
+            alt={title}
+            referrerpolicy="no-referrer"
+          />
         </Col>
         <Col md="9">
           <CardBody>
@@ -64,4 +69,4 @@ const UserBookCard = ({
   );
 };
 
-export default UserBookCard;
+export default UserCardLrg;

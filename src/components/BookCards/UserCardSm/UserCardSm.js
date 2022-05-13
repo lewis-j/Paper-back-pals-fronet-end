@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserBookCardSm.scss";
+import "./UserCardSm.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -10,7 +10,7 @@ import {
   ListGroupItem,
 } from "reactstrap";
 
-const UserBookCardSm = ({
+const UserCardSm = ({
   bookData: { coverImg, title, dueDate, lender, lenderImg, progressValue },
   menuList = [],
 }) => {
@@ -72,4 +72,4 @@ const UserBookCardSm = ({
   );
 };
 
-export default UserBookCardSm;
+export default UserCardSm;

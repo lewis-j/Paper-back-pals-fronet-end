@@ -69,6 +69,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { resetStatus } = userSlice.actions;
+// export const { resetStatus } = userSlice.actions;
 
 export default userSlice.reducer;

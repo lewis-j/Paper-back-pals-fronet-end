@@ -19,7 +19,7 @@ import { Outlet } from "react-router-dom";
 import * as NavLinks from "./navLinks";
 import "./Navbar-custom.scss";
 
-const TopNav = ({ searchBooks }) => {
+const MainNav = ({ searchBooks }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -118,4 +118,4 @@ const TopNav = ({ searchBooks }) => {
   );
 };
 
-export default TopNav;
+export default MainNav;

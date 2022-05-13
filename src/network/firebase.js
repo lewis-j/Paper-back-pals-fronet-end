@@ -1,6 +1,4 @@
 //https://blog.logrocket.com/user-authentication-firebase-react-apps/
-
-import axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
@@ -12,9 +10,7 @@ import {
   signOut,
   updateEmail,
   updatePassword,
-  updateProfile,
   onAuthStateChanged,
-  getIdToken,
 } from "firebase/auth";
 
 import * as userServices from "./userApi";

@@ -1,20 +1,19 @@
-import Navbar from "./components/Navbar";
-import SearchResults from "./Pages/SearchResults";
-import LandingPage from "./components/LandingPage";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import "./style/main.scss";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import Login from "./components/Authentication/Login";
-import Signup from "./components/Authentication/Signup";
-import ResetPassword from "./components/Authentication/ResetPassword";
-import Dashboard from "./Pages/DashBoard/Dashboard";
-import PrivateRoute from "./components/PrivateRoute";
-import Library from "./Pages/Library";
-import Footer from "./components/Footer";
 import { useSelector, useDispatch } from "react-redux";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { fetchUser } from "./redux/user";
 import * as condition from "./redux/status";
-import { fetchUser } from "./redux/user/userSlice";
+import { LandingPage, SearchResults, Dashboard, Library } from "./Pages";
+import {
+  Login,
+  Signup,
+  ResetPassword,
+  PrivateRoute,
+  Footer,
+  MainNav,
+} from "./components";
+import "./style/main.scss";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +81,7 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <Navbar searchBooks={fetchBooks} isLoading={isLoading} />
+                <MainNav searchBooks={fetchBooks} isLoading={isLoading} />
               </PrivateRoute>
             }
           >

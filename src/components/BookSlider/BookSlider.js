@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import { UserBookCardSm } from "../UserBookCardSm";
+import { UserCardSm } from "../BookCards";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
@@ -42,7 +42,7 @@ const BookSlider = ({ books, className }) => {
   const renderCheckedCards = books.map((bookData, idx) => {
     return (
       <div key={bookData.lenderId}>
-        <UserBookCardSm bookData={bookData} index={idx} />
+        <UserCardSm bookData={bookData} index={idx} />
       </div>
     );
   });

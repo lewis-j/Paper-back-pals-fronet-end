@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
-import { UserBookCardSm } from "../../components/UserBookCardSm";
-import Placeholder from "../../components/Placeholders/PlaceholderCardSm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks } from "../../redux/userBook/userBooksSlice";
 import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
-import BookCard from "../../components/BookCard";
+import { BookCard, UserCardSm, Placeholder } from "../../components";
 import { Button } from "reactstrap";
 import * as condition from "../../redux/status";
 
@@ -47,7 +45,7 @@ const Library = () => {
     );
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
-        <UserBookCardSm
+        <UserCardSm
           bookData={{ ...bookData, progressValue }}
           menuList={menuList}
         />

@@ -1,1 +1,1 @@
-export { default } from "./SearchCard";
+export { default as SearchCard } from "./SearchCard";

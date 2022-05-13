@@ -10,7 +10,7 @@ import {
   Input,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { loginGoogle, loginWithForm } from "../../../redux/user/userSlice";
+import { loginGoogle, loginWithForm } from "../../../redux/user";
 import { useDispatch, useSelector } from "react-redux";
 // import { useAuthState } from "react-firebase-hooks/auth";
 import "../authentication.scss";

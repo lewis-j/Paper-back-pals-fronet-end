@@ -1,7 +1,6 @@
 import React from "react";
-import BookSlider from "../../components/BookSlider";
+import { BookSlider, UserCardLrg as CurrentRead } from "../../components";
 import { Container } from "reactstrap";
-import CurrentRead from "../../components/UserBookCard";
 
 const bookData = {
   coverImg:

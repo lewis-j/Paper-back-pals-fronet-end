@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Row, Spinner } from "reactstrap";
-import "./searchResults.scss";
-import SearchCard from "../../components/SearchCard";
+import { SearchCard } from "../../components";
 import { processBookResults } from "../../utilities/bookUtilities";
 import SearchPagination from "./SearchPagination";
+import "./searchResults.scss";
 
 const SearchResults = ({ bookResults, isLoading = "false", queryTitle }) => {
   const [currentPage, setCurrentPage] = useState(0);
