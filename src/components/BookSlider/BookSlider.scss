@@ -1,13 +1,21 @@
 .BookSlider {
-    &__arrow{
-        font-size: 1.5em;
-        color: black;
+  &__arrow {
+    font-size: 1.5em;
+    color: black;
 
-        &::before{
-            content: "";
-        }
-        &:active, :hover{
-            color: green;
-        }
+    &::before {
+      content: "";
     }
+    &:active,
+    :hover {
+      color: green;
+    }
+  }
+}
+
+.slick-list {
+  background-color: rgb(192, 184, 184);
+  padding: 1em 0;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px rgb(0 0 0 / 60%);
 }

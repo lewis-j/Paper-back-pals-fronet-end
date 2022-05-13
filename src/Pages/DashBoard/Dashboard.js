@@ -98,8 +98,6 @@ const checkedBooks = [
   },
 ];
 
-
-
 const SectionTitle = ({ title }) => (
   <h3 style={{ maxWidth: "540px" }} className="mx-auto mt-5">
     {title}
@@ -113,7 +111,9 @@ const Dashboard = () => {
         <SectionTitle title="Current Read" />
         <CurrentRead currentBook={bookData} />
         <SectionTitle title="Checked out Books" />
-        <BookSlider books={checkedBooks} />
+        <BookSlider books={checkedBooks} className="my-5" />
+        <SectionTitle title="Currently lent out Books" />
+        <BookSlider books={checkedBooks} className="my-5" />
       </Container>
     </div>
   );

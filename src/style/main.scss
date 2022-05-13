@@ -2,6 +2,10 @@
 
 .App {
   background-color: $app-background;
+
+  &__container {
+    min-height: 100vh;
+  }
 }
 h6,
 h5,

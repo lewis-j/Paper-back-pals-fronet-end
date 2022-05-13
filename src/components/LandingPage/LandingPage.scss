@@ -46,17 +46,22 @@
     }
   }
   &__demo__btn {
+    filter: drop-shadow(5px 5px 5px black);
+    width: 40%;
     a {
       text-decoration: none;
       color: white;
     }
+  }
+  &__logo {
+    filter: drop-shadow(2px 4px 13px black);
   }
   &__btns {
     button {
       transition: transform 0.3s ease-in-out;
       &:hover {
         transform: scale(1.2);
-        box-shadow: 5px 5px 10px white;
+        box-shadow: 4px 4px 5px rgba(255, 255, 255, 0.205);
         background-color: inherit;
         color: white;
       }

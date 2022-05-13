@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Row, Spinner } from "reactstrap";
 import "./searchResults.scss";
 import SearchCard from "../../components/SearchCard";
 import { processBookResults } from "../../utilities/bookUtilities";
 import SearchPagination from "./SearchPagination";
 
-const SearchResults = ({
-  bookResults,
-  isLoading = "false",
-  queryTitle,
-  fetchBooks,
-}) => {
+const SearchResults = ({ bookResults, isLoading = "false", queryTitle }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const firstIdx = currentPage * 12;
@@ -39,7 +34,6 @@ const SearchResults = ({
             <SearchPagination
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
-              fetchMoreBooks={fetchBooks}
               queryTitle={queryTitle}
             />
           </Row>

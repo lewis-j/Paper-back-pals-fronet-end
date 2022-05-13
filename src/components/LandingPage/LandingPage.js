@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Container, Row, Col } from "reactstrap";
 import "./LandingPage.scss";
-import Footer from "../Footer";
 import { Outlet } from "react-router-dom";
 import logo_white from "../../Assets/imgs/pppals_white.png";
 import { HashLink as Link } from "react-router-hash-link";
@@ -24,14 +23,18 @@ const Hero = () => {
               className="pop d-flex flex-column"
               style={{ zIndex: 2 }}
             >
-              <img src={logo_white} alt="Paper back pals logo" />
+              <img
+                src={logo_white}
+                alt="Paper back pals logo"
+                className="Hero__logo"
+              />
               <div className="mt-2 d-flex justify-content-center Hero__btns">
                 <Button
                   outline
                   color="light"
-                  className="me-5 border-0 border-bottom Hero__demo__btn"
+                  className="me-5 border-bottom Hero__demo__btn"
                 >
-                  <Link smooth to="../home/#Demo">
+                  <Link smooth to="../landing-page/#Demo">
                     Demo
                     <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
                   </Link>

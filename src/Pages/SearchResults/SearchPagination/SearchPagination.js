@@ -1,14 +1,9 @@
 import React from "react";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import "./SearchPagination..scss";
-import { useBSSizeFromWidth } from "../../../utilities/useBSSizeFromWidth";
+import { useBSSizeFromWidth } from "../../../utilities/getBSSizeFromWidth";
 
-const SearchPagination = ({
-  setCurrentPage,
-  currentPage,
-  fetchMoreBooks,
-  queryTitle,
-}) => {
+const SearchPagination = ({ setCurrentPage, currentPage }) => {
   const reactstrapBreakPointSize = useBSSizeFromWidth();
 
   const renderNewPage = (item) => {
@@ -45,9 +40,6 @@ const SearchPagination = ({
         aria-label="Page navigation for Search"
         size={reactstrapBreakPointSize}
       >
-        {/* <PaginationItem>
-          <PaginationLink first href="#" />
-        </PaginationItem> */}
         <PaginationItem>
           <PaginationLink
             tag="div"
@@ -63,13 +55,6 @@ const SearchPagination = ({
         <PaginationItem>
           <PaginationLink tag="div" onClick={nextPage} next />
         </PaginationItem>
-        {/* <PaginationItem>
-          <PaginationLink
-            tag="div"
-            onClick={() => fetchMoreBooks(queryTitle, 120)}
-            last
-          />
-        </PaginationItem> */}
       </Pagination>
     </div>
   );

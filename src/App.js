@@ -32,8 +32,6 @@ function App() {
     }
   }, [userStatus, dispatch]);
 
-  console.log("Fetched User::", user);
-
   const fetchBooks = async (query, startIndex = 0) => {
     setSearchQueryTitle(query);
     setIsLoading(true);
@@ -60,12 +58,6 @@ function App() {
         }&maxResults=${40}`
       );
 
-      console.log("response from search:", [
-        ...res.data.items,
-        ...res2.data.items,
-        ...res3.data.items,
-      ]);
-
       setBookResults((prevResults) => [
         ...prevResults,
         ...res2.data.items,
@@ -78,36 +70,38 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="landing-page" element={<LandingPage />}>
-          <Route index element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="reset-password" element={<ResetPassword />} />
-        </Route>
+      <div className="App__container">
+        <Routes>
+          <Route path="landing-page" element={<LandingPage />}>
+            <Route index element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
 
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Navbar searchBooks={fetchBooks} isLoading={isLoading} />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
           <Route
-            path="search-results"
+            path="/"
             element={
-              <SearchResults
-                bookResults={bookResults}
-                isLoading={isLoading}
-                queryTitle={searchQueryTitle}
-                fetchBooks={fetchBooks}
-              />
+              <PrivateRoute>
+                <Navbar searchBooks={fetchBooks} isLoading={isLoading} />
+              </PrivateRoute>
             }
-          />
-          <Route path="library" element={<Library />} />
-        </Route>
-      </Routes>
+          >
+            <Route index element={<Dashboard />} />
+            <Route
+              path="search-results"
+              element={
+                <SearchResults
+                  bookResults={bookResults}
+                  isLoading={isLoading}
+                  queryTitle={searchQueryTitle}
+                  fetchBooks={fetchBooks}
+                />
+              }
+            />
+            <Route path="library" element={<Library />} />
+          </Route>
+        </Routes>
+      </div>
       <Footer />
     </div>
   );
