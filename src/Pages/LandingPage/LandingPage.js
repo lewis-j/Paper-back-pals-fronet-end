@@ -14,25 +14,23 @@ const Hero = () => {
       className="Hero__container"
       style={{ paddingLeft: 0, paddingRight: 0 }}
     >
-      <div className="Hero__main-img d-flex align-items-center ">
+      <div className="Hero__main-img">
         <div className="filter"></div>
         <Container style={{ height: "80%" }}>
           <Row>
             <Col
               md="6"
-              className="pop d-flex flex-column"
+              className="pop d-flex flex-column justify-content-center align-items-center"
               style={{ zIndex: 2 }}
             >
-              <img
-                src={logo_white}
-                alt="Paper back pals logo"
-                className="Hero__logo"
-              />
-              <div className="mt-2 d-flex justify-content-center Hero__btns">
+              <div className="Hero__logo">
+                <img src={logo_white} alt="Paper back pals logo" />
+              </div>
+              <div className="mt-3 d-flex justify-content-center Hero__btns">
                 <Button
                   outline
                   color="light"
-                  className="me-5 border-bottom Hero__demo__btn"
+                  className="border-bottom Hero__demo__btn mb-2"
                 >
                   <Link smooth to="../landing-page/#Demo">
                     Demo
@@ -41,7 +39,7 @@ const Hero = () => {
                 </Button>
               </div>
             </Col>
-            <Col md="6" style={{ zIndex: 2 }}>
+            <Col md="6" style={{ zIndex: 2 }} className="Hero__login">
               <Outlet />
             </Col>
           </Row>
