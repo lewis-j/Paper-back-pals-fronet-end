@@ -1,6 +1,6 @@
 export { Signup, Login, ResetPassword } from "./Authentication";
 export { UserCardSm, UserCardLrg, BookCard } from "./BookCards";
-export { BookSlider } from "./BookSlider";
+export { ResponsiveSlider } from "./ResponsiveSlider";
 export { Footer } from "./Footer";
 export { MainNav } from "./Navbar";
 export { Placeholder } from "./Placeholders";

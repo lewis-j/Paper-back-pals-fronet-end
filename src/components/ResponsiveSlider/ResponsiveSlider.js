@@ -1,12 +1,11 @@
 import React from "react";
 import Slider from "react-slick";
-import { UserCardSm } from "../BookCards";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import "./BookSlider.scss";
+import "./ResponsiveSlider.scss";
 
 const NextArrow = ({ className, style, onClick }) => {
   return (
@@ -23,7 +22,7 @@ const PrevArrow = ({ className, style, onClick }) => {
     </div>
   );
 };
-const BookSlider = ({ books, className }) => {
+const ResponsiveSlider = ({ books, className, children }) => {
   var settings = {
     className: className,
     dots: true,
@@ -33,17 +32,34 @@ const BookSlider = ({ books, className }) => {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
   };
-
-  const renderCheckedCards = books.map((bookData, idx) => {
-    return (
-      <div key={bookData.lenderId}>
-        <UserCardSm bookData={bookData} index={idx} />
-      </div>
-    );
-  });
-
-  return <Slider {...settings}>{renderCheckedCards}</Slider>;
+  return <Slider {...settings}>{children}</Slider>;
 };
 
-export default BookSlider;
+export default ResponsiveSlider;

@@ -1,5 +1,5 @@
 import React from "react";
-import { BookSlider, UserCardLrg as CurrentRead } from "../../components";
+import { ResponsiveSlider, UserCardLrg as CurrentRead, UserCardSm } from "../../components";
 import { Container } from "reactstrap";
 
 const bookData = {
@@ -109,10 +109,10 @@ const Dashboard = () => {
       <Container>
         <SectionTitle title="Current Read" />
         <CurrentRead currentBook={bookData} />
-        <SectionTitle title="Checked out Books" />
-        <BookSlider books={checkedBooks} className="my-5" />
-        <SectionTitle title="Currently lent out Books" />
-        <BookSlider books={checkedBooks} className="my-5" />
+        <SectionTitle title="What you're borrowing" />
+        <ResponsiveSlider>{checkedBooks.map((book)=> (<UserCardSm bookData={book}/>))}</ResponsiveSlider>
+        <SectionTitle title="What they're borrowing" />
+        <ResponsiveSlider>{checkedBooks.map((book)=> (<UserCardSm bookData={book}/>))}</ResponsiveSlider>
       </Container>
     </div>
   );
