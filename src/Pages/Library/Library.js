@@ -21,8 +21,7 @@ const Library = () => {
   const checkedOutState = useState(12);
   const loadingInSection = useState(false);
   const loadingOutSection = useState(false);
-
-  console.log("error", error);
+ 
 
   useEffect(() => {
     if (fetchStatus === condition.IDLE) {
@@ -55,7 +54,7 @@ const Library = () => {
   };
 
   const mapCheckedInBooks = ({ book, status }, i) => {
-    console.log("bookdata", book);
+  
     const { coverImg, title } = book;
 
     return (

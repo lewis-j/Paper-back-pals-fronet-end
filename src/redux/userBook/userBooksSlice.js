@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as userBookService from "../../network/userBookCalls";
+import * as userBookService from "../../network/userBooks/userBookCalls";
 import * as status from "../status";
 
 export const fetchBooks = createAsyncThunk(
@@ -21,7 +21,12 @@ export const userBooksSlice = createSlice({
     status: status.IDLE,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setBook: (state, {payload})=> {
+      console.log("payload", payload, "state", state);
+      state.books.owned.push(payload); 
+    }
+  },
   extraReducers: {
     [fetchBooks.pending]: (state) => {
       state.status = status.LOADING;
@@ -50,5 +55,7 @@ export const userBooksSlice = createSlice({
     },
   },
 });
+
+export const { setBook } = userBooksSlice.actions; 
 
 export default userBooksSlice.reducer;

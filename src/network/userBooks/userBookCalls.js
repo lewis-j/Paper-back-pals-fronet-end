@@ -1,8 +1,7 @@
-import { getClient, handleAxiosError } from "./axiosConfig";
-import { fetchBooks as getBooks } from "../redux/userBook/userBooksSlice";
+import { getClient, handleAxiosError } from "../axiosConfig";
+import { setBook } from "../../redux/userBook/userBooksSlice";
 
 const apiClient = getClient();
-
 export const fetchBooks = async ({ id }) => {
   try {
     const response = await apiClient.get(`/user-books/${id}`);
@@ -16,7 +15,7 @@ export const fetchBooks = async ({ id }) => {
 export const addBook = async ({ id, bookDto }, { dispatch }) => {
   const { google_id, coverImg, title, authors, description } = bookDto;
   try {
-    await apiClient.post(`/user-books/${id}`, {
+    const { data: _id} = await apiClient.post(`/user-books/${id}`, {
       google_id,
       coverImg,
       title,
@@ -24,7 +23,7 @@ export const addBook = async ({ id, bookDto }, { dispatch }) => {
       description,
     });
 
-    dispatch(getBooks({ id }));
+    dispatch(setBook( {book:{...bookDto},status: "CHECKED_IN", _id, owner:id } ));
   } catch (error) {
     return Promise.reject(error);
   }

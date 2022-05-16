@@ -1,7 +1,8 @@
-import * as userApi from "../../network/userApi";
-import * as firebaseApi from "../../network/firebase";
+import * as userApi from "./userApi";
+import * as firebaseApi from "./firebase";
+import { updateCurrentRead as updateReduxCurrentRead } from "../../redux/user/userSlice";
 import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
-import { setToken } from "../../network/axiosConfig.js";
+import { setToken } from "../axiosConfig.js";
 
 const fetchUser = () => {
   return firebaseApi.observeUser(
@@ -29,6 +30,18 @@ const loginWithGoogle = async () => {
   }
 };
 
+const updateCurrentRead = async ({userBook_id, userBook}, { getState, dispatch }) => {
+  try {
+    const user = getState().user.currentUser; 
+    const updateUserDto = {...user, currentRead: userBook_id};
+      await userApi.updateOneUser(updateUserDto);
+      dispatch(updateReduxCurrentRead(userBook));
+    
+  }catch(error){
+    return Promise.reject(error);
+  }
+}
+
 const loginWithForm = async ({ email, password }) => {
   try {
     const res = await firebaseApi.loginWithForm(email, password);
@@ -44,7 +57,7 @@ const registerUser = async ({ username, email, password }) => {
   return userApi.createNewUser(res.user.accessToken, {
     username,
     profilePicture: getDefaultUserImg(username),
-  });
+  });null
 };
 
 const logout = async () => {
@@ -52,4 +65,4 @@ const logout = async () => {
   return await firebaseApi.logout();
 };
 
-export { fetchUser, loginWithGoogle, loginWithForm, registerUser, logout };
+export { fetchUser, updateCurrentRead, loginWithGoogle, loginWithForm, registerUser, logout };

@@ -1,4 +1,4 @@
-import { getClient } from "./axiosConfig";
+import { getClient } from "../axiosConfig";
 
 const apiClient = getClient();
 
@@ -27,13 +27,13 @@ export const getOneUser = async () => {
   }
 };
 
-export const updateOneUser = async (accessToken, updatedUserData) => {
+export const updateOneUser = async ( updatedUserData) => {
   try {
     const res = await apiClient.put(`/users`, { ...updatedUserData });
     if (res.data.errors) {
       throw new Error("Errors getting user data");
     }
-    return { user: { ...res.data, accessToken } };
+    return { user: { ...res.data } };
   } catch (err) {
     return Promise.reject(err);
   }

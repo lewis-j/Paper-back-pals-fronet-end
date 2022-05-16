@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as asyncActions from "./userAsyncActions";
-import * as firebase from "../../network/firebase";
+import * as asyncActions from "../../network/user/userAsyncActions";
 import * as status from "../status";
 
 const rejectionReducer = (state, action) => {
@@ -20,6 +19,10 @@ const fulfilledReducer = (state, { payload: { user } }) => {
   state.error = null;
   state.currentUser = user;
 };
+
+export const updateCurrentRead = createAsyncThunk( "user/setCurrentRead",
+asyncActions.updateCurrentRead
+)
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
@@ -46,11 +49,12 @@ export const logout = createAsyncThunk("user/logout", asyncActions.logout);
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    currentUser: null,
+    currentUser: { currentRead: null},
     status: status.IDLE,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCurrentRead: (state, {payload})=> {state.currentUser.currentRead = payload} },
   extraReducers: {
     [registerUser.pending]: pendingReducer,
     [registerUser.rejected]: rejectionReducer,
@@ -72,6 +76,6 @@ export const userSlice = createSlice({
   },
 });
 
-// export const { resetStatus } = userSlice.actions;
+ export const { setCurrentRead } = userSlice.actions;
 
 export default userSlice.reducer;
