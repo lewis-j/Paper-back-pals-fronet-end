@@ -11,10 +11,11 @@ import * as condition from "../../redux/status";
 const Library = () => {
   const dispatch = useDispatch();
   const {
-    books,
+    books: { borrowed, owned: books },
     status: fetchStatus,
     error,
   } = useSelector((state) => state.userBooks);
+  const { _id: id } = useSelector((state) => state.user.currentUser);
 
   const checkedInState = useState(12);
   const checkedOutState = useState(12);
@@ -25,7 +26,7 @@ const Library = () => {
 
   useEffect(() => {
     if (fetchStatus === condition.IDLE) {
-      dispatch(fetchBooks());
+      dispatch(fetchBooks({ id }));
     }
   }, [dispatch, fetchStatus]);
 
@@ -53,8 +54,9 @@ const Library = () => {
     );
   };
 
-  const mapCheckedInBooks = (bookData, i) => {
-    const { coverImg, title, status } = bookData;
+  const mapCheckedInBooks = ({ book, status }, i) => {
+    console.log("bookdata", book);
+    const { coverImg, title } = book;
 
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={i}>

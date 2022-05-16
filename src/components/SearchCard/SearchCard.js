@@ -3,7 +3,8 @@ import { Col, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser, faImage } from "@fortawesome/free-solid-svg-icons";
 
-const SearchCard = ({ cardData: { id, title, author, thumbnail } }) => {
+const SearchCard = ({ cardData, addBook }) => {
+  const { title, author, thumbnail } = cardData;
   return (
     <Col xs="12" sm="6" md="4" xl="3">
       <div className="box">
@@ -27,7 +28,7 @@ const SearchCard = ({ cardData: { id, title, author, thumbnail } }) => {
               color="secondary"
               className="rounded-circle"
               onClick={() => {
-                // dispatch(addBook(bookInfo));
+                addBook();
               }}
             >
               <FontAwesomeIcon icon={faPlus} />

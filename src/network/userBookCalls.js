@@ -1,21 +1,31 @@
-import axios from "axios";
+import { getClient, handleAxiosError } from "./axiosConfig";
+import { fetchBooks as getBooks } from "../redux/userBook/userBooksSlice";
 
-const handleAxiosError = (error) => {
-  if (error.response)
-    return `Error in response: status:${error.response.status} headers: ${error.response.headers} data:${error.response.data}`;
-  if (error.request) return `Error in request: ${error.request}`;
+const apiClient = getClient();
 
-  return `Error ${error.message} ${error.config}`;
-};
-
-export const fetchBooks = async (id) => {
+export const fetchBooks = async ({ id }) => {
   try {
-    const response = await axios.get(
-      process.env.REACT_APP_NEST_URI + "/user-books"
-    );
+    const response = await apiClient.get(`/user-books/${id}`);
     return response.data;
   } catch (error) {
     const errorMsg = handleAxiosError(error);
     return Promise.reject(errorMsg);
+  }
+};
+
+export const addBook = async ({ id, bookDto }, { dispatch }) => {
+  const { google_id, coverImg, title, authors, description } = bookDto;
+  try {
+    await apiClient.post(`/user-books/${id}`, {
+      google_id,
+      coverImg,
+      title,
+      authors,
+      description,
+    });
+
+    dispatch(getBooks({ id }));
+  } catch (error) {
+    return Promise.reject(error);
   }
 };

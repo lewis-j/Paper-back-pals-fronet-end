@@ -93,7 +93,7 @@ export default function Signup() {
               />
             </FormGroup>
             <FormGroup id="password-confirm">
-              <Label>Password Confrimation</Label>
+              <Label>Password Confirmation</Label>
               <Input
                 type="password"
                 value={confirmPassword}

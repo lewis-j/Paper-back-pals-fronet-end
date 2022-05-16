@@ -7,35 +7,48 @@ export const fetchBooks = createAsyncThunk(
   userBookService.fetchBooks
 );
 
+export const addBook = createAsyncThunk(
+  "userBooks/addBooks",
+  userBookService.addBook
+);
 export const userBooksSlice = createSlice({
   name: "userBooks",
   initialState: {
-    books: [],
+    books: {
+      borrowed: [],
+      owned: [],
+    },
     status: status.IDLE,
     error: null,
   },
-  reducers: {
-    addBook: (state, action) => {
-      state.books.push(action.payload);
-    },
-  },
+  reducers: {},
   extraReducers: {
     [fetchBooks.pending]: (state) => {
       state.status = status.LOADING;
     },
-    [fetchBooks.fulfilled]: (state, action) => {
-      console.log("action ", action);
+    [fetchBooks.fulfilled]: (state, { payload }) => {
+      console.log("action ", payload);
       state.status = status.SUCCEEDED;
-      state.books = action.payload;
+      state.books = payload;
     },
     [fetchBooks.rejected]: (state, action) => {
       state.status = status.FAILED;
       state.error = action.error.message;
       console.error(action.error.message);
     },
+    [addBook.pending]: (state) => {
+      state.status = status.LOADING;
+    },
+    [addBook.fulfilled]: (state, action) => {
+      console.log("action ", action);
+      state.status = status.SUCCEEDED;
+    },
+    [addBook.rejected]: (state, action) => {
+      state.status = status.FAILED;
+      state.error = action.error.message;
+      console.error(action.error.message);
+    },
   },
 });
-
-export const { addBook } = userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

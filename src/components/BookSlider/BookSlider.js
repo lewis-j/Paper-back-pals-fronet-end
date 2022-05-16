@@ -9,8 +9,6 @@ import {
 import "./BookSlider.scss";
 
 const NextArrow = ({ className, style, onClick }) => {
-  console.log("classname in slider arrow", className);
-
   return (
     <div className="slick-next BookSlider__arrow" onClick={onClick}>
       <FontAwesomeIcon icon={faChevronRight} />
@@ -19,8 +17,6 @@ const NextArrow = ({ className, style, onClick }) => {
 };
 
 const PrevArrow = ({ className, style, onClick }) => {
-  console.log("classname in slider arrow", className);
-
   return (
     <div className="slick-prev BookSlider__arrow" onClick={onClick}>
       <FontAwesomeIcon icon={faChevronLeft} />

@@ -1,14 +1,26 @@
 import * as userApi from "../../network/userApi";
 import * as firebaseApi from "../../network/firebase";
 import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
+import { setToken } from "../../network/axiosConfig.js";
+
+const fetchUser = () => {
+  return firebaseApi.observeUser(
+    async (token) => {
+      setToken(token);
+      return await userApi.getOneUser();
+    },
+    () => {
+      setToken(null);
+    }
+  );
+};
 
 const loginWithGoogle = async () => {
   try {
     const res = await firebaseApi.loginGoogle();
-    console.log("response in google", res);
     const { displayName: username, photoURL: profilePicture } = res.user;
-
-    return userApi.createNewUser(res.user.accessToken, {
+    setToken(res.user.accessToken);
+    return userApi.createNewUser({
       username,
       profilePicture,
     });
@@ -20,7 +32,8 @@ const loginWithGoogle = async () => {
 const loginWithForm = async ({ email, password }) => {
   try {
     const res = await firebaseApi.loginWithForm(email, password);
-    return userApi.getOneUser(res.user.accessToken);
+    setToken(res.user.accessToken);
+    return userApi.getOneUser();
   } catch (err) {
     return Promise.reject(err);
   }
@@ -35,7 +48,8 @@ const registerUser = async ({ username, email, password }) => {
 };
 
 const logout = async () => {
+  setToken(null);
   return await firebaseApi.logout();
 };
 
-export { loginWithGoogle, loginWithForm, registerUser, logout };
+export { fetchUser, loginWithGoogle, loginWithForm, registerUser, logout };

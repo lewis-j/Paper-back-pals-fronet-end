@@ -1,33 +1,27 @@
-import axios from "axios";
+import { getClient } from "./axiosConfig";
 
-export const createNewUser = async (accessToken, userData) => {
-  console.log("access token in createNewUser::", accessToken);
+const apiClient = getClient();
+
+export const createNewUser = async (userData) => {
   try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_NEST_URI}/users`,
-      { ...userData },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    const res = await apiClient.post(`/users`, { ...userData });
     if (res.data.errors) {
       throw new Error("Errors getting user data");
     }
-    return { user: { ...res.data, accessToken } };
+    return { ...res.data };
   } catch (err) {
     return Promise.reject(err);
   }
 };
 
-export const getOneUser = async (accessToken) => {
+export const getOneUser = async () => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_NEST_URI}/users`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const res = await apiClient.get(`/users`);
     if (res.data.errors) {
       throw new Error("Errors getting user data");
     }
-    return { user: { ...res.data, accessToken } };
+    console.log(res.data);
+    return { ...res.data };
   } catch (err) {
     return Promise.reject(err);
   }
@@ -35,13 +29,7 @@ export const getOneUser = async (accessToken) => {
 
 export const updateOneUser = async (accessToken, updatedUserData) => {
   try {
-    const res = await axios.put(
-      `${process.env.REACT_APP_NEST_URI}/users`,
-      { ...updatedUserData },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    const res = await apiClient.put(`/users`, { ...updatedUserData });
     if (res.data.errors) {
       throw new Error("Errors getting user data");
     }

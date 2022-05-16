@@ -27,7 +27,7 @@
     //Photo by <a href="https://unsplash.com/@ninjason?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jason Leung</a> on <a href="https://unsplash.com/s/photos/books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
     //https://ishadeed.com/article/clip-path/#multiple-angled-effects
     $clip-angle: 5em;
-    $clip-height: 1em;
+    $clip-height: 1.5em;
     $div-height: calc(#{$clip-angle} + #{$clip-height});
     background: url("../../Assets/imgs/home_background.jpg");
     background-repeat: no-repeat;
@@ -106,6 +106,7 @@
     }
     p {
       width: 70%;
+      max-width: 50em;
     }
   }
 }

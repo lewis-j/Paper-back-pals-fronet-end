@@ -36,19 +36,21 @@ const firebaseParseErrorMsg = (err, defualtMsg) => {
   return message;
 };
 
-const fetchUser = () => {
+const observeUser = (userExist, noUser) => {
   return new Promise((resolve, reject) => {
     try {
-      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        if (currentUser) {
-          // localStorage.setItem("isAuthenticated", true);
-          resolve(userServices.getOneUser(currentUser.accessToken));
-        } else {
-          // localStorage.setItem("isAuthenticated", false);
-          resolve({ user: null });
-        }
-        unsubscribe();
-      });
+      const unsubscribe = async () =>
+        onAuthStateChanged(auth, (currentUser) => {
+          if (currentUser) {
+            userExist(currentUser.accessToken).then((user) => {
+              resolve({ user });
+            });
+          } else {
+            noUser();
+            resolve({ user: null });
+          }
+        });
+      unsubscribe();
     } catch (error) {
       reject(error);
     }
@@ -120,7 +122,7 @@ const setNewPsw = async (user, password) => {
 
 export {
   auth,
-  fetchUser,
+  observeUser,
   loginGoogle,
   loginWithForm,
   registerWithEmailAndPassword,

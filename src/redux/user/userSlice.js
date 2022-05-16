@@ -21,7 +21,10 @@ const fulfilledReducer = (state, { payload: { user } }) => {
   state.currentUser = user;
 };
 
-export const fetchUser = createAsyncThunk("user/fetchUser", firebase.fetchUser);
+export const fetchUser = createAsyncThunk(
+  "user/fetchUser",
+  asyncActions.fetchUser
+);
 
 export const registerUser = createAsyncThunk(
   "user/createUser",

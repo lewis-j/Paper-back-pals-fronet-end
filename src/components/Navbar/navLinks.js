@@ -55,12 +55,10 @@ export const Settings = ({ className }) => (
 export const Logout = ({ className }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log("classname", className);
   let linkClass = `${className} NavLinks`;
   return (
     <div
       className={linkClass}
-      // to="landing-page"
       onClick={async () => {
         await dispatch(logout()).unwrap();
         navigate("/landing-page");

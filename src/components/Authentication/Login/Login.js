@@ -43,7 +43,6 @@ export default function Login() {
 
   useEffect(() => {
     if (loading) {
-      console.log("loading some stuff");
       // return;
     }
     if (user) {
