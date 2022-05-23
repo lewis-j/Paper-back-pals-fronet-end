@@ -30,17 +30,19 @@ const loginWithGoogle = async () => {
   }
 };
 
-const updateCurrentRead = async ({userBook_id, userBook}, { getState, dispatch }) => {
+const updateCurrentRead = async (
+  { userBook_id, userBook },
+  { getState, dispatch }
+) => {
   try {
-    const user = getState().user.currentUser; 
-    const updateUserDto = {...user, currentRead: userBook_id};
-      await userApi.updateOneUser(updateUserDto);
-      dispatch(updateReduxCurrentRead(userBook));
-    
-  }catch(error){
+    const user = getState().user.currentUser;
+    const updateUserDto = { ...user, currentRead: userBook_id };
+    await userApi.updateOneUser(updateUserDto);
+    dispatch(updateReduxCurrentRead(userBook));
+  } catch (error) {
     return Promise.reject(error);
   }
-}
+};
 
 const loginWithForm = async ({ email, password }) => {
   try {
@@ -57,7 +59,7 @@ const registerUser = async ({ username, email, password }) => {
   return userApi.createNewUser(res.user.accessToken, {
     username,
     profilePicture: getDefaultUserImg(username),
-  });null
+  });
 };
 
 const logout = async () => {
@@ -65,4 +67,11 @@ const logout = async () => {
   return await firebaseApi.logout();
 };
 
-export { fetchUser, updateCurrentRead, loginWithGoogle, loginWithForm, registerUser, logout };
+export {
+  fetchUser,
+  updateCurrentRead,
+  loginWithGoogle,
+  loginWithForm,
+  registerUser,
+  logout,
+};
