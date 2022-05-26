@@ -27,10 +27,7 @@ export const updateCurrentRead = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  // asyncActions.fetchUser
-  () => {
-    return { user: null };
-  }
+  asyncActions.fetchUser
 );
 
 export const registerUser = createAsyncThunk(

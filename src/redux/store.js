@@ -8,5 +8,5 @@ export const store = configureStore({
     userBooks: userBooksReducer,
     user: userSlice,
   },
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

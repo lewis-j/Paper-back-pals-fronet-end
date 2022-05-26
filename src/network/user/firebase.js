@@ -10,6 +10,7 @@ import {
   signOut,
   updateEmail,
   updatePassword,
+  updateProfile,
   onAuthStateChanged,
 } from "firebase/auth";
 
@@ -120,12 +121,26 @@ const setNewPsw = async (user, password) => {
   }
 };
 
+const setUsernameAndPictire = async (user, username, pic) => {
+  try {
+    const res = await updateProfile(user, {
+      displayName: username,
+      photoURL: pic,
+    });
+    console.log("updateprofile response", res);
+    return res;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
 export {
   auth,
   observeUser,
   loginGoogle,
   loginWithForm,
   registerWithEmailAndPassword,
+  setUsernameAndPictire,
   sendPasswordReset,
   setNewEmail,
   setNewPsw,
