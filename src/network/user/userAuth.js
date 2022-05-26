@@ -2,29 +2,36 @@ import * as userApi from "./userApi";
 import * as firebaseApi from "./firebase";
 import { updateCurrentRead as updateReduxCurrentRead } from "../../redux/user/userSlice";
 import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
-import { setToken } from "../axiosConfig.js";
+import * as authApi from "./authApi";
+import * as axios from "../axiosConfig.js";
 
-const fetchUser = () => {
-  return firebaseApi.observeUser(
-    async (token) => {
-      setToken(token);
-      return await userApi.getOneUser();
-    },
-    () => {
-      setToken(null);
-    }
-  );
-};
+// const fetchUser = () => {
+//   console.log("fetching user");
+//   return firebaseApi.observeUser(
+//     async (token) => {
+//       setToken(token);
+//       return await userApi.getOneUser();
+//     },
+//     () => {
+//       setToken(null);
+//     }
+//   );
+// };
 
 const loginWithGoogle = async () => {
   try {
     const res = await firebaseApi.loginGoogle();
-    const { displayName: username, photoURL: profilePicture } = res.user;
-    setToken(res.user.accessToken);
-    return userApi.createNewUser({
-      username,
-      profilePicture,
-    });
+    // console.log("firebase response", res);
+    // const { displayName: username, photoURL: profilePicture } = res.user;
+    const token = await res?.user?.getIdToken();
+    const user = await authApi.postIdTokenToLogin(token);
+    const test = await axios.getClient().post("authentication/test");
+    console.log("test", test, "user", user);
+
+    // return userApi.createNewUser({
+    //   username,
+    //   profilePicture,
+    // });
   } catch (err) {
     return Promise.reject(err);
   }
@@ -47,7 +54,7 @@ const updateCurrentRead = async (
 const loginWithForm = async ({ email, password }) => {
   try {
     const res = await firebaseApi.loginWithForm(email, password);
-    setToken(res.user.accessToken);
+    console.log("login with form");
     return userApi.getOneUser();
   } catch (err) {
     return Promise.reject(err);
@@ -63,12 +70,11 @@ const registerUser = async ({ username, email, password }) => {
 };
 
 const logout = async () => {
-  setToken(null);
+  // axios.setToken(null);
   return await firebaseApi.logout();
 };
 
 export {
-  fetchUser,
   updateCurrentRead,
   loginWithGoogle,
   loginWithForm,

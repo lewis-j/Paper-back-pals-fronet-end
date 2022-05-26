@@ -10,7 +10,7 @@ import "firebase/auth";
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_APP_ID,
   });
-
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
 const auth = firebase.auth();
 
 // Helper method for initial load of site

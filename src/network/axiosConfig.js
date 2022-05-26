@@ -2,18 +2,22 @@ import axios from "axios";
 
 let nestApi = axios.create({
   baseURL: process.env.REACT_APP_NEST_URI,
+  withCredentials: true,
 });
 
 export const getClient = () => {
   return nestApi;
 };
 
-export const setToken = (_token) => {
-  nestApi.interceptors.request.use((config) => {
-    const token = _token || null;
-    config.headers.Authorization = token ? `Bearer ${token}` : "";
-    return config;
-  });
+// export const setAuthToken = (_token) => {
+//   const token = _token || null;
+
+//   nestApi.defaults.headers["Authorization"] = token ? `Bearer ${token}` : "";
+// };
+
+export const setcsrfToken = (_token) => {
+  console.log("setting token", _token);
+  nestApi.defaults.headers["XSRF-TOKEN"] = _token ? `${_token}` : "";
 };
 
 export const handleAxiosError = (error) => {

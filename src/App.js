@@ -27,6 +27,7 @@ function App() {
 
   useEffect(() => {
     if (userStatus === condition.IDLE) {
+      console.log("running fetch user");
       dispatch(fetchUser());
     }
   }, [userStatus, dispatch]);

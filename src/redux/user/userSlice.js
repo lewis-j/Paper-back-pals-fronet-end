@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as asyncActions from "../../network/user/userAsyncActions";
+import * as asyncActions from "../../network/user/userAuth";
 import * as status from "../status";
 
 const rejectionReducer = (state, action) => {
@@ -27,7 +27,10 @@ export const updateCurrentRead = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  asyncActions.fetchUser
+  // asyncActions.fetchUser
+  () => {
+    return { user: null };
+  }
 );
 
 export const registerUser = createAsyncThunk(
