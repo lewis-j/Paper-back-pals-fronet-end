@@ -8,6 +8,7 @@ const fetchUser = async () => {
   try {
     await authApi.enableCsrfProtection();
     const user = await authApi.authUserFetch();
+    console.log("user in fetch:::", user);
     return { user };
   } catch (error) {
     return Promise.reject(error);
@@ -44,8 +45,10 @@ const updateCurrentRead = async (
 const loginWithForm = async ({ email, password }) => {
   try {
     const res = await firebaseApi.loginWithForm(email, password);
+    const token = await res?.user?.getIdToken();
     console.log("login with form");
-    return userApi.getOneUser();
+    const user = await authApi.login(token);
+    return { user };
   } catch (err) {
     return Promise.reject(err);
   }
@@ -61,7 +64,8 @@ const registerUser = async ({ username, email, password }) => {
   );
   console.log("updated user profile", result);
   const token = await res?.user?.getIdToken(true);
-  return authApi.authUserRegister(token);
+  const user = authApi.authUserRegister(token);
+  return { user };
 };
 
 const logout = async () => {
