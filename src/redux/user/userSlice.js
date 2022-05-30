@@ -70,7 +70,9 @@ export const userSlice = createSlice({
     [loginWithForm.rejected]: rejectionReducer,
     [loginWithForm.fulfilled]: fulfilledReducer,
     [fetchUser.pending]: pendingReducer,
-    [fetchUser.rejected]: rejectionReducer,
+    [fetchUser.rejected]: (state) => {
+      state.status = status.FAILED;
+    },
     [fetchUser.fulfilled]: fulfilledReducer,
     [logout.pending]: pendingReducer,
     [logout.fulfilled]: (state) => {

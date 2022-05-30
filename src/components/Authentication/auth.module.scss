@@ -1,0 +1,13 @@
+@import "../../style/variables.scss";
+
+.container {
+  background-color: #0a0a0abf;
+  color: $dark-background-font-color;
+  a {
+    color: #bcd7ff;
+  }
+
+  .button {
+    border-radius: 50%;
+  }
+}

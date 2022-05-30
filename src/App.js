@@ -25,12 +25,14 @@ function App() {
   const userStatus = useSelector((state) => state.user.status);
   const user = useSelector((state) => state.user);
 
+  console.log("running app");
+
   useEffect(() => {
     if (userStatus === condition.IDLE) {
       console.log("running fetch user");
       dispatch(fetchUser());
     }
-  }, [userStatus, dispatch]);
+  }, []);
 
   const fetchBooks = async (query, startIndex = 0) => {
     setSearchQueryTitle(query);

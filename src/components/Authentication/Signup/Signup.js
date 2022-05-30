@@ -22,7 +22,6 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [customError, setCustomError] = useState("");
-  // const [user, loading, error] = useAuthState(auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,16 +33,6 @@ export default function Signup() {
   } = useSelector((state) => state.user);
 
   const loading = status === condition.LOADING;
-
-  useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
-    }
-    if (user) {
-      navigate("/");
-    }
-  }, [user, loading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

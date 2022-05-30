@@ -11,10 +11,7 @@ import {
   updateEmail,
   updatePassword,
   updateProfile,
-  onAuthStateChanged,
 } from "firebase/auth";
-
-import * as userServices from "./userApi";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -37,26 +34,26 @@ const firebaseParseErrorMsg = (err, defualtMsg) => {
   return message;
 };
 
-const observeUser = (userExist, noUser) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const unsubscribe = async () =>
-        onAuthStateChanged(auth, (currentUser) => {
-          if (currentUser) {
-            userExist(currentUser.accessToken).then((user) => {
-              resolve({ user });
-            });
-          } else {
-            noUser();
-            resolve({ user: null });
-          }
-        });
-      unsubscribe();
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
+// const observeUser = (userExist, noUser) => {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       const unsubscribe = async () =>
+//         onAuthStateChanged(auth, (currentUser) => {
+//           if (currentUser) {
+//             userExist(currentUser.accessToken).then((user) => {
+//               resolve({ user });
+//             });
+//           } else {
+//             noUser();
+//             resolve({ user: null });
+//           }
+//         });
+//       unsubscribe();
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
+// };
 
 const loginGoogle = async () => {
   try {
@@ -105,8 +102,7 @@ const logout = async () => {
 
 const setNewEmail = async (user, email) => {
   try {
-    const res = await updateEmail(user, email);
-    return userServices.updateOneUser(res.user.accessToken);
+    return await updateEmail(user, email);
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -136,7 +132,7 @@ const setUsernameAndPictire = async (user, username, pic) => {
 
 export {
   auth,
-  observeUser,
+  // observeUser,
   loginGoogle,
   loginWithForm,
   registerWithEmailAndPassword,

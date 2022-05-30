@@ -10,44 +10,49 @@ const setAuthHeader = (token) => {
   return { headers: { Authorization: `Bearer ${token}` } };
 };
 
-const withAuthPath = createRefPath("authentication");
+const withSubDir = createRefPath("authentication");
 
-export const googleAuth = async (_token) => {
+export const googleAuth = async (idToken) => {
   try {
     const res = await client.post(
-      withAuthPath("google"),
+      withSubDir("google"),
       {},
-      setAuthHeader(_token)
+      setAuthHeader(idToken)
     );
     const user = res.data;
     return user;
   } catch (error) {
-    Promise.reject(error);
+    console.log("error", error);
+    return Promise.reject(error);
   }
 };
 
-export const login = async (_token) => {
+export const authUserLogin = async (idToken) => {
   try {
     const res = await client.post(
-      withAuthPath("login"),
+      withSubDir("login"),
       {},
-      setAuthHeader(_token)
-    );
-    const user = res.data;
-    return user;
-  } catch (error) {}
-};
-
-export const authUserRegister = async (_token) => {
-  try {
-    const res = await client.post(
-      withAuthPath("register"),
-      {},
-      setAuthHeader(_token)
+      setAuthHeader(idToken)
     );
     const user = res.data;
     return user;
   } catch (error) {
+    console.log("error", error);
+    return Promise.reject(error);
+  }
+};
+
+export const authUserRegister = async (freshIdToken) => {
+  try {
+    const res = await client.post(
+      withSubDir("register"),
+      {},
+      setAuthHeader(freshIdToken)
+    );
+    const user = res.data;
+    return user;
+  } catch (error) {
+    console.log("error", error);
     return Promise.reject(error);
   }
 };
@@ -55,27 +60,40 @@ export const authUserRegister = async (_token) => {
 export const authUserFetch = async () => {
   try {
     const res = await client.get("authentication");
-    console.log("response in authuserfetch", res);
     const user = res.data;
     return user;
   } catch (error) {
-    Promise.reject(error);
+    if (error.response.status === 401) error.message = "Please login again";
+    return Promise.reject(error);
+  }
+};
+
+export const authUserUpdate = async (updatedUser) => {
+  try {
+    const res = await client.update("authentication", updatedUser);
+    const user = res.data;
+    return user;
+  } catch (error) {
+    console.log("error", error);
+    return Promise.reject(error);
   }
 };
 
 export const enableCsrfProtection = async () => {
   try {
-    const res = await client.get(withAuthPath("token"));
+    const res = await client.get(withSubDir("token"));
     axios.setcsrfToken(res.data.csrfToken);
   } catch (error) {
-    Promise.reject(error);
+    console.log("error", error);
+    return Promise.reject(error);
   }
 };
 
 export const logout = async () => {
   try {
-    return await client.delete(withAuthPath("logout"));
+    return await client.delete(withSubDir("logout"));
   } catch (error) {
+    console.log("error", error);
     return Promise.reject(error);
   }
 };
