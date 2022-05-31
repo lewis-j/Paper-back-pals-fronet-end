@@ -72,6 +72,8 @@ export const userSlice = createSlice({
     [fetchUser.pending]: pendingReducer,
     [fetchUser.rejected]: (state) => {
       state.status = status.FAILED;
+
+      
     },
     [fetchUser.fulfilled]: fulfilledReducer,
     [logout.pending]: pendingReducer,

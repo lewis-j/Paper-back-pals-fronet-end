@@ -15,9 +15,9 @@ import "../authentication.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import * as condition from "../../../redux/status";
-import auth from "../auth.module.scss";
+import authStyle from "../auth.module.scss";
 import ErrorMsg from "../ErrorMsg/ErrorMsg";
-import ErrMsg from "../ErrorMsg/ErrorMsg.module.scss";
+import ErrMsgStyle from "../ErrorMsg/ErrorMsg.module.scss";
 
 export default function Login() {
   const [formValues, setFormValues] = useState({
@@ -27,7 +27,7 @@ export default function Login() {
   const [error, setError] = useState({});
   const dispatch = useDispatch();
   const {
-    currentUser,
+    currentUser: user,
     status,
     error: asyncErrors,
   } = useSelector((state) => state.user);
@@ -36,18 +36,23 @@ export default function Login() {
   const loading = status === condition.LOADING;
 
   useEffect(() => {
-    if (currentUser && status === condition.SUCCEEDED) {
+    if (user && status === condition.SUCCEEDED) {
       navigate("/");
     }
-  }, [status, currentUser, navigate]);
+  }, [status, user, navigate]);
 
   const handleSubmit = async (e) => {
     setError(() => ({}));
     e.preventDefault();
     const error = {};
-    if (!formValues.email) error.email = "Email is required!";
-    if (!formValues.password) error.password = "Password is required!";
-    if (Object.keys(error).length !== 0) return setError(error);
+    if (!formValues.email) {
+      error.email = error.message = "Email is required!";
+      return setError(error);
+    }
+    if (!formValues.password) {
+      error.password = error.message = "password is required!";
+      return setError(error);
+    }
     dispatch(loginWithForm({ email, password }));
   };
 
@@ -60,10 +65,12 @@ export default function Login() {
 
   return (
     <>
-      <Card className={auth.container}>
+      <Card className={authStyle.container}>
         <CardBody>
           <h2 className="text-center my-4">Log In</h2>
-          {asyncErrors && <div className={ErrMsg.msg}>{asyncErrors}</div>}
+          {error.message && (
+            <div className={ErrMsgStyle.msg}>{error.message}</div>
+          )}
           <Form onSubmit={handleSubmit}>
             <FormGroup id="email">
               <ErrorMsg msg={error.email}>

@@ -19,10 +19,10 @@ export const googleAuth = async (idToken) => {
       {},
       setAuthHeader(idToken)
     );
+    console.log("res is 404", res);
     const user = res.data;
     return user;
   } catch (error) {
-    console.log("error", error);
     return Promise.reject(error);
   }
 };

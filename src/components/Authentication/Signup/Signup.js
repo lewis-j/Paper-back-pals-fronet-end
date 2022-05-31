@@ -3,7 +3,6 @@ import {
   Card,
   Form,
   Button,
-  Alert,
   Input,
   Label,
   FormGroup,
@@ -13,86 +12,133 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../../redux/user/userSlice";
 import * as condition from "../../../redux/status";
-// import { useAuthState } from "react-firebase-hooks/auth";
+import authStyle from "../auth.module.scss";
 import "../authentication.scss";
+import ErrorMsg from "../ErrorMsg/ErrorMsg";
+import ErrMsgStyle from "../ErrorMsg/ErrorMsg.module.scss";
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [customError, setCustomError] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState({});
 
   const {
     currentUser: user,
     status,
-    error,
+    error: asyncErrors,
   } = useSelector((state) => state.user);
 
   const loading = status === condition.LOADING;
 
+  useEffect(() => {
+    if (user && status === condition.SUCCEEDED) {
+      navigate("/");
+    }
+  }, [status, user, navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCustomError("");
-    if (password !== confirmPassword) {
-      return setCustomError("Passwords do not match");
+    setError(() => ({}));
+    const error = {};
+    if (!formValues.name) {
+      error.name = error.message = "Username is required!";
+      return setError(error);
     }
+    if (!formValues.email) {
+      error.email = error.message = "Email is required!";
+      return setError(error);
+    }
+    if (!formValues.password) {
+      error.password = error.message = "password is required!";
+      return setError(error);
+    }
+    if (!formValues.confirmPassword) {
+      error.confirmPassword = error.message = "Please confirm your password";
+      return setError(error);
+    }
+    if (password !== confirmPassword) {
+      error.password = error.message = "Passwords must match";
+      return setError(error);
+    }
+
     let trimmedName = name;
     trimmedName = trimmedName.trim().replace(/\s+/g, " ");
 
     dispatch(registerUser({ username: trimmedName, email, password }));
   };
 
+  const handleOnChange = (e) => {
+    setError({});
+    setFormValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const { name, email, password, confirmPassword } = formValues;
+
   return (
     <>
-      <Card className="authentication">
+      <Card className={authStyle.container}>
         <CardBody>
           <h2 className="text-center- mb-4">Sign Up</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {customError && <Alert variant="danger">{customError}</Alert>}
+          {error.message && (
+            <div className={ErrMsgStyle.msg}>{error.message}</div>
+          )}
           <Form onSubmit={handleSubmit}>
             <FormGroup id="name">
-              <Label>Name</Label>
-              <Input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
+              <ErrorMsg msg={error.name}>
+                <Label>Name</Label>
+                <Input
+                  type="text"
+                  value={name}
+                  name="name"
+                  onChange={handleOnChange}
+                />
+              </ErrorMsg>
             </FormGroup>
             <FormGroup id="email">
-              <Label>Email</Label>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <ErrorMsg msg={error.email}>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={handleOnChange}
+                />
+              </ErrorMsg>
             </FormGroup>
             <FormGroup id="password">
-              <Label>Password</Label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <ErrorMsg msg={error.password}>
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={handleOnChange}
+                />
+              </ErrorMsg>
             </FormGroup>
             <FormGroup id="password-confirm">
-              <Label>Password Confirmation</Label>
-              <Input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <ErrorMsg msg={error.confirmPassword}>
+                <Label>Password Confirmation</Label>
+                <Input
+                  type="password"
+                  name="confirmPassword"
+                  value={confirmPassword}
+                  onChange={handleOnChange}
+                />
+              </ErrorMsg>
             </FormGroup>
-            <Button disabled={loading} className="w-100" type="submit">
-              Sign up
-            </Button>
+            {!error.message && (
+              <Button disabled={loading} className="w-100" type="submit">
+                Sign up
+              </Button>
+            )}
           </Form>
         </CardBody>
         <div className="w-100 text-center mt-2">

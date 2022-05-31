@@ -27,10 +27,13 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 const firebaseParseErrorMsg = (err, defualtMsg) => {
+  console.log("err in parser", err);
   let message = null;
   const reg = /(?<=(auth\/)).*(?=\))/;
   message = err.message.match(reg);
   message = message ? message[0].split("-").join(" ") : defualtMsg;
+  message = message[0].toUpperCase() + message.slice(1);
+  console.log("message in parser", message);
   return message;
 };
 
@@ -80,10 +83,12 @@ const registerWithEmailAndPassword = async (email, password) => {
     const user = await createUserWithEmailAndPassword(auth, email, password);
     return user;
   } catch (err) {
-    console.log("error in register form", err);
-    return Promise.reject(
-      firebaseParseErrorMsg(err, "Failed to register new user")
+    const parsedErrMsg = firebaseParseErrorMsg(
+      err,
+      "Failed to register new user"
     );
+    console.log("error in register form", parsedErrMsg);
+    return Promise.reject(parsedErrMsg);
   }
 };
 
@@ -91,8 +96,9 @@ const sendPasswordReset = async (email) => {
   try {
     return await sendPasswordResetEmail(auth, email);
   } catch (err) {
-    console.error(err);
-    alert(err.message);
+    const parsedErrMsg = firebaseParseErrorMsg(err, "Could not send email");
+    console.log("parsed error in send passResetEmail", parsedErrMsg);
+    return Promise.reject(parsedErrMsg);
   }
 };
 
