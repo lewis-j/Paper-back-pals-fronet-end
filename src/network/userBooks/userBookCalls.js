@@ -2,20 +2,21 @@ import { getClient, handleAxiosError } from "../axiosConfig";
 import { setBook } from "../../redux/userBook/userBooksSlice";
 
 const apiClient = getClient();
-export const fetchBooks = async ({ id }) => {
+export const fetchBooks = async () => {
   try {
-    const response = await apiClient.get(`/user-books/${id}`);
-    return response.data;
+    const ownedRes = await apiClient.get(`/user-books/owned`);
+    const borrowedRes = await apiClient.get(`/user-books/borrowed`);
+    return { borrowed: borrowedRes.data, owned: ownedRes.data };
   } catch (error) {
     const errorMsg = handleAxiosError(error);
     return Promise.reject(errorMsg);
   }
 };
 
-export const addBook = async ({ id, bookDto }, { dispatch }) => {
+export const addBook = async ({ bookDto }, { dispatch }) => {
   const { google_id, coverImg, title, authors, description } = bookDto;
   try {
-    const { data: _id} = await apiClient.post(`/user-books/${id}`, {
+    const req = await apiClient.post(`/user-books`, {
       google_id,
       coverImg,
       title,
@@ -23,7 +24,11 @@ export const addBook = async ({ id, bookDto }, { dispatch }) => {
       description,
     });
 
-    dispatch(setBook( {book:{...bookDto},status: "CHECKED_IN", _id, owner:id } ));
+    return req.data;
+
+    // dispatch(
+    //   setBook({ book: { ...bookDto }, status: "CHECKED_IN", _id, owner: id })
+    // );
   } catch (error) {
     return Promise.reject(error);
   }

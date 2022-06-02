@@ -6,3 +6,6 @@ export { MainNav } from "./Navbar";
 export { Placeholder } from "./Placeholders";
 export { PrivateRoute } from "./PrivateRoute";
 export { SearchCard } from "./SearchCard";
+export { ContactList } from "./ContactList";
+export { User } from "./User";
+export { UserBookResults } from "./UserBookResults";

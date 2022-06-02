@@ -12,8 +12,10 @@ import {
   PrivateRoute,
   Footer,
   MainNav,
+  UserBookResults,
 } from "./components";
 import "./style/main.scss";
+import { FriendsPage } from "./Pages/Friends";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -101,6 +103,11 @@ function App() {
               }
             />
             <Route path="library" element={<Library />} />
+            <Route path="friends" element={<FriendsPage />}>
+              <Route path="books: user_id" element={<UserBookResults />} />
+              {/* <Route path="messaging: user_id" element={<UserMessaging />} />
+              <Route path="profile: user_id" element={<UserProfile />}/> */}
+            </Route>
           </Route>
         </Routes>
       </div>

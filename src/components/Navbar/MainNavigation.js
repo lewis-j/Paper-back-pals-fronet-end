@@ -11,7 +11,7 @@ import {
   Input,
   Form,
 } from "reactstrap";
-import UserOffCanvas from "./UserOffCanvas";
+import UserOffCanvas from "./OffCanvasMenu";
 import SearchBar from "./SearchBar";
 import logo from "../../Assets/imgs/pppals_white.png";
 import BottomNav from "./BottomNav";

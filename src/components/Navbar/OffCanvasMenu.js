@@ -12,10 +12,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import * as NavLinks from "./navLinks";
 
-const UserOffCanvas = ({ expandSize }) => {
+const OffCanvasMenu = ({ expandSize }) => {
   const [canvasToggle, setCanvasToggle] = useState(false);
   const userName = "Lewis";
 
+  const clickedLink = () => {
+    setCanvasToggle(false);
+  };
   return (
     <div className={`d-none d-${expandSize}-block ms-2`}>
       <Button
@@ -46,22 +49,22 @@ const UserOffCanvas = ({ expandSize }) => {
         <OffcanvasBody>
           <Nav vertical tabs>
             <NavItem>
-              <NavLinks.Profile />
+              <NavLinks.Profile closeOnClick={clickedLink} />
             </NavItem>
             <NavItem>
-              <NavLinks.Notifications />
+              <NavLinks.Notifications closeOnClick={clickedLink} />
             </NavItem>
             <NavItem>
-              <NavLinks.Friends />
+              <NavLinks.Friends closeOnClick={clickedLink} />
             </NavItem>
             <NavItem>
-              <NavLinks.Messages />
+              <NavLinks.Messages closeOnClick={clickedLink} />
             </NavItem>
             <NavItem>
-              <NavLinks.Settings />
+              <NavLinks.Settings closeOnClick={clickedLink} />
             </NavItem>
             <NavItem>
-              <NavLinks.Logout />
+              <NavLinks.Logout closeOnClick={clickedLink} />
             </NavItem>
           </Nav>
         </OffcanvasBody>
@@ -70,4 +73,4 @@ const UserOffCanvas = ({ expandSize }) => {
   );
 };
 
-export default UserOffCanvas;
+export default OffCanvasMenu;

@@ -7,6 +7,11 @@
     min-height: 100vh;
   }
 }
+
+body {
+  font-family: $paragraph-font;
+}
+
 h6,
 h5,
 h3,
@@ -14,10 +19,4 @@ h2,
 h1 {
   font-family: $heading-font;
   font-weight: 600;
-}
-
-h4,
-p,
-a {
-  font-family: $paragraph-font;
 }

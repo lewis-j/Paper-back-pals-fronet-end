@@ -1,9 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Nixie+One&family=Prompt:wght@200&display=swap");
 //colors
+// $box-border-colors: #d7d7d7;
+// $box-color: #e7f3f5;
+// $app-background: #f3f3f3;
+// $shadow-color: #7c7c7c;
+$grey-1: #eeeeee;
+$grey-2: #dddddd;
+$grey-3: #cccccc;
+$grey-4: #bbbbbb;
+$grey-5: #9a9a9a;
+
 $box-border-colors: #d7d7d7;
 $box-color: #e7f3f5;
 $app-background: #f3f3f3;
-$shadow-color: #7c7c7c;
+$shadow-color: $grey-5;
 //gradient color
 $gradient-color-1: #2e2e2e;
 $gradient-color-2: white;

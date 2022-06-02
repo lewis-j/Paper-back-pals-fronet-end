@@ -21,12 +21,7 @@ export const userBooksSlice = createSlice({
     status: status.IDLE,
     error: null,
   },
-  reducers: {
-    setBook: (state, {payload})=> {
-      console.log("payload", payload, "state", state);
-      state.books.owned.push(payload); 
-    }
-  },
+  reducers: {},
   extraReducers: {
     [fetchBooks.pending]: (state) => {
       state.status = status.LOADING;
@@ -45,8 +40,9 @@ export const userBooksSlice = createSlice({
       state.status = status.LOADING;
     },
     [addBook.fulfilled]: (state, action) => {
-      console.log("action ", action);
+      console.log("action for addbook ", action);
       state.status = status.SUCCEEDED;
+      state.books.owned = [...state.books.owned, action.payload];
     },
     [addBook.rejected]: (state, action) => {
       state.status = status.FAILED;
@@ -56,6 +52,6 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const { setBook } = userBooksSlice.actions; 
+export const { setBook } = userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

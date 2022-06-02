@@ -2,7 +2,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/user/userSlice";
 import "./Navbar-custom.scss";
 import { useDispatch } from "react-redux";
-import { resetStatus } from "../../redux/user/userSlice";
 
 const generateClass = (className) => {
   const _className = `${className} NavLinks`;
@@ -10,45 +9,73 @@ const generateClass = (className) => {
   return ({ isActive }) => (isActive ? activeLink : _className);
 };
 
-export const Home = ({ className }) => {
+export const Home = ({ className, closeOnClick }) => {
   return (
-    <NavLink className={generateClass(className)} to="/">
+    <NavLink className={generateClass(className)} onClick={closeOnClick} to="/">
       Home
     </NavLink>
   );
 };
-export const Borrowed = ({ className }) => (
-  <NavLink className={generateClass(className)} to="borrowed">
+export const Borrowed = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="borrowed"
+  >
     Borrowed
   </NavLink>
 );
-export const Library = ({ className }) => (
-  <NavLink className={generateClass(className)} to="library">
+export const Library = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="library"
+  >
     Library
   </NavLink>
 );
-export const Profile = ({ className }) => (
-  <NavLink className={generateClass(className)} to="profile">
+export const Profile = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="profile"
+  >
     Profile
   </NavLink>
 );
-export const Notifications = ({ className }) => (
-  <NavLink className={generateClass(className)} to="notifications">
+export const Notifications = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="notifications"
+  >
     Notifications
   </NavLink>
 );
-export const Friends = ({ className }) => (
-  <NavLink className={generateClass(className)} to="friends">
+export const Friends = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="friends"
+  >
     Friends
   </NavLink>
 );
-export const Messages = ({ className }) => (
-  <NavLink className={generateClass(className)} to="settings">
+export const Messages = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="settings"
+  >
     Messages
   </NavLink>
 );
-export const Settings = ({ className }) => (
-  <NavLink className={generateClass(className)} to="settings">
+export const Settings = ({ className, closeOnClick }) => (
+  <NavLink
+    className={generateClass(className)}
+    onClick={closeOnClick}
+    to="settings"
+  >
     Settings
   </NavLink>
 );
@@ -61,7 +88,7 @@ export const Logout = ({ className }) => {
       className={linkClass}
       onClick={async () => {
         await dispatch(logout()).unwrap();
-        navigate("/landing-page");
+        // navigate("/landing-page");
       }}
     >
       Logout

@@ -15,17 +15,18 @@ const Library = () => {
     status: fetchStatus,
     error,
   } = useSelector((state) => state.userBooks);
-  const { _id: id } = useSelector((state) => state.user.currentUser);
+
+  console.log("books", books);
 
   const checkedInState = useState(12);
   const checkedOutState = useState(12);
   const loadingInSection = useState(false);
   const loadingOutSection = useState(false);
- 
 
   useEffect(() => {
     if (fetchStatus === condition.IDLE) {
-      dispatch(fetchBooks({ id }));
+      console.log("fetching books");
+      dispatch(fetchBooks());
     }
   }, [dispatch, fetchStatus]);
 
@@ -54,7 +55,6 @@ const Library = () => {
   };
 
   const mapCheckedInBooks = ({ book, status }, i) => {
-  
     const { coverImg, title } = book;
 
     return (
@@ -122,17 +122,6 @@ const Library = () => {
           <h1 className="Library__title">Your Library</h1>
         </div>
         <div>
-          <h4 className="Library__subtitle">Checked Out Books</h4>
-        </div>
-        <Row className="Library__section1">
-          {renderSection(
-            checkedOutBooks,
-            fetchStatus,
-            checkedOutState,
-            loadingOutSection
-          )}
-        </Row>
-        <div>
           <h4 className="Library__subtitle">Checked in Books</h4>
         </div>
         <Row className="Library__section1">
@@ -141,6 +130,17 @@ const Library = () => {
             fetchStatus,
             checkedInState,
             loadingInSection
+          )}
+        </Row>
+        <div>
+          <h4 className="Library__subtitle">Checked Out Books</h4>
+        </div>
+        <Row className="Library__section1">
+          {renderSection(
+            checkedOutBooks,
+            fetchStatus,
+            checkedOutState,
+            loadingOutSection
           )}
         </Row>
       </Container>

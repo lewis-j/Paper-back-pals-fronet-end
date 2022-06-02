@@ -2,6 +2,7 @@ import * as firebaseApi from "./firebase";
 import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
 import { setCurrentRead } from "../../redux/user/userSlice";
 import * as authApi from "./authApi";
+import { setFriends } from "../../redux/friends/friendsSlice";
 
 const fetchUser = async () => {
   try {
@@ -13,13 +14,14 @@ const fetchUser = async () => {
   }
 };
 
-const loginWithGoogle = async () => {
+const loginWithGoogle = async (_, { dispatch }) => {
   try {
-    await authApi.enableCsrfProtection();
     const res = await firebaseApi.loginGoogle();
     const token = await res?.user?.getIdToken();
-    const user = await authApi.googleAuth(token);
-    console.log("user", user);
+    const res_user = await authApi.googleAuth(token);
+
+    const { friends, ...user } = res_user;
+    dispatch(setFriends(friends));
     return { user };
   } catch (err) {
     return Promise.reject(err);
@@ -48,17 +50,14 @@ const loginWithForm = async ({ email, password }) => {
   }
 };
 
-const registerUser = async ({ username, email, password }) => {
+const registerUser = async ({ username, email, password }, { dispatch }) => {
   const res = await firebaseApi.registerWithEmailAndPassword(email, password);
   const defaultPic = getDefaultUserImg(username);
-  const result = await firebaseApi.setUsernameAndPictire(
-    res.user,
-    username,
-    defaultPic
-  );
-  console.log("updated user profile", result);
+  await firebaseApi.setUsernameAndPictire(res.user, username, defaultPic);
   const token = await res?.user?.getIdToken(true);
-  const user = authApi.authUserRegister(token);
+  const authRes = authApi.authUserRegister(token);
+  const { friends, ...user } = authRes;
+  dispatch(setFriends(friends));
   return { user };
 };
 
