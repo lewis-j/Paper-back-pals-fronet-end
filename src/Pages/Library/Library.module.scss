@@ -1,0 +1,21 @@
+@import "../../style/variables.scss";
+
+.title {
+  padding: 1em 0;
+  &__container {
+    border-bottom: 1px solid $box-border-colors;
+  }
+}
+
+.subtitle {
+  padding: 1em 0;
+}
+
+.section1 {
+  margin-bottom: 1em;
+  min-height: 520px;
+  background-color: $grey-2;
+  padding: 1em 0;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px rgb(0 0 0 / 60%);
+}

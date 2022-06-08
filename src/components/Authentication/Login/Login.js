@@ -9,7 +9,7 @@ import {
   Input,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { loginGoogle, loginWithForm } from "../../../redux/user";
+import { loginGoogle, loginWithForm } from "../../../redux/authUser";
 import { useDispatch, useSelector } from "react-redux";
 import "../authentication.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,7 +30,7 @@ export default function Login() {
     currentUser: user,
     status,
     error: asyncErrors,
-  } = useSelector((state) => state.user);
+  } = useSelector((state) => state.authUser);
   const navigate = useNavigate();
 
   const loading = status === condition.LOADING;

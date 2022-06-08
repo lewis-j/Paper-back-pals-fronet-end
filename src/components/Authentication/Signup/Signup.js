@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../../redux/user/userSlice";
+import { registerUser } from "../../../redux/authUser/authUserSlice";
 import * as condition from "../../../redux/status";
 import authStyle from "../auth.module.scss";
 import "../authentication.scss";
@@ -33,7 +33,7 @@ export default function Signup() {
     currentUser: user,
     status,
     error: asyncErrors,
-  } = useSelector((state) => state.user);
+  } = useSelector((state) => state.authUser);
 
   const loading = status === condition.LOADING;
 

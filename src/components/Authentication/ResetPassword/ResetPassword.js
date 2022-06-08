@@ -22,7 +22,7 @@ export default function ResetPassword() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { currentUser: user, status } = useSelector((state) => state.user);
+  const { currentUser: user, status } = useSelector((state) => state.authUser);
 
   useEffect(() => {
     if (loading) return;

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import * as condition from "../../redux/status";
 
 const PrivateRoute = ({ children }) => {
-  const { currentUser, status } = useSelector((state) => state.user);
+  const { currentUser, status } = useSelector((state) => state.authUser);
 
   console.log("status in private route", status);
 
