@@ -1,6 +1,6 @@
 import * as firebaseApi from "./firebase";
 import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
-import { setCurrentRead } from "../../redux/user/userSlice";
+// import { setCurrentRead } from "../../redux/authUser/authUserSlice";
 import * as authApi from "./authApi";
 import { setFriends } from "../../redux/friends/friendsSlice";
 
@@ -28,16 +28,16 @@ const loginWithGoogle = async (_, { dispatch }) => {
   }
 };
 
-const updateCurrentRead = async ({ userBook }, { getState, dispatch }) => {
-  try {
-    const user = getState().user.currentUser;
-    const updateUserDto = { ...user, currentRead: userBook._id };
-    await authApi.authUserUpdate(updateUserDto);
-    dispatch(setCurrentRead(userBook));
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+// const updateCurrentRead = async ({ userBook }, { getState, dispatch }) => {
+//   try {
+//     const user = getState().user.currentUser;
+//     const updateUserDto = { ...user, currentRead: userBook._id };
+//     await authApi.authUserUpdate(updateUserDto);
+//     dispatch(setCurrentRead(userBook));
+//   } catch (error) {
+//     return Promise.reject(error);
+//   }
+// };
 
 const loginWithForm = async ({ email, password }) => {
   try {
@@ -68,7 +68,7 @@ const logout = async () => {
 
 export {
   fetchUser,
-  updateCurrentRead,
+  // updateCurrentRead,
   loginWithGoogle,
   loginWithForm,
   registerUser,

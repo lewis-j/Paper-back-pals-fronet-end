@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { logout } from "../../redux/user/userSlice";
+import { logout } from "../../redux/authUser/authUserSlice";
 import "./Navbar-custom.scss";
 import { useDispatch } from "react-redux";
 

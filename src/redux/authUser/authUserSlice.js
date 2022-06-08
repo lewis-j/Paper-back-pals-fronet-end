@@ -20,11 +20,6 @@ const fulfilledReducer = (state, { payload: { user } }) => {
   state.currentUser = user;
 };
 
-export const updateCurrentRead = createAsyncThunk(
-  "user/setCurrentRead",
-  asyncActions.updateCurrentRead
-);
-
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   asyncActions.fetchUser
@@ -48,17 +43,13 @@ export const loginWithForm = createAsyncThunk(
 export const logout = createAsyncThunk("user/logout", asyncActions.logout);
 
 export const authUserSlice = createSlice({
-  name: "user",
+  name: "authUser",
   initialState: {
-    currentUser: {},
+    currentUser: { currentRead: null },
     status: status.IDLE,
     error: null,
   },
-  reducers: {
-    setCurrentRead: (state, { payload }) => {
-      state.currentUser.currentRead = payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [registerUser.pending]: pendingReducer,
     [registerUser.rejected]: rejectionReducer,
@@ -82,6 +73,6 @@ export const authUserSlice = createSlice({
   },
 });
 
-export const { setCurrentRead } = authUserSlice.actions;
+// export const { setCurrentRead } = authUserSlice.actions;
 
 export default authUserSlice.reducer;

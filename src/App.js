@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { fetchUser } from "./redux/user";
+import { fetchUser } from "./redux/authUser/authUserSlice";
 import * as condition from "./redux/status";
 import { LandingPage, SearchResults, Dashboard, Library } from "./Pages";
 import {
@@ -24,8 +24,8 @@ function App() {
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const userStatus = useSelector((state) => state.user.status);
-  const user = useSelector((state) => state.user);
+  const userStatus = useSelector((state) => state.authUser.status);
+  const user = useSelector((state) => state.authUser);
 
   console.log("running app");
 
