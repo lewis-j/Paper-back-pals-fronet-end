@@ -5,7 +5,7 @@ import { useBSSizeFromWidth } from "../../../utilities/getBSSizeFromWidth";
 import { useDispatch, useSelector } from "react-redux";
 import { getMoreBooks } from "../../../redux/searchResults/searchResultsSlice";
 
-const SearchPagination = ({ setCurrentPage, currentPage }) => {
+const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
   const reactstrapBreakPointSize = useBSSizeFromWidth();
 
   const { bookResults } = useSelector((state) => state.searchResults);
@@ -25,6 +25,7 @@ const SearchPagination = ({ setCurrentPage, currentPage }) => {
         ? currentPage
         : currentPage + 1;
     });
+    scroll();
   };
 
   const renderedPaginationItems = [...Array(10).keys()].map((item) => (
@@ -44,11 +45,12 @@ const SearchPagination = ({ setCurrentPage, currentPage }) => {
         <PaginationItem>
           <PaginationLink
             tag="div"
-            onClick={() =>
+            onClick={() => {
               setCurrentPage((currentPage) =>
                 currentPage === 0 ? currentPage : currentPage - 1
-              )
-            }
+              );
+              scroll();
+            }}
             previous
           />
         </PaginationItem>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Spinner } from "reactstrap";
 import { SearchCard } from "../../components";
@@ -11,10 +11,6 @@ import { addBook } from "../../redux/userBook/userBooksSlice";
 const SearchResults = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
-  // const firstIdx = currentPage * 12;
-  // const lastIdx = firstIdx + 12;
-  // const pageOfBookResults = bookResults.slice(firstIdx, lastIdx);
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authUser.currentUser);
   const {
@@ -22,6 +18,12 @@ const SearchResults = () => {
     bookResults,
     query: queryTitle,
   } = useSelector((state) => state.searchResults);
+
+  const titleRef = useRef(null);
+
+  const scrollToTop = () => {
+    titleRef.current.scrollIntoView();
+  };
 
   const isSuccess = status === condition.SUCCEEDED;
 
@@ -68,23 +70,28 @@ const SearchResults = () => {
 
   if (renderCards.length === 0) return null;
 
+  console.log("titleRef", titleRef);
+
   return (
     <Container fluid="md" className="main-container">
-      <h3 className="my-3">Results for: {queryTitle}</h3>
+      <h3 ref={titleRef} className="my-3">
+        Results for: {queryTitle}
+      </h3>
 
       {isSuccess ? (
         <>
           <Row className="row-margin">{renderCards}</Row>
+          <Row>
+            <SearchPagination
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+              scroll={scrollToTop}
+            />
+          </Row>
         </>
       ) : (
         <Spinner type="grow" className="search-spinner"></Spinner>
       )}
-      <Row>
-        <SearchPagination
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
-      </Row>
     </Container>
   );
 };
