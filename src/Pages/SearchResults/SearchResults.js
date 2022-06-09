@@ -15,7 +15,7 @@ const SearchResults = ({ bookResults, isLoading = "false", queryTitle }) => {
   const pageOfBookResults = bookResults.slice(firstIdx, lastIdx);
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.authUser.currentUser);
 
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));

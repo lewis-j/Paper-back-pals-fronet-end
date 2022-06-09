@@ -10,6 +10,7 @@ const SearchBar = ({ expandSize, searchBooks, isLoading }) => {
   const onSubmitForm = (e) => {
     e.preventDefault();
     searchBooks(query);
+
     setQuery("");
   };
 
