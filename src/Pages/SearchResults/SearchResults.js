@@ -17,6 +17,7 @@ const SearchResults = () => {
     status,
     bookResults,
     query: queryTitle,
+    error,
   } = useSelector((state) => state.searchResults);
 
   const titleRef = useRef(null);
@@ -26,6 +27,7 @@ const SearchResults = () => {
   };
 
   const isSuccess = status === condition.SUCCEEDED;
+  const isError = status === condition.FAILED;
 
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));
@@ -89,6 +91,8 @@ const SearchResults = () => {
             />
           </Row>
         </>
+      ) : isError ? (
+        <div>Whoops! Something went wrong. Maybe try something else</div>
       ) : (
         <Spinner type="grow" className="search-spinner"></Spinner>
       )}

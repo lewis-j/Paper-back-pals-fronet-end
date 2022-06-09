@@ -30,6 +30,13 @@ export const getMoreBooks = createAsyncThunk(
   }
 );
 
+export const searchUsers = createAsyncThunk(
+  "searchResults/searchUsers",
+  ({ query }) => {
+    return searchApi.searchUsers(query);
+  }
+);
+
 export const searchResultSlice = createSlice({
   name: "searchResults",
   initialState: {
@@ -60,6 +67,13 @@ export const searchResultSlice = createSlice({
       state.bookResults = [...state.bookResults, ...payload.bookResults];
     },
     [getMoreBooks.rejected]: rejectionReducer,
+    [searchUsers.pending]: pendingReducer,
+    [searchUsers.fulfilled]: (state, { payload }) => {
+      console.log("action for getMoreBooks ", payload);
+      state.status = status.SUCCEEDED;
+      state.userResults = payload;
+    },
+    [searchUsers.rejected]: rejectionReducer,
   },
 });
 

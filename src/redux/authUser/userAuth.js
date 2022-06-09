@@ -29,6 +29,7 @@ const fetchUser = async (_, { dispatch }) => {
 
 const loginWithGoogle = async (_, { dispatch }) => {
   try {
+    await authApi.enableCsrfProtection();
     const res = await firebaseApi.loginGoogle();
     const token = await res?.user?.getIdToken();
     const user = await authApi.googleAuth(token);

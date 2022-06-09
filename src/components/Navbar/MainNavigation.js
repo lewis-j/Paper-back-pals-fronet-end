@@ -12,7 +12,7 @@ import {
   Form,
 } from "reactstrap";
 import UserOffCanvas from "./OffCanvasMenu";
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 import logo from "../../Assets/imgs/pppals_white.png";
 import BottomNav from "./BottomNav";
 import { Outlet } from "react-router-dom";
