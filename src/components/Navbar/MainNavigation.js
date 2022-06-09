@@ -16,13 +16,20 @@ import SearchBar from "./SearchBar";
 import logo from "../../Assets/imgs/pppals_white.png";
 import BottomNav from "./BottomNav";
 import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  searchBooks,
+  setQuery,
+} from "../../redux/searchResults/searchResultsSlice";
 import * as NavLinks from "./navLinks";
 import "./Navbar-custom.scss";
 
-const MainNav = ({ searchBooks }) => {
+const MainNav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const dispatch = useDispatch();
+
   const expandSize = "md";
 
   return (
@@ -42,9 +49,9 @@ const MainNav = ({ searchBooks }) => {
           <Form
             onSubmit={(e) => {
               e.preventDefault();
-              console.log("Searching", query);
-              searchBooks(query);
-              setQuery("");
+              dispatch(setQuery(searchInput));
+              dispatch(searchBooks({ query: searchInput }));
+              setSearchInput("");
               setIsSearching(false);
             }}
           >
@@ -53,9 +60,9 @@ const MainNav = ({ searchBooks }) => {
               type="search"
               placeholder="Search Book"
               className="Navbar__search__input"
-              value={query}
+              value={searchInput}
               onChange={(e) => {
-                setQuery(e.target.value);
+                setSearchInput(e.target.value);
               }}
             />
           </Form>
@@ -104,12 +111,7 @@ const MainNav = ({ searchBooks }) => {
             </NavItem>
           </Nav>
         </Collapse>
-        <SearchBar
-          expandSize={expandSize}
-          query={query}
-          setQuery={setQuery}
-          searchBooks={searchBooks}
-        />
+        <SearchBar expandSize={expandSize} />
         <UserOffCanvas expandSize={expandSize} />
         <BottomNav expandSize={expandSize} />
       </Navbar>

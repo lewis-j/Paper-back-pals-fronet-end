@@ -2,16 +2,28 @@ import React, { useState } from "react";
 import { Input, Form } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  searchBooks,
+  setQuery,
+  condition,
+} from "../../redux/searchResults/searchResultsSlice";
 import "./Navbar-custom.scss";
 
-const SearchBar = ({ expandSize, searchBooks, isLoading }) => {
-  const [query, setQuery] = useState("");
+const SearchBar = ({ expandSize }) => {
+  const [searchInput, setSearchInput] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const status = useSelector((state) => state.searchResults.status);
+  const isLoading = status === condition.LOADING;
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    searchBooks(query);
-
-    setQuery("");
+    dispatch(setQuery(searchInput));
+    dispatch(searchBooks({ query: searchInput }));
+    setSearchInput("");
+    navigate("/search-results");
   };
 
   return (
@@ -25,9 +37,9 @@ const SearchBar = ({ expandSize, searchBooks, isLoading }) => {
           placeholder="Search books"
           type="search"
           className="border-0 border-start rounded-pill"
-          value={query}
+          value={searchInput}
           onChange={(e) => {
-            setQuery(e.target.value);
+            setSearchInput(e.target.value);
           }}
         />
         <button

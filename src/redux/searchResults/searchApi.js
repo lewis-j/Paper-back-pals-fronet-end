@@ -1,11 +1,10 @@
-import { getClient } from "../../redux";
+import axios from "axios";
 import { subArrays } from "../../utilities/arrayUtil";
 
-const authAxios = getClient();
-
 export const searchBooks = async (query, startIndex = 0) => {
+  console.log("Query", query);
   try {
-    const res = await authAxios.get(
+    const res = await axios.get(
       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${36}`
     );
 

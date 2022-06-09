@@ -18,14 +18,13 @@ import "./style/main.scss";
 import { FriendsPage } from "./Pages/Friends";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [bookResults, setBookResults] = useState([]);
-  const [searchQueryTitle, setSearchQueryTitle] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [bookResults, setBookResults] = useState([]);
+  // const [searchQueryTitle, setSearchQueryTitle] = useState("");
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authUser.status);
-  const user = useSelector((state) => state.authUser);
 
   console.log("running app");
 
@@ -36,41 +35,41 @@ function App() {
     }
   }, []);
 
-  const fetchBooks = async (query, startIndex = 0) => {
-    setSearchQueryTitle(query);
-    setIsLoading(true);
-    if (startIndex === 0) {
-      setBookResults(() => []);
-      navigate("/search-results");
-    }
-    try {
-      const res = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${40}`
-      );
+  // const fetchBooks = async (query, startIndex = 0) => {
+  //   setSearchQueryTitle(query);
+  //   setIsLoading(true);
+  //   if (startIndex === 0) {
+  //     setBookResults(() => []);
+  //     navigate("/search-results");
+  //   }
+  //   try {
+  //     const res = await axios.get(
+  //       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${40}`
+  //     );
 
-      setIsLoading(false);
-      setBookResults((prevResults) => [...prevResults, ...res.data.items]);
-      const res2 = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
-          startIndex + 40
-        }&maxResults=${40}`
-      );
+  //     setIsLoading(false);
+  //     setBookResults((prevResults) => [...prevResults, ...res.data.items]);
+  //     const res2 = await axios.get(
+  //       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
+  //         startIndex + 40
+  //       }&maxResults=${40}`
+  //     );
 
-      const res3 = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
-          startIndex + 80
-        }&maxResults=${40}`
-      );
+  //     const res3 = await axios.get(
+  //       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
+  //         startIndex + 80
+  //       }&maxResults=${40}`
+  //     );
 
-      setBookResults((prevResults) => [
-        ...prevResults,
-        ...res2.data.items,
-        ...res3.data.items,
-      ]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //     setBookResults((prevResults) => [
+  //       ...prevResults,
+  //       ...res2.data.items,
+  //       ...res3.data.items,
+  //     ]);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
     <div className="App">
@@ -86,7 +85,7 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <MainNav searchBooks={fetchBooks} isLoading={isLoading} />
+                <MainNav />
               </PrivateRoute>
             }
           >
@@ -95,10 +94,10 @@ function App() {
               path="search-results"
               element={
                 <SearchResults
-                  bookResults={bookResults}
-                  isLoading={isLoading}
-                  queryTitle={searchQueryTitle}
-                  fetchBooks={fetchBooks}
+                // bookResults={bookResults}
+                // isLoading={isLoading}
+                // queryTitle={searchQueryTitle}
+                // fetchBooks={fetchBooks}
                 />
               }
             />

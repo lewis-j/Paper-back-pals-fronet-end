@@ -2,7 +2,7 @@ export const processBookResults = (bookInfo) => {
   let thumbnail = null,
     result = "";
   let title, authors;
-  let shortTitle = (title = bookInfo.title);
+  let shortTitle = (title = bookInfo?.title);
   let shortAuthor = (authors = "No author info");
   let description = "no description";
   if ((result = bookInfo?.imageLinks?.thumbnail)) {
