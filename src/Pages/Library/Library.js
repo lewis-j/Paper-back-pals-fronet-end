@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBooks } from "../../redux/userBook/userBooksSlice";
+// import { fetchBooks } from "../../redux/userBook/userBooksSlice";
 import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 import { BookCard, UserCardSm, Placeholder } from "../../components";
@@ -26,7 +26,7 @@ const Library = () => {
   useEffect(() => {
     if (fetchStatus === condition.IDLE) {
       console.log("fetching books");
-      dispatch(fetchBooks());
+      // dispatch(fetchBooks());
     }
   }, [dispatch, fetchStatus]);
 

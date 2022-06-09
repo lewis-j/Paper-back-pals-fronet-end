@@ -2,13 +2,26 @@ import * as firebaseApi from "./firebase";
 import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
 // import { setCurrentRead } from "../../redux/authUser/authUserSlice";
 import * as authApi from "./authApi";
-import { setFriends } from "../../redux/friends/friendsSlice";
+import { setFriends } from "../friends/friendsSlice";
+import { setBooks } from "../userBook/userBooksSlice";
 
-const fetchUser = async () => {
+const parseSlice = (dispatch, _user) => {
+  const {
+    friends,
+    ownedBooks: owned,
+    borrowedBooks: borrowed,
+    ...user
+  } = _user;
+  dispatch(setFriends(friends));
+  dispatch(setBooks({ borrowed, owned }));
+  return { user };
+};
+
+const fetchUser = async (_, { dispatch }) => {
   try {
     await authApi.enableCsrfProtection();
     const user = await authApi.authUserFetch();
-    return { user };
+    return parseSlice(dispatch, user);
   } catch (error) {
     return Promise.reject(error);
   }
@@ -18,11 +31,9 @@ const loginWithGoogle = async (_, { dispatch }) => {
   try {
     const res = await firebaseApi.loginGoogle();
     const token = await res?.user?.getIdToken();
-    const res_user = await authApi.googleAuth(token);
+    const user = await authApi.googleAuth(token);
 
-    const { friends, ...user } = res_user;
-    dispatch(setFriends(friends));
-    return { user };
+    return parseSlice(dispatch, user);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -39,12 +50,12 @@ const loginWithGoogle = async (_, { dispatch }) => {
 //   }
 // };
 
-const loginWithForm = async ({ email, password }) => {
+const loginWithForm = async ({ email, password }, { dispatch }) => {
   try {
     const res = await firebaseApi.loginWithForm(email, password);
     const token = await res?.user?.getIdToken();
     const user = await authApi.authUserLogin(token);
-    return { user };
+    return parseSlice(dispatch, user);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -55,10 +66,8 @@ const registerUser = async ({ username, email, password }, { dispatch }) => {
   const defaultPic = getDefaultUserImg(username);
   await firebaseApi.setUsernameAndPictire(res.user, username, defaultPic);
   const token = await res?.user?.getIdToken(true);
-  const authRes = authApi.authUserRegister(token);
-  const { friends, ...user } = authRes;
-  dispatch(setFriends(friends));
-  return { user };
+  const user = authApi.authUserRegister(token);
+  return parseSlice(dispatch, user);
 };
 
 const logout = async () => {

@@ -37,27 +37,6 @@ const firebaseParseErrorMsg = (err, defualtMsg) => {
   return message;
 };
 
-// const observeUser = (userExist, noUser) => {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       const unsubscribe = async () =>
-//         onAuthStateChanged(auth, (currentUser) => {
-//           if (currentUser) {
-//             userExist(currentUser.accessToken).then((user) => {
-//               resolve({ user });
-//             });
-//           } else {
-//             noUser();
-//             resolve({ user: null });
-//           }
-//         });
-//       unsubscribe();
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// };
-
 const loginGoogle = async () => {
   try {
     return await signInWithPopup(auth, googleProvider);

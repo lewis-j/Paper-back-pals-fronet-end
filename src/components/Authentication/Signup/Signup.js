@@ -81,6 +81,11 @@ export default function Signup() {
 
   const { name, email, password, confirmPassword } = formValues;
 
+  if (!error && asyncErrors) {
+    const error = { message: asyncErrors };
+    setError(error);
+  }
+
   return (
     <>
       <Card className={authStyle.container}>

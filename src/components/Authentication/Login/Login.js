@@ -24,7 +24,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState({});
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const {
     currentUser: user,
@@ -39,10 +39,10 @@ export default function Login() {
     if (user && status === condition.SUCCEEDED) {
       navigate("/");
     }
-  }, [status, user, navigate]);
+  }, [status, user, navigate, asyncErrors]);
 
   const handleSubmit = async (e) => {
-    setError(() => ({}));
+    setError(() => null);
     e.preventDefault();
     const error = {};
     if (!formValues.email) {
@@ -53,6 +53,7 @@ export default function Login() {
       error.password = error.message = "password is required!";
       return setError(error);
     }
+
     dispatch(loginWithForm({ email, password }));
   };
 
@@ -61,6 +62,11 @@ export default function Login() {
     setFormValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  if (!error && asyncErrors) {
+    const error = { message: asyncErrors };
+    setError(error);
+  }
+
   const { email, password } = formValues;
 
   return (
@@ -68,16 +74,16 @@ export default function Login() {
       <Card className={authStyle.container}>
         <CardBody>
           <h2 className="text-center my-4">Log In</h2>
-          {error.message && (
+          {error?.message && (
             <div className={ErrMsgStyle.msg}>{error.message}</div>
           )}
           <Form onSubmit={handleSubmit}>
             <FormGroup id="email">
-              <ErrorMsg msg={error.email}>
+              <ErrorMsg msg={error?.email}>
                 <Label>Email</Label>
                 <Input
                   style={
-                    error.email ? { borderColor: "red", color: "red" } : {}
+                    error?.email ? { borderColor: "red", color: "red" } : {}
                   }
                   type="email"
                   name="email"
@@ -87,7 +93,7 @@ export default function Login() {
               </ErrorMsg>
             </FormGroup>
             <FormGroup id="password">
-              <ErrorMsg msg={error.password}>
+              <ErrorMsg msg={error?.password}>
                 <Label>Password</Label>
                 <Input
                   type="password"

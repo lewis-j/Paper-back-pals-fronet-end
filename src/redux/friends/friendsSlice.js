@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import * as status from "../status";
 
 const initialState = {
   currentFriend: "",
   friendsList: [],
+  status: status.IDLE,
+  error: null,
 };
 
 const friendsSlice = createSlice({

@@ -10,7 +10,7 @@ import {
   Input,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { sendPasswordReset } from "../../../network/user/firebase";
+import { sendPasswordReset } from "../../../redux/authUser/firebase";
 import { useSelector } from "react-redux";
 import * as condition from "../../../redux/status";
 import authStyles from "../auth.module.scss";

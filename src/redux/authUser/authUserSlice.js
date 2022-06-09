@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as asyncActions from "../../network/user/userAuth";
+import * as asyncActions from "./userAuth";
 import * as status from "../status";
 
 const rejectionReducer = (state, action) => {

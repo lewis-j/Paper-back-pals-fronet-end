@@ -2,31 +2,33 @@ import styles from "./ContactList.module.scss";
 import { User } from "../User";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const friendsList = [
-  {
-    _id: "62977d7ae58ee7d197fb59a2",
-    currentRead: null,
-    email: "lindseylewisjackson@gmail.com",
-    email_verified: true,
-    friends: [],
-    profilePic:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    username: "Lindsey Jackson",
-  },
-  {
-    _id: "62977d7ae58ee7d1asdfasdf7fb59a2",
-    currentRead: null,
-    email: "lindseylewisjackson@gmail.com",
-    email_verified: true,
-    friends: [],
-    profilePic:
-      "https://lh3.googleusercontent.com/a-/AOh14GjTz3-DpsVbTe5N83aKCrW7_DlrUFJOzfuqxLCj=s96-c",
-    username: "lewis Jackson",
-  },
-];
+import { useSelector } from "react-redux";
+// const friendsList = [
+//   {
+//     _id: "62977d7ae58ee7d197fb59a2",
+//     currentRead: null,
+//     email: "lindseylewisjackson@gmail.com",
+//     email_verified: true,
+//     friends: [],
+//     profilePic:
+//       "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
+//     username: "Lindsey Jackson",
+//   },
+//   {
+//     _id: "62977d7ae58ee7d1asdfasdf7fb59a2",
+//     currentRead: null,
+//     email: "lindseylewisjackson@gmail.com",
+//     email_verified: true,
+//     friends: [],
+//     profilePic:
+//       "https://lh3.googleusercontent.com/a-/AOh14GjTz3-DpsVbTe5N83aKCrW7_DlrUFJOzfuqxLCj=s96-c",
+//     username: "lewis Jackson",
+//   },
+// ];
 
 const ContactList = () => {
   const [aciveId, setActiveId] = useState();
+  const { friendsList, status, error } = useSelector((state) => state.friends);
 
   const renderFriends = (friendsList) => {
     return friendsList.map(({ _id, username, profilePic }, index) => (

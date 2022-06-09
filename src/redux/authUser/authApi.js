@@ -1,4 +1,4 @@
-import * as axios from "../axiosConfig";
+import * as axios from "./authAxios";
 
 const client = axios.getClient();
 
