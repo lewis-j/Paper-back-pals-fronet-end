@@ -33,6 +33,8 @@ const SearchResults = () => {
     dispatch(addBook({ id: user._id, bookDto }));
   };
 
+  console.log("Book Results", bookResults);
+
   const renderCards =
     bookResults.length !== 0
       ? bookResults[currentPage].map(({ id, volumeInfo }, i) => {

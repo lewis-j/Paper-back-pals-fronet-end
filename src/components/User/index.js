@@ -1,1 +1,2 @@
-export { default as User } from "./User";
+export { UserCard } from "./UserCard";
+export { UserRequestCard } from "./UserRequestCard";

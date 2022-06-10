@@ -11,7 +11,19 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
   const { bookResults } = useSelector((state) => state.searchResults);
   const dispatch = useDispatch();
 
-  const renderNewPage = (item) => {
+  const renderNewPage = async (item) => {
+    if (bookResults.length - 1 < item) {
+      const dif = item - (bookResults.length - 1);
+      console.log("dif", Math.ceil(dif / 3));
+      [...Array(dif).keys()].forEach(async (i) => {
+        const _startIndex = bookResults.length * 12 * (i + 1);
+        console.log("starting index", _startIndex);
+        // await dispatch(
+        //   getMoreBooks({ startIndex: _startIndex })
+        // ).unwrap();
+      });
+      return;
+    }
     setCurrentPage(item);
   };
 

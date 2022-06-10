@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./User.module.scss";
+import styles from "./UserCard.module.scss";
 
-const User = ({ username, profilePic, isActive, _id }) => {
+const UserCard = ({ username, profilePic, isActive, _id }) => {
   return (
     <div
       className={
@@ -17,4 +17,4 @@ const User = ({ username, profilePic, isActive, _id }) => {
   );
 };
 
-export default User;
+export default UserCard;

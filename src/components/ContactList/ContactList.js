@@ -1,5 +1,5 @@
 import styles from "./ContactList.module.scss";
-import { User } from "../User";
+import { UserCard } from "../User";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -33,7 +33,7 @@ const ContactList = () => {
   const renderFriends = (friendsList) => {
     return friendsList.map(({ _id, username, profilePic }, index) => (
       <div key={_id} onClick={() => setActiveId(_id)}>
-        <User
+        <UserCard
           username={username}
           profilePic={profilePic}
           isActive={aciveId === _id}

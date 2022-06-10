@@ -4,7 +4,9 @@
   $app-disc-start-xs: 49em;
   $app-disc-start-md: 41em;
   &__container {
+    position: relative;
     height: calc(82em - 40vw);
+    width: 100%;
     background-image: linear-gradient(
       45deg,
       $gradient-color-1,
@@ -93,11 +95,20 @@
     }
   }
   &__app-discription {
-    position: relative;
-    top: calc(#{$app-disc-start-xs} + 1em);
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 2em;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    @media (min-width: 576px) {
+      bottom: 2.5em;
+    }
 
     @media (min-width: 768px) {
-      top: 78vh;
+      bottom: 3em;
     }
 
     h2 {
