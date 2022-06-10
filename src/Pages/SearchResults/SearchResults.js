@@ -23,20 +23,24 @@ const SearchResults = () => {
   const titleRef = useRef(null);
 
   const scrollToTop = () => {
-    titleRef.current.scrollIntoView();
+    titleRef.current.scrollIntoView({
+      behavior: "auto",
+      block: "end",
+      inline: "nearest",
+    });
   };
 
-  const isSuccess = status === condition.SUCCEEDED;
+  const isLoading = status === condition.LOADING;
   const isError = status === condition.FAILED;
 
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));
   };
 
-  console.log("Book Results", bookResults);
+  console.log("Book Results", bookResults.length, currentPage);
 
-  const renderCards =
-    bookResults.length !== 0
+  const renderCards = () =>
+    bookResults.length > currentPage
       ? bookResults[currentPage].map(({ id, volumeInfo }, i) => {
           const {
             title,
@@ -72,32 +76,26 @@ const SearchResults = () => {
         })
       : [];
 
-  if (renderCards.length === 0) return null;
+  if (isLoading) {
+    return <Spinner type="grow" className="search-spinner"></Spinner>;
+  }
 
-  console.log("titleRef", titleRef);
-
+  if (isError) {
+    return <div>Whoops! Something went wrong. Maybe try something else</div>;
+  }
   return (
     <Container fluid="md" className="main-container">
       <h3 ref={titleRef} className="my-3">
         Results for: {queryTitle}
       </h3>
-
-      {isSuccess ? (
-        <>
-          <Row className="row-margin">{renderCards}</Row>
-          <Row>
-            <SearchPagination
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-              scroll={scrollToTop}
-            />
-          </Row>
-        </>
-      ) : isError ? (
-        <div>Whoops! Something went wrong. Maybe try something else</div>
-      ) : (
-        <Spinner type="grow" className="search-spinner"></Spinner>
-      )}
+      <Row className="row-margin">{renderCards()}</Row>
+      <Row>
+        <SearchPagination
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          scroll={scrollToTop}
+        />
+      </Row>
     </Container>
   );
 };

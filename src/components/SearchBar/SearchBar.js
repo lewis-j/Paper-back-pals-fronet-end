@@ -70,6 +70,7 @@ const SearchBar = ({ expandSize }) => {
 
   const onSubmitForm = (e) => {
     e.preventDefault();
+    if (!searchInput) return;
     dispatchBookSearch(searchInput);
     renderResults();
   };
