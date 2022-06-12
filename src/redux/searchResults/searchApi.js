@@ -1,8 +1,6 @@
 import axios from "axios";
-import { getClient } from "../authUser/authAxios";
+import API from "../../authAxios";
 import { subArrays } from "../../utilities/arrayUtil";
-
-const client = getClient();
 
 export const searchBooks = async (query, startIndex = 0) => {
   console.log("Query", query);
@@ -21,7 +19,7 @@ export const searchBooks = async (query, startIndex = 0) => {
 
 export const searchUsers = async (query) => {
   try {
-    const res = await client.get(`user/search?user=${query}`);
+    const res = await API.get(`user/search?user=${query}`);
     const results = subArrays(res.data, 12);
     return results;
   } catch (error) {

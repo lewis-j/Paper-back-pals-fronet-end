@@ -1,10 +1,8 @@
-import { getClient } from "../../network/axiosConfig";
-
-const client = getClient();
+import API from "../../authAxios";
 
 export const friendFetch = async (_id) => {
   try {
-    const res = await client.get(`user/${_id}`);
+    const res = await API.get(`user/${_id}`);
     const friend = res.data;
     console.log("resonse from the friends api:", res);
     return friend;

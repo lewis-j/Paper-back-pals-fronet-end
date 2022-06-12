@@ -49,7 +49,11 @@ export const authUserSlice = createSlice({
     status: status.IDLE,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    test: (state, action) => {
+      console.log("testing reducer");
+    },
+  },
   extraReducers: {
     [registerUser.pending]: pendingReducer,
     [registerUser.rejected]: rejectionReducer,
@@ -73,6 +77,6 @@ export const authUserSlice = createSlice({
   },
 });
 
-// export const { setCurrentRead } = authUserSlice.actions;
+export const { test } = authUserSlice.actions;
 
 export default authUserSlice.reducer;

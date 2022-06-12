@@ -72,8 +72,8 @@ const registerUser = async ({ username, email, password }, { dispatch }) => {
 };
 
 const logout = async () => {
-  await authApi.logout();
-  return await firebaseApi.logout();
+  return await authApi.logout();
+  // return await firebaseApi.logout();
 };
 
 export {

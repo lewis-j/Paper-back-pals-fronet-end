@@ -28,7 +28,6 @@ const searchUsersFulfilledReducer = (state, { payload }) => {
 };
 
 const searchUsersrejectionReducer = (state, action) => {
-  console.log("action from reject reducer--------------", action);
   state.status = status.FAILED;
   if (action.payload) {
     state.error = action.payload;

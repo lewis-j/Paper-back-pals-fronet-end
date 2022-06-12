@@ -10,12 +10,15 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { AxiosInterceptor } from "./authAxios";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <AxiosInterceptor>
+          <App />
+        </AxiosInterceptor>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,
