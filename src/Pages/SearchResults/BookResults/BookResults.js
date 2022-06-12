@@ -1,14 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Row, Spinner } from "reactstrap";
-import { SearchCard } from "../../components";
-import { processBookResults } from "../../utilities/bookUtilities";
-import SearchPagination from "./SearchPagination";
-import "./searchResults.scss";
-import { condition } from "../../redux/searchResults/searchResultsSlice";
-import { addBook } from "../../redux/userBook/userBooksSlice";
+import { Container, Row, Col } from "reactstrap";
+import { Loading, SearchCard } from "../../../components";
+import { processBookResults } from "../../../utilities/bookUtilities";
+import SearchPagination from "../SearchPagination";
 
-const SearchResults = () => {
+import { condition } from "../../../redux/searchResults/searchResultsSlice";
+import { addBook } from "../../../redux/userBook/userBooksSlice";
+const BookResults = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const dispatch = useDispatch();
@@ -65,11 +64,13 @@ const SearchResults = () => {
 
           if (cardData) {
             return (
-              <SearchCard
-                key={`${id}-${i}`}
-                cardData={cardData}
-                addBook={addBookToLibrary(bookDto)}
-              />
+              <Col xs="12" sm="6" md="4" xl="3">
+                <SearchCard
+                  key={`${id}-${i}`}
+                  cardData={cardData}
+                  addBook={addBookToLibrary(bookDto)}
+                />
+              </Col>
             );
           }
           return null;
@@ -77,11 +78,15 @@ const SearchResults = () => {
       : [];
 
   if (isLoading) {
-    return <Spinner type="grow" className="search-spinner"></Spinner>;
+    return <Loading />;
   }
 
   if (isError) {
     return <div>Whoops! Something went wrong. Maybe try something else</div>;
+  }
+
+  if (!bookResults.length) {
+    return <div>No results yet</div>;
   }
   return (
     <Container fluid="md" className="main-container">
@@ -100,4 +105,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default BookResults;

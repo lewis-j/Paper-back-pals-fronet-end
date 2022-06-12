@@ -1,1 +1,2 @@
-export { default as SearchResults } from "./SearchResults";
+export { BookResults } from "./BookResults";
+export { UserResults } from "./UserResults";

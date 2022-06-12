@@ -12,16 +12,10 @@ import {
 } from "../../redux/searchResults/searchResultsSlice";
 import styles from "./SearchBar.module.scss";
 
-const DropDownSearch = ({
-  searchInput,
-  bookSearch,
-  userSearch,
-  renderResults,
-}) => {
+const DropDownSearch = ({ searchInput, bookSearch, userSearch }) => {
   const handleBookSearch = () => {
     console.log("searching books");
     bookSearch(searchInput);
-    renderResults();
   };
 
   const handleUserSearch = () => {
@@ -52,27 +46,28 @@ const SearchBar = ({ expandSize }) => {
   const isLoading = status === condition.LOADING;
   const isMenuOpen = searchInput !== "";
 
-  const dispatchBookSearch = (query) => {
+  const dispatchBookSearch = async (query) => {
     dispatch(setQuery(query));
-    dispatch(searchBooks({ query: query }));
-  };
-
-  const dispatchUserSearch = (query) => {
-    dispatch(setQuery(query));
-    dispatch(searchUsers({ query: query }));
-    console.log("dispatching user search", query);
-  };
-
-  const renderResults = () => {
+    await dispatch(searchBooks({ query: query })).unwrap();
     setSearchInput("");
     navigate("/search-results");
+  };
+
+  const dispatchUserSearch = async (query) => {
+    dispatch(setQuery(query));
+    try {
+      await dispatch(searchUsers({ query: query })).unwrap();
+      setSearchInput("");
+      navigate("/user-results");
+    } catch (error) {
+      console.error("Error in SearchBar", { ...error });
+    }
   };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
     if (!searchInput) return;
     dispatchBookSearch(searchInput);
-    renderResults();
   };
 
   return (
@@ -85,6 +80,7 @@ const SearchBar = ({ expandSize }) => {
       >
         <Input
           name="search"
+          autoComplete="off"
           placeholder="Search Books or Users"
           type="search"
           className={`${styles.rounded} ${styles.input}`}
@@ -105,7 +101,6 @@ const SearchBar = ({ expandSize }) => {
           searchInput={searchInput}
           bookSearch={dispatchBookSearch}
           userSearch={dispatchUserSearch}
-          renderResults={renderResults}
         />
       )}
     </div>

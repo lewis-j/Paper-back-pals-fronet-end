@@ -12,6 +12,32 @@ const pendingReducer = (state) => {
   state.status = status.LOADING;
 };
 
+const searchBooksFulfilledReducer = (state, { payload }) => {
+  state.status = status.SUCCEEDED;
+  state.bookResults = payload?.bookResults;
+};
+
+const getMoreBooksFulfilledReducer = (state, { payload }) => {
+  state.status = status.SUCCEEDED;
+  state.bookResults = [...state.bookResults, ...payload.bookResults];
+};
+
+const searchUsersFulfilledReducer = (state, { payload }) => {
+  state.status = status.SUCCEEDED;
+  state.userResults = payload;
+};
+
+const searchUsersrejectionReducer = (state, action) => {
+  console.log("action from reject reducer--------------", action);
+  state.status = status.FAILED;
+  if (action.payload) {
+    state.error = action.payload;
+  } else {
+    state.error = action.error.message;
+  }
+  console.error(action.error.message);
+};
+
 export const searchBooks = createAsyncThunk(
   "searchResults/searchBooks",
   ({ query }) => {
@@ -21,19 +47,28 @@ export const searchBooks = createAsyncThunk(
 
 export const getMoreBooks = createAsyncThunk(
   "searchResults/getBooks",
-  ({ startIndex }, { getState }) => {
+  async ({ startIndex }, { getState }) => {
     const state = getState();
-    console.log("State", state);
     const query = state.searchResults.query;
-    console.log("query", query);
-    return searchApi.searchBooks(query, startIndex);
+    try {
+      return await searchApi.searchBooks(query, startIndex);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 );
 
 export const searchUsers = createAsyncThunk(
   "searchResults/searchUsers",
-  ({ query }) => {
-    return searchApi.searchUsers(query);
+  async ({ query }, { rejectWithValue }) => {
+    try {
+      const search = await searchApi.searchUsers(query);
+      return search;
+    } catch (error) {
+      if (error?.response?.data)
+        return rejectWithValue({ ...error.response.data });
+      return Promise.reject(error);
+    }
   }
 );
 
@@ -48,32 +83,19 @@ export const searchResultSlice = createSlice({
   },
   reducers: {
     setQuery: (state, action) => {
-      console.log("action.payload", action);
       state.query = action.payload;
     },
   },
   extraReducers: {
     [searchBooks.pending]: pendingReducer,
-    [searchBooks.fulfilled]: (state, { payload }) => {
-      console.log("action for searchbooks ", payload);
-      state.status = status.SUCCEEDED;
-      state.bookResults = payload?.bookResults;
-    },
+    [searchBooks.fulfilled]: searchBooksFulfilledReducer,
     [searchBooks.rejected]: rejectionReducer,
     [getMoreBooks.pending]: pendingReducer,
-    [getMoreBooks.fulfilled]: (state, { payload }) => {
-      console.log("action for getMoreBooks ", payload);
-      state.status = status.SUCCEEDED;
-      state.bookResults = [...state.bookResults, ...payload.bookResults];
-    },
+    [getMoreBooks.fulfilled]: getMoreBooksFulfilledReducer,
     [getMoreBooks.rejected]: rejectionReducer,
     [searchUsers.pending]: pendingReducer,
-    [searchUsers.fulfilled]: (state, { payload }) => {
-      console.log("action for getMoreBooks ", payload);
-      state.status = status.SUCCEEDED;
-      state.userResults = payload;
-    },
-    [searchUsers.rejected]: rejectionReducer,
+    [searchUsers.fulfilled]: searchUsersFulfilledReducer,
+    [searchUsers.rejected]: searchUsersrejectionReducer,
   },
 });
 

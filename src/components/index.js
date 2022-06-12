@@ -9,3 +9,4 @@ export { SearchCard } from "./SearchCard";
 export { ContactList } from "./ContactList";
 export { UserCard, UserRequestCard } from "./User";
 export { UserBookResults } from "./UserBookResults";
+export { Loading } from "./Loading";

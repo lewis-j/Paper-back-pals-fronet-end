@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Routes, Route } from "react-router-dom";
 import { fetchUser } from "./redux/authUser/authUserSlice";
 import * as condition from "./redux/status";
-import { LandingPage, SearchResults, Dashboard, Library } from "./Pages";
+import {
+  LandingPage,
+  BookResults,
+  Dashboard,
+  Library,
+  UserResults,
+} from "./Pages";
 import {
   Login,
   Signup,
@@ -18,11 +23,6 @@ import "./style/main.scss";
 import { FriendsPage } from "./Pages/Friends";
 
 function App() {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [bookResults, setBookResults] = useState([]);
-  // const [searchQueryTitle, setSearchQueryTitle] = useState("");
-
-  let navigate = useNavigate();
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authUser.status);
 
@@ -34,42 +34,6 @@ function App() {
       dispatch(fetchUser());
     }
   }, []);
-
-  // const fetchBooks = async (query, startIndex = 0) => {
-  //   setSearchQueryTitle(query);
-  //   setIsLoading(true);
-  //   if (startIndex === 0) {
-  //     setBookResults(() => []);
-  //     navigate("/search-results");
-  //   }
-  //   try {
-  //     const res = await axios.get(
-  //       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${40}`
-  //     );
-
-  //     setIsLoading(false);
-  //     setBookResults((prevResults) => [...prevResults, ...res.data.items]);
-  //     const res2 = await axios.get(
-  //       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
-  //         startIndex + 40
-  //       }&maxResults=${40}`
-  //     );
-
-  //     const res3 = await axios.get(
-  //       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
-  //         startIndex + 80
-  //       }&maxResults=${40}`
-  //     );
-
-  //     setBookResults((prevResults) => [
-  //       ...prevResults,
-  //       ...res2.data.items,
-  //       ...res3.data.items,
-  //     ]);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   return (
     <div className="App">
@@ -90,17 +54,8 @@ function App() {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route
-              path="search-results"
-              element={
-                <SearchResults
-                // bookResults={bookResults}
-                // isLoading={isLoading}
-                // queryTitle={searchQueryTitle}
-                // fetchBooks={fetchBooks}
-                />
-              }
-            />
+            <Route path="search-results" element={<BookResults />} />
+            <Route path="user-results" element={<UserResults />} />
             <Route path="library" element={<Library />} />
             <Route path="friends" element={<FriendsPage />}>
               <Route path="books: user_id" element={<UserBookResults />} />
