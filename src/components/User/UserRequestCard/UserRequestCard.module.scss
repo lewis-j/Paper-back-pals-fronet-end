@@ -5,7 +5,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
   margin: 5px auto;
   position: relative;
   box-shadow: $standard-box-shadow;
@@ -13,7 +13,7 @@
 
 .avatar {
   width: 3rem;
-  margin: 3px 10px;
+  margin: 10px 10px;
   display: inline-block;
 }
 .img {
@@ -25,11 +25,14 @@
 .username {
   margin-left: 0.5em;
 }
-
-.requestBtn {
-  margin-right: 4px;
-  background-color: goldenrod;
-  border: 0;
-  border-radius: 3px;
-  color: $grey-1;
+.pendingIcon {
+  color: $grey-5;
+  font-size: 0.98em;
+  margin-right: 0.5em;
+}
+.friendIcon {
+  margin-right: 1em;
+  font-size: 0.98em;
+  margin-right: 0.5em;
+  color: $accept-color;
 }

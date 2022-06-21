@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as condition from "../../redux/status";
+import { Loading } from "../Loading";
 
 const PrivateRoute = ({ children }) => {
   const { currentUser, status } = useSelector((state) => state.authUser);
@@ -8,7 +9,7 @@ const PrivateRoute = ({ children }) => {
   console.log("status in private route", status);
 
   if (status === condition.LOADING || status === condition.IDLE) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return currentUser && status === condition.SUCCEEDED ? (

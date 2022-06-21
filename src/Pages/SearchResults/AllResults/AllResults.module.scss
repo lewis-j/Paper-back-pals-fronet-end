@@ -1,0 +1,13 @@
+.nav_btn_wrapper {
+  width: 100%;
+  height: 2em;
+}
+
+.nav_btn {
+  border: none;
+  position: absolute;
+  right: 2em;
+  &:hover {
+    transform: scale(0.98);
+  }
+}

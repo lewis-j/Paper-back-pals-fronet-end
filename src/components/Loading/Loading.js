@@ -2,6 +2,7 @@ import { Spinner } from "reactstrap";
 import styles from "./Loading.module.scss";
 import whiteLogo from "../../Assets/imgs/pppals_white.png";
 import blackLogo from "../../Assets/imgs/pppals.png";
+
 const Loading = () => {
   return (
     <div>

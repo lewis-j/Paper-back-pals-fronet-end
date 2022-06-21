@@ -50,7 +50,7 @@ const SearchBar = ({ expandSize }) => {
     dispatch(setQuery(query));
     await dispatch(searchBooks({ query: query })).unwrap();
     setSearchInput("");
-    navigate("/search-results");
+    navigate("/book-results");
   };
 
   const dispatchUserSearch = async (query) => {
@@ -64,10 +64,18 @@ const SearchBar = ({ expandSize }) => {
     }
   };
 
-  const onSubmitForm = (e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
     if (!searchInput) return;
-    dispatchBookSearch(searchInput);
+    dispatch(setQuery(searchInput));
+    try {
+      await dispatch(searchBooks({ query: searchInput })).unwrap();
+      await dispatch(searchUsers({ query: searchInput })).unwrap();
+      setSearchInput("");
+      navigate("/results");
+    } catch (error) {
+      console.error("Error in SearchBar", { error });
+    }
   };
 
   return (

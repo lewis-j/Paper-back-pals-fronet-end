@@ -45,7 +45,7 @@ export default function ResetPassword() {
   }
 
   return (
-    <>
+    <div className={authStyles.wrapper}>
       <Card className={authStyles.container}>
         <CardBody>
           <h2 className="text-center mb-4">Password Reset</h2>
@@ -76,6 +76,6 @@ export default function ResetPassword() {
           Need an account? <Link to="../signup">Sign Up</Link>
         </div>
       </Card>
-    </>
+    </div>
   );
 }

@@ -3,11 +3,22 @@
 .container {
   background-color: #0a0a0abf;
   color: $dark-background-font-color;
+  width: 100%;
+  max-width: 28rem;
   a {
     color: #bcd7ff;
   }
 
   .button {
     border-radius: 50%;
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  min-height: 32rem;
+  @media (min-width: 768px) {
+    justify-content: end;
   }
 }

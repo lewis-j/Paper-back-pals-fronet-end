@@ -70,7 +70,7 @@ export default function Login() {
   const { email, password } = formValues;
 
   return (
-    <>
+    <div className={authStyle.wrapper}>
       <Card className={authStyle.container}>
         <CardBody>
           <h2 className="text-center my-4">Log In</h2>
@@ -123,6 +123,6 @@ export default function Login() {
           Need an account? <Link to="../signup">Sign Up</Link>
         </div>
       </Card>
-    </>
+    </div>
   );
 }

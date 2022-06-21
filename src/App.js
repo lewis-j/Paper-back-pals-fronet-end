@@ -9,6 +9,7 @@ import {
   Dashboard,
   Library,
   UserResults,
+  Notifications,
 } from "./Pages";
 import {
   Login,
@@ -21,6 +22,7 @@ import {
 } from "./components";
 import "./style/main.scss";
 import { FriendsPage } from "./Pages/Friends";
+import { AllResults } from "./Pages/SearchResults/AllResults";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,9 +56,11 @@ function App() {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route path="search-results" element={<BookResults />} />
+            <Route path="results" element={<AllResults />} />
+            <Route path="book-results" element={<BookResults />} />
             <Route path="user-results" element={<UserResults />} />
             <Route path="library" element={<Library />} />
+            <Route path="notifications" element={<Notifications />} />
             <Route path="friends" element={<FriendsPage />}>
               <Route path="books: user_id" element={<UserBookResults />} />
               {/* <Route path="messaging: user_id" element={<UserMessaging />} />

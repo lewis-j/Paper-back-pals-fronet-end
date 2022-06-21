@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { removeAuthUser } from "./redux/authUser/authUserSlice";
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_NEST_URI,
@@ -26,14 +28,16 @@ const handleAxiosError = (error) => {
 
 const AxiosInterceptor = ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const resInterceptor = (response) => {
       return response;
     };
 
-    const errInterceptor = (error) => {
+    const errInterceptor = async (error) => {
       if (error.response.status === 401) {
+        await dispatch(removeAuthUser()).unwrap();
         navigate("landing-page");
       }
 

@@ -50,8 +50,8 @@ export const authUserSlice = createSlice({
     error: null,
   },
   reducers: {
-    test: (state, action) => {
-      console.log("testing reducer");
+    removeAuthUser: (state, action) => {
+      state.currentUser = null;
     },
   },
   extraReducers: {
@@ -77,6 +77,6 @@ export const authUserSlice = createSlice({
   },
 });
 
-export const { test } = authUserSlice.actions;
+export const { removeAuthUser } = authUserSlice.actions;
 
 export default authUserSlice.reducer;

@@ -87,10 +87,10 @@ export default function Signup() {
   }
 
   return (
-    <>
+    <div className={authStyle.wrapper}>
       <Card className={authStyle.container}>
         <CardBody>
-          <h2 className="text-center- mb-4">Sign Up</h2>
+          <h2 className="text-center mb-4">Sign Up</h2>
           {error.message && (
             <div className={ErrMsgStyle.msg}>{error.message}</div>
           )}
@@ -150,6 +150,6 @@ export default function Signup() {
           Have an account? <Link to="../">Log In</Link>{" "}
         </div>
       </Card>
-    </>
+    </div>
   );
 }

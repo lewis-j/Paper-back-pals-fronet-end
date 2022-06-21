@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./UserCard.module.scss";
 
-const UserCard = ({ username, profilePic, isActive, _id }) => {
+const UserCard = ({ _id, username, profilePic, isActive = false }) => {
   return (
     <div
       className={

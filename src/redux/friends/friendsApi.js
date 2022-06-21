@@ -1,15 +1,21 @@
 import API from "../../authAxios";
 
-export const friendFetch = async (_id) => {
+export const requestFriend = async ({ _id }) => {
   try {
-    const res = await API.get(`user/${_id}`);
-    const friend = res.data;
-    console.log("resonse from the friends api:", res);
-    return friend;
+    const res = await API.post(`friends/request/${_id}`);
+    console.log("response from friend request", res);
+    return { reciever_id: _id };
   } catch (error) {
-    console.log("Error", error);
-    if (error.response.status === 401) error.message = "Please login again";
+    console.log("error from friend request", error.response.data);
+    return Promise.reject(error.message);
+  }
+};
 
-    return Promise.reject(error);
+export const addFriendFromRequest = async ({ request_id }) => {
+  try {
+    const res = await API.post(`friends/add/${request_id}`);
+    return res.data;
+  } catch (error) {
+    return Promise.reject(error.message);
   }
 };

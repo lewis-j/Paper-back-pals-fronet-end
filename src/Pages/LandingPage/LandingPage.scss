@@ -12,7 +12,7 @@
       $gradient-color-1,
       $gradient-color-2
     );
-    box-shadow: 2px 1px 10px black;
+    box-shadow: inset 2px 1px 10px #7a7a7a;
 
     @media (min-width: 768px) {
       height: 55em;

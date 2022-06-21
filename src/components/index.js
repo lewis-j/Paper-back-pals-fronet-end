@@ -7,6 +7,7 @@ export { Placeholder } from "./Placeholders";
 export { PrivateRoute } from "./PrivateRoute";
 export { SearchCard } from "./SearchCard";
 export { ContactList } from "./ContactList";
-export { UserCard, UserRequestCard } from "./User";
+export { UserCard, UserRequestCard, UserInboxCard } from "./User";
 export { UserBookResults } from "./UserBookResults";
 export { Loading } from "./Loading";
+export { Button } from "./Button";
