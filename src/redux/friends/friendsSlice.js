@@ -19,8 +19,15 @@ const fulfilledReducer = (state, { payload: { user } }) => {
   state.error = null;
 };
 
-const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
-  console.log("fulffilled reciever_id action: ", reciever_id);
+export const sendFriendRequest = createAsyncThunk(
+  "friends/sendFriendRequest",
+  friendsApi.requestFriend
+);
+
+export const sendFriendRequestFullfilled = (
+  state,
+  { payload: { reciever_id } }
+) => {
   state.friendRequestOutbox = [
     ...state.friendRequestOutbox,
     { reciever: { _id: reciever_id } },
@@ -29,15 +36,19 @@ const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
   state.error = null;
 };
 
-export const sendFriendRequest = createAsyncThunk(
-  "friends/sendFriendRequest",
-  friendsApi.requestFriend
-);
-
 export const acceptFriendRequest = createAsyncThunk(
   "friends/acceptFriendRequest",
   friendsApi.addFriendFromRequest
 );
+
+export const acceptFriendRequestFullfilled = (
+  state,
+  { payload: { friend } }
+) => {
+  state.friendsList.push(friend);
+  state.status = status.SUCCEEDED;
+  state.error = null;
+};
 
 const initialState = {
   currentFriend: "",
@@ -73,7 +84,7 @@ const friendsSlice = createSlice({
     [sendFriendRequest.fulfilled]: sendFriendRequestFullfilled,
     [acceptFriendRequest.pending]: pendingReducer,
     [acceptFriendRequest.rejected]: rejectionReducer,
-    [acceptFriendRequest.fulfilled]: fulfilledReducer,
+    [acceptFriendRequest.fulfilled]: acceptFriendRequestFullfilled,
   },
 });
 

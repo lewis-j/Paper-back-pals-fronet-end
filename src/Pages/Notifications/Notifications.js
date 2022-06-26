@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
 import { Container, Row } from "reactstrap";
-import { UserInboxCard } from "../../components";
+import { EmptyPage, UserInboxCard } from "../../components";
 
 const Notifications = () => {
   const { friendRequestInbox: friendRequest } = useSelector(
     (state) => state.friends
   );
+
+  if (friendRequest.length === 0)
+    return <EmptyPage>You currently have no notifications</EmptyPage>;
 
   const renderFriendRequest = () => {
     return friendRequest.map((request, i) => {

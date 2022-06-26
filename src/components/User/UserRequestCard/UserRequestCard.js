@@ -8,6 +8,7 @@ import {
   faUser,
   faUserCheck,
   faUserGroup,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { sendFriendRequest } from "../../../redux/friends/friendsSlice";
@@ -26,7 +27,8 @@ const UserRequestCard = ({ username, profilePic, _id }) => {
     if (friendsList.some((friend) => friend._id === _id))
       return (
         <div className={styles.friendIcon}>
-          friends <FontAwesomeIcon icon={faUserGroup} size="sm" />
+          <FontAwesomeIcon icon={faUserGroup} size="sm" />
+          <FontAwesomeIcon icon={faCheck} size="sm" />
         </div>
       );
 

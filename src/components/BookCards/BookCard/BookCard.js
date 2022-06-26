@@ -1,19 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import "./BookCard.scss";
+import styles from "./BookCard.module.scss";
 
 const BookCard = ({ coverImg, title, status }) => {
   return (
-    <div className="BookCard__container">
+    <div className={styles.container}>
       {status === "PENDING" && (
         <FontAwesomeIcon
-          className="BookCard__icon"
+          className={styles.icon}
           size="xl"
           icon={faCircleExclamation}
         />
       )}
-      <img className="BookCard__img" src={coverImg} alt={title} />
+      <img className={styles.img} src={coverImg} alt={title} />
     </div>
   );
 };

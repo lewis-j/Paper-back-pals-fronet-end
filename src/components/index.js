@@ -11,3 +11,4 @@ export { UserCard, UserRequestCard, UserInboxCard } from "./User";
 export { UserBookResults } from "./UserBookResults";
 export { Loading } from "./Loading";
 export { Button } from "./Button";
+export { EmptyPage } from "./EmptyPage";

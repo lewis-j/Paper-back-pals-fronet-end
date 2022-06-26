@@ -25,14 +25,16 @@
 .username {
   margin-left: 0.5em;
 }
+@mixin icon {
+  white-space: nowrap;
+  margin-right: 0.5em;
+  font-size: 0.98em;
+}
 .pendingIcon {
   color: $grey-5;
-  font-size: 0.98em;
-  margin-right: 0.5em;
+  @include icon;
 }
 .friendIcon {
-  margin-right: 1em;
-  font-size: 0.98em;
-  margin-right: 0.5em;
   color: $accept-color;
+  @include icon;
 }
