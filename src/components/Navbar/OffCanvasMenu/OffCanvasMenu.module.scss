@@ -1,0 +1,22 @@
+@import "../../../style/variables.scss";
+.offCanvas {
+  background-image: linear-gradient($gradient-color-1, #707070);
+
+  li {
+    margin-bottom: 1em;
+  }
+}
+
+.header {
+  color: white;
+
+  button {
+    color: white;
+  }
+}
+
+.avatar {
+  width: 2.3em;
+  border-radius: 99px;
+  margin-right: 1em;
+}

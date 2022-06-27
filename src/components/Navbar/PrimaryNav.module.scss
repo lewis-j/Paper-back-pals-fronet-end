@@ -1,0 +1,18 @@
+@import "../../style/variables.scss";
+
+.searchInput {
+  width: 65vw;
+  @media (min-width: 576px) {
+    width: 50vw;
+  }
+}
+.navbar {
+  background-image: linear-gradient($gradient-color-1, #ababab);
+  z-index: 2;
+}
+
+.dropdownNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

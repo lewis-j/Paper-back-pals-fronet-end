@@ -1,0 +1,21 @@
+@import "../../../style/variables.scss";
+
+.navLink {
+  font-size: 1.1em;
+  color: $grey-3;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color: $grey-1;
+    text-decoration: underline;
+  }
+}
+
+.navLink_active {
+  color: $grey-1;
+  @include active-link;
+  border-bottom: none;
+  &:hover {
+    color: $grey-1;
+  }
+}

@@ -11,20 +11,20 @@ import {
   Input,
   Form,
 } from "reactstrap";
-import UserOffCanvas from "./OffCanvasMenu";
+import { OffCanvasMenu } from "./OffCanvasMenu";
+import { SecondaryNav } from "./SecondaryNav";
 import SearchBar from "../SearchBar/SearchBar";
 import logo from "../../Assets/imgs/pppals_white.png";
-import BottomNav from "./BottomNav";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   searchBooks,
   setQuery,
 } from "../../redux/searchResults/searchResultsSlice";
-import * as NavLinks from "./navLinks";
-import "./Navbar-custom.scss";
+import * as NavLinks from "./NavLinks";
+import styles from "./PrimaryNav.module.scss";
 
-const MainNav = () => {
+const PrimaryNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -34,12 +34,7 @@ const MainNav = () => {
 
   return (
     <div>
-      <Navbar
-        container="md"
-        expand={expandSize}
-        dark
-        className="Navbar__custom"
-      >
+      <Navbar container="md" expand={expandSize} dark className={styles.navbar}>
         <NavbarToggler
           onClick={() => {
             setIsOpen(!isOpen);
@@ -59,7 +54,7 @@ const MainNav = () => {
               name="search"
               type="search"
               placeholder="Search Book"
-              className="Navbar__search__input"
+              className={styles.searchInput}
               value={searchInput}
               onChange={(e) => {
                 setSearchInput(e.target.value);
@@ -82,7 +77,7 @@ const MainNav = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} color="white" size="lg" />
         </Button>
         <Collapse navbar isOpen={isOpen}>
-          <Nav className="me-auto Navbar__li" navbar>
+          <Nav className={styles.dropdownNav} navbar>
             <NavItem>
               <NavLinks.Home />
             </NavItem>
@@ -112,12 +107,12 @@ const MainNav = () => {
           </Nav>
         </Collapse>
         <SearchBar expandSize={expandSize} />
-        <UserOffCanvas expandSize={expandSize} />
-        <BottomNav expandSize={expandSize} />
+        <OffCanvasMenu expandSize={expandSize} />
+        <SecondaryNav expandSize={expandSize} />
       </Navbar>
       <Outlet />
     </div>
   );
 };
 
-export default MainNav;
+export default PrimaryNav;

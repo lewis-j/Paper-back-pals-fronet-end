@@ -1,5 +1,6 @@
-export { Dashboard } from "./DashBoard";
-export { LandingPage } from "./LandingPage";
+export { DashboardPage } from "./DashBoard";
+export { LandingPage } from "./Landing";
 export { Library } from "./Library";
 export { BookResults, UserResults } from "./SearchResults";
-export { Notifications } from "./Notifications";
+export { NotificationsPage } from "./Notifications";
+export { BorrowedPage } from "./Borrowed";

@@ -1,11 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { logout } from "../../redux/authUser/authUserSlice";
-import "./Navbar-custom.scss";
+import { logout } from "../../../redux/authUser/authUserSlice";
+import styles from "./NavLinks.module.scss";
 import { useDispatch } from "react-redux";
 
 const generateClass = (className) => {
-  const _className = `${className} NavLinks`;
-  const activeLink = `${_className} NavLinks__active`;
+  const _className = className
+    ? `${className} ${styles.navLink}`
+    : styles.navLink;
+  const activeLink = `${_className} ${styles.navLink_active}`;
   return ({ isActive }) => (isActive ? activeLink : _className);
 };
 
@@ -82,7 +84,7 @@ export const Settings = ({ className, closeOnClick }) => (
 export const Logout = ({ className }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let linkClass = `${className} NavLinks`;
+  let linkClass = `${className} ${styles.navLink}`;
   return (
     <div
       className={linkClass}

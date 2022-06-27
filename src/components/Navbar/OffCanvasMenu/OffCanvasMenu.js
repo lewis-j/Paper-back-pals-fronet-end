@@ -10,11 +10,15 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import * as NavLinks from "./navLinks";
+import * as NavLinks from "../NavLinks";
+import styles from "./OffCanvasMenu.module.scss";
+import { useSelector } from "react-redux";
 
 const OffCanvasMenu = ({ expandSize }) => {
   const [canvasToggle, setCanvasToggle] = useState(false);
-  const userName = "Lewis";
+  const { username, profilePic } = useSelector(
+    (state) => state.authUser.currentUser
+  );
 
   const clickedLink = () => {
     setCanvasToggle(false);
@@ -34,17 +38,19 @@ const OffCanvasMenu = ({ expandSize }) => {
       <Offcanvas
         direction="end"
         isOpen={canvasToggle}
-        className="UserOffCanvas"
+        className={styles.offCanvas}
         toggle={() => {
           setCanvasToggle(!canvasToggle);
         }}
       >
         <OffcanvasHeader
+          className={styles.header}
           toggle={() => {
             setCanvasToggle(!canvasToggle);
           }}
         >
-          {userName}
+          <img src={profilePic} alt={username} className={styles.avatar} />
+          {username}
         </OffcanvasHeader>
         <OffcanvasBody>
           <Nav vertical tabs>

@@ -1,5 +1,9 @@
 import React from "react";
-import { ResponsiveSlider, UserCardLrg as CurrentRead, UserCardSm } from "../../components";
+import {
+  ResponsiveSlider,
+  UserCardLrg as CurrentRead,
+  UserCardSm,
+} from "../../components";
 import { Container } from "reactstrap";
 
 const bookData = {
@@ -103,19 +107,27 @@ const SectionTitle = ({ title }) => (
   </h3>
 );
 
-const Dashboard = () => {
+const DashboardPage = () => {
   return (
     <div>
       <Container>
         <SectionTitle title="Current Read" />
         <CurrentRead currentBook={bookData} />
         <SectionTitle title="What you're borrowing" />
-        <ResponsiveSlider>{checkedBooks.map((book)=> (<UserCardSm bookData={book}/>))}</ResponsiveSlider>
+        <ResponsiveSlider>
+          {checkedBooks.map((book) => (
+            <UserCardSm bookData={book} />
+          ))}
+        </ResponsiveSlider>
         <SectionTitle title="What they're borrowing" />
-        <ResponsiveSlider>{checkedBooks.map((book)=> (<UserCardSm bookData={book}/>))}</ResponsiveSlider>
+        <ResponsiveSlider>
+          {checkedBooks.map((book) => (
+            <UserCardSm bookData={book} />
+          ))}
+        </ResponsiveSlider>
       </Container>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

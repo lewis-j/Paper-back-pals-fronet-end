@@ -6,10 +6,11 @@ import * as condition from "./redux/status";
 import {
   LandingPage,
   BookResults,
-  Dashboard,
+  DashboardPage,
   Library,
   UserResults,
-  Notifications,
+  NotificationsPage,
+  BorrowedPage,
 } from "./Pages";
 import {
   Login,
@@ -17,7 +18,7 @@ import {
   ResetPassword,
   PrivateRoute,
   Footer,
-  MainNav,
+  Navbar,
   UserBookResults,
 } from "./components";
 import "./style/main.scss";
@@ -51,16 +52,17 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <MainNav />
+                <Navbar />
               </PrivateRoute>
             }
           >
-            <Route index element={<Dashboard />} />
+            <Route index element={<DashboardPage />} />
             <Route path="results" element={<AllResults />} />
             <Route path="book-results" element={<BookResults />} />
             <Route path="user-results" element={<UserResults />} />
             <Route path="library" element={<Library />} />
-            <Route path="notifications" element={<Notifications />} />
+            <Route path="borrowed" element={<BorrowedPage />} />
+            <Route path="notifications" element={<NotificationsPage />} />
             <Route path="friends" element={<FriendsPage />}>
               <Route path="books: user_id" element={<UserBookResults />} />
               {/* <Route path="messaging: user_id" element={<UserMessaging />} />

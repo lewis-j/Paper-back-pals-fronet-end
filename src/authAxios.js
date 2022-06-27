@@ -50,7 +50,7 @@ const AxiosInterceptor = ({ children }) => {
     );
 
     return () => API.interceptors.response.eject(interceptor);
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return children;
 };

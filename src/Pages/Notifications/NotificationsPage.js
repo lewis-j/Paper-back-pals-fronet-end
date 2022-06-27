@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Container, Row } from "reactstrap";
 import { EmptyPage, UserInboxCard } from "../../components";
 
-const Notifications = () => {
+const NotificationsPage = () => {
   const { friendRequestInbox: friendRequest } = useSelector(
     (state) => state.friends
   );
@@ -24,4 +24,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
+export default NotificationsPage;
