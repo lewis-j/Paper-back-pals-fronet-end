@@ -9,10 +9,18 @@
 .navbar {
   background-image: linear-gradient($gradient-color-1, #ababab);
   z-index: 2;
+  box-shadow: 1px 1px 3px #6e6e6e;
 }
 
-.dropdownNav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.nav {
+  text-align: center;
+  width: 100%;
+  justify-content: flex-end;
+  @media (min-width: 992px) {
+    margin-right: 1em;
+  }
+}
+
+.inline {
+  margin-right: 1em;
 }

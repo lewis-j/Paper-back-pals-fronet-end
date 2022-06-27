@@ -23,12 +23,15 @@ import {
 } from "../../redux/searchResults/searchResultsSlice";
 import * as NavLinks from "./NavLinks";
 import styles from "./PrimaryNav.module.scss";
+import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
 
 const PrimaryNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
+
+  const isSmScreen = useBSSizeFromWidth() === "md";
 
   const expandSize = "md";
 
@@ -77,33 +80,39 @@ const PrimaryNav = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} color="white" size="lg" />
         </Button>
         <Collapse navbar isOpen={isOpen}>
-          <Nav className={styles.dropdownNav} navbar>
+          <Nav className={styles.nav} navbar>
             <NavItem>
-              <NavLinks.Home />
+              <NavLinks.Home className={styles.inline} />
             </NavItem>
             <NavItem>
-              <NavLinks.Borrowed className={`d-none d-${expandSize}-block`} />
-            </NavItem>
-            <NavItem>
-              <NavLinks.Library className={`d-none d-${expandSize}-block`} />
-            </NavItem>
-            <NavItem>
-              <NavLinks.Profile className={`d-block d-${expandSize}-none`} />
-            </NavItem>
-            <NavItem>
-              <NavLinks.Notifications
-                className={`d-block d-${expandSize}-none`}
+              <NavLinks.Borrowed
+                className={`d-none d-${expandSize}-block ${styles.inline}`}
               />
             </NavItem>
             <NavItem>
-              <NavLinks.Friends className={`d-block d-${expandSize}-none`} />
+              <NavLinks.Library
+                className={`d-none d-${expandSize}-block ${styles.inline}`}
+              />
             </NavItem>
-            <NavItem>
-              <NavLinks.Settings className={`d-block d-${expandSize}-none`} />
-            </NavItem>
-            <NavItem>
-              <NavLinks.Logout className={`d-block d-${expandSize}-none`} />
-            </NavItem>
+            <>
+              <NavItem>
+                <NavLinks.Profile className={`d-block d-${expandSize}-none`} />
+              </NavItem>
+              <NavItem>
+                <NavLinks.Notifications
+                  className={`d-block d-${expandSize}-none`}
+                />
+              </NavItem>
+              <NavItem>
+                <NavLinks.Friends className={`d-block d-${expandSize}-none`} />
+              </NavItem>
+              <NavItem>
+                <NavLinks.Settings className={`d-block d-${expandSize}-none`} />
+              </NavItem>
+              <NavItem>
+                <NavLinks.Logout className={`d-block d-${expandSize}-none`} />
+              </NavItem>
+            </>
           </Nav>
         </Collapse>
         <SearchBar expandSize={expandSize} />
