@@ -5,6 +5,7 @@ import {
   UserCardSm,
 } from "../../components";
 import { Container } from "reactstrap";
+import styles from "./DashboardPage.module.scss";
 
 const bookData = {
   coverImg:
@@ -101,25 +102,19 @@ const checkedBooks = [
   },
 ];
 
-const SectionTitle = ({ title }) => (
-  <h3 style={{ maxWidth: "540px" }} className="mx-auto mt-5">
-    {title}
-  </h3>
-);
-
 const DashboardPage = () => {
   return (
     <div>
       <Container>
-        <SectionTitle title="Current Read" />
+        <h3 className={styles.title}>Current Read</h3>
         <CurrentRead currentBook={bookData} />
-        <SectionTitle title="What you're borrowing" />
+        <h3 className={styles.title}>Books from Friends</h3>
         <ResponsiveSlider>
           {checkedBooks.map((book) => (
             <UserCardSm bookData={book} />
           ))}
         </ResponsiveSlider>
-        <SectionTitle title="What they're borrowing" />
+        <h3 className={styles.title}>Your Library</h3>
         <ResponsiveSlider>
           {checkedBooks.map((book) => (
             <UserCardSm bookData={book} />

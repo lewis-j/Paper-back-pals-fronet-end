@@ -12,3 +12,4 @@ export { UserBookResults } from "./UserBookResults";
 export { Loading } from "./Loading";
 export { Button } from "./Button";
 export { EmptyPage } from "./EmptyPage";
+export { NoBook } from "./NoBooksDisplay";

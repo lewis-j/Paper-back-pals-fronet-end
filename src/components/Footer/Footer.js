@@ -34,12 +34,6 @@ const Footer = () => {
               <FontAwesomeIcon icon={faAt}></FontAwesomeIcon>
             </a>
           </Col>
-          <Col className="order-md-last Footer__other">
-            <InputGroup>
-              <Input />
-              <Button>Sign Up</Button>
-            </InputGroup>
-          </Col>
           <Col>
             <p
               id="acknowledgements"

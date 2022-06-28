@@ -1,7 +1,7 @@
 @import "./variables.scss";
 
 .App {
-  background-color: $app-background;
+  background-color: $grey-2;
 
   &__container {
     min-height: 100vh;
@@ -14,6 +14,7 @@ body {
 
 h6,
 h5,
+h4,
 h3,
 h2,
 h1 {

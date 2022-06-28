@@ -11,7 +11,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { loginGoogle, loginWithForm } from "../../../redux/authUser";
 import { useDispatch, useSelector } from "react-redux";
-import "../authentication.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import * as condition from "../../../redux/status";

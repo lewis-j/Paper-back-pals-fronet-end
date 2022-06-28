@@ -7,15 +7,16 @@ import { HashLink as Link } from "react-router-hash-link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import tutorialContent from "../../Assets/content/tutorialContent";
+import styles from "./LandingPage.module.scss";
 
 const Hero = () => {
   return (
     <div
-      className="Hero__container"
+      className={styles.container}
       style={{ paddingLeft: 0, paddingRight: 0 }}
     >
-      <div className="Hero__main-img">
-        <div className="filter"></div>
+      <div className={styles.imgWrapper}>
+        <div className={styles.filter}></div>
         <Container style={{ height: "80%" }}>
           <Row>
             <Col
@@ -23,32 +24,28 @@ const Hero = () => {
               className="pop d-flex flex-column justify-content-center align-items-center"
               style={{ zIndex: 2 }}
             >
-              <div className="Hero__logo">
+              <div className={styles.logo}>
                 <img src={logo_white} alt="Paper back pals logo" />
               </div>
-              <div className="mt-3 d-flex justify-content-center Hero__btns">
-                <Button
-                  outline
-                  color="light"
-                  className="border-bottom Hero__demo__btn mb-2"
-                >
+              <div className={styles.btnWrapper}>
+                <Button outline color="light" className={styles.btn}>
                   <Link smooth to="../landing-page/#Demo">
-                    Demo
+                    Learn more
                     <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
                   </Link>
                 </Button>
               </div>
             </Col>
-            <Col md="6" style={{ zIndex: 2 }} className="Hero__login">
+            <Col md="6" style={{ zIndex: 2 }}>
               <Outlet />
             </Col>
           </Row>
         </Container>
       </div>
 
-      <div className="Hero__app-discription text-center text-white">
+      <div className={styles.appDiscription}>
         <h2> A social book tracker</h2>
-        <p className="mx-auto mt-4">
+        <p>
           Sometimes we all lend out books only to foget were they ended up. And
           sometimes we don't realize we're holding onto books that we barrowed
           from someone else. This is a web app that helps you to keep track of
@@ -64,12 +61,8 @@ const MediaObject = ({ img, header, paragraph, imgRight = false }) => {
   return (
     <Row className="pt-5 d-flex align-items-center">
       <Col sm="12" md="6" className={rowClassName}>
-        <div className="tint">
-          <img
-            src={img.src}
-            className="img-thumbnail justify-content-center shadow-lg"
-            alt={img.alt}
-          />
+        <div className={styles.tint}>
+          <img src={img.src} className={styles.thumbnail} alt={img.alt} />
         </div>
       </Col>
       <Col>
@@ -84,11 +77,11 @@ const MediaObject = ({ img, header, paragraph, imgRight = false }) => {
 
 const TutorialSection = () => {
   return (
-    <Container className="mt-md-5 tutorial" id="Demo">
+    <Container className="md-5" id="Demo">
       {tutorialContent.map((content, i) => {
         return (
           <MediaObject
-            key={i}
+            key={`tutorialContent-${i}`}
             img={content.img}
             header={content.header}
             paragraph={content.paragraph}

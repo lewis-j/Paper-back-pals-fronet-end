@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchBooks } from "../../redux/userBook/userBooksSlice";
-import "./Library.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 import { BookCard, UserCardSm, Placeholder } from "../../components";
 import { Button } from "reactstrap";
 import * as condition from "../../redux/status";
+import styles from "./Library.module.scss";
+import { NoBook } from "../../components/NoBooksDisplay";
 
 const Library = () => {
   const dispatch = useDispatch();
@@ -72,7 +72,7 @@ const Library = () => {
     .map(mapCheckedInBooks);
 
   const renderSection = (section, fetchStatus, state, loadingSectionState) => {
-    if (!section) return <div>Currently no books</div>;
+    if (section.length === 0) return <NoBook />;
 
     if (fetchStatus === condition.LOADING)
       return [...Array(12).keys()].map((i) => (
@@ -115,16 +115,27 @@ const Library = () => {
     );
   };
 
+  const checkedOutBooksSection = renderSection(
+    checkedOutBooks,
+    fetchStatus,
+    checkedOutState,
+    loadingOutSection
+  );
+
+  console.log(
+    "checkedOutBooksSection.length === 0 ::: ",
+    checkedOutBooksSection
+  );
   return (
     <>
       <Container>
-        <div className="Library__title__container">
-          <h1 className="Library__title">Your Library</h1>
+        <div className={styles.title}>
+          <h1>Your Library</h1>
         </div>
         <div>
-          <h4 className="Library__subtitle">Checked in Books</h4>
+          <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
-        <Row className="Library__section1">
+        <Row className={styles.section}>
           {renderSection(
             checkedInBooks,
             fetchStatus,
@@ -133,16 +144,9 @@ const Library = () => {
           )}
         </Row>
         <div>
-          <h4 className="Library__subtitle">Checked Out Books</h4>
+          <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
-        <Row className="Library__section1">
-          {renderSection(
-            checkedOutBooks,
-            fetchStatus,
-            checkedOutState,
-            loadingOutSection
-          )}
-        </Row>
+        <Row className={styles.section}>{checkedOutBooksSection}</Row>
       </Container>
     </>
   );

@@ -65,7 +65,7 @@ const PrimaryNav = () => {
             />
           </Form>
         ) : (
-          <img src={logo} style={{ width: "9rem" }} alt="Paperback Pals Logo" />
+          <img src={logo} className={styles.logo} alt="Paperback Pals Logo" />
         )}
 
         <Button

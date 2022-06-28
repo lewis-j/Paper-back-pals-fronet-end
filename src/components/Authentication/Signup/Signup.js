@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../../redux/authUser/authUserSlice";
 import * as condition from "../../../redux/status";
 import authStyle from "../auth.module.scss";
-import "../authentication.scss";
 import ErrorMsg from "../ErrorMsg/ErrorMsg";
 import ErrMsgStyle from "../ErrorMsg/ErrorMsg.module.scss";
 

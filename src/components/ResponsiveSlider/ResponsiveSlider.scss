@@ -1,3 +1,5 @@
+@import "../../style/variables.scss";
+
 .BookSlider {
   &__arrow {
     font-size: 1.5em;
@@ -14,8 +16,9 @@
 }
 
 .slick-list {
-  background-color: rgb(192, 184, 184);
+  // background-color: rgb(192, 184, 184);
+  background-color: $grey-5;
   padding: 1em 0;
   border-radius: 10px;
-  box-shadow: inset 0px 0px 5px rgb(0 0 0 / 60%);
+  box-shadow: inset 0px 0px 5px rgb(0 0 0 / 11%);
 }

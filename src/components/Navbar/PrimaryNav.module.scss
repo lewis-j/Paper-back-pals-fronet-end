@@ -10,6 +10,9 @@
   background-image: linear-gradient($gradient-color-1, #ababab);
   z-index: 2;
   box-shadow: 1px 1px 3px #6e6e6e;
+  @media (min-width: 768px) {
+    height: 3rem;
+  }
 }
 
 .nav {
@@ -23,4 +26,9 @@
 
 .inline {
   margin-right: 1em;
+}
+
+.logo {
+  width: 14rem;
+  filter: drop-shadow(1px 2px 8px $grey-10);
 }
