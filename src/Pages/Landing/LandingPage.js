@@ -21,19 +21,22 @@ const Hero = () => {
           <Row>
             <Col
               md="6"
-              className="pop d-flex flex-column justify-content-center align-items-center"
+              // className="pop d-flex flex-column justify-content-center align-items-center"
+
               style={{ zIndex: 2 }}
             >
-              <div className={styles.logo}>
-                <img src={logo_white} alt="Paper back pals logo" />
-              </div>
-              <div className={styles.btnWrapper}>
-                <Button outline color="light" className={styles.btn}>
-                  <Link smooth to="../landing-page/#Demo">
-                    Learn more
-                    <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
-                  </Link>
-                </Button>
+              <div className={styles.panel}>
+                <div className={styles.logo}>
+                  <img src={logo_white} alt="Paper back pals logo" />
+                </div>
+                <div className={styles.btnWrapper}>
+                  <Button outline color="light" className={styles.btn}>
+                    <Link smooth to="../landing-page/#Demo">
+                      Learn more
+                      <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </Col>
             <Col md="6" style={{ zIndex: 2 }}>

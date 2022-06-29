@@ -57,13 +57,29 @@ $app-disc-start-md: 41em;
     );
   }
 }
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
 
 .logo {
   width: 100%;
-  align-items: center;
-  height: 6em;
+  position: relative;
+  max-width: 38em;
+  height: 100%;
+  margin: 0 auto;
   padding: 5px;
-  display: flex;
+  right: 0;
+  left: 0;
+
+  @media (min-width: 768px) {
+    position: absolute;
+  }
+
   img {
     width: 100%;
     filter: drop-shadow(2px 4px 13px black);
@@ -75,9 +91,9 @@ $app-disc-start-md: 41em;
   margin: 1em auto;
   justify-content: center;
   button {
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.1s ease-in-out;
     &:hover {
-      transform: scale(1.2);
+      transform: scale(0.98);
       box-shadow: 4px 4px 5px rgba(255, 255, 255, 0.205);
       background-color: inherit;
       color: white;
@@ -85,8 +101,12 @@ $app-disc-start-md: 41em;
   }
 }
 .btn {
-  filter: drop-shadow(5px 5px 5px black);
-  width: 40%;
+  filter: drop-shadow(4px 7px 8px white);
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 1.5em;
+  font-size: 1.5em;
+  padding: 0 0.2em;
   a {
     text-decoration: none;
     color: $grey-2;
@@ -113,6 +133,7 @@ $app-disc-start-md: 41em;
   h2 {
     text-align: center;
   }
+
   p {
     width: 70%;
     max-width: 50em;

@@ -16,14 +16,15 @@ import {
   Col,
 } from "reactstrap";
 import "./Footer.scss";
+import styles from "./Footer.module.scss";
 const Footer = () => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
-    <footer className="Footer mt-5 d-flex justify-content-between align-items-center ">
+    <footer className={styles.container}>
       <Container>
-        <Row>
-          <Col md="4" className="Footer__icons">
+        <Row className={styles.row}>
+          <div className={styles.icons}>
             <a
               className="text-dark me-2"
               href="https://github.com/lewis-j/paperbackpals"
@@ -33,14 +34,9 @@ const Footer = () => {
             <a className="text-dark me-2" href="mailto:desmotion27@gmail.com">
               <FontAwesomeIcon icon={faAt}></FontAwesomeIcon>
             </a>
-          </Col>
-          <Col>
-            <p
-              id="acknowledgements"
-              className="justify-content-center me-5 Footer__other"
-            >
-              Acknowledgements section
-            </p>
+          </div>
+          <div className={styles.acknowledgements}>
+            <div id="acknowledgements">Acknowledgements section</div>
             <Popover
               placement="top"
               flip
@@ -73,11 +69,9 @@ const Footer = () => {
                 </ListGroup>
               </PopoverBody>
             </Popover>
-          </Col>
+          </div>
         </Row>
-        <div className="Footer__copyright">
-          <p>Copyright© 2022 Paperback Pals </p>
-        </div>
+        <div className="Footer__copyright">Copyright© 2022 Paperback Pals</div>
       </Container>
     </footer>
   );
