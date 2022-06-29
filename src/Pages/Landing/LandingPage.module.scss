@@ -101,7 +101,7 @@ $app-disc-start-md: 41em;
   }
 }
 .btn {
-  filter: drop-shadow(4px 7px 8px white);
+  filter: drop-shadow(4px 7px 8px $grey-5);
   width: -moz-fit-content;
   width: fit-content;
   height: 1.5em;

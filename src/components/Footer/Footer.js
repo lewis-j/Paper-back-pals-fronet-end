@@ -27,6 +27,8 @@ const Footer = () => {
           <div className={styles.icons}>
             <a
               className="text-dark me-2"
+              target="_blank"
+              rel="noreferrer"
               href="https://github.com/lewis-j/paperbackpals"
             >
               <FontAwesomeIcon icon={faGithub} />
@@ -49,6 +51,7 @@ const Footer = () => {
                 <ListGroup>
                   <ListGroupItem
                     action
+                    className={styles.link}
                     href="https://www.freepik.com/photos/novel"
                     onClick={() => {
                       window.open("https://www.freepik.com/photos/novel");
@@ -58,6 +61,7 @@ const Footer = () => {
                   </ListGroupItem>
                   <ListGroupItem
                     action
+                    className={styles.link}
                     onClick={() => {
                       window.open(
                         "https://www.freepik.com/photos/library-books"
@@ -71,7 +75,7 @@ const Footer = () => {
             </Popover>
           </div>
         </Row>
-        <div className="Footer__copyright">Copyright© 2022 Paperback Pals</div>
+        <div className={styles.copyright}>Copyright© 2022 Paperback Pals</div>
       </Container>
     </footer>
   );

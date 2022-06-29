@@ -19,12 +19,7 @@ const Hero = () => {
         <div className={styles.filter}></div>
         <Container style={{ height: "80%" }}>
           <Row>
-            <Col
-              md="6"
-              // className="pop d-flex flex-column justify-content-center align-items-center"
-
-              style={{ zIndex: 2 }}
-            >
+            <Col md="6" style={{ zIndex: 2 }}>
               <div className={styles.panel}>
                 <div className={styles.logo}>
                   <img src={logo_white} alt="Paper back pals logo" />
@@ -32,7 +27,7 @@ const Hero = () => {
                 <div className={styles.btnWrapper}>
                   <Button outline color="light" className={styles.btn}>
                     <Link smooth to="../landing-page/#Demo">
-                      Learn more
+                      Learn more{" "}
                       <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
                     </Link>
                   </Button>
