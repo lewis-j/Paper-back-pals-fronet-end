@@ -11,6 +11,9 @@ import {
   UserResults,
   NotificationsPage,
   BorrowedPage,
+  FriendsPage,
+  FriendsLibrary,
+  FriendsProfile,
 } from "./Pages";
 import {
   Login,
@@ -19,10 +22,8 @@ import {
   PrivateRoute,
   Footer,
   Navbar,
-  UserBookResults,
 } from "./components";
-import "./style/main.scss";
-import { FriendsPage } from "./Pages/Friends";
+import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
 
 function App() {
@@ -39,8 +40,8 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <div className="App__container">
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
         <Routes>
           <Route path="landing-page" element={<LandingPage />}>
             <Route index element={<Login />} />
@@ -64,7 +65,8 @@ function App() {
             <Route path="borrowed" element={<BorrowedPage />} />
             <Route path="notifications" element={<NotificationsPage />} />
             <Route path="friends" element={<FriendsPage />}>
-              <Route path="books: user_id" element={<UserBookResults />} />
+              <Route path="library" element={<FriendsLibrary />} />
+              <Route path="profile" element={<FriendsProfile />} />
               {/* <Route path="messaging: user_id" element={<UserMessaging />} />
               <Route path="profile: user_id" element={<UserProfile />}/> */}
             </Route>

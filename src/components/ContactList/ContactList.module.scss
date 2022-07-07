@@ -21,13 +21,21 @@ $borderStyle: 1px solid $grey-3;
 }
 .container {
   height: 100vh;
-  margin-top: 1em;
+  padding-top: 1em;
   border-top: $borderStyle;
   border-right: $borderStyle;
   border-radius: 5px;
   box-shadow: 1px 1px 1px $grey-3;
+  background-color: $grey-3;
 }
 
-.isActive {
-  background-color: rgb(182, 182, 255);
+.user_item {
+  cursor: pointer;
 }
+
+// .isActive {
+//   background-color: rgb(182, 182, 255);
+//   border-radius: 12px;
+//   box-shadow: 1px 1px 1px $box-shadow-sharp;
+//   color: $grey-2;
+// }

@@ -1,17 +1,14 @@
 @import "./variables.scss";
 
-.App {
+.wrapper {
   background-color: $grey-2;
-
-  &__container {
-    min-height: 100vh;
-  }
 }
-
+.container {
+  min-height: 100vh;
+}
 body {
   font-family: $paragraph-font;
 }
-
 h6,
 h5,
 h4,

@@ -1,16 +1,25 @@
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
-import { ContactList } from "../../components";
+import { ContactList, FriendsNavigation } from "../../components";
 
 const FriendsPage = () => {
+  const [activeId, setActiveId] = useState("");
+  const navigate = useNavigate();
+
+  const clickHandler = (_id) => {
+    setActiveId(_id);
+    navigate(`library`, { state: { user_id: _id } });
+  };
   return (
     <Container fluid>
       <Row>
-        <Col sm="4" lg="3" className="ps-0">
-          <ContactList />
+        <Col sm="4" lg="3" className="p-0">
+          <ContactList activeId={activeId} setId={clickHandler} />
         </Col>
-        <Col sm="8" lg="9">
+        <Col sm="8" lg="9" className="m-0 p-0">
           <div className="FriendResults">
+            <FriendsNavigation />
             <Outlet />
           </div>
         </Col>

@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { IconBookOff } from "@tabler/icons";
 import { Col, Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { BookCard, UserCardSm, Placeholder } from "../../components";
-import { Button } from "reactstrap";
+import {
+  BookCard,
+  UserCardSm,
+  Placeholder,
+  Button,
+  NoContent,
+} from "../../components";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 import * as condition from "../../redux/status";
 import styles from "./Library.module.scss";
-import { NoBook } from "../../components/NoBooksDisplay";
+import { useNavigate } from "react-router-dom";
 
 const Library = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     books: { borrowed, owned: books },
     status: fetchStatus,
@@ -72,7 +80,19 @@ const Library = () => {
     .map(mapCheckedInBooks);
 
   const renderSection = (section, fetchStatus, state, loadingSectionState) => {
-    if (section.length === 0) return <NoBook />;
+    if (section.length === 0)
+      return (
+        <NoContent text="No Books Yet!" icon={IconBookOff}>
+          <div>Check Notifications for Book request</div>
+          <Button
+            varient="add"
+            icon={faBell}
+            onClick={() => navigate("/notifications")}
+          >
+            Notifications
+          </Button>
+        </NoContent>
+      );
 
     if (fetchStatus === condition.LOADING)
       return [...Array(12).keys()].map((i) => (

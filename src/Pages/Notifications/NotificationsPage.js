@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { Container, Row } from "reactstrap";
-import { EmptyPage, UserInboxCard } from "../../components";
+import { EmptyPage, NoContent, UserInboxCard } from "../../components";
+import { faBellSlash } from "@fortawesome/free-regular-svg-icons";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 const NotificationsPage = () => {
   const { friendRequestInbox: friendRequest } = useSelector(
@@ -8,7 +10,9 @@ const NotificationsPage = () => {
   );
 
   if (friendRequest.length === 0)
-    return <EmptyPage>You currently have no notifications</EmptyPage>;
+    return (
+      <NoContent icon={faBell} text="You currently don't have notifications" />
+    );
 
   const renderFriendRequest = () => {
     return friendRequest.map((request, i) => {
