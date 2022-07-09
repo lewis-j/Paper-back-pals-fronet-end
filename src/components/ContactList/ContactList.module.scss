@@ -20,7 +20,6 @@ $borderStyle: 1px solid $grey-3;
   }
 }
 .container {
-  height: 100vh;
   padding-top: 1em;
   border-top: $borderStyle;
   border-right: $borderStyle;
@@ -31,11 +30,15 @@ $borderStyle: 1px solid $grey-3;
 
 .user_item {
   cursor: pointer;
+  transition: 0.5s background-color, 3s transform;
+  position: relative;
 }
 
-// .isActive {
-//   background-color: rgb(182, 182, 255);
-//   border-radius: 12px;
-//   box-shadow: 1px 1px 1px $box-shadow-sharp;
-//   color: $grey-2;
-// }
+.isActive {
+  background-color: #c0b8b8;
+  border-radius: 12px;
+  box-shadow: 1px 1px 3px $grey-10;
+  color: $grey-2;
+  transform: translateX(1px);
+  // z-index: 10;
+}

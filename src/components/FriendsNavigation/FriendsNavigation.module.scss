@@ -20,6 +20,14 @@
   }
 }
 
+.icon {
+  transition: 1s;
+}
+
+.iconRotate {
+  transform: rotate(90deg);
+}
+
 .active {
   color: $grey-2;
   filter: drop-shadow(2px 2px 4px $grey-2);

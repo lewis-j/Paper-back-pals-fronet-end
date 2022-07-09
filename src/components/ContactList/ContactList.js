@@ -26,18 +26,19 @@ import { useSelector } from "react-redux";
 //   },
 // ];
 
-const ContactList = ({ activeId, setId }) => {
+const ContactList = ({ activeId, setUser }) => {
   const { friendsList, status, error } = useSelector((state) => state.friends);
 
   const renderFriends = (friendsList) => {
     return friendsList.map(({ _id, username, profilePic }, index) => (
       <div
         key={_id}
-        onClick={() => {
-          console.log("setting id in div");
-          setId(_id);
-        }}
-        className={styles.user_item}
+        onClick={() => setUser(_id)}
+        className={
+          activeId === _id
+            ? [styles.user_item, styles.isActive].join(" ")
+            : styles.user_item
+        }
       >
         <UserCard
           username={username}

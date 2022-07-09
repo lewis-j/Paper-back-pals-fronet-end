@@ -19,15 +19,12 @@ const fulfilledReducer = (state, { payload: { user } }) => {
   state.error = null;
 };
 
-export const sendFriendRequest = createAsyncThunk(
+const sendFriendRequest = createAsyncThunk(
   "friends/sendFriendRequest",
   friendsApi.requestFriend
 );
 
-export const sendFriendRequestFullfilled = (
-  state,
-  { payload: { reciever_id } }
-) => {
+const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
   state.friendRequestOutbox = [
     ...state.friendRequestOutbox,
     { reciever: { _id: reciever_id } },
@@ -36,22 +33,29 @@ export const sendFriendRequestFullfilled = (
   state.error = null;
 };
 
-export const acceptFriendRequest = createAsyncThunk(
+const acceptFriendRequest = createAsyncThunk(
   "friends/acceptFriendRequest",
   friendsApi.addFriendFromRequest
 );
 
-export const acceptFriendRequestFullfilled = (
-  state,
-  { payload: { friend } }
-) => {
+const acceptFriendRequestFullfilled = (state, { payload: { friend } }) => {
   state.friendsList.push(friend);
+  state.status = status.SUCCEEDED;
+  state.error = null;
+};
+const getUserData = createAsyncThunk(
+  "friends/getUserData",
+  friendsApi.getUserData
+);
+
+const getUserDataFullfilled = (state, { payload }) => {
+  state.currentFriend = payload;
   state.status = status.SUCCEEDED;
   state.error = null;
 };
 
 const initialState = {
-  currentFriend: "",
+  currentFriend: null,
   friendsList: [],
   friendRequestOutbox: [],
   friendRequestInbox: [],
@@ -85,6 +89,9 @@ const friendsSlice = createSlice({
     [acceptFriendRequest.pending]: pendingReducer,
     [acceptFriendRequest.rejected]: rejectionReducer,
     [acceptFriendRequest.fulfilled]: acceptFriendRequestFullfilled,
+    [getUserData.pending]: pendingReducer,
+    [getUserData.rejected]: rejectionReducer,
+    [getUserData.fulfilled]: getUserDataFullfilled,
   },
 });
 
@@ -94,5 +101,7 @@ export const {
   setFriendRequestInbox,
   setFriendRequestOutbox,
 } = friendsSlice.actions;
+
+export { sendFriendRequest, acceptFriendRequest, getUserData };
 
 export default friendsSlice.reducer;

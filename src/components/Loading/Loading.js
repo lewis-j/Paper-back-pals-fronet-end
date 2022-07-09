@@ -5,21 +5,13 @@ import blackLogo from "../../Assets/imgs/pppals.png";
 
 const Loading = () => {
   return (
-    <div>
-      <Spinner type="grow" className={styles.spinner} size="lg" />
-      <div className={styles.logo}>
-        <img
-          className={`${styles.img} ${styles.whiteLogo}`}
-          src={whiteLogo}
-          alt="paperback pals"
-        />
-
-        <img
-          className={`${styles.img} ${styles.blackLogo}`}
-          src={blackLogo}
-          alt="paperback pals"
-        />
-      </div>
+    <div className={styles.container}>
+      <div className={styles.spinner}> </div>
+      <img
+        className={`${styles.img} ${styles.blackLogo}`}
+        src={blackLogo}
+        alt="paperback pals"
+      />
     </div>
   );
 };

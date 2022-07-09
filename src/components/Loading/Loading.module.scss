@@ -1,53 +1,57 @@
+//https://blog.hubspot.com/website/css-loading-animation#:~:text=Loading%20animations%20are%20notifications%20that,data%20or%20content%20to%20load.
+
+$timing-property: ease-in;
+
+.container {
+  display: flex;
+  position: relative;
+  width: 10em;
+  height: 10em;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 .spinner {
+  border: 1px solid transparent;
+  border-color: transparent black transparent black;
   position: absolute;
   width: 10em;
   height: 10em;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.logo {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 10em;
-  height: 10em;
+  border-radius: 100%;
   animation-name: spin;
-  animation-duration: 3000ms;
+  animation-duration: 2.5s;
   animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-
-.img {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 10em;
+  animation-timing-function: $timing-property;
 }
 
 @keyframes spin {
   from {
     transform: rotate(0deg);
+    opacity: 0;
   }
   to {
     transform: rotate(360deg);
+    opacity: 1;
   }
+}
+
+.img {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 10em;
 }
 
 .blackLogo {
   animation-name: fadeIn;
-  animation-duration: 0.75s;
+  animation-duration: 2.5s;
   animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  animation-timing-function: $timing-property;
 }
 
 @keyframes fadeIn {
@@ -56,21 +60,5 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-.whiteLogo {
-  animation-name: fadeOut;
-  animation-duration: 0.75s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }

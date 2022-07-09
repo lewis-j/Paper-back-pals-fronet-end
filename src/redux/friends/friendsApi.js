@@ -19,3 +19,13 @@ export const addFriendFromRequest = async ({ request_id }) => {
     return Promise.reject(error.message);
   }
 };
+
+export const getUserData = async ({ user_id }) => {
+  try {
+    const res = await API.get(`user/${user_id}`);
+    console.log("response in friends api", res);
+    return res.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

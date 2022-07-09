@@ -75,7 +75,7 @@ const MediaObject = ({ img, header, paragraph, imgRight = false }) => {
 
 const TutorialSection = () => {
   return (
-    <Container className="md-5" id="Demo">
+    <Container id="Demo">
       {tutorialContent.map((content, i) => {
         return (
           <MediaObject
@@ -95,7 +95,9 @@ const LandingPage = () => {
   return (
     <>
       <Hero />
-      <TutorialSection />
+      <div className={styles.tutorialSection}>
+        <TutorialSection />
+      </div>
     </>
   );
 };

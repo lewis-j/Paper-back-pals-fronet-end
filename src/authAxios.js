@@ -19,8 +19,8 @@ const setcsrfToken = (_token) => {
 };
 
 const handleAxiosError = (error) => {
-  if (error.response)
-    return `Error in response: status:${error.response.status} headers: ${error.response.headers} data:${error.response.data}`;
+  if (error.response) console.log("error.response", error.response);
+  // return `Error in response: status:${error.response.status} headers: ${error.response.headers} data:${error.response.data}`;
   if (error.request) return `Error in request: ${error.request}`;
 
   return `Error ${error.message} ${error.config}`;
@@ -35,13 +35,17 @@ const AxiosInterceptor = ({ children }) => {
       return response;
     };
 
-    const errInterceptor = async (error) => {
-      if (error.response.status === 401) {
-        await dispatch(removeAuthUser()).unwrap();
-        navigate("landing-page");
+    const errInterceptor = async (err) => {
+      if (err?.error?.reponse) {
+        if (err.error.response.status === 401) {
+          await dispatch(removeAuthUser()).unwrap();
+          navigate("landing-page");
+        }
+
+        return Promise.reject(err.error);
       }
 
-      return Promise.reject(error);
+      return Promise.reject(err.message);
     };
 
     const interceptor = API.interceptors.response.use(

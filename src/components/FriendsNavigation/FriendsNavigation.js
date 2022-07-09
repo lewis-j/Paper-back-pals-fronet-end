@@ -1,3 +1,5 @@
+import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./FriendsNavigation.module.scss";
@@ -13,9 +15,10 @@ const data = [
   },
 ];
 
-const FriendsNavigation = () => {
+const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
   const { pathname, state } = useLocation();
   const [active, set] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +32,16 @@ const FriendsNavigation = () => {
   };
 
   return (
-    <div className={styles.nav}>
+    <div className={styles.nav} style={_style}>
+      <span onClick={() => toggleList()} className={styles.nav_item}>
+        <FontAwesomeIcon
+          icon={faCircleChevronDown}
+          className={
+            isOpen ? styles.icon : `${styles.icon} ${styles.iconRotate}`
+          }
+        />
+      </span>
+
       {data.map((item, i) => {
         return active === item.route ? (
           <span className={`${styles.nav_item}  ${styles.active}`}>
