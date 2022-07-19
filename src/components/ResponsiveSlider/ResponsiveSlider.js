@@ -22,13 +22,15 @@ const PrevArrow = ({ className, style, onClick }) => {
     </div>
   );
 };
-const ResponsiveSlider = ({ books, className, children }) => {
+const ResponsiveSlider = ({ className, children }) => {
+  const getSlideItems = (num) => Math.min(children.length, num);
+
   var settings = {
     className: className,
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: getSlideItems(4),
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -36,27 +38,27 @@ const ResponsiveSlider = ({ books, className, children }) => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: getSlideItems(3),
           slidesToScroll: 3,
           infinite: true,
-          dots: true
-        }
+          dots: true,
+        },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: getSlideItems(2),
           slidesToScroll: 2,
-          initialSlide: 2
-        }
+          initialSlide: 2,
+        },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
+          slidesToScroll: 1,
+        },
+      },
     ],
   };
   return <Slider {...settings}>{children}</Slider>;

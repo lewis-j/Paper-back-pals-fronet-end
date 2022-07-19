@@ -5,7 +5,6 @@ import { Button } from "../../Button";
 import {
   faUserPlus,
   faCheckCircle,
-  faUser,
   faUserCheck,
   faUserGroup,
   faCheck,

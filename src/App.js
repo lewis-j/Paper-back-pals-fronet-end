@@ -41,38 +41,36 @@ function App() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <Routes>
-          <Route path="landing-page" element={<LandingPage />}>
-            <Route index element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-          </Route>
+      <Routes>
+        <Route path="landing-page" element={<LandingPage />}>
+          <Route index element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
 
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Navbar />
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<DashboardPage />} />
-            <Route path="results" element={<AllResults />} />
-            <Route path="book-results" element={<BookResults />} />
-            <Route path="user-results" element={<UserResults />} />
-            <Route path="library" element={<Library />} />
-            <Route path="borrowed" element={<BorrowedPage />} />
-            <Route path="notifications" element={<NotificationsPage />} />
-            <Route path="friends" element={<FriendsPage />}>
-              <Route path="library" element={<FriendsLibrary />} />
-              <Route path="profile" element={<FriendsProfile />} />
-              {/* <Route path="messaging: user_id" element={<UserMessaging />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Navbar mainViewStyle={styles.mainView} />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<DashboardPage />} />
+          <Route path="results" element={<AllResults />} />
+          <Route path="book-results" element={<BookResults />} />
+          <Route path="user-results" element={<UserResults />} />
+          <Route path="library" element={<Library />} />
+          <Route path="borrowed" element={<BorrowedPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="friends" element={<FriendsPage />}>
+            <Route path="library" element={<FriendsLibrary />} />
+            <Route path="profile" element={<FriendsProfile />} />
+            {/* <Route path="messaging: user_id" element={<UserMessaging />} />
               <Route path="profile: user_id" element={<UserProfile />}/> */}
-            </Route>
           </Route>
-        </Routes>
-      </div>
+        </Route>
+      </Routes>
       <Footer />
     </div>
   );

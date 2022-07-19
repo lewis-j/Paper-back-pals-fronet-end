@@ -8,14 +8,27 @@ const Button = ({
   varient = "default",
   children,
   onClick,
+  size,
   className = "",
 }) => {
+  const getIcon = (icon) => {
+    console.log("type of icon::::", typeof icon);
+    if (typeof icon === "function") {
+      const Icon = icon;
+      return <Icon style={{ width: "100%", height: "100%" }} />;
+    }
+    if (typeof icon === "object") {
+      return <FontAwesomeIcon icon={icon} />;
+    }
+  };
+
+  console.log("icon value", getIcon(icon));
   return (
     <button
-      className={`${styles.btn} ${styles[varient]} ${className}`}
+      className={`${styles.btn} ${styles[varient]} ${styles[size]} ${className}`}
       onClick={onClick}
     >
-      <span>{children}</span> <FontAwesomeIcon icon={icon} />
+      <span>{children}</span> {getIcon(icon)}
     </button>
   );
 };

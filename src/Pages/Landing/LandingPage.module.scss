@@ -1,21 +1,22 @@
 @import "../../style/variables.scss";
 
-$app-disc-start-xs: 49em;
+$app-disc-start-xs: 50em;
 $app-disc-start-md: 41em;
+$app-disc-start-lg: 53em;
 
 .container {
   position: relative;
-  height: calc(82em - 40vw);
+  height: calc(82em - 34vw);
   width: 100%;
-  background-image: linear-gradient(
-    45deg,
-    $gradient-color-1,
-    $gradient-color-2
-  );
-  box-shadow: inset 2px 1px 10px #7a7a7a;
+  background-image: linear-gradient(244deg, #000000, #444444);
+  box-shadow: inset 2px 1px 10px black;
 
   @media (min-width: 768px) {
-    height: 55em;
+    height: calc(58em - 4vw);
+  }
+
+  @media (min-width: 1200px) {
+    height: 100vh;
   }
 }
 
@@ -38,6 +39,9 @@ $app-disc-start-md: 41em;
 
   @media (min-width: 768px) {
     height: $app-disc-start-md;
+  }
+  @media (min-width: 1400px) {
+    height: $app-disc-start-lg;
   }
 
   &::after {
@@ -90,26 +94,26 @@ $app-disc-start-md: 41em;
   display: flex;
   margin: 1em auto;
   justify-content: center;
-  button {
-    transition: transform 0.1s ease-in-out;
-    &:hover {
-      transform: scale(0.98);
-      box-shadow: 4px 4px 5px rgba(255, 255, 255, 0.205);
-      background-color: inherit;
-      color: white;
-    }
+}
+.learnMoreLink {
+  text-decoration: none;
+  color: $grey-2;
+  &:hover {
+    color: white;
   }
 }
-.btn {
-  filter: drop-shadow(4px 7px 8px $grey-5);
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 1.5em;
-  font-size: 1.5em;
-  padding: 0 0.2em;
-  a {
-    text-decoration: none;
-    color: $grey-2;
+.toTopBtnContianer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 5em;
+  @media (min-width: 768px) {
+    justify-content: end;
+  }
+}
+.toTopBtn {
+  @media (min-width: 768px) {
+    margin-right: 75px;
   }
 }
 .appDiscription {
@@ -181,4 +185,14 @@ $app-disc-start-md: 41em;
 
 .tutorialSection {
   margin-bottom: 3em;
+}
+
+.circle {
+  border: 1px solid $grey-5;
+  width: 2em;
+  height: 2em;
+
+  text-align: center;
+  line-height: 2;
+  filter: drop-shadow(1px 1px 1px black);
 }

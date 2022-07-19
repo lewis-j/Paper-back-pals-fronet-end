@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { ContactList, FriendsNavigation } from "../../components";
+import { ContactList, FriendsNavigation, NoContent } from "../../components";
 import { getUserData } from "../../redux/friends/friendsSlice";
 import styles from "./FriendsPage.module.scss";
 import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
 
 const FriendsPage = () => {
   const [activeId, setActiveId] = useState("");
+  const { currentFriend } = useSelector((state) => state.friends);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
@@ -47,7 +48,7 @@ const FriendsPage = () => {
       >
         <FriendsNavigation isOpen={isOpen} toggleList={switchToListView} />
         <div className={styles.innerView}>
-          <Outlet />
+          {currentFriend ? <Outlet /> : <div>test</div>}
         </div>
       </div>
     </div>

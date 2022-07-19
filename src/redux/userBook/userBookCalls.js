@@ -1,6 +1,6 @@
 import API from "../../authAxios";
 
-export const addBook = async ({ bookDto }, { dispatch }) => {
+export const addBook = async ({ bookDto }) => {
   const { google_id, coverImg, title, authors, description } = bookDto;
   try {
     const req = await API.post(`/user-books`, {

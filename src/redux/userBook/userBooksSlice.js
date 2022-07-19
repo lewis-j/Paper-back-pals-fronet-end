@@ -39,6 +39,8 @@ export const userBooksSlice = createSlice({
   },
 });
 
+export { status };
+
 export const { setBooks } = userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

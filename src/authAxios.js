@@ -36,6 +36,7 @@ const AxiosInterceptor = ({ children }) => {
     };
 
     const errInterceptor = async (err) => {
+      console.log("ERROR IN INTERCEPTOR :::::::::::::", err);
       if (err?.error?.reponse) {
         if (err.error.response.status === 401) {
           await dispatch(removeAuthUser()).unwrap();

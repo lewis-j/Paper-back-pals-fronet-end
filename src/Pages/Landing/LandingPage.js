@@ -1,11 +1,11 @@
 import React from "react";
-import { Button, Container, Row, Col } from "reactstrap";
-import "./LandingPage.scss";
+import { Container, Row, Col } from "reactstrap";
+import { Button } from "../../components";
 import { Outlet } from "react-router-dom";
 import logo_white from "../../Assets/imgs/pppals_white.png";
 import { HashLink as Link } from "react-router-hash-link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import tutorialContent from "../../Assets/content/tutorialContent";
 import styles from "./LandingPage.module.scss";
 
@@ -25,16 +25,19 @@ const Hero = () => {
                   <img src={logo_white} alt="Paper back pals logo" />
                 </div>
                 <div className={styles.btnWrapper}>
-                  <Button outline color="light" className={styles.btn}>
-                    <Link smooth to="../landing-page/#Demo">
-                      Learn more{" "}
-                      <FontAwesomeIcon icon={faArrowDown} className="ms-1" />
+                  <Button icon={faArrowDown} varient="white-outline" size="lg">
+                    <Link
+                      className={styles.learnMoreLink}
+                      smooth
+                      to="../landing-page/#Demo"
+                    >
+                      Learn more
                     </Link>
                   </Button>
                 </div>
               </div>
             </Col>
-            <Col md="6" style={{ zIndex: 2 }}>
+            <Col md="6" style={{ zIndex: 2 }} id="signup">
               <Outlet />
             </Col>
           </Row>
@@ -45,9 +48,9 @@ const Hero = () => {
         <h2> A social book tracker</h2>
         <p>
           Sometimes we all lend out books only to foget were they ended up. And
-          sometimes we don't realize we're holding onto books that we barrowed
+          sometimes we don't realize we're holding onto books that we borrowed
           from someone else. This is a web app that helps you to keep track of
-          the paperback books that you lent or barrowed between your friends.
+          the paperback books that you lent or borrowed between your friends.
         </p>
       </div>
     </div>
@@ -97,6 +100,18 @@ const LandingPage = () => {
       <Hero />
       <div className={styles.tutorialSection}>
         <TutorialSection />
+        <div className={styles.divider} />
+        <div className={styles.toTopBtnContianer}>
+          <Button
+            icon={faArrowUp}
+            varient="granite-outline"
+            className={styles.toTopBtn}
+          >
+            <Link smooth to="../landing-page/signup#signup">
+              Sign Up
+            </Link>
+          </Button>
+        </div>
       </div>
     </>
   );

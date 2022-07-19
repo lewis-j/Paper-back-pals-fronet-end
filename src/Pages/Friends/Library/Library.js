@@ -1,59 +1,88 @@
-import styles from "./Library.module.scss";
-import {
-  UserCardLrg as CurrentRead,
-  ResponsiveSlider,
-  Loading,
-  UserCardSm,
-} from "../../../components";
-import { useEffect } from "react";
+import React, { useState } from "react";
+
+import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
-import * as _status from "../../../redux/status";
-import { Link } from "react-router-dom";
+import { getProgressInPercent } from "../../../utilities/bookUtilities";
+import { UserCardSm, BookCard, BookContainer } from "../../../components";
+import { upperFirst } from "../../../utilities/stringUtil";
+import styles from "./Library.module.scss";
 
 const Library = () => {
-  const { currentFriend: user, status } = useSelector((state) => state.friends);
+  const currentFriend = useSelector((state) => state.friends.currentFriend);
 
-  useEffect(() => {
-    console.log("user in slice", user);
-  }, [user]);
+  const { username, ownedBooks } = currentFriend;
 
-  const renderUserCards = (books) => {
-    console.log("books", books);
-    if (books) return books.map((book) => <UserCardSm bookData={book} />);
-    return <></>;
+  const menuList = [
+    {
+      text: "message friend",
+      clickHandler: (i) => {
+        console.log("itemclicked: ", i);
+      },
+    },
+  ];
+
+  const mapCheckedOutBooks = (bookData, i) => {
+    const progressValue = getProgressInPercent(
+      bookData.currentPage,
+      bookData.pageCount
+    );
+    return (
+      <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+        <UserCardSm
+          bookData={{ ...bookData, progressValue }}
+          menuList={menuList}
+        />
+      </Col>
+    );
   };
-  if (true) return <Loading />;
+
+  const mapCheckedInBooks = ({ book, status }, i) => {
+    const { coverImg, title } = book;
+
+    return (
+      <Col sm="4" md="4" xl="2" className="mb-3" key={i}>
+        <BookCard coverImg={coverImg} title={title} status={status} />
+      </Col>
+    );
+  };
+  const BookCards = ownedBooks.reduce(
+    (obj, book) =>
+      book.status === "CHECKED_OUT"
+        ? {
+            ...obj,
+            checkedOut: [...obj.checkedOut, mapCheckedOutBooks(book)],
+          }
+        : {
+            ...obj,
+            checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
+          },
+
+    { checkedIn: [], checkedOut: [] }
+  );
+
   return (
-    <div>
-      <div>
-        <h3 className={styles.title}>Current Read</h3>
-        {user.currentRead ? (
-          <CurrentRead currentBook={user.currentRead} />
-        ) : (
-          <div>
-            <div>You need to find a currentRead</div>
-            <div>suggestions</div>
-            {user.borrowedBooks.length !== 0 ? (
-              <ResponsiveSlider>
-                {renderUserCards(user.borrowedBooks)}
-              </ResponsiveSlider>
-            ) : (
-              <Link to={"/friends"}>Search through your friends books</Link>
-            )}
-          </div>
-        )}
-        <h3 className={styles.title}>Checked Out</h3>
-        <div className={styles.section}>
-          {user.borrowedBooks.length !== 0 && (
-            <ResponsiveSlider>
-              {renderUserCards(user.borrowedBooks)}
-            </ResponsiveSlider>
-          )}
+    <>
+      <Container>
+        <div className={styles.title}>
+          <h1>
+            {upperFirst(username)}
+            's Library
+          </h1>
         </div>
-        <h3 className={styles.title}>Library</h3>
-        <ResponsiveSlider>{renderUserCards(user.ownedBooks)}</ResponsiveSlider>
-      </div>
-    </div>
+        <div>
+          <h4 className={styles.subtitle}>Checked in Books</h4>
+        </div>
+        <Row className={styles.section}>
+          <BookContainer>{BookCards.checkedIn}</BookContainer>
+        </Row>
+        <div>
+          <h4 className={styles.subtitle}>Checked Out Books</h4>
+        </div>
+        <Row className={styles.section}>
+          <BookContainer>{BookCards.checkedOut}</BookContainer>
+        </Row>
+      </Container>
+    </>
   );
 };
 

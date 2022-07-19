@@ -1,13 +1,16 @@
 @import "../../style/variables.scss";
 
 .nav {
+  position: sticky;
+  top: 0px;
   width: 100%;
-  background-color: #66646182;
+  background-color: #acaba9;
   height: 2em;
   padding-left: 1em;
   line-height: 2;
   color: $grey-4;
   box-shadow: -1px 1px 4px $box-shadow-sharp;
+  z-index: 10;
 }
 
 .nav_item {

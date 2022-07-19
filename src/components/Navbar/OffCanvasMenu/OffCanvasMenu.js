@@ -8,8 +8,9 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import * as NavLinks from "../NavLinks";
 import styles from "./OffCanvasMenu.module.scss";
 import { useSelector } from "react-redux";
@@ -20,21 +21,35 @@ const OffCanvasMenu = ({ expandSize }) => {
     (state) => state.authUser.currentUser
   );
 
+  const navigate = useNavigate();
+
   const clickedLink = () => {
     setCanvasToggle(false);
   };
   return (
-    <div className={`d-none d-${expandSize}-block ms-2`}>
-      <Button
+    <div className={`d-none d-${expandSize}-flex ms-2`}>
+      <button
         color="light"
-        className="text-decoration-none text-reset border-0"
-        style={{ backgroundColor: "inherit" }}
+        className={styles.btn}
         onClick={() => {
           setCanvasToggle(!canvasToggle);
         }}
       >
         <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />
-      </Button>
+      </button>
+      <button
+        color="light"
+        className={styles.btn}
+        onClick={() => {
+          navigate("friends");
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faUsers}
+          size="xl"
+          className={styles.friendsIcon}
+        />
+      </button>
       <Offcanvas
         direction="end"
         isOpen={canvasToggle}

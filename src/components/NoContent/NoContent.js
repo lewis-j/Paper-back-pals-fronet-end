@@ -1,9 +1,6 @@
-import { IconBookOff } from "@tabler/icons";
-import { Button } from "../Button";
 import styles from "./NoContent.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const NoContent = ({ children, ...props }) => {
-  console.log("typof prop icon", typeof props.icon === "function", IconBookOff);
   const getIcon = (icon) => {
     if (typeof icon === "function") {
       const Icon = icon;

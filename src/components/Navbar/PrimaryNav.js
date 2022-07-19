@@ -15,8 +15,8 @@ import { OffCanvasMenu } from "./OffCanvasMenu";
 import { SecondaryNav } from "./SecondaryNav";
 import SearchBar from "../SearchBar/SearchBar";
 import logo from "../../Assets/imgs/pppals_white.png";
-import { Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   searchBooks,
   setQuery,
@@ -25,11 +25,12 @@ import * as NavLinks from "./NavLinks";
 import styles from "./PrimaryNav.module.scss";
 import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
 
-const PrimaryNav = () => {
+const PrimaryNav = ({ mainViewStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isSmScreen = useBSSizeFromWidth() === "md";
 
@@ -65,7 +66,12 @@ const PrimaryNav = () => {
             />
           </Form>
         ) : (
-          <img src={logo} className={styles.logo} alt="Paperback Pals Logo" />
+          <img
+            src={logo}
+            className={styles.logo}
+            alt="Paperback Pals Logo"
+            onClick={() => navigate("/")}
+          />
         )}
 
         <Button
@@ -119,7 +125,9 @@ const PrimaryNav = () => {
         <OffCanvasMenu expandSize={expandSize} />
         <SecondaryNav expandSize={expandSize} />
       </Navbar>
-      <Outlet />
+      <div className={mainViewStyle}>
+        <Outlet />
+      </div>
     </div>
   );
 };

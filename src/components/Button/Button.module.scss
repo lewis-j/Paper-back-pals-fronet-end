@@ -10,6 +10,9 @@
     transform: scale(0.95);
   }
 }
+.lg {
+  font-size: 1.35em;
+}
 .default {
   color: black;
 }
@@ -24,4 +27,31 @@
 
 .add {
   background-color: $pending-color;
+}
+
+.white-outline {
+  color: $grey-1;
+  border: 1px solid $grey-1;
+  background-color: transparent;
+  filter: drop-shadow(2px 2px 4px $grey-1);
+}
+
+.granite-outline {
+  background-color: transparent;
+  filter: drop-shadow(2px 2px 4px #666461);
+  color: #666461;
+  border-color: #666461;
+  height: 1.6em;
+  font-size: 1.6em;
+
+  transition: transform 0.1s ease-in-out;
+  &:hover {
+    filter: drop-shadow(2px 2px 4px black);
+    border-color: black;
+    color: black;
+  }
+  a {
+    text-decoration: none;
+    color: #666461;
+  }
 }

@@ -6,7 +6,7 @@ const tutorialContent = [
   {
     header: "Find Books you'd like to lend",
     paragraph:
-      "Add a list of books to your lending library and let friends request to barrow them!",
+      "Add a list of books to your lending library and let friends request to borrow them!",
     img: {
       src: assortment_books,
       alt: "pile of books",

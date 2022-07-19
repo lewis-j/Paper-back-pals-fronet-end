@@ -13,3 +13,4 @@ export { Button } from "./Button";
 export { EmptyPage } from "./EmptyPage";
 export { NoContent } from "./NoContent";
 export { FriendsNavigation } from "./FriendsNavigation";
+export { BookContainer } from "./BookContainer";
