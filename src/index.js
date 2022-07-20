@@ -10,7 +10,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { AxiosInterceptor } from "./authAxios";
+import { AxiosInterceptor } from "./lib/authAxios";
 
 ReactDOM.render(
   <React.StrictMode>

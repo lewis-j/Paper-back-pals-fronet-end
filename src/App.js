@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import { fetchUser } from "./redux/authUser/authUserSlice";
-import * as condition from "./redux/status";
+import { fetchUser } from "./features/Authentication";
+import * as condition from "./data/status";
 import {
   LandingPage,
   BookResults,
@@ -15,14 +15,9 @@ import {
   FriendsLibrary,
   FriendsProfile,
 } from "./Pages";
-import {
-  Login,
-  Signup,
-  ResetPassword,
-  PrivateRoute,
-  Footer,
-  Navbar,
-} from "./components";
+import { PrivateRoute } from "./components";
+import { Navbar, Footer } from "./layout";
+import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
 

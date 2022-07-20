@@ -1,5 +1,5 @@
 //https://blog.hubspot.com/website/css-loading-animation#:~:text=Loading%20animations%20are%20notifications%20that,data%20or%20content%20to%20load.
-
+@use "../../style/variables.scss";
 $timing-property: ease-in;
 
 .container {
@@ -15,7 +15,6 @@ $timing-property: ease-in;
 }
 .spinner {
   border: 1px solid transparent;
-  border-color: transparent black transparent black;
   position: absolute;
   width: 10em;
   height: 10em;
@@ -24,6 +23,14 @@ $timing-property: ease-in;
   animation-duration: 2.5s;
   animation-iteration-count: infinite;
   animation-timing-function: $timing-property;
+}
+
+.dark {
+  border-color: transparent black transparent black;
+}
+
+.light {
+  border-color: transparent variables.$grey-1 transparent variables.$grey-1;
 }
 
 @keyframes spin {
@@ -47,7 +54,7 @@ $timing-property: ease-in;
   width: 10em;
 }
 
-.blackLogo {
+.logo {
   animation-name: fadeIn;
   animation-duration: 2.5s;
   animation-iteration-count: infinite;

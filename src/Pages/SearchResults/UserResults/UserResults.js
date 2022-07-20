@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
-import { UserRequestCard } from "../../../components";
+import { UserRequestCard } from "../../../features/search";
 import SearchPagination from "../SearchPagination";
 import { StatusHandler } from "../StatusHandler";
 

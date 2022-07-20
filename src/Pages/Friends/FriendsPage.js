@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { ContactList, FriendsNavigation, NoContent } from "../../components";
-import { getUserData } from "../../redux/friends/friendsSlice";
+import {
+  ContactList,
+  FriendsNavigation,
+  getUserData,
+} from "../../features/Friends";
 import styles from "./FriendsPage.module.scss";
 import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
 

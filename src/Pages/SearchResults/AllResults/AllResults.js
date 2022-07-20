@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
-import { UserRequestCard, SearchCard } from "../../../components";
+import { UserRequestCard, SearchCard } from "../../../features/search";
 import { processBookResults } from "../../../utilities/bookUtilities";
-import { addBook } from "../../../redux/userBook/userBooksSlice";
+import { addBook } from "../../../features/library";
 import { StatusHandler } from "../StatusHandler";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import * as condition from "../../redux/status";
+import * as condition from "../../data/status";
 import { Loading } from "../Loading";
+import styles from "./PrivateRoute.module.scss";
 
 const PrivateRoute = ({ children }) => {
   const { currentUser, status } = useSelector((state) => state.authUser);
@@ -9,10 +10,14 @@ const PrivateRoute = ({ children }) => {
   console.log("status in private route", status);
 
   if (status === condition.LOADING || status === condition.IDLE) {
-    return <Loading />;
+    return (
+      <div className={styles.loading}>
+        <Loading isLight />
+      </div>
+    );
   }
 
-  return currentUser && status === condition.SUCCEEDED ? (
+  return (currentUser && status) === condition.SUCCEEDED ? (
     children
   ) : (
     <Navigate to="/landing-page">{console.log("landing page ran")}</Navigate>

@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { BookCard, UserCardSm, BookContainer } from "../../components";
+import { BookCard, UserCardSm, BookContainer } from "../../features/library";
 import styles from "./Library.module.scss";
 
 const Library = () => {

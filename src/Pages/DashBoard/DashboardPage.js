@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  ResponsiveSlider,
-  UserCardLrg as CurrentRead,
-  UserCardSm,
-} from "../../components";
+import { ResponsiveSlider } from "../../components";
+import { UserCardLrg as CurrentRead, UserCardSm } from "../../features/library";
 import { Container } from "reactstrap";
 import styles from "./DashboardPage.module.scss";
 
@@ -129,35 +126,6 @@ const LibraryBooks = [
     pageCount: 480,
   },
 ];
-
-// const libraryData = [
-//   {
-//     coverImg:
-//       "https://books.google.com/books/content?id=RXPjuQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-//     title: "The Hobbit: pocket edition",
-//     author: "J.R.R. Tolken",
-//     dueDate: "3/22/2022",
-//     lender: "Lindsey Jackson",
-//     lenderId: "1",
-//     lenderImg:
-//       "data:image/svg+xml,%0A%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%20%3Cg%3E%0A%20%20%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22red%22%3E%3C%2Frect%3E%0A%20%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22Verdana%22%20dominant-baseline%3D%22middle%22%20%20text-anchor%3D%22middle%22%20font-size%3D%2235%22%20fill%3D%22white%22%3EJB%3C%2Ftext%3E%0A%20%3C%2Fg%3E%0A%20%3C%2Fsvg%3E%0A",
-//     currentPage: 304,
-//     pageCount: 480,
-//   },
-//   {
-//     coverImg:
-//       "https://books.google.com/books/content?id=RXPjuQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-//     title: "The Hobbit: pocket edition",
-//     author: "J.R.R. Tolken",
-//     dueDate: "3/22/2022",
-//     lender: "Lindsey Jackson",
-//     lenderId: "1",
-//     lenderImg:
-//       "data:image/svg+xml,%0A%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%20%3Cg%3E%0A%20%20%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22red%22%3E%3C%2Frect%3E%0A%20%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22Verdana%22%20dominant-baseline%3D%22middle%22%20%20text-anchor%3D%22middle%22%20font-size%3D%2235%22%20fill%3D%22white%22%3EJB%3C%2Ftext%3E%0A%20%3C%2Fg%3E%0A%20%3C%2Fsvg%3E%0A",
-//     currentPage: 304,
-//     pageCount: 480,
-//   },
-// ];
 
 const DashboardPage = () => {
   return (

@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
-import { SearchCard } from "../../../components";
+import { SearchCard } from "../../../features/search";
 import { processBookResults } from "../../../utilities/bookUtilities";
 import SearchPagination from "../SearchPagination";
-import { addBook } from "../../../redux/userBook/userBooksSlice";
+import { addBook } from "../../../features/library";
 import { StatusHandler } from "../StatusHandler";
 const BookResults = () => {
   const [currentPage, setCurrentPage] = useState(0);

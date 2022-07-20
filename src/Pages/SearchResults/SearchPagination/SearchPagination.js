@@ -3,7 +3,7 @@ import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import "./SearchPagination..scss";
 import { useBSSizeFromWidth } from "../../../utilities/getBSSizeFromWidth";
 import { useDispatch, useSelector } from "react-redux";
-import { getMoreBooks } from "../../../redux/searchResults/searchResultsSlice";
+import { getMoreBooks } from "../../../features/search";
 
 const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
   const reactstrapBreakPointSize = useBSSizeFromWidth();

@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userBooksReducer from "./userBook/userBooksSlice";
-import authUserSlice from "./authUser/authUserSlice";
-import friendsSlice from "./friends/friendsSlice";
-import searchResultsSlice from "./searchResults/searchResultsSlice";
+import userBooksReducer from "../features/library/userBooksSlice";
+import authUserSlice from "../features/Authentication/authUserSlice";
+import friendsSlice from "../features/Friends/friendsSlice";
+import searchResultsSlice from "../features/search/searchResultsSlice";
 import { logger } from "redux-logger";
 
 export const store = configureStore({

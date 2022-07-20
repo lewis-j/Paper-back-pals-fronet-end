@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { getProgressInPercent } from "../../../utilities/bookUtilities";
-import { UserCardSm, BookCard, BookContainer } from "../../../components";
+import { UserCardSm, BookCard, BookContainer } from "../../../features/library";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 

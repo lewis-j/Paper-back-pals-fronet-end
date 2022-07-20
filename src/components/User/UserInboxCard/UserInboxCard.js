@@ -3,7 +3,7 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { acceptFriendRequest } from "../../../redux/friends/friendsSlice";
+import { acceptFriendRequest } from "../../../features/Friends";
 import { Button } from "../../Button";
 import styles from "./UserInboxCard.module.scss";
 

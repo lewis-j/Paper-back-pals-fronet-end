@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { condition } from "../../../redux/searchResults/searchResultsSlice";
+import * as condition from "../../../data/status";
 import { Loading } from "../../../components";
 
 const StatusHandler = ({ children, results }) => {
