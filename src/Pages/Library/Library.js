@@ -3,15 +3,24 @@ import { useSelector } from "react-redux";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
 import { BookCard, UserCardSm, BookContainer } from "../../features/library";
 import styles from "./Library.module.scss";
+import { useState } from "react";
 
 const Library = () => {
   const {
     books: { owned: books },
   } = useSelector((state) => state.userBooks);
 
+  const [activeCard, setActiveCard] = useState("");
+
   const menuList = [
     {
-      text: "message friend",
+      text: "Message",
+      clickHandler: (i) => {
+        console.log("itemclicked: ", i);
+      },
+    },
+    {
+      text: "Request",
       clickHandler: (i) => {
         console.log("itemclicked: ", i);
       },
@@ -33,12 +42,18 @@ const Library = () => {
     );
   };
 
-  const mapCheckedInBooks = ({ book, status }, i) => {
+  const mapCheckedInBooks = ({ _id, book, status }, i) => {
     const { coverImg, title } = book;
+    const cardInfo = { _id, coverImg, title, status };
 
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
-        <BookCard coverImg={coverImg} title={title} status={status} />
+        <BookCard
+          cardInfo={cardInfo}
+          menuItems={menuList}
+          isActive={activeCard === _id}
+          setActive={setActiveCard}
+        />
       </Col>
     );
   };

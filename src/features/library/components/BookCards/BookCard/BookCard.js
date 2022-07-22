@@ -9,13 +9,33 @@ import styles from "./BookCard.module.scss";
 import { useState } from "react";
 import { Button } from "../../../../../components";
 
-const BookCard = ({ coverImg, title, status, menuItems = [] }) => {
-  const [isMenuOpen, setisMenuOpen] = useState(false);
+const BookCard = ({
+  cardInfo,
+  menuItems = [],
+  isActive = false,
+  setActive,
+}) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const { _id, coverImg, title, status } = cardInfo;
 
-  const openMenu = () => {
-    setisMenuOpen(!isMenuOpen);
-  };
+  const cardFilter = isActive
+    ? {
+        className: styles.isOpen,
+        icon: faX,
+        size: "xs",
+        menuBtnClick: () => {
+          setActive("");
+        },
+      }
+    : {
+        className: styles.menuBtn,
+        icon: faBars,
+        size: "",
+        menuBtnClick: () => {
+          setActive(_id);
+        },
+      };
+
   return (
     <div className={styles.container}>
       <div className={styles.book}>
@@ -29,15 +49,12 @@ const BookCard = ({ coverImg, title, status, menuItems = [] }) => {
         <img className={styles.img} src={coverImg} alt={title} />
         <div
           onTransitionEnd={() => {
-            setIsMenuVisible(isMenuOpen);
+            setIsMenuVisible(isActive);
           }}
-          className={isMenuOpen ? styles.isOpen : styles.menuBtn}
-          onClick={() => openMenu()}
+          className={cardFilter.className}
+          onClick={cardFilter.menuBtnClick}
         >
-          <FontAwesomeIcon
-            icon={isMenuOpen ? faX : faBars}
-            size={isMenuOpen ? "xs" : ""}
-          />
+          <FontAwesomeIcon icon={cardFilter.icon} size={cardFilter.size} />
         </div>
         {isMenuVisible && menuItems.length !== 0 && (
           <div className={styles.menu}>

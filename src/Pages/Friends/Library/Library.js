@@ -12,6 +12,7 @@ import { RequestCard } from "../../../features/BookRequest";
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeCard, setActiveCard] = useState("");
   const [modalHeight, setModalHeight] = useState({ top: "0px" });
 
   const { username, ownedBooks } = currentFriend;
@@ -23,15 +24,6 @@ const Library = () => {
       clickHandler: (e) => {
         const { y: containerY } = containerRef.current.getBoundingClientRect();
         const { y } = e.target.getBoundingClientRect();
-        console.log(
-          "target::",
-          {
-            cardy: y,
-            container: containerY,
-          },
-          "result",
-          y + containerY
-        );
         setModalHeight({ top: `${y - containerY}px` });
         setIsModalOpen(!isModalOpen);
       },
@@ -44,7 +36,13 @@ const Library = () => {
       bookData.pageCount
     );
     return (
-      <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+      <Col
+        sm="4"
+        md="3"
+        xl="2"
+        className="mb-3"
+        key={`UserCardSm:${bookData._id}`}
+      >
         <UserCardSm
           bookData={{ ...bookData, progressValue }}
           menuList={menuList}
@@ -53,16 +51,17 @@ const Library = () => {
     );
   };
 
-  const mapCheckedInBooks = ({ book, status }, i) => {
+  const mapCheckedInBooks = ({ _id, book, status }, i) => {
     const { coverImg, title } = book;
+    const cardInfo = { _id, coverImg, title, status };
 
     return (
-      <Col sm="4" md="4" xl="2" className="mb-3" key={i}>
+      <Col sm="4" md="4" xl="2" className="mb-3" key={`BookCards:${_id}`}>
         <BookCard
           menuItems={menuList}
-          coverImg={coverImg}
-          title={title}
-          status={status}
+          cardInfo={cardInfo}
+          setActive={setActiveCard}
+          isActive={activeCard === _id}
         />
       </Col>
     );
