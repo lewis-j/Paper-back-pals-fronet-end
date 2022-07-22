@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
@@ -6,17 +6,34 @@ import { getProgressInPercent } from "../../../utilities/bookUtilities";
 import { UserCardSm, BookCard, BookContainer } from "../../../features/library";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
+import { Modal } from "../../../components";
+import { RequestCard } from "../../../features/BookRequest";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalHeight, setModalHeight] = useState({ top: "0px" });
 
   const { username, ownedBooks } = currentFriend;
+  const containerRef = useRef();
 
   const menuList = [
     {
-      text: "message friend",
-      clickHandler: (i) => {
-        console.log("itemclicked: ", i);
+      text: "Request",
+      clickHandler: (e) => {
+        const { y: containerY } = containerRef.current.getBoundingClientRect();
+        const { y } = e.target.getBoundingClientRect();
+        console.log(
+          "target::",
+          {
+            cardy: y,
+            container: containerY,
+          },
+          "result",
+          y + containerY
+        );
+        setModalHeight({ top: `${y - containerY}px` });
+        setIsModalOpen(!isModalOpen);
       },
     },
   ];
@@ -41,7 +58,12 @@ const Library = () => {
 
     return (
       <Col sm="4" md="4" xl="2" className="mb-3" key={i}>
-        <BookCard coverImg={coverImg} title={title} status={status} />
+        <BookCard
+          menuItems={menuList}
+          coverImg={coverImg}
+          title={title}
+          status={status}
+        />
       </Col>
     );
   };
@@ -62,7 +84,15 @@ const Library = () => {
 
   return (
     <>
-      <Container>
+      <div className="container" ref={containerRef}>
+        <Modal
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          style={modalHeight}
+          title="Request Status"
+        >
+          <RequestCard />
+        </Modal>
         <div className={styles.title}>
           <h1>
             {upperFirst(username)}
@@ -81,7 +111,7 @@ const Library = () => {
         <Row className={styles.section}>
           <BookContainer>{BookCards.checkedOut}</BookContainer>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

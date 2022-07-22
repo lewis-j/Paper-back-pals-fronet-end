@@ -1,12 +1,12 @@
 @import "../../style/variables.scss";
 
-$app-disc-start-xs: 50em;
+$app-disc-start-xs: 53em;
 $app-disc-start-md: 41em;
-$app-disc-start-lg: 53em;
+$app-disc-start-lg: 46em;
 
 .container {
   position: relative;
-  height: calc(82em - 34vw);
+  height: calc(84em - 33vw);
   width: 100%;
   background-image: linear-gradient(244deg, #000000, #444444);
   box-shadow: inset 2px 1px 10px black;
@@ -41,7 +41,7 @@ $app-disc-start-lg: 53em;
     height: $app-disc-start-md;
   }
   @media (min-width: 1400px) {
-    height: $app-disc-start-lg;
+    // height: $app-disc-start-lg;
   }
 
   &::after {
@@ -132,6 +132,9 @@ $app-disc-start-lg: 53em;
 
   @media (min-width: 768px) {
     bottom: 3em;
+  }
+  @media (min-width: 1200px) {
+    bottom: 4em;
   }
 
   h2 {

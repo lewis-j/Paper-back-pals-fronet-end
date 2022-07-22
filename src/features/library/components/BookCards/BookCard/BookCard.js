@@ -9,17 +9,15 @@ import styles from "./BookCard.module.scss";
 import { useState } from "react";
 import { Button } from "../../../../../components";
 
-const BookCard = ({ coverImg, title, status }) => {
+const BookCard = ({ coverImg, title, status, menuItems = [] }) => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const openMenu = () => {
-    console.log("clicked", isMenuOpen);
     setisMenuOpen(!isMenuOpen);
   };
   return (
     <div className={styles.container}>
-      {console.log("rendering bookcard")}
       <div className={styles.book}>
         {status === "PENDING" && (
           <FontAwesomeIcon
@@ -41,9 +39,17 @@ const BookCard = ({ coverImg, title, status }) => {
             size={isMenuOpen ? "xs" : ""}
           />
         </div>
-        {isMenuVisible && (
+        {isMenuVisible && menuItems.length !== 0 && (
           <div className={styles.menu}>
-            <Button varient="white-outline">Request</Button>
+            {menuItems.map(({ text, clickHandler }, i) => (
+              <Button
+                key={`menu-list${i}`}
+                onClick={clickHandler}
+                varient="white-outline"
+              >
+                {text}
+              </Button>
+            ))}
           </div>
         )}
       </div>

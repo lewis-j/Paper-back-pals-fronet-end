@@ -1,10 +1,10 @@
 import React from "react";
-import "./Placeholder.scss";
+import styles from "./Placeholder.module.scss";
 
 const PlaceholderCardSm = () => {
   return (
-    <div className="placeholder-glow">
-      <span className="placeholder PlaceholderCardSm__placeholder"></span>
+    <div className="placeholder-glow" style={{ textAlign: "center" }}>
+      <span className={`placeholder ${styles.placeholder}`}></span>
     </div>
   );
 };

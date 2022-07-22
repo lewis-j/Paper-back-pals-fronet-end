@@ -1,0 +1,43 @@
+@use "../../style/variables.scss";
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.507);
+  z-index: 200;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px 0px 8px;
+  border-bottom: 1px solid variables.$grey-4;
+}
+.content {
+}
+
+.container {
+  background-color: variables.$grey-1;
+  z-index: 300;
+  position: absolute;
+  min-width: 15em;
+  min-height: 15em;
+  animation-duration: 0.25s;
+  animation-name: slideIn;
+  animation-timing-function: ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    // transform: translateX(100vw);
+  }
+  to {
+    opacity: 1;
+    // transform: translateX(0vw);
+  }
+}

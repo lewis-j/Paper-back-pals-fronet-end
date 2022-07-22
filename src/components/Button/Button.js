@@ -12,7 +12,6 @@ const Button = ({
   className = "",
 }) => {
   const getIcon = (icon) => {
-    console.log("type of icon::::", typeof icon);
     if (typeof icon === "function") {
       const Icon = icon;
       return <Icon style={{ width: "100%", height: "100%" }} />;
@@ -22,7 +21,6 @@ const Button = ({
     }
   };
 
-  console.log("icon value", getIcon(icon));
   return (
     <button
       className={`${styles.btn} ${styles[varient]} ${styles[size]} ${className}`}

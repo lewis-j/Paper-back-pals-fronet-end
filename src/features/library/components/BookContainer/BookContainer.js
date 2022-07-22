@@ -1,7 +1,7 @@
-import "./BookContainer.module.scss";
+import styles from "./BookContainer.module.scss";
 import { IconBookOff } from "@tabler/icons";
 import { faArrowDown, faBell } from "@fortawesome/free-solid-svg-icons";
-import { NoContent, Placeholder, Button } from "../../../../components";
+import { NoContent, Placeholder, Button, FadeIn } from "../../../../components";
 import { useNavigate } from "react-router-dom";
 import { Col } from "reactstrap";
 import { useState } from "react";
@@ -41,10 +41,10 @@ const BookContainer = ({ children: cards }) => {
 
   return (
     <>
-      {renderBooks}
+      <FadeIn delay={50}>{renderBooks}</FadeIn>
       {loadingSection &&
         [...Array(loadingCount).keys()].map((i) => (
-          <Col sm="4" md="3" xl="2" key={i} className="mb-3">
+          <Col sm="4" md="3" xl="2" key={i} className={styles.cardWrapper}>
             <Placeholder />
           </Col>
         ))}
