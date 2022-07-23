@@ -41,7 +41,7 @@ const BookContainer = ({ children: cards }) => {
 
   return (
     <>
-      <FadeIn delay={50}>{renderBooks}</FadeIn>
+      <FadeIn delay={100}>{renderBooks}</FadeIn>
       {loadingSection &&
         [...Array(loadingCount).keys()].map((i) => (
           <Col sm="4" md="3" xl="2" key={i} className={styles.cardWrapper}>

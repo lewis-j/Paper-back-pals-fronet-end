@@ -33,7 +33,13 @@ const Library = () => {
       bookData.pageCount
     );
     return (
-      <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+      <Col
+        sm="4"
+        md="3"
+        xl="2"
+        className="mb-3"
+        key={`LibraryCard:${bookData._id}`}
+      >
         <UserCardSm
           bookData={{ ...bookData, progressValue }}
           menuList={menuList}
@@ -47,7 +53,7 @@ const Library = () => {
     const cardInfo = { _id, coverImg, title, status };
 
     return (
-      <Col sm="4" md="3" xl="2" className="mb-3" key={i}>
+      <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryBookCard${_id}`}>
         <BookCard
           cardInfo={cardInfo}
           menuItems={menuList}

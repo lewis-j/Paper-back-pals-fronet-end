@@ -44,11 +44,15 @@ const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
 
       {data.map((item, i) => {
         return active === item.route ? (
-          <span className={`${styles.nav_item}  ${styles.active}`}>
+          <span
+            className={`${styles.nav_item}  ${styles.active}`}
+            key={`friendsNav${i}`}
+          >
             {item.title}
           </span>
         ) : (
           <span
+            key={`friendsNav${i}`}
             onClick={() => handleClick(item.route)}
             className={styles.nav_item}
           >

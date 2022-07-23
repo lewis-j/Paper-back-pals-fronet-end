@@ -30,7 +30,7 @@ const BookCard = ({
     : {
         className: styles.menuBtn,
         icon: faBars,
-        size: "",
+        size: "sm",
         menuBtnClick: () => {
           setActive(_id);
         },

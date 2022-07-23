@@ -1,73 +1,95 @@
-import React from "react";
-import "./UserCardSm.scss";
+import React, { useState } from "react";
+import styles from "./UserCardSm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import {
-  Progress,
-  UncontrolledPopover,
-  PopoverBody,
-  ListGroup,
-  ListGroupItem,
-} from "reactstrap";
+import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
+import { Progress, ListGroupItem } from "reactstrap";
+import { Button } from "../../../../../components";
 
 const UserCardSm = ({
-  bookData: { coverImg, title, dueDate, lender, lenderImg, progressValue },
-  menuList = [],
+  bookData: {
+    coverImg,
+    title,
+    dueDate,
+    lenderId,
+    lender,
+    lenderImg,
+    progressValue,
+  },
+  menuItems = [
+    {
+      text: "message",
+      clickHandler: () => {
+        console.log("testing");
+      },
+    },
+  ],
+  isActive = false,
+  setActive,
 }) => {
-  const renderListItems = (meneItems) =>
-    meneItems.map(({ text, clickHandler }, i) => (
-      <ListGroupItem
-        key={i}
-        action
-        tag="button"
-        className="p-1"
-        onClick={() => clickHandler(i)}
-      >
-        {text}
-      </ListGroupItem>
-    ));
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
+  const cardFilter = isActive
+    ? {
+        infoStyle: styles.infoOpen,
+        imgStyle: styles.imgOpen,
+        icon: faX,
+        size: "xs",
+        menuBtnClick: () => {
+          setActive("");
+        },
+      }
+    : {
+        infoStyle: styles.info,
+        imgStyle: styles.img,
+        icon: faBars,
+        size: "sm",
+        menuBtnClick: () => {
+          setActive(lenderId);
+        },
+      };
   return (
     <>
-      <div className="UserBookCardSm__container">
-        <div className="UserBookCardSm__img">
+      <div className={styles.container}>
+        <div
+          className={cardFilter.imgStyle}
+          onTransitionEnd={() => {
+            setIsMenuVisible(isActive);
+          }}
+        >
           <img
             src={coverImg}
             alt={`${title} book cover`}
             referrerpolicy="no-referrer"
           />
+          {isMenuVisible && menuItems.length !== 0 && (
+            <div className={styles.menu}>
+              {menuItems.map(({ text, clickHandler }, i) => (
+                <Button
+                  key={`menu-list${i}`}
+                  onClick={clickHandler}
+                  varient="white-outline"
+                >
+                  {text}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="UserBookCardSm__info">
+        <div className={cardFilter.infoStyle}>
           <img
-            className="UserBookCardSm__avatar"
+            className={styles.avatar}
             src={lenderImg}
             alt={`${lender} avatar`}
           />
-          <div className="UserBookCardSm__tracking">
-            <div className="UserBookCardSm__duedate">{dueDate}</div>
-            <Progress
-              className="UserBookCardSm__progress"
-              value={progressValue}
-            />
+          <div className={styles.tracking}>
+            <div className={styles.dueDate}>{dueDate}</div>
+            <Progress className={styles.progress} value={progressValue} />
           </div>
-          <div className="UserBookCardSm__menu">
-            <FontAwesomeIcon
-              size="lg"
-              id="PopoverLegacy"
-              type="button"
-              icon={faEllipsisVertical}
-            />
+          <div className={styles.menuBtn} onClick={cardFilter.menuBtnClick}>
+            <FontAwesomeIcon size="lg" type="button" icon={cardFilter.icon} />
           </div>
         </div>
       </div>
-      <UncontrolledPopover
-        placement="top"
-        target="PopoverLegacy"
-        trigger="legacy"
-      >
-        <PopoverBody>
-          <ListGroup>{renderListItems(menuList)}</ListGroup>
-        </PopoverBody>
-      </UncontrolledPopover>
     </>
   );
 };

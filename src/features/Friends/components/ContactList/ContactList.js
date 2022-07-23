@@ -32,7 +32,7 @@ const ContactList = ({ activeId, setUser }) => {
   const renderFriends = (friendsList) => {
     return friendsList.map(({ _id, username, profilePic }, index) => (
       <div
-        key={_id}
+        key={`FriendsList:${_id}`}
         onClick={() => setUser(_id)}
         className={
           activeId === _id

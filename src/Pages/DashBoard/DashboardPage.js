@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ResponsiveSlider } from "../../components";
 import { UserCardLrg as CurrentRead, UserCardSm } from "../../features/library";
 import { Container } from "reactstrap";
@@ -128,6 +128,7 @@ const LibraryBooks = [
 ];
 
 const DashboardPage = () => {
+  const [activeCard, setActiveCard] = useState("");
   return (
     <div>
       <Container>
@@ -135,14 +136,19 @@ const DashboardPage = () => {
         <CurrentRead currentBook={bookData} />
         <h3 className={styles.title}>Books from Friends</h3>
         <ResponsiveSlider>
-          {checkedBooks.map((book) => (
-            <UserCardSm bookData={book} />
+          {checkedBooks.map((book, i) => (
+            <UserCardSm
+              bookData={book}
+              setActive={setActiveCard}
+              isActive={activeCard === book.lenderId}
+              key={`FriendsSlider: ${i}`}
+            />
           ))}
         </ResponsiveSlider>
         <h3 className={styles.title}>Your Library</h3>
         <ResponsiveSlider>
-          {LibraryBooks.map((book) => (
-            <UserCardSm bookData={book} />
+          {LibraryBooks.map((book, i) => (
+            <UserCardSm bookData={book} key={`YourSlider: ${i}`} />
           ))}
         </ResponsiveSlider>
       </Container>
