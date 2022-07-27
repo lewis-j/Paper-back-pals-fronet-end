@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import * as condition from "../../../data/status";
-import { Loading } from "../../../components";
+import { PageLoading } from "../../../components";
 
 const StatusHandler = ({ children, results }) => {
   const { status, error } = useSelector((state) => state.searchResults);
@@ -10,7 +10,7 @@ const StatusHandler = ({ children, results }) => {
   const isError = status === condition.FAILED;
 
   if (isLoading) {
-    return <Loading />;
+    return <PageLoading />;
   }
 
   if (isError) {

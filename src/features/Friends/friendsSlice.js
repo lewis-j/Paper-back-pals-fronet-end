@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as status from "../../data/status";
 import * as friendsApi from "./friendsApi";
+import * as userBookService from "../library/userBookCalls";
 
 const rejectionReducer = (state, action) => {
   console.log("failed action", action);
@@ -13,11 +14,11 @@ const pendingReducer = (state) => {
   state.error = null;
 };
 
-const fulfilledReducer = (state, { payload: { user } }) => {
-  console.log("fulffilled user action: ", user);
-  state.status = status.SUCCEEDED;
-  state.error = null;
-};
+// const fulfilledReducer = (state, { payload: { user } }) => {
+//   console.log("fulffilled user action: ", user);
+//   state.status = status.SUCCEEDED;
+//   state.error = null;
+// };
 
 const sendFriendRequest = createAsyncThunk(
   "friends/sendFriendRequest",
@@ -38,8 +39,37 @@ const acceptFriendRequest = createAsyncThunk(
   friendsApi.addFriendFromRequest
 );
 
-const acceptFriendRequestFullfilled = (state, { payload: { friend } }) => {
+const createBookRequest = createAsyncThunk(
+  "userBooks/createRequest",
+  userBookService.createBookRequest
+);
+
+const createBookRequestFulfilled = (state, { payload }) => {
+  const {
+    currentFriend: { ownedBooks },
+  } = state;
+  const { userRequest_id, userBook_id } = payload;
+  const bookIndex = ownedBooks.findIndex(
+    (userBook) => userBook._id === userBook_id
+  );
+  const _userBook = ownedBooks[bookIndex];
+  ownedBooks[bookIndex] = {
+    ..._userBook,
+    request: [..._userBook.request, { _id: userRequest_id }],
+  };
+  state.status = status.SUCCEEDED;
+};
+
+const acceptFriendRequestFullfilled = (
+  state,
+  { payload: { friend, request_id } }
+) => {
+  console.table({ request_id, friend });
+
   state.friendsList.push(friend);
+  state.friendRequestInbox = state.friendRequestInbox.filter(
+    ({ _id }) => _id !== request_id
+  );
   state.status = status.SUCCEEDED;
   state.error = null;
 };
@@ -71,6 +101,26 @@ const friendsSlice = createSlice({
       console.log("action.payload", action.payload);
       state.currentFriend = action.payload;
     },
+    addRequestToCurrentFriend: (state, { payload }) => {
+      console.log(
+        "*****************************************",
+        "payload",
+        payload,
+        "*****************************************"
+      );
+
+      const { userRequest_id, userBook_id } = payload;
+
+      const newRequest = state.currentFriend?.ownedBooks.map((userBook) =>
+        userBook._id === userBook_id
+          ? { ...userBook, request: [...userBook.request, userRequest_id] }
+          : userBook
+      );
+      state.currentFriend = {
+        ...state.currentFriend,
+        ownedBooks: [...newRequest],
+      };
+    },
     setFriends: (state, action) => {
       console.log("action.payload", action.payload);
       state.friendsList = action.payload.friends;
@@ -92,6 +142,9 @@ const friendsSlice = createSlice({
     [getUserData.pending]: pendingReducer,
     [getUserData.rejected]: rejectionReducer,
     [getUserData.fulfilled]: getUserDataFullfilled,
+    [createBookRequest.pending]: pendingReducer,
+    [createBookRequest.rejected]: rejectionReducer,
+    [createBookRequest.fulfilled]: createBookRequestFulfilled,
   },
 });
 
@@ -100,8 +153,14 @@ export const {
   setFriends,
   setFriendRequestInbox,
   setFriendRequestOutbox,
+  addRequestToCurrentFriend,
 } = friendsSlice.actions;
 
-export { sendFriendRequest, acceptFriendRequest, getUserData };
+export {
+  sendFriendRequest,
+  acceptFriendRequest,
+  getUserData,
+  createBookRequest,
+};
 
 export default friendsSlice.reducer;

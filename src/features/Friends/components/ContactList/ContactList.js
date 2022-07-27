@@ -28,7 +28,9 @@ import { useSelector } from "react-redux";
 
 const ContactList = ({ activeId, setUser }) => {
   const { friendsList, status, error } = useSelector((state) => state.friends);
-
+  console.log("typeof friendsList", typeof friendsList, friendsList);
+  if (!friendsList || friendsList.length === 0)
+    return <div>no friends yet</div>;
   const renderFriends = (friendsList) => {
     return friendsList.map(({ _id, username, profilePic }, index) => (
       <div

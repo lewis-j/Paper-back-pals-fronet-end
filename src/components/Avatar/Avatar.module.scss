@@ -1,0 +1,15 @@
+$avatar-size-md: 2.5em;
+.img {
+  border-radius: 100%;
+}
+
+.md {
+  width: $avatar-size-md;
+  height: $avatar-size-md;
+}
+$avatar-size-sm: 1.8em;
+
+.sm {
+  width: $avatar-size-sm;
+  height: $avatar-size-sm;
+}

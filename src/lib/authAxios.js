@@ -35,15 +35,22 @@ const AxiosInterceptor = ({ children }) => {
       return response;
     };
 
-    const errInterceptor = async (err) => {
-      console.log("ERROR IN INTERCEPTOR :::::::::::::", err);
-      if (err?.error?.reponse) {
-        if (err.error.response.status === 401) {
-          await dispatch(removeAuthUser()).unwrap();
-          navigate("landing-page");
-        }
+    const handleStatusCode = async (error) => {
+      if (error.response.status === 401) {
+        console.log("dispatching removeAuthuser");
+        await dispatch(removeAuthUser()).unwrap();
+        navigate("landing-page");
+      }
+      return Promise.reject(error.message);
+    };
 
-        return Promise.reject(err.error);
+    const errInterceptor = async (err) => {
+      console.log("ERROR IN INTERCEPTOR :::::::::::::", { err });
+      if (err?.error?.response) {
+        return await handleStatusCode(err.error);
+      }
+      if (err?.response) {
+        return await handleStatusCode(err);
       }
 
       return Promise.reject(err.message);

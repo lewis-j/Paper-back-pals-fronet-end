@@ -11,6 +11,8 @@ const UserInboxCard = ({ _id, username, profilePic, isActive = false }) => {
   const dispatch = useDispatch();
 
   const handleAccept = () => {
+    console.log("_id in notifications", _id);
+
     dispatch(acceptFriendRequest({ request_id: _id }));
   };
 
@@ -22,7 +24,7 @@ const UserInboxCard = ({ _id, username, profilePic, isActive = false }) => {
       }
     >
       <div className={styles.avatar}>
-        <img src={profilePic} alt="profile" className={styles.img} />
+        <img alt="profile" className={styles.img} />
       </div>
       <span className={styles.username}>{username}</span>
       <div>

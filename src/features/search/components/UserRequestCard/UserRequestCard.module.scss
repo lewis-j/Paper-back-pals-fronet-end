@@ -1,4 +1,4 @@
-@import "../../../../style/variables.scss";
+@use "../../../../style/variables.scss" as global;
 
 .container {
   display: flex;
@@ -6,20 +6,10 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 5px auto;
+  height: 4rem;
+  padding: 0 0.5em;
   position: relative;
-  box-shadow: $standard-box-shadow;
-}
-
-.avatar {
-  width: 3rem;
-  margin: 10px 10px;
-  display: inline-block;
-}
-.img {
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
+  box-shadow: global.$standard-box-shadow;
 }
 
 .username {
@@ -31,10 +21,10 @@
   font-size: 0.98em;
 }
 .pendingIcon {
-  color: $grey-5;
+  color: global.$grey-5;
   @include icon;
 }
 .friendIcon {
-  color: $accept-color;
+  color: global.$accept-color;
   @include icon;
 }

@@ -2,18 +2,10 @@ import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { upperFirst } from "../../../../utilities/stringUtil";
 import styles from "./FriendsNavigation.module.scss";
 
-const data = [
-  {
-    title: "Library",
-    route: "library",
-  },
-  {
-    title: "Profile",
-    route: "profile",
-  },
-];
+const navItems = ["library", "profile", "friends"];
 
 const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
   const { pathname, state } = useLocation();
@@ -42,21 +34,21 @@ const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
         />
       </span>
 
-      {data.map((item, i) => {
-        return active === item.route ? (
+      {navItems.map((item, i) => {
+        return active === item ? (
           <span
             className={`${styles.nav_item}  ${styles.active}`}
             key={`friendsNav${i}`}
           >
-            {item.title}
+            {item}
           </span>
         ) : (
           <span
             key={`friendsNav${i}`}
-            onClick={() => handleClick(item.route)}
+            onClick={() => handleClick(item)}
             className={styles.nav_item}
           >
-            {item.title}
+            {upperFirst(item)}
           </span>
         );
       })}

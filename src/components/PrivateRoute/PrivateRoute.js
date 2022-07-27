@@ -3,18 +3,15 @@ import { useSelector } from "react-redux";
 import * as condition from "../../data/status";
 import { Loading } from "../Loading";
 import styles from "./PrivateRoute.module.scss";
+import { PageLoading } from "../PageLoading";
 
 const PrivateRoute = ({ children }) => {
   const { currentUser, status } = useSelector((state) => state.authUser);
 
-  console.log("status in private route", status);
+  console.log("status in private route", status, currentUser);
 
   if (status === condition.LOADING || status === condition.IDLE) {
-    return (
-      <div className={styles.loading}>
-        <Loading isLight />
-      </div>
-    );
+    return <PageLoading />;
   }
 
   return (currentUser && status) === condition.SUCCEEDED ? (

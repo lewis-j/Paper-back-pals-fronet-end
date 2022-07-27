@@ -3,7 +3,7 @@ import styles from "./UserCardSm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { Progress, ListGroupItem } from "reactstrap";
-import { Button } from "../../../../../components";
+import { Avatar, Button } from "../../../../../components";
 
 const UserCardSm = ({
   bookData: {
@@ -76,11 +76,10 @@ const UserCardSm = ({
           )}
         </div>
         <div className={cardFilter.infoStyle}>
-          <img
-            className={styles.avatar}
-            src={lenderImg}
-            alt={`${lender} avatar`}
-          />
+          <div className={styles.avatar}>
+            <Avatar imgSrc={lenderImg} size="sm" username={lender} />
+          </div>
+
           <div className={styles.tracking}>
             <div className={styles.dueDate}>{dueDate}</div>
             <Progress className={styles.progress} value={progressValue} />

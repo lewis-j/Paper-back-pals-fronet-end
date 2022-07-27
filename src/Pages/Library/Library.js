@@ -64,7 +64,9 @@ const Library = () => {
     );
   };
 
-  const BookCards = books.reduce(
+  const _books = books || [];
+
+  const BookCards = _books.reduce(
     (obj, book) =>
       book.status === "CHECKED_OUT"
         ? {

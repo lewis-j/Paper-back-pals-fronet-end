@@ -30,7 +30,7 @@ const fetchUser = async (_, { dispatch }) => {
   try {
     await authApi.enableCsrfProtection();
     const user = await authApi.authUserFetch();
-    console.log("user in fetch call", user);
+    console.log("user in fetch call", { user });
     return parseSlice(dispatch, user);
   } catch (error) {
     return Promise.reject(error);
@@ -66,7 +66,7 @@ const registerUser = async ({ username, email, password }, { dispatch }) => {
   const defaultPic = getDefaultUserImg(username);
   await firebaseApi.setUsernameAndPictire(res.user, username, defaultPic);
   const token = await res?.user?.getIdToken(true);
-  const user = authApi.authUserRegister(token);
+  const user = await authApi.authUserRegister(token);
   return { user };
 };
 

@@ -1,34 +1,38 @@
 import React, { useState, useRef } from "react";
 
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { getProgressInPercent } from "../../../utilities/bookUtilities";
 import { UserCardSm, BookCard, BookContainer } from "../../../features/library";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 import { Modal } from "../../../components";
-import { RequestCard } from "../../../features/BookRequest";
+import { RequestCard } from "../../../features/library";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeCard, setActiveCard] = useState("");
   const [modalHeight, setModalHeight] = useState({ top: "0px" });
-
+  const [activeUserBook, setActiveUserBook] = useState();
   const { username, ownedBooks } = currentFriend;
   const containerRef = useRef();
 
-  const menuList = [
-    {
-      text: "Request",
-      clickHandler: (e) => {
-        const { y: containerY } = containerRef.current.getBoundingClientRect();
-        const { y } = e.target.getBoundingClientRect();
-        setModalHeight({ top: `${y - containerY}px` });
-        setIsModalOpen(!isModalOpen);
+  const menuList = (userBook) => {
+    return [
+      {
+        text: "Request",
+        clickHandler: ({ target }) => {
+          const { y: containerY } =
+            containerRef.current.getBoundingClientRect();
+          const { y } = target.getBoundingClientRect();
+          setModalHeight({ top: `${y - containerY}px` });
+          setActiveUserBook(userBook);
+          setIsModalOpen(!isModalOpen);
+        },
       },
-    },
-  ];
+    ];
+  };
 
   const mapCheckedOutBooks = (bookData, i) => {
     const progressValue = getProgressInPercent(
@@ -45,20 +49,21 @@ const Library = () => {
       >
         <UserCardSm
           bookData={{ ...bookData, progressValue }}
-          menuList={menuList}
+          menuList={menuList(bookData)}
         />
       </Col>
     );
   };
 
-  const mapCheckedInBooks = ({ _id, book, status }, i) => {
+  const mapCheckedInBooks = (userBook, i) => {
+    const { _id, book, status } = userBook;
     const { coverImg, title } = book;
     const cardInfo = { _id, coverImg, title, status };
 
     return (
       <Col sm="4" md="4" xl="2" className="mb-3" key={`BookCards:${_id}`}>
         <BookCard
-          menuItems={menuList}
+          menuItems={menuList(userBook)}
           cardInfo={cardInfo}
           setActive={setActiveCard}
           isActive={activeCard === _id}
@@ -90,7 +95,7 @@ const Library = () => {
           style={modalHeight}
           title="Request Status"
         >
-          <RequestCard />
+          <RequestCard userBook={activeUserBook} />
         </Modal>
         <div className={styles.title}>
           <h1>
