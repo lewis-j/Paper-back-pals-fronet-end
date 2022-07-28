@@ -23,6 +23,7 @@ export const userBooksSlice = createSlice({
       borrowed: [],
       owned: [],
     },
+    bookRequest: [],
     status: status.IDLE,
     error: null,
   },
@@ -30,6 +31,10 @@ export const userBooksSlice = createSlice({
     setBooks: (state, action) => {
       console.log("action.payload", action.payload);
       state.books = action.payload;
+    },
+    setBookRequest: (state, action) => {
+      console.log("action.payload", action.payload);
+      state.bookRequest = action.payload.bookRequest;
     },
   },
   extraReducers: {
@@ -43,6 +48,6 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const { setBooks } = userBooksSlice.actions;
+export const { setBooks, setBookRequest } = userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

@@ -5,4 +5,5 @@ export {
   UserCardSm,
   RequestCard,
 } from "./components";
-export { addBook, setBooks } from "./userBooksSlice";
+export { bookRequestStatus } from "./data";
+export { addBook, setBooks, setBookRequest } from "./userBooksSlice";

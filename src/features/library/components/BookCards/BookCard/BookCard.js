@@ -14,9 +14,10 @@ const BookCard = ({
   menuItems = [],
   isActive = false,
   setActive,
+  icon = null,
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const { _id, coverImg, title, status } = cardInfo;
+  const { _id, coverImg, title } = cardInfo;
 
   const cardFilter = isActive
     ? {
@@ -39,12 +40,8 @@ const BookCard = ({
   return (
     <div className={styles.container}>
       <div className={styles.book}>
-        {status === "PENDING" && (
-          <FontAwesomeIcon
-            className={styles.badge}
-            size="xl"
-            icon={faCircleExclamation}
-          />
+        {icon && (
+          <FontAwesomeIcon className={styles.badge} size="xl" icon={icon} />
         )}
         <img className={styles.img} src={coverImg} alt={title} />
         <div
