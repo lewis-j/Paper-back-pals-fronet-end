@@ -1,5 +1,4 @@
 import API from "../../lib/authAxios";
-import { addRequestToCurrentFriend } from "../Friends/friendsSlice";
 
 export const addBook = async ({ bookDto }) => {
   const { google_id, coverImg, title, authors, description } = bookDto;
@@ -27,7 +26,7 @@ export const createBookRequest = async ({ userBook_id }) => {
     console.log("RESPONSE", res.data);
     const { _id } = res.data;
 
-    return { userRequest_id: _id, userBook_id };
+    return { request_id: _id, userBook_id };
   } catch (error) {
     return Promise.reject(error);
   }

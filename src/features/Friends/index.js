@@ -9,4 +9,5 @@ export {
   setFriendRequestInbox,
   setFriendRequestOutbox,
   createBookRequest,
+  getFriendsOwnedBookById,
 } from "./friendsSlice";

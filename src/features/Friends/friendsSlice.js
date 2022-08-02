@@ -48,14 +48,14 @@ const createBookRequestFulfilled = (state, { payload }) => {
   const {
     currentFriend: { ownedBooks },
   } = state;
-  const { userRequest_id, userBook_id } = payload;
+  const { request_id, userBook_id } = payload;
   const bookIndex = ownedBooks.findIndex(
     (userBook) => userBook._id === userBook_id
   );
   const _userBook = ownedBooks[bookIndex];
   ownedBooks[bookIndex] = {
     ..._userBook,
-    request: [..._userBook.request, { _id: userRequest_id }],
+    request: [..._userBook.request, { _id: request_id }],
   };
   state.status = status.SUCCEEDED;
 };
@@ -102,13 +102,6 @@ const friendsSlice = createSlice({
       state.currentFriend = action.payload;
     },
     addRequestToCurrentFriend: (state, { payload }) => {
-      console.log(
-        "*****************************************",
-        "payload",
-        payload,
-        "*****************************************"
-      );
-
       const { userRequest_id, userBook_id } = payload;
 
       const newRequest = state.currentFriend?.ownedBooks.map((userBook) =>
@@ -147,6 +140,9 @@ const friendsSlice = createSlice({
     [createBookRequest.fulfilled]: createBookRequestFulfilled,
   },
 });
+
+export const getFriendsOwnedBookById = (book_id) => (state) =>
+  state.friends.currentFriend.ownedBooks.find(({ _id }) => _id === book_id);
 
 export const {
   setCurrentFriend,

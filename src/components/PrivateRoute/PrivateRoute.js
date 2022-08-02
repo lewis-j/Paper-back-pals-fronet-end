@@ -2,7 +2,6 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as condition from "../../data/status";
 import { Loading } from "../Loading";
-import styles from "./PrivateRoute.module.scss";
 import { PageLoading } from "../PageLoading";
 
 const PrivateRoute = ({ children }) => {

@@ -40,7 +40,7 @@ const BookCard = ({
   return (
     <div className={styles.container}>
       <div className={styles.book}>
-        {icon && (
+        {icon && !isMenuVisible && (
           <FontAwesomeIcon className={styles.badge} size="xl" icon={icon} />
         )}
         <img className={styles.img} src={coverImg} alt={title} />

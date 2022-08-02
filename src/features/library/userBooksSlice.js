@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as userBookService from "./userBookCalls";
 import * as status from "../../data/status";
+import bookRequestStatus from "./data/bookRequestStatus";
 
 const pendingReducer = (state) => {
   state.status = status.LOADING;
@@ -23,7 +24,7 @@ export const userBooksSlice = createSlice({
       borrowed: [],
       owned: [],
     },
-    bookRequest: [],
+    bookRequests: [],
     status: status.IDLE,
     error: null,
   },
@@ -32,9 +33,17 @@ export const userBooksSlice = createSlice({
       console.log("action.payload", action.payload);
       state.books = action.payload;
     },
-    setBookRequest: (state, action) => {
+    setBookRequests: (state, action) => {
       console.log("action.payload", action.payload);
-      state.bookRequest = action.payload.bookRequest;
+      state.bookRequests = action.payload.bookRequest;
+    },
+    addBookRequest: (state, action) => {
+      state.bookRequests.push({
+        userBook: {
+          _id: action.payload.userBook_id,
+        },
+        status: bookRequestStatus.REQUEST,
+      });
     },
   },
   extraReducers: {
@@ -48,6 +57,7 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const { setBooks, setBookRequest } = userBooksSlice.actions;
+export const { setBooks, setBookRequests, addBookRequest } =
+  userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

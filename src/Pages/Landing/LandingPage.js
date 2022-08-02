@@ -4,7 +4,6 @@ import { Button } from "../../components";
 import { Outlet } from "react-router-dom";
 import logo_white from "../../Assets/imgs/pppals_white.png";
 import { HashLink as Link } from "react-router-hash-link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import tutorialContent from "../../Assets/content/tutorialContent";
 import styles from "./LandingPage.module.scss";

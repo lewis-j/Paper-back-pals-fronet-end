@@ -130,29 +130,27 @@ const LibraryBooks = [
 const DashboardPage = () => {
   const [activeCard, setActiveCard] = useState("");
   return (
-    <div>
-      <Container>
-        <h3 className={styles.title}>Current Read</h3>
-        <CurrentRead currentBook={bookData} />
-        <h3 className={styles.title}>Books from Friends</h3>
-        <ResponsiveSlider>
-          {checkedBooks.map((book, i) => (
-            <UserCardSm
-              bookData={book}
-              setActive={setActiveCard}
-              isActive={activeCard === book.lenderId}
-              key={`FriendsSlider: ${i}`}
-            />
-          ))}
-        </ResponsiveSlider>
-        <h3 className={styles.title}>Your Library</h3>
-        <ResponsiveSlider>
-          {LibraryBooks.map((book, i) => (
-            <UserCardSm bookData={book} key={`YourSlider: ${i}`} />
-          ))}
-        </ResponsiveSlider>
-      </Container>
-    </div>
+    <Container>
+      <h3 className={styles.title}>Current Read</h3>
+      <CurrentRead currentBook={bookData} />
+      <h3 className={styles.title}>Books from Friends</h3>
+      <ResponsiveSlider>
+        {checkedBooks.map((book, i) => (
+          <UserCardSm
+            bookData={book}
+            setActive={setActiveCard}
+            isActive={activeCard === book.lenderId}
+            key={`FriendsSlider: ${i}`}
+          />
+        ))}
+      </ResponsiveSlider>
+      <h3 className={styles.title}>Your Library</h3>
+      <ResponsiveSlider>
+        {LibraryBooks.map((book, i) => (
+          <UserCardSm bookData={book} key={`YourSlider: ${i}`} />
+        ))}
+      </ResponsiveSlider>
+    </Container>
   );
 };
 

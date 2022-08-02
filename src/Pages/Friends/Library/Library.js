@@ -3,60 +3,82 @@ import React, { useState, useRef } from "react";
 import { Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { getProgressInPercent } from "../../../utilities/bookUtilities";
-import { UserCardSm, BookCard, BookContainer } from "../../../features/library";
+import {
+  UserCardSm,
+  BookCard,
+  BookContainer,
+  RequestCard,
+  bookRequestStatus,
+} from "../../../features/library";
+import { getFriendsOwnedBookById } from "../../../features/Friends";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 import { Modal } from "../../../components";
-import { RequestCard, bookRequestStatus } from "../../../features/library";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
-  const requestList = useSelector((state) => state.userBooks.bookRequest);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeCard, setActiveCard] = useState("");
+  const [activeCardId, setActiveCardId] = useState("");
   const [modalHeight, setModalHeight] = useState({ top: "0px" });
-  const [activeUserBook, setActiveUserBook] = useState();
   const { username, ownedBooks } = currentFriend;
   const containerRef = useRef();
 
-  const menuList = (request, userBook) => {
+  const requestList = useSelector((state) => state.userBooks.bookRequests);
+
+  const activeBookInfo = useSelector(getFriendsOwnedBookById(activeCardId));
+
+  const filterRequest = (book_id) => {
+    let requestobj = requestList.find(({ userBook }) => {
+      console.log(
+        "*****************************************",
+        "userBook",
+        userBook,
+        "*****************************************"
+      );
+
+      return userBook._id === book_id;
+    });
+    console.log(
+      "*****************************************",
+      "requestobj",
+      requestobj,
+      "*****************************************"
+    );
+
+    const request = requestobj?.status || "NOREQUEST";
     const openRequestCardModal = ({ target }) => {
       const { y: containerY } = containerRef.current.getBoundingClientRect();
       const { y } = target.getBoundingClientRect();
       setModalHeight({ top: `${y - containerY}px` });
-      setActiveUserBook(userBook);
-      setIsModalOpen(!isModalOpen);
+      setIsModalOpen(true);
     };
 
     return {
-      NOREQUEST: [
-        {
-          text: "Request",
-          clickHandler: openRequestCardModal,
-        },
-      ],
-      [bookRequestStatus.REQUEST]: [
-        {
-          text: "Cancel",
-          clickHandler: () => console.log("delete this request"),
-        },
-        {
-          text: "Status",
-          clickHandler: openRequestCardModal,
-        },
-      ],
+      NOREQUEST: {
+        menu: [
+          {
+            text: "Request",
+            clickHandler: openRequestCardModal,
+          },
+        ],
+        icon: null,
+      },
+      [bookRequestStatus.REQUEST]: {
+        menu: [
+          {
+            text: "Cancel",
+            clickHandler: () => console.log("delete this request"),
+          },
+          {
+            text: "Status",
+            clickHandler: openRequestCardModal,
+          },
+        ],
+        icon: faCheckCircle,
+      },
     }[request];
-  };
-
-  const getBookRequestStatus = (userBook_id) => {
-    const request = requestList.find(
-      ({ userBook }) => userBook._id === userBook_id
-    );
-    if (request !== undefined) {
-      return request.status;
-    }
-    return "NOREQUEST";
   };
 
   const mapCheckedOutBooks = (bookData, i) => {
@@ -65,7 +87,7 @@ const Library = () => {
       bookData.pageCount
     );
 
-    const requestStatus = getBookRequestStatus(bookData._id);
+    // const { menu } = filterRequest(bookData._id);
     return (
       <Col
         sm="4"
@@ -74,36 +96,28 @@ const Library = () => {
         className="mb-3"
         key={`UserCardSm:${bookData._id}`}
       >
-        <UserCardSm
-          bookData={{ ...bookData, progressValue }}
-          menuList={menuList(requestStatus, bookData)}
-        />
+        <UserCardSm bookData={{ ...bookData, progressValue }} />
       </Col>
     );
   };
 
   const mapCheckedInBooks = (userBook, i) => {
     const { _id, book, status } = userBook;
-    console.log(
-      "*****************************************",
-      "userBook",
-      userBook,
-      "*****************************************"
-    );
-    const requestStatus = getBookRequestStatus(_id);
+    const { menu, icon } = filterRequest(_id);
+
     const { coverImg, title } = book;
     const cardInfo = { _id, coverImg, title, status };
 
     return (
-      <Col sm="4" md="4" xl="2" className="mb-3" key={`BookCards:${_id}`}>
+      <div className={styles.card} key={`BookCards:${_id}`}>
         <BookCard
-          menuItems={menuList(requestStatus, userBook)}
+          menuItems={menu}
           cardInfo={cardInfo}
-          setActive={setActiveCard}
-          isActive={activeCard === _id}
-          icon={null}
+          setActive={setActiveCardId}
+          isActive={activeCardId === _id}
+          icon={icon}
         />
-      </Col>
+      </div>
     );
   };
   const BookCards = ownedBooks.reduce(
@@ -130,7 +144,7 @@ const Library = () => {
           style={modalHeight}
           title="Request Status"
         >
-          <RequestCard userBook={activeUserBook} />
+          <RequestCard userBook={activeBookInfo} />
         </Modal>
         <div className={styles.title}>
           <h1>
@@ -141,9 +155,9 @@ const Library = () => {
         <div>
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
-        <Row className={styles.section}>
+        <div className={styles.section}>
           <BookContainer>{BookCards.checkedIn}</BookContainer>
-        </Row>
+        </div>
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
