@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Button } from "../../../../components";
 import { createBookRequest } from "../../userBookCalls";
-import { createNotifications } from "../../../Notifications";
 import { addBookRequest } from "../../userBooksSlice";
 
 import styles from "./RequestCard.module.scss";

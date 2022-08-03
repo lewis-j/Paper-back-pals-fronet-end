@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as userBookService from "./userBookCalls";
+import * as userBookApi from "./userBookCalls";
 import * as status from "../../data/status";
 import bookRequestStatus from "./data/bookRequestStatus";
 
@@ -12,10 +12,13 @@ const rejectedReducer = (state, action) => {
   state.error = action.error.message;
   console.error(action.error.message);
 };
-
+export const createBookRequest = createAsyncThunk(
+  "userBooks/createBookRequest",
+  userBookApi.createBookRequest
+);
 export const addBook = createAsyncThunk(
   "userBooks/addBooks",
-  userBookService.addBook
+  userBookApi.addBook
 );
 export const userBooksSlice = createSlice({
   name: "userBooks",
