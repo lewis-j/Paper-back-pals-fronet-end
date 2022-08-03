@@ -16,7 +16,7 @@ const BookContainer = ({ children: cards }) => {
     setTimeout(() => {
       setLoadingSection(false);
       setRenderBookCount((previousState) => previousState + 12);
-    }, 600);
+    }, 300);
   };
 
   if (cards.length === 0)

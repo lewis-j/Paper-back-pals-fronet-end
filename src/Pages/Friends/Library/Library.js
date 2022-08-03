@@ -31,21 +31,8 @@ const Library = () => {
 
   const filterRequest = (book_id) => {
     let requestobj = requestList.find(({ userBook }) => {
-      console.log(
-        "*****************************************",
-        "userBook",
-        userBook,
-        "*****************************************"
-      );
-
       return userBook._id === book_id;
     });
-    console.log(
-      "*****************************************",
-      "requestobj",
-      requestobj,
-      "*****************************************"
-    );
 
     const request = requestobj?.status || "NOREQUEST";
     const openRequestCardModal = ({ target }) => {
@@ -109,7 +96,14 @@ const Library = () => {
     const cardInfo = { _id, coverImg, title, status };
 
     return (
-      <div className={styles.card} key={`BookCards:${_id}`}>
+      <Col
+        sm="6"
+        md="4"
+        lg="3"
+        xl="2"
+        className={styles.card}
+        key={`BookCards:${_id}`}
+      >
         <BookCard
           menuItems={menu}
           cardInfo={cardInfo}
@@ -117,7 +111,7 @@ const Library = () => {
           isActive={activeCardId === _id}
           icon={icon}
         />
-      </div>
+      </Col>
     );
   };
   const BookCards = ownedBooks.reduce(
@@ -155,9 +149,9 @@ const Library = () => {
         <div>
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
-        <div className={styles.section}>
+        <Row className={styles.section}>
           <BookContainer>{BookCards.checkedIn}</BookContainer>
-        </div>
+        </Row>
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
