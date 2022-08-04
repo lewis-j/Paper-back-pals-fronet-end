@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Button } from "../../../../components";
-import { createBookRequest } from "../../userBookCalls";
-import { addBookRequest } from "../../userBooksSlice";
+import { createBookRequest } from "../../userBooksSlice";
 
 import styles from "./RequestCard.module.scss";
 
@@ -14,7 +13,6 @@ const RequestCard = ({ userBook }) => {
     dispatch(
       createBookRequest({ userBook_id, recipient_id: userBook.owner._id })
     );
-    dispatch(addBookRequest({ userBook_id }));
   };
 
   return (

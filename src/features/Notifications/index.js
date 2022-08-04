@@ -1,2 +1,2 @@
-export { setNotifications, createNotifications } from "./notificationsSlice";
+export { setNotifications, addNotification } from "./notificationsSlice";
 export { createBookRequestNotification } from "./notificationActions";

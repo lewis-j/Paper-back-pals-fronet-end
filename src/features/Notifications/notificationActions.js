@@ -1,4 +1,4 @@
-import { createNotifications } from "./notificationsSlice";
+// import { createNotifications } from "./notificationsSlice";
 
 const createBookRequestNotification = (recipient_id, request_id) => {
   const messages = {
@@ -13,7 +13,7 @@ const createBookRequestNotification = (recipient_id, request_id) => {
       messages,
     },
   };
-  return createNotifications(notificationPayload);
+  //   return createNotifications(notificationPayload);
 };
 
 export { createBookRequestNotification };

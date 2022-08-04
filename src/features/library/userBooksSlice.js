@@ -2,24 +2,32 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as userBookApi from "./userBookCalls";
 import * as status from "../../data/status";
 import bookRequestStatus from "./data/bookRequestStatus";
+import { setExtraReducer } from "../../utilities/reduxUtil";
 
-const pendingReducer = (state) => {
-  state.status = status.LOADING;
-};
-
-const rejectedReducer = (state, action) => {
-  state.status = status.FAILED;
-  state.error = action.error.message;
-  console.error(action.error.message);
-};
-export const createBookRequest = createAsyncThunk(
-  "userBooks/createBookRequest",
-  userBookApi.createBookRequest
-);
 export const addBook = createAsyncThunk(
   "userBooks/addBooks",
   userBookApi.addBook
 );
+
+export const createBookRequest = createAsyncThunk(
+  "userBooks/createRequest",
+  userBookApi.createBookRequest
+);
+
+const createBookRequestFullfilled = (state, action) => {
+  state.bookRequests.push({
+    userBook: {
+      _id: action.payload.userBook_id,
+    },
+    status: bookRequestStatus.REQUEST,
+  });
+};
+
+const addBookFullfilled = (state, action) => {
+  console.log("action for addbook ", action);
+  state.books.owned = [...state.books.owned, action.payload];
+};
+
 export const userBooksSlice = createSlice({
   name: "userBooks",
   initialState: {
@@ -50,13 +58,8 @@ export const userBooksSlice = createSlice({
     },
   },
   extraReducers: {
-    [addBook.pending]: pendingReducer,
-    [addBook.rejected]: rejectedReducer,
-    [addBook.fulfilled]: (state, action) => {
-      console.log("action for addbook ", action);
-      state.status = status.SUCCEEDED;
-      state.books.owned = [...state.books.owned, action.payload];
-    },
+    ...setExtraReducer(addBook, addBookFullfilled),
+    ...setExtraReducer(createBookRequest, createBookRequestFullfilled),
   },
 });
 

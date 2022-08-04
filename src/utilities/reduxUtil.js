@@ -11,9 +11,18 @@ const pendingReducer = (state) => {
   state.error = null;
 };
 
-const setSuccessState = (state) => {
+const setSuccessState = (fulfilledReducer) => (state, action) => {
+  fulfilledReducer(state, action);
   state.status = status.SUCCEEDED;
   state.error = null;
 };
 
-export { rejectionReducer, pendingReducer, setSuccessState };
+const setExtraReducer = (asyncThunk, fulfilledReducer) => {
+  return {
+    [asyncThunk.fulfilled]: setSuccessState(fulfilledReducer),
+    [asyncThunk.rejected]: rejectionReducer,
+    [asyncThunk.pending]: pendingReducer,
+  };
+};
+
+export { setExtraReducer };

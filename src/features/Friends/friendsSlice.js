@@ -2,23 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as status from "../../data/status";
 import * as friendsApi from "./friendsApi";
 import * as userBookService from "../library/userBookCalls";
-
-const rejectionReducer = (state, action) => {
-  console.log("failed action", action);
-  state.status = status.FAILED;
-  state.error = action.error.message;
-};
-
-const pendingReducer = (state) => {
-  state.status = status.LOADING;
-  state.error = null;
-};
-
-// const fulfilledReducer = (state, { payload: { user } }) => {
-//   console.log("fulffilled user action: ", user);
-//   state.status = status.SUCCEEDED;
-//   state.error = null;
-// };
+import { setExtraReducer } from "../../utilities/reduxUtil";
 
 const sendFriendRequest = createAsyncThunk(
   "friends/sendFriendRequest",
@@ -30,19 +14,7 @@ const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
     ...state.friendRequestOutbox,
     { reciever: { _id: reciever_id } },
   ];
-  state.status = status.SUCCEEDED;
-  state.error = null;
 };
-
-const acceptFriendRequest = createAsyncThunk(
-  "friends/acceptFriendRequest",
-  friendsApi.addFriendFromRequest
-);
-
-const createBookRequest = createAsyncThunk(
-  "userBooks/createRequest",
-  userBookService.createBookRequest
-);
 
 const createBookRequestFulfilled = (state, { payload }) => {
   const {
@@ -57,8 +29,11 @@ const createBookRequestFulfilled = (state, { payload }) => {
     ..._userBook,
     request: [..._userBook.request, { _id: request_id }],
   };
-  state.status = status.SUCCEEDED;
 };
+const acceptFriendRequest = createAsyncThunk(
+  "friends/acceptFriendRequest",
+  friendsApi.addFriendFromRequest
+);
 
 const acceptFriendRequestFullfilled = (
   state,
@@ -70,8 +45,6 @@ const acceptFriendRequestFullfilled = (
   state.friendRequestInbox = state.friendRequestInbox.filter(
     ({ _id }) => _id !== request_id
   );
-  state.status = status.SUCCEEDED;
-  state.error = null;
 };
 const getUserData = createAsyncThunk(
   "friends/getUserData",
@@ -80,8 +53,6 @@ const getUserData = createAsyncThunk(
 
 const getUserDataFullfilled = (state, { payload }) => {
   state.currentFriend = payload;
-  state.status = status.SUCCEEDED;
-  state.error = null;
 };
 
 const initialState = {
@@ -124,20 +95,25 @@ const friendsSlice = createSlice({
     setFriendRequestOutbox: (state, action) => {
       state.friendRequestOutbox = action.payload.friendRequestOutbox;
     },
+    updateFriendsBookRequests: (state, { payload }) => {
+      const {
+        currentFriend: { ownedBooks },
+      } = state;
+      const { request_id, userBook_id } = payload;
+      const bookIndex = ownedBooks.findIndex(
+        (userBook) => userBook._id === userBook_id
+      );
+      const _userBook = ownedBooks[bookIndex];
+      ownedBooks[bookIndex] = {
+        ..._userBook,
+        request: [..._userBook.request, { _id: request_id }],
+      };
+    },
   },
   extraReducers: {
-    [sendFriendRequest.pending]: pendingReducer,
-    [sendFriendRequest.rejected]: rejectionReducer,
-    [sendFriendRequest.fulfilled]: sendFriendRequestFullfilled,
-    [acceptFriendRequest.pending]: pendingReducer,
-    [acceptFriendRequest.rejected]: rejectionReducer,
-    [acceptFriendRequest.fulfilled]: acceptFriendRequestFullfilled,
-    [getUserData.pending]: pendingReducer,
-    [getUserData.rejected]: rejectionReducer,
-    [getUserData.fulfilled]: getUserDataFullfilled,
-    [createBookRequest.pending]: pendingReducer,
-    [createBookRequest.rejected]: rejectionReducer,
-    [createBookRequest.fulfilled]: createBookRequestFulfilled,
+    ...setExtraReducer(sendFriendRequest, sendFriendRequestFullfilled),
+    ...setExtraReducer(acceptFriendRequest, acceptFriendRequestFullfilled),
+    ...setExtraReducer(getUserData, getUserDataFullfilled),
   },
 });
 
@@ -150,13 +126,9 @@ export const {
   setFriendRequestInbox,
   setFriendRequestOutbox,
   addRequestToCurrentFriend,
+  updateFriendsBookRequests,
 } = friendsSlice.actions;
 
-export {
-  sendFriendRequest,
-  acceptFriendRequest,
-  getUserData,
-  createBookRequest,
-};
+export { sendFriendRequest, acceptFriendRequest, getUserData };
 
 export default friendsSlice.reducer;

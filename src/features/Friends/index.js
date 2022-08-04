@@ -8,6 +8,6 @@ export {
   setFriends,
   setFriendRequestInbox,
   setFriendRequestOutbox,
-  createBookRequest,
   getFriendsOwnedBookById,
+  updateFriendsBookRequests,
 } from "./friendsSlice";
