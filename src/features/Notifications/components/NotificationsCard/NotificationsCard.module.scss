@@ -1,0 +1,47 @@
+@import "../..//../../style/variables.scss";
+
+$border: 1px solid $box-border-colors;
+
+.container {
+  width: 90%;
+  margin: 0.3em auto;
+  position: relative;
+  max-width: 40em;
+  display: flex;
+  flex-direction: row;
+  background-color: $grey-2;
+  align-items: center;
+  border-bottom: $border;
+  border-left: $border;
+  border-right: $border;
+  box-shadow: $standard-box-shadow;
+
+  &:hover {
+    box-shadow: inset $standard-box-shadow;
+  }
+}
+
+.avatar {
+  padding: 0.5em 1em 0.5em 0;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.username {
+  // margin-left: 0.5em;
+}
+
+.children {
+}
+
+.isActive {
+  background-color: #c0b8b8;
+}
+.btn {
+  border: 1px solid $box-border-colors;
+  border-radius: 3px;
+  margin-left: 0.5em;
+}

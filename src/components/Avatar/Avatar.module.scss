@@ -1,3 +1,10 @@
+$avatar-size-lg: 5em;
+
+.lg {
+  width: $avatar-size-lg;
+  height: $avatar-size-lg;
+}
+
 $avatar-size-md: 2.5em;
 .img {
   border-radius: 100%;

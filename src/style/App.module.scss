@@ -3,6 +3,11 @@
 .wrapper {
   background-color: $grey-2;
 }
+
+.wrapper > div {
+  position: relative;
+}
+
 .mainView {
   min-height: 100vh;
 }

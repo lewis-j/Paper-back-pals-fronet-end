@@ -21,3 +21,19 @@ export const createNotifications = async ({
     return Promise.reject(error);
   }
 };
+
+export const fetchNotifications = async () => {
+  try {
+    const res = await API.get(`notifications`);
+    console.log(
+      "*****************************************",
+      "res",
+      res.data,
+      "*****************************************"
+    );
+
+    return { notifications: res.data };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

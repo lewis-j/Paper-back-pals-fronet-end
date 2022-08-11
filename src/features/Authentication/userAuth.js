@@ -7,7 +7,7 @@ import {
   setFriends,
 } from "../Friends";
 import { setBookRequests, setBooks } from "../library";
-import { setNotifications } from "../Notifications";
+import { fetchNotifications } from "../Notifications";
 
 const parseSlice = (dispatch, _user) => {
   const {
@@ -27,7 +27,7 @@ const parseSlice = (dispatch, _user) => {
   dispatch(setFriends({ friends }));
   dispatch(setBooks({ borrowed, owned }));
   dispatch(setBookRequests({ bookRequest }));
-  dispatch(setNotifications({ notifications }));
+  dispatch(fetchNotifications());
   return { user };
 };
 

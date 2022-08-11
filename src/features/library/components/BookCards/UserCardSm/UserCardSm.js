@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./UserCardSm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
-import { Progress, ListGroupItem } from "reactstrap";
+import { Progress } from "reactstrap";
 import { Avatar, Button } from "../../../../../components";
 
 const UserCardSm = ({

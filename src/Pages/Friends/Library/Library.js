@@ -36,6 +36,7 @@ const Library = () => {
 
     const request = requestobj?.status || "NOREQUEST";
     const openRequestCardModal = ({ target }) => {
+      console.log("made request");
       const { y: containerY } = containerRef.current.getBoundingClientRect();
       const { y } = target.getBoundingClientRect();
       setModalHeight({ top: `${y - containerY}px` });
@@ -128,6 +129,7 @@ const Library = () => {
 
     { checkedIn: [], checkedOut: [] }
   );
+  console.log("isModalOpen:", isModalOpen);
 
   return (
     <>

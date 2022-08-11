@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import styles from "./Modal.module.scss";
 
-const Modal = ({ children, title, isOpen = false, setIsOpen, style }) => {
-  console.log("isOpen", isOpen);
-
+const Modal = ({ children, title, setIsOpen, isOpen, style }) => {
   useEffect(() => {
     if (!isOpen) return;
     const closeModal = () => {
@@ -17,9 +15,7 @@ const Modal = ({ children, title, isOpen = false, setIsOpen, style }) => {
       window.removeEventListener("click", closeModal);
     };
   }, [isOpen, setIsOpen]);
-
   if (!isOpen) return null;
-
   return (
     <div className={styles.wrapper}>
       <div

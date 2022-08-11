@@ -24,8 +24,10 @@
   background-color: variables.$grey-1;
   z-index: 300;
   position: absolute;
+  border-radius: 1em;
   min-width: 15em;
   min-height: 15em;
+  box-shadow: 1px 1px 5px black;
   animation-duration: 0.25s;
   animation-name: slideIn;
   animation-timing-function: ease-out;

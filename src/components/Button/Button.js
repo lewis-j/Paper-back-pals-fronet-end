@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Button = ({
   icon,
   varient = "default",
+  circle = false,
   children,
   onClick,
   size,
@@ -23,7 +24,9 @@ const Button = ({
 
   return (
     <button
-      className={`${styles.btn} ${styles[varient]} ${styles[size]} ${className}`}
+      className={`${styles.btn} ${styles[varient]} ${
+        styles[size]
+      } ${className} ${circle ? styles.circle : ""}`}
       onClick={onClick}
     >
       <span>{children}</span> {getIcon(icon)}

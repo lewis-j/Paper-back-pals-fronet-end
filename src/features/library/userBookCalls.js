@@ -1,9 +1,6 @@
 import API from "../../lib/authAxios";
 import { updateFriendsBookRequests } from "../Friends";
-import {
-  addNotification,
-  createBookRequestNotification,
-} from "../Notifications";
+import { addNotification } from "../Notifications";
 
 export const addBook = async ({ bookDto }) => {
   const { google_id, coverImg, title, authors, description } = bookDto;
@@ -22,10 +19,19 @@ export const addBook = async ({ bookDto }) => {
   }
 };
 
+export const getBookRequest = async (request_id) => {
+  try {
+    const res = await API.get(`/user-books/request/${request_id}`);
+    return res.data;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
   console.log("userbook id in createbook requseta", userBook_id);
   try {
-    const res = await API.post(`/user-books/create-request`, {
+    const res = await API.post(`/user-books/request`, {
       userBook_id,
     });
     const { request_id, notification } = res.data;

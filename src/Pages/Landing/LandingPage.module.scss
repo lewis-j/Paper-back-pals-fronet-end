@@ -41,7 +41,7 @@ $app-disc-start-lg: 46em;
     height: $app-disc-start-md;
   }
   @media (min-width: 1400px) {
-    // height: $app-disc-start-lg;
+    height: 78vh;
   }
 
   &::after {
@@ -134,7 +134,7 @@ $app-disc-start-lg: 46em;
     bottom: 3em;
   }
   @media (min-width: 1200px) {
-    bottom: 4em;
+    bottom: 5vh;
   }
 
   h2 {

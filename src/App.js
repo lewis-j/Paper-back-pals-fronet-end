@@ -36,7 +36,7 @@ function App() {
 
   return (
     <div className={styles.wrapper}>
-      <Routes>
+      <Routes className={styles.container}>
         <Route path="landing-page" element={<LandingPage />}>
           <Route index element={<Login />} />
           <Route path="signup" element={<Signup />} />
