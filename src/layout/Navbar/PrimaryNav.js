@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -28,9 +28,31 @@ const PrimaryNav = ({ mainViewStyle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isSmScreen = useBSSizeFromWidth() === "md";
+  const offClickClose = useCallback(() => {
+    console.log("offClick emmmitted");
+    setIsSearching(false);
+  }, []);
+
+  useEffect(() => {
+    if (isSearching) {
+      window.addEventListener("click", offClickClose);
+    } else {
+      window.removeEventListener("click", offClickClose);
+    }
+  }, [isSearching, offClickClose]);
+
+  // const isSmScreen = useBSSizeFromWidth() === "md";
 
   const expandSize = "md";
+
+  const submitSearch = (e) => {
+    e.preventDefault();
+    dispatch(setQuery(searchInput));
+    dispatch(searchBooks({ query: searchInput }));
+    setIsSearching(false);
+    setSearchInput("");
+    navigate("/book-results");
+  };
 
   return (
     <div>
@@ -41,16 +63,9 @@ const PrimaryNav = ({ mainViewStyle }) => {
           }}
         />
         {isSearching ? (
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              dispatch(setQuery(searchInput));
-              dispatch(searchBooks({ query: searchInput }));
-              setSearchInput("");
-              setIsSearching(false);
-            }}
-          >
+          <Form onSubmit={submitSearch}>
             <Input
+              autoFocus
               name="search"
               type="search"
               placeholder="Search Book"
@@ -75,8 +90,12 @@ const PrimaryNav = ({ mainViewStyle }) => {
           color="dark"
           style={{ border: "none" }}
           className={`d-block d-${expandSize}-none`}
-          onClick={() => {
-            setIsSearching(!isSearching);
+          onClick={(e) => {
+            if (isSearching) {
+              submitSearch(e);
+            } else {
+              setIsSearching(true);
+            }
           }}
         >
           <FontAwesomeIcon icon={faMagnifyingGlass} color="white" size="lg" />

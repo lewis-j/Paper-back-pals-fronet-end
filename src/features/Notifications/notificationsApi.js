@@ -37,3 +37,15 @@ export const fetchNotifications = async () => {
     return Promise.reject(error);
   }
 };
+
+export const markAsRead = async ({ _id }) => {
+  try {
+    const res = await API.put(`notifications/isRead/${_id}`);
+    console.log("res.data:", res.data);
+
+    const { notification } = res.data;
+    return { notification };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

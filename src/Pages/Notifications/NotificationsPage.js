@@ -1,26 +1,47 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Container, Row } from "reactstrap";
-import { NotificationsCard } from "../../features/Notifications";
+import {
+  addNotification,
+  NotificationsCard,
+} from "../../features/Notifications";
 import { Button, Modal, NoContent } from "../../components";
 import { faBell, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import requestTypes from "../../data/requestTypes";
-import requestStatus from "../../data/requestStatus";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState, useEffect } from "react";
-import { getBookRequest } from "../../features/library/userBookCalls";
+import { useState } from "react";
+import {
+  getBookRequest,
+  nextBookRequestStatus,
+} from "../../features/library/userBookCalls";
 import styles from "./NotificationsPage.module.scss";
+import { markAsRead } from "../../features/Notifications/notificationsSlice";
 
 const NotificationsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeModalCard, setActiveModalCard] = useState(null);
   const [refData, setRefData] = useState();
   const { list: notifications } = useSelector((state) => state.notifications);
-  const user_id = useSelector((state) => state.authUser.currentUser._id);
 
-  const fetchBookRequest = async (requestRef, requestType) => {
+  const _notifications = notifications.reduce(
+    (obj, cur) => {
+      if (cur.isRead) {
+        return {
+          ...obj,
+          read: [...obj.read, cur],
+        };
+      }
+      return {
+        ...obj,
+        unread: [...obj.unread, cur],
+      };
+    },
+    { unread: [], read: [] }
+  );
+
+  const dispatch = useDispatch();
+
+  const fetchBookRequest = async (requestRef, requestType, notification_id) => {
     const result = await getBookRequest(requestRef);
 
-    setRefData({ ...result, requestType });
+    setRefData({ ...result, requestType, notification_id });
   };
   if (notifications.length === 0)
     return (
@@ -28,7 +49,7 @@ const NotificationsPage = () => {
     );
 
   const renderNotifications = () => {
-    return notifications.map((notification, i) => {
+    return _notifications.unread.map((notification, i) => {
       const { requestRef, requestType, _id, __v, ...remaining } = notification;
       const notificationProps = { ...remaining, _id };
 
@@ -45,7 +66,7 @@ const NotificationsPage = () => {
         const acceptHandler = () => {
           setIsOpen(true);
           if (requestType === requestTypes.BookRequest) {
-            fetchBookRequest(requestRef, requestType);
+            fetchBookRequest(requestRef, requestType, _id);
           }
         };
         const declineHandler = () => {};
@@ -66,14 +87,25 @@ const NotificationsPage = () => {
   };
   const modalCard = () => {
     if (refData) {
+      console.log("refData:", refData);
+
       if (refData.requestType === requestTypes.BookRequest) {
-        console.log("refData", refData);
         const {
-          status,
+          _id: request_id,
+          notification_id,
           userBook: {
             book: { coverImg, title, authors },
           },
         } = refData;
+
+        const acceptClickHandler = async () => {
+          const notification = await nextBookRequestStatus(request_id);
+          console.log("notification in click handler", notification);
+          //dispatch notification returned from nextBookRequestStatus
+          dispatch(markAsRead({ _id: notification_id }));
+          dispatch(addNotification({ notification }));
+        };
+
         return (
           <div>
             <div>
@@ -81,12 +113,8 @@ const NotificationsPage = () => {
             </div>
             <div>{authors[0]}</div>
             <div>
-              <Button
-                circle
-                icon={faCheck}
-                onClick={() => console.log("request accepted")}
-              />
-              <Button circle icon={faX} onClick={() => console.log("exit")} />
+              <Button circle icon={faCheck} onClick={acceptClickHandler} />
+              <Button circle icon={faX} onClick={() => setIsOpen(false)} />
             </div>
           </div>
         );

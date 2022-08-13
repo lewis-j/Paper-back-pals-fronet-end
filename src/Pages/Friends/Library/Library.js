@@ -34,17 +34,31 @@ const Library = () => {
       return userBook._id === book_id;
     });
 
-    const request = requestobj?.status || "NOREQUEST";
+    const request = requestobj?.status || null;
+    console.log("made request", requestobj);
     const openRequestCardModal = ({ target }) => {
-      console.log("made request");
       const { y: containerY } = containerRef.current.getBoundingClientRect();
       const { y } = target.getBoundingClientRect();
       setModalHeight({ top: `${y - containerY}px` });
       setIsModalOpen(true);
     };
 
-    return {
-      NOREQUEST: {
+    return (
+      {
+        [bookRequestStatus.CHECKED_IN]: {
+          menu: [
+            {
+              text: "Cancel",
+              clickHandler: () => console.log("delete this request"),
+            },
+            {
+              text: "Status",
+              clickHandler: openRequestCardModal,
+            },
+          ],
+          icon: faCheckCircle,
+        },
+      }[request] || {
         menu: [
           {
             text: "Request",
@@ -52,21 +66,8 @@ const Library = () => {
           },
         ],
         icon: null,
-      },
-      [bookRequestStatus.REQUEST]: {
-        menu: [
-          {
-            text: "Cancel",
-            clickHandler: () => console.log("delete this request"),
-          },
-          {
-            text: "Status",
-            clickHandler: openRequestCardModal,
-          },
-        ],
-        icon: faCheckCircle,
-      },
-    }[request];
+      }
+    );
   };
 
   const mapCheckedOutBooks = (bookData, i) => {

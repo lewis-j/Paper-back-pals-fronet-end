@@ -12,6 +12,24 @@ const fetchNotificationsSuccess = (state, action) => {
   state.list = action.payload.notifications;
 };
 
+const markAsRead = createAsyncThunk(
+  "notification/markAsRead",
+  notificationsApi.markAsRead
+);
+
+const markAsReadSuccess = (state, action) => {
+  const { notification } = action.payload;
+  console.log("notification:", notification);
+
+  const notificationList = state.list;
+  const idx = notificationList.findIndex(
+    (_notification) => _notification._id === notification._id
+  );
+  console.log("idx:", idx);
+
+  state.list[idx] = notification;
+};
+
 export const notificationsSlice = createSlice({
   name: "notifications",
   initialState: {
@@ -29,10 +47,11 @@ export const notificationsSlice = createSlice({
   },
   extraReducers: {
     ...setExtraReducer(fetchNotifications, fetchNotificationsSuccess),
+    ...setExtraReducer(markAsRead, markAsReadSuccess),
   },
 });
 
-export { fetchNotifications };
+export { fetchNotifications, markAsRead };
 
 export const { setNotifications, addNotification } = notificationsSlice.actions;
 export default notificationsSlice.reducer;

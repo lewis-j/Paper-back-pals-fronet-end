@@ -19,7 +19,7 @@ const createBookRequestFullfilled = (state, action) => {
     userBook: {
       _id: action.payload.userBook_id,
     },
-    status: bookRequestStatus.REQUEST,
+    status: bookRequestStatus.CHECKED_IN,
   });
 };
 
@@ -48,14 +48,6 @@ export const userBooksSlice = createSlice({
       console.log("action.payload", action.payload);
       state.bookRequests = action.payload.bookRequest;
     },
-    addBookRequest: (state, action) => {
-      state.bookRequests.push({
-        userBook: {
-          _id: action.payload.userBook_id,
-        },
-        status: bookRequestStatus.REQUEST,
-      });
-    },
   },
   extraReducers: {
     ...setExtraReducer(addBook, addBookFullfilled),
@@ -63,7 +55,6 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const { setBooks, setBookRequests, addBookRequest } =
-  userBooksSlice.actions;
+export const { setBooks, setBookRequests } = userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

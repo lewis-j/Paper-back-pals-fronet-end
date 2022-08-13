@@ -1,5 +1,6 @@
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { Avatar, Button } from "../../../../components";
+import { getTimeFromToday } from "../../../../utilities/timeUtil";
 import styles from "./NotificationsCard.module.scss";
 
 const NotificationsCard = ({
@@ -8,9 +9,11 @@ const NotificationsCard = ({
   message,
   clickHandlers,
   user,
+  createdAt,
   isActive = false,
 }) => {
   const { username, profilePic } = user;
+  const timeMsg = getTimeFromToday(createdAt);
 
   return (
     <div
@@ -26,7 +29,8 @@ const NotificationsCard = ({
         <div className={styles.children}>
           <div>
             <div>{message}</div>
-            {clickHandlers && (
+            <div>{timeMsg}</div>
+            {clickHandlers && !isRead && (
               <div>
                 <Button
                   circle

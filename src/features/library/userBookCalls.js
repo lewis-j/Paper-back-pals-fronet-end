@@ -42,3 +42,20 @@ export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
     return Promise.reject(error);
   }
 };
+
+export const nextBookRequestStatus = async (request_id) => {
+  try {
+    const res = await API.put(`/user-books/request/${request_id}/status/next`);
+    console.log(
+      "*****************************************",
+      "res.data:::::::::::::::::::::",
+      res.data,
+      "*****************************************"
+    );
+
+    const notification = res.data;
+    return notification;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
