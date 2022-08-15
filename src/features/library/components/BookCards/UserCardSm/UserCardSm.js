@@ -9,6 +9,7 @@ import { dayMonthFormat } from "../../../../../utilities/timeUtil";
 const UserCardSm = ({
   _id: userCard_id,
   book,
+  icon,
   user,
   menuItems = [
     {

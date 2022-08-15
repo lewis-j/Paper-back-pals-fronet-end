@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Col } from "reactstrap";
 import { useState } from "react";
 
-const BookContainer = ({ children: cards }) => {
+const BookContainer = ({ children: cards, noContent = null }) => {
   const [renderBookCount, setRenderBookCount] = useState(12);
   const [loadingSection, setLoadingSection] = useState(false);
   const navigate = useNavigate();
@@ -19,7 +19,8 @@ const BookContainer = ({ children: cards }) => {
     }, 300);
   };
 
-  if (cards.length === 0)
+  if (cards.length === 0) {
+    if (noContent) return noContent();
     return (
       <NoContent text="No Books Yet!" icon={IconBookOff}>
         <div>Check Notifications for Book request</div>
@@ -32,7 +33,7 @@ const BookContainer = ({ children: cards }) => {
         </Button>
       </NoContent>
     );
-
+  }
   const renderBooks = cards.slice(0, renderBookCount);
   const loadingCount = cards.slice(
     renderBookCount,

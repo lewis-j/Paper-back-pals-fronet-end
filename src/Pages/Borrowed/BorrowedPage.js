@@ -7,14 +7,14 @@ import styles from "./BorrowedPage.module.scss";
 import { useState } from "react";
 import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
 import { Button, NoContent } from "../../components";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
   const { borrowed: books } = useSelector((state) => state.userBooks.books);
 
-  const { checkedOut } = sortCheckedInBooks(books);
+  const { checkedOut, checkedIn: pendingBooks } = sortCheckedInBooks(books);
 
   const [activeCard, setActiveCard] = useState("");
 
@@ -33,38 +33,47 @@ const BorrowedPage = () => {
     },
   ];
 
-  const noContent = () => (
+  const noContentBorrowing = () => (
     <NoContent text="No Books Yet!" icon={IconBookOff}>
-      <div>Check Notifications for Book request</div>
+      <div>Check your Friends library to start borrowing books!</div>
       <Button
         varient="add"
-        icon={faBell}
-        onClick={() => navigate("/notifications")}
+        icon={faUserGroup}
+        onClick={() => navigate("/friends")}
       >
-        Notifications
+        Friends
       </Button>
     </NoContent>
   );
 
-  const mapCheckedOutBooks = (userBooks) => {
+  const noContentRequest = () => (
+    <NoContent text="No Request Yet!" icon={IconBookOff}>
+      <div>Check your Friends library to start borrowing books!</div>
+      <Button
+        varient="add"
+        icon={faUserGroup}
+        onClick={() => navigate("/friends")}
+      >
+        Friends
+      </Button>
+    </NoContent>
+  );
+
+  const renderBooks = (filter) => (userBooks) => {
     // const progressValue = getProgressInPercent(
     //   bookData.currentPage,
     //   bookData.pageCount
     // );
+    console.log(
+      "*****************************************",
+      "userBooks",
+      userBooks,
+      "*****************************************"
+    );
+
     return userBooks.map((userBook) => {
-      const {
-        _id,
-        book: _book,
-        owner,
-        currentRequest: { dueDate },
-      } = userBook;
-      const book = { ..._book, dueDate };
-      console.log(
-        "*****************************************",
-        "userBooks",
-        userBook,
-        "*****************************************"
-      );
+      const { _id, book: _book, owner, currentRequest } = userBook;
+      const book = filter(currentRequest, _book);
 
       return (
         <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryCard:${_id}`}>
@@ -81,21 +90,15 @@ const BorrowedPage = () => {
     });
   };
 
-  // const mapCheckedInBooks = ({ _id, book, status }, i) => {
-  //   const { coverImg, title } = book;
-  //   const cardInfo = { _id, coverImg, title, status };
+  const borrowedBooksFilter = (currentRequest, book) => {
+    return { ...book, dueDate: currentRequest.dueDate };
+  };
 
-  //   return (
-  //     <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryBookCard${_id}`}>
-  //       <BookCard
-  //         cardInfo={cardInfo}
-  //         menuItems={menuList}
-  //         isActive={activeCard === _id}
-  //         setActive={setActiveCard}
-  //       />
-  //     </Col>
-  //   );
-  // };
+  const pendingBookstFilter = (currentRequest, book) => {
+    return currentRequest ? { ...book, dueDate: currentRequest.dueDate } : book;
+  };
+  const renderBorrowedBooks = renderBooks(borrowedBooksFilter);
+  const renderPendingBooks = renderBooks(pendingBookstFilter);
 
   return (
     <>
@@ -104,19 +107,19 @@ const BorrowedPage = () => {
           <h1>Your Library</h1>
         </div>
         <div>
-          <h4 className={styles.subtitle}>Checked in Books</h4>
+          <h4 className={styles.subtitle}>Borrowing</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer noContent={noContent}>
-            {mapCheckedOutBooks(checkedOut)}
+          <BookContainer noContent={noContentBorrowing}>
+            {renderBorrowedBooks(checkedOut)}
           </BookContainer>
         </Row>
         <div>
-          <h4 className={styles.subtitle}>Checked Out Books</h4>
+          <h4 className={styles.subtitle}>Pending Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer noContent={noContent}>
-            {mapCheckedOutBooks(checkedOut)}
+          <BookContainer noContent={noContentRequest}>
+            {renderPendingBooks(pendingBooks)}
           </BookContainer>
         </Row>
       </Container>

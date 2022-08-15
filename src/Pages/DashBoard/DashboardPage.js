@@ -16,12 +16,6 @@ const DashboardPage = () => {
 
   const _owned = sortCheckedInBooks(owned);
   const _borrowed = sortCheckedInBooks(borrowed);
-  console.log(
-    "*****************************************",
-    "activeCard",
-    activeCard,
-    "*****************************************"
-  );
 
   const BooksFromFriendsMenuItems = [
     {
@@ -35,7 +29,6 @@ const DashboardPage = () => {
   const renderBooksFromFriends = (userBooks) => {
     return userBooks.map(
       ({ _id, book, owner, currentRequest: { dueDate } }) => {
-        console.log("borrowed books:", book, owner);
         const _book = { ...book, dueDate };
         return (
           <UserCardSm
@@ -67,7 +60,7 @@ const DashboardPage = () => {
         currentRequest: { sender, dueDate },
       }) => {
         const book = { _id, coverImg, title, dueDate };
-        console.log("active:::::::::::", _id, activeCard, activeCard === _id);
+
         return (
           <UserCardSm
             _id={_id}
