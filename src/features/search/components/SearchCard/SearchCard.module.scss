@@ -48,3 +48,16 @@
   position: absolute;
   bottom: 5px;
 }
+
+.isLoading {
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0def);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

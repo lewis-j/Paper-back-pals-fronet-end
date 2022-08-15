@@ -1,11 +1,32 @@
 import React from "react";
-import { Button } from "reactstrap";
+import { Button } from "../../../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faUser, faImage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faUser,
+  faImage,
+  faSpinner,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "./SearchCard.module.scss";
+import { useState } from "react";
 
-const SearchCard = ({ cardData, addBook }) => {
+const SearchCard = ({
+  cardData,
+  addBook,
+  isLoading = null,
+  inLibrary = null,
+}) => {
   const { title, author, thumbnail } = cardData;
+  const [isActive, setActive] = useState(false);
+
+  const { style: btnStyle, icon } = (() => {
+    if (isLoading && isActive)
+      return { style: styles.isLoading, icon: faSpinner };
+    if (!inLibrary) return { style: null, icon: faPlus };
+    return { style: styles.inLibrary, icon: faCheck };
+  })();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -20,18 +41,18 @@ const SearchCard = ({ cardData, addBook }) => {
         )}
 
         <div className={styles.button}>
-          <Button outline color="secondary" className="rounded-circle me-2">
-            <FontAwesomeIcon icon={faUser} />
-          </Button>
           <Button
             outline
-            color="secondary"
-            className="rounded-circle"
+            disabled={isLoading || inLibrary}
+            circle
+            size="lg"
+            className={btnStyle}
             onClick={() => {
               addBook();
+              setActive(true);
             }}
           >
-            <FontAwesomeIcon icon={faPlus} />
+            <FontAwesomeIcon icon={icon} />
           </Button>
         </div>
       </div>

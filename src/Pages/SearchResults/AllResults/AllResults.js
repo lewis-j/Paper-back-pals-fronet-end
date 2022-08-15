@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AllResults.module.scss";
+import * as asyncStatus from "../../../data/asyncStatus";
 
 const AllResults = () => {
   const {
@@ -16,9 +17,18 @@ const AllResults = () => {
     query: queryTitle,
   } = useSelector((state) => state.searchResults);
   const { currentUser: user } = useSelector((state) => state.authUser);
-
+  const {
+    status: addBookStatus,
+    books: { owned },
+  } = useSelector((state) => state.userBooks);
+  const userBookGoogle_ids = owned.map(({ book: { google_id } }) => google_id);
+  const checkIsOwned = (google_id) => {
+    return userBookGoogle_ids.includes(google_id);
+  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLoading = addBookStatus === asyncStatus.LOADING;
 
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));
@@ -72,10 +82,14 @@ const AllResults = () => {
             description,
           };
 
+          const inLibrary = checkIsOwned(id);
+
           if (cardData) {
             return (
               <Col xs="12" sm="6" md="4" xl="3" key={`${id}-${i}`}>
                 <SearchCard
+                  isLoading={isLoading}
+                  inLibrary={inLibrary}
                   cardData={cardData}
                   addBook={addBookToLibrary(bookDto)}
                 />
