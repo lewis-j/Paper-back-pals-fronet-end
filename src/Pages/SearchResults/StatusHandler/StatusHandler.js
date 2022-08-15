@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import * as condition from "../../../data/status";
+import * as condition from "../../../data/asyncStatus";
 import { PageLoading } from "../../../components";
 
 const StatusHandler = ({ children, results }) => {

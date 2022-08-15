@@ -1,9 +1,6 @@
 .container {
-  width: 20em;
-}
-
-.progressBar {
-  height: 80%;
-  width: 1px;
-  background-color: green;
+  padding: 0.75em;
+  @media (min-width: 530px) {
+    width: 31em;
+  }
 }

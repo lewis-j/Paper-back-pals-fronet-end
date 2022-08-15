@@ -1,4 +1,4 @@
-import * as status from "../data/status";
+import * as status from "../data/asyncStatus";
 
 const rejectionReducer = (state, action) => {
   state.status = status.FAILED;

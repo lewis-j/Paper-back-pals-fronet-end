@@ -11,4 +11,5 @@ export {
   setBooks,
   setBookRequests,
   createBookRequest,
+  setOwnedBookCurrentRequest,
 } from "./userBooksSlice";

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as status from "../../data/status";
+import * as status from "../../data/asyncStatus";
 import * as friendsApi from "./friendsApi";
 import * as userBookService from "../library/userBookCalls";
 import { setExtraReducer } from "../../utilities/reduxUtil";

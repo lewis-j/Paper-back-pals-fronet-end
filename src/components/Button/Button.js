@@ -11,6 +11,7 @@ const Button = ({
   onClick,
   size,
   className = "",
+  disabled = false,
 }) => {
   const getIcon = (icon) => {
     if (typeof icon === "function") {
@@ -24,6 +25,7 @@ const Button = ({
 
   return (
     <button
+      disabled={disabled}
       className={`${styles.btn} ${styles[varient]} ${
         styles[size]
       } ${className} ${circle ? styles.circle : ""}`}

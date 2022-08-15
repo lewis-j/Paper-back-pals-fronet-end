@@ -1,3 +1,5 @@
+import { shortenString } from "./stringUtil";
+
 export const processBookResults = (bookInfo) => {
   let thumbnail = null,
     result = "";
@@ -32,12 +34,6 @@ export const processBookResults = (bookInfo) => {
     thumbnail,
     description,
   };
-};
-
-const shortenString = (string, length) => {
-  const tempString = string.substring(0, length);
-  const lastIndex = tempString.lastIndexOf(" ");
-  return tempString.substring(0, lastIndex) + "...";
 };
 
 export const getProgressInPercent = (currentPage, pageCount) => {

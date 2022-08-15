@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as asyncActions from "./userAuth";
-import * as status from "../../data/status";
+import * as status from "../../data/asyncStatus";
 
 const rejectionReducer = (state, action) => {
   console.log("failed action", action);

@@ -12,7 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { sendPasswordReset } from "../../firebase";
 import { useSelector } from "react-redux";
-import * as condition from "../../../../data/status";
+import * as condition from "../../../../data/asyncStatus";
 import authStyles from "../auth.module.scss";
 import errMsgStyles from "../ErrorMsg/ErrorMsg.module.scss";
 import ErrorMsg from "../ErrorMsg/ErrorMsg";

@@ -11,7 +11,6 @@ const differenceFromToday = (date) => {
   };
 };
 export const getTimeFromToday = (date) => {
-  console.log("getTimeFromToday", differenceFromToday(date));
   const { seconds, minutes, hours, days } = differenceFromToday(date);
 
   if (seconds < 60) return `${Math.floor(seconds)} seconds ago`;
@@ -22,20 +21,16 @@ export const getTimeFromToday = (date) => {
   const weeks = days / 7;
   if (weeks <= 4) return `${Math.floor(weeks)} weeks ago`;
 
+  return dayMonth(date);
+};
+
+export const dayMonth = (date) => {
+  let _date = date;
+  if (typeof date === "string") {
+    _date = new Date(date);
+  }
   return new Intl.DateTimeFormat("en", {
     month: "short",
     day: "numeric",
-  }).format(date);
-
-  //   if (Math.floor(dayDiff) < 1) Math.floor(dayDiff * 24).toString();
-  //   let format = {
-  //     month: "short",
-  //     day: "numeric",
-  //   };
-  //   if (Math.floor(dayDiff) < 7) {
-  //     format = {
-  //       weekday: "short",
-  //     };
-  //   }
-  //   return new Intl.DateTimeFormat("en", format).format(created);
+  }).format(_date);
 };

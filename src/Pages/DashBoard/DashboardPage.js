@@ -135,20 +135,21 @@ const DashboardPage = () => {
       <CurrentRead currentBook={bookData} />
       <h3 className={styles.title}>Books from Friends</h3>
       <ResponsiveSlider>
-        {checkedBooks.map((book, i) => (
+        {/* {checkedBooks.map((book, i) => (
           <UserCardSm
-            bookData={book}
+            book={book}
+            user={}
             setActive={setActiveCard}
             isActive={activeCard === book.lenderId}
             key={`FriendsSlider: ${i}`}
           />
-        ))}
+        ))} */}
       </ResponsiveSlider>
       <h3 className={styles.title}>Your Library</h3>
       <ResponsiveSlider>
-        {LibraryBooks.map((book, i) => (
+        {/* {LibraryBooks.map((book, i) => (
           <UserCardSm bookData={book} key={`YourSlider: ${i}`} />
-        ))}
+        ))} */}
       </ResponsiveSlider>
     </Container>
   );

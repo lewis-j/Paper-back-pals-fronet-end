@@ -8,6 +8,7 @@ import React from "react";
 import styles from "./BookCard.module.scss";
 import { useState } from "react";
 import { Button } from "../../../../../components";
+import { _s } from "../../../../../style";
 
 const BookCard = ({
   cardInfo,
@@ -15,6 +16,7 @@ const BookCard = ({
   isActive = false,
   setActive,
   icon = null,
+  iconStyle = {},
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { _id, coverImg, title } = cardInfo;
@@ -41,7 +43,10 @@ const BookCard = ({
     <div className={styles.container}>
       <div className={styles.book}>
         {icon && !isMenuVisible && (
-          <FontAwesomeIcon className={styles.badge} size="xl" icon={icon} />
+          <FontAwesomeIcon
+            className={_s(styles.badge, iconStyle)}
+            icon={icon}
+          />
         )}
         <img className={styles.img} src={coverImg} alt={title} />
         <div

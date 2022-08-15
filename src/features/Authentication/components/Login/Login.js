@@ -13,7 +13,7 @@ import { loginGoogle, loginWithForm } from "../../authUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import * as condition from "../../../../data/status";
+import * as condition from "../../../../data/asyncStatus";
 import authStyle from "../auth.module.scss";
 import ErrorMsg from "../ErrorMsg/ErrorMsg";
 import ErrMsgStyle from "../ErrorMsg/ErrorMsg.module.scss";

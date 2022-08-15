@@ -6,15 +6,8 @@ import { Progress } from "reactstrap";
 import { Avatar, Button } from "../../../../../components";
 
 const UserCardSm = ({
-  bookData: {
-    coverImg,
-    title,
-    dueDate,
-    lenderId,
-    lender,
-    lenderImg,
-    progressValue,
-  },
+  book,
+  user,
   menuItems = [
     {
       text: "message",
@@ -26,6 +19,14 @@ const UserCardSm = ({
   isActive = false,
   setActive,
 }) => {
+  const {
+    _id: userCard_id,
+    coverImg,
+    title,
+    dueDate,
+    progressValue = 10,
+  } = book;
+  const { sender_id, username, profilePic } = user;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const cardFilter = isActive
@@ -44,7 +45,7 @@ const UserCardSm = ({
         icon: faBars,
         size: "sm",
         menuBtnClick: () => {
-          setActive(lenderId);
+          setActive(userCard_id);
         },
       };
   return (
@@ -77,7 +78,7 @@ const UserCardSm = ({
         </div>
         <div className={cardFilter.infoStyle}>
           <div className={styles.avatar}>
-            <Avatar imgSrc={lenderImg} size="sm" username={lender} />
+            <Avatar imgSrc={profilePic} size="sm" username={username} />
           </div>
 
           <div className={styles.tracking}>

@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  @media (min-width: 530px) {
+    width: 31em;
+  }
+}
+
+.progressBar {
+  height: 80%;
+  width: 1px;
+  background-color: green;
+}
+.title {
+}
+
+.button {
+  width: 100%;
+  text-align: center;
+}
+
+.img {
+  height: 15em;
+}
+.content {
+  display: flex;
+  width: 17em;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 0;
+  margin-top: 1em;
+  @media (min-width: 530px) {
+    margin-left: 0.5em;
+    margin-top: 0;
+  }
+}
+
+.bookText {
+}

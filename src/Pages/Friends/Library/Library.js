@@ -14,7 +14,13 @@ import { getFriendsOwnedBookById } from "../../../features/Friends";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 import { Modal } from "../../../components";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faCheck,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import requestStatus from "../../../data/requestStatus";
+import { dayMonth } from "../../../utilities/timeUtil";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
@@ -35,7 +41,7 @@ const Library = () => {
     });
 
     const request = requestobj?.status || null;
-    console.log("made request", requestobj);
+
     const openRequestCardModal = ({ target }) => {
       const { y: containerY } = containerRef.current.getBoundingClientRect();
       const { y } = target.getBoundingClientRect();
@@ -57,6 +63,7 @@ const Library = () => {
             },
           ],
           icon: faCheckCircle,
+          iconStyle: styles.requestSentIcon,
         },
       }[request] || {
         menu: [
@@ -70,29 +77,40 @@ const Library = () => {
     );
   };
 
-  const mapCheckedOutBooks = (bookData, i) => {
-    const progressValue = getProgressInPercent(
-      bookData.currentPage,
-      bookData.pageCount
+  const mapCheckedOutBooks = (userBook, i) => {
+    // const progressValue = getProgressInPercent(
+    //   bookData.currentPage,
+    //   bookData.pageCount
+    // );
+    console.log(
+      "*****************************************",
+      "bookData",
+      userBook,
+      "*****************************************"
     );
+    const {
+      _id,
+      book: { coverImg, title },
+      currentRequest: { dueDate, status, sender },
+    } = userBook;
+    const book = { _id, coverImg, title, dueDate: dayMonth(dueDate) };
 
     // const { menu } = filterRequest(bookData._id);
     return (
-      <Col
-        sm="4"
-        md="3"
-        xl="2"
-        className="mb-3"
-        key={`UserCardSm:${bookData._id}`}
-      >
-        <UserCardSm bookData={{ ...bookData, progressValue }} />
+      <Col sm="4" md="3" xl="2" className="mb-3" key={`UserCardSm:${_id}`}>
+        <UserCardSm
+          book={book}
+          user={sender}
+          setActive={setActiveCardId}
+          isActive={activeCardId === _id}
+        />
       </Col>
     );
   };
 
   const mapCheckedInBooks = (userBook, i) => {
     const { _id, book, status } = userBook;
-    const { menu, icon } = filterRequest(_id);
+    const { menu, icon, iconStyle } = filterRequest(_id);
 
     const { coverImg, title } = book;
     const cardInfo = { _id, coverImg, title, status };
@@ -112,25 +130,43 @@ const Library = () => {
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
           icon={icon}
+          iconStyle={iconStyle}
         />
       </Col>
     );
   };
   const BookCards = ownedBooks.reduce(
-    (obj, book) =>
-      book.status === "CHECKED_OUT"
-        ? {
+    (obj, book) => {
+      const requestEnum = Object.values(requestStatus);
+      const checkedIn = requestEnum.slice(1, 3);
+      const checkedOut = requestEnum.slice(3, -1);
+
+      if (book.currentRequest) {
+        const status = book.currentRequest.status;
+        console.log(checkedIn.includes(status), checkedIn, status, book);
+        if (checkedIn.includes(status)) {
+          return {
             ...obj,
-            checkedOut: [...obj.checkedOut, mapCheckedOutBooks(book)],
-          }
-        : {
+            checkedIn: [...obj.checkedOut, mapCheckedInBooks(book)],
+          };
+        }
+        if (checkedOut.includes(status)) {
+          return {
             ...obj,
-            checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
-          },
+            checkedOut: [...obj.checkedIn, mapCheckedOutBooks(book)],
+          };
+        }
+      }
+      console.log("book", book);
+      return {
+        ...obj,
+        checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
+      };
+    },
 
     { checkedIn: [], checkedOut: [] }
   );
-  console.log("isModalOpen:", isModalOpen);
+  console.log("BookCards:", BookCards);
 
   return (
     <>

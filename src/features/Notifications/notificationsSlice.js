@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as status from "../../data/status";
+import * as status from "../../data/asyncStatus";
 import { setExtraReducer } from "../../utilities/reduxUtil";
 import * as notificationsApi from "./notificationsApi";
 
@@ -42,7 +42,7 @@ export const notificationsSlice = createSlice({
       state.list = action.payload.notifications;
     },
     addNotification: (state, action) => {
-      state.list.push(action.payload.notification);
+      state.list.unshift(action.payload.notification);
     },
   },
   extraReducers: {

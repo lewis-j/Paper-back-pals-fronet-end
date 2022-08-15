@@ -8,6 +8,8 @@ import {
 } from "../../features/Friends";
 import styles from "./FriendsPage.module.scss";
 import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
+import { NoContent } from "../../components";
+import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 
 const FriendsPage = () => {
   const [activeId, setActiveId] = useState("");
@@ -51,7 +53,14 @@ const FriendsPage = () => {
       >
         <FriendsNavigation isOpen={isOpen} toggleList={switchToListView} />
         <div className={styles.innerView}>
-          {currentFriend ? <Outlet /> : <div>test</div>}
+          {currentFriend ? (
+            <Outlet />
+          ) : (
+            <NoContent
+              icon={faUserGroup}
+              text="Select a friend to view their library"
+            />
+          )}
         </div>
       </div>
     </div>

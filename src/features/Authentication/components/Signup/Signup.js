@@ -11,7 +11,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../authUserSlice";
-import * as condition from "../../../../data/status";
+import * as condition from "../../../../data/asyncStatus";
 import authStyle from "../auth.module.scss";
 import ErrorMsg from "../ErrorMsg/ErrorMsg";
 import ErrMsgStyle from "../ErrorMsg/ErrorMsg.module.scss";

@@ -23,7 +23,7 @@ const PrevArrow = ({ className, style, onClick }) => {
   );
 };
 const ResponsiveSlider = ({ className, children }) => {
-  const getSlideItems = (num) => Math.min(children.length, num);
+  const getSlideItems = (num) => Math.min(children?.length || 0, num);
 
   var settings = {
     className: className,

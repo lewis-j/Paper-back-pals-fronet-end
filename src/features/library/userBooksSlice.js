@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as userBookApi from "./userBookCalls";
-import * as status from "../../data/status";
+import * as status from "../../data/asyncStatus";
 import bookRequestStatus from "./data/bookRequestStatus";
 import { setExtraReducer } from "../../utilities/reduxUtil";
 
@@ -48,6 +48,11 @@ export const userBooksSlice = createSlice({
       console.log("action.payload", action.payload);
       state.bookRequests = action.payload.bookRequest;
     },
+    setOwnedBookCurrentRequest: (state, action) => {
+      const { userBook_id, request_id } = action.payload;
+      const idx = state.books.owned.findIndex(({ _id }) => _id === userBook_id);
+      state.books.owned[idx] = request_id;
+    },
   },
   extraReducers: {
     ...setExtraReducer(addBook, addBookFullfilled),
@@ -55,6 +60,7 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const { setBooks, setBookRequests } = userBooksSlice.actions;
+export const { setBooks, setBookRequests, setOwnedBookCurrentRequest } =
+  userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

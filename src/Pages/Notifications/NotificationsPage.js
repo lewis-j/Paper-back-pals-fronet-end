@@ -14,11 +14,16 @@ import {
 } from "../../features/library/userBookCalls";
 import styles from "./NotificationsPage.module.scss";
 import { markAsRead } from "../../features/Notifications/notificationsSlice";
+import {
+  bookRequestStatus,
+  setOwnedBookCurrentRequest,
+} from "../../features/library";
 
 const NotificationsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [refData, setRefData] = useState();
   const { list: notifications } = useSelector((state) => state.notifications);
+  console.log("notifications:", notifications);
 
   const _notifications = notifications.reduce(
     (obj, cur) => {
@@ -94,15 +99,24 @@ const NotificationsPage = () => {
           _id: request_id,
           notification_id,
           userBook: {
-            book: { coverImg, title, authors },
+            book: { coverImg, title, authors, _id: userBook_id },
           },
+          status,
         } = refData;
 
+        // const acceptClickHandler = async () => {
+        //   const notification = await nextBookRequestStatus(request_id);
+        //   console.log("notification in click handler", notification);
+        //   await dispatch(markAsRead({ _id: notification_id })).unwrap();
+        //   dispatch(addNotification({ notification }));
+        // };
         const acceptClickHandler = async () => {
-          const notification = await nextBookRequestStatus(request_id);
-          console.log("notification in click handler", notification);
-          //dispatch notification returned from nextBookRequestStatus
-          dispatch(markAsRead({ _id: notification_id }));
+          const res = await nextBookRequestStatus(request_id);
+          console.log("notification from nextBookRequest", res);
+          if (status === bookRequestStatus.CHECKED_IN)
+            dispatch(setOwnedBookCurrentRequest({ userBook_id, request_id }));
+          const { notification } = res;
+          await dispatch(markAsRead({ _id: notification_id })).unwrap();
           dispatch(addNotification({ notification }));
         };
 
