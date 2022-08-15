@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { Progress } from "reactstrap";
 import { Avatar, Button } from "../../../../../components";
+import { dayMonthFormat } from "../../../../../utilities/timeUtil";
 
 const UserCardSm = ({
+  _id: userCard_id,
   book,
   user,
   menuItems = [
@@ -19,13 +21,8 @@ const UserCardSm = ({
   isActive = false,
   setActive,
 }) => {
-  const {
-    _id: userCard_id,
-    coverImg,
-    title,
-    dueDate,
-    progressValue = 10,
-  } = book;
+  const { coverImg, title, dueDate: _dueDate, progressValue = 10 } = book;
+  const dueDate = dayMonthFormat(_dueDate);
   const { sender_id, username, profilePic } = user;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 

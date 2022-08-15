@@ -1,6 +1,6 @@
 import styles from "./NoContent.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const NoContent = ({ children, ...props }) => {
+const NoContent = ({ children, icon, text, iconSize = "13em" }) => {
   const getIcon = (icon) => {
     if (typeof icon === "function") {
       const Icon = icon;
@@ -10,15 +10,19 @@ const NoContent = ({ children, ...props }) => {
       return (
         <FontAwesomeIcon
           icon={icon}
-          style={{ fontSize: "13em", width: "100%" }}
+          style={{
+            fontSize:
+              typeof iconSize === "string" ? iconSize : iconSize.toString(),
+            width: "100%",
+          }}
         />
       );
     }
   };
   return (
     <div className={`${styles.container}`}>
-      <div className={styles.iconWrapper}>{getIcon(props.icon)}</div>
-      <div className={styles.text}>{props.text}</div>
+      <div className={styles.iconWrapper}>{getIcon(icon)}</div>
+      <div className={styles.text}>{text}</div>
       {children && <div className={styles.children}>{children}</div>}
     </div>
   );

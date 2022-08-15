@@ -21,10 +21,10 @@ export const getTimeFromToday = (date) => {
   const weeks = days / 7;
   if (weeks <= 4) return `${Math.floor(weeks)} weeks ago`;
 
-  return dayMonth(date);
+  return dayMonthFormat(date);
 };
 
-export const dayMonth = (date) => {
+export const dayMonthFormat = (date) => {
   let _date = date;
   if (typeof date === "string") {
     _date = new Date(date);

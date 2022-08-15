@@ -14,13 +14,8 @@ import { getFriendsOwnedBookById } from "../../../features/Friends";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 import { Modal } from "../../../components";
-import {
-  faArrowUpRightFromSquare,
-  faCheck,
-  faCheckCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import requestStatus from "../../../data/requestStatus";
-import { dayMonth } from "../../../utilities/timeUtil";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
@@ -82,18 +77,13 @@ const Library = () => {
     //   bookData.currentPage,
     //   bookData.pageCount
     // );
-    console.log(
-      "*****************************************",
-      "bookData",
-      userBook,
-      "*****************************************"
-    );
+
     const {
       _id,
       book: { coverImg, title },
       currentRequest: { dueDate, status, sender },
     } = userBook;
-    const book = { _id, coverImg, title, dueDate: dayMonth(dueDate) };
+    const book = { _id, coverImg, title, dueDate };
 
     // const { menu } = filterRequest(bookData._id);
     return (
@@ -143,7 +133,7 @@ const Library = () => {
 
       if (book.currentRequest) {
         const status = book.currentRequest.status;
-        console.log(checkedIn.includes(status), checkedIn, status, book);
+
         if (checkedIn.includes(status)) {
           return {
             ...obj,
@@ -157,7 +147,7 @@ const Library = () => {
           };
         }
       }
-      console.log("book", book);
+
       return {
         ...obj,
         checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
@@ -166,7 +156,6 @@ const Library = () => {
 
     { checkedIn: [], checkedOut: [] }
   );
-  console.log("BookCards:", BookCards);
 
   return (
     <>

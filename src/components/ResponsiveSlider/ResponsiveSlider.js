@@ -5,11 +5,13 @@ import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import styles from "./ResponsiveSlider.module.scss";
 import "./ResponsiveSlider.scss";
+import { _s } from "../../style";
 
 const NextArrow = ({ className, style, onClick }) => {
   return (
-    <div className="slick-next BookSlider__arrow" onClick={onClick}>
+    <div className={_s("slick-next", styles.arrow)} onClick={onClick}>
       <FontAwesomeIcon icon={faChevronRight} />
     </div>
   );
@@ -17,7 +19,7 @@ const NextArrow = ({ className, style, onClick }) => {
 
 const PrevArrow = ({ className, style, onClick }) => {
   return (
-    <div className="slick-prev BookSlider__arrow" onClick={onClick}>
+    <div className={_s("slick-prev", styles.arrow)} onClick={onClick}>
       <FontAwesomeIcon icon={faChevronLeft} />
     </div>
   );
@@ -26,7 +28,7 @@ const ResponsiveSlider = ({ className, children }) => {
   const getSlideItems = (num) => Math.min(children?.length || 0, num);
 
   var settings = {
-    className: className,
+    className: _s(className, styles.contianer),
     dots: true,
     infinite: true,
     speed: 500,

@@ -1,4 +1,4 @@
-@import "../../style/variables.scss";
+@use "../../style/variables.scss";
 .container {
   height: 100%;
   width: 100%;
@@ -10,18 +10,19 @@
 }
 
 .children {
-  margin-top: 2em;
+  margin-top: 1.5em;
   text-align: center;
 }
 
 .text {
+  color: variables.$title-color;
   margin-top: 1em;
   font-size: 1.5em;
   font-weight: 700;
   text-align: center;
 }
 .iconWrapper {
-  color: $title-color;
+  color: variables.$title-color;
   width: 30%;
   min-width: 10em;
   max-width: 15em;

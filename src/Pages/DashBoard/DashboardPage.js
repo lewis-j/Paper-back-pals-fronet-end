@@ -1,156 +1,121 @@
 import React, { useState } from "react";
-import { ResponsiveSlider } from "../../components";
+import { Button, NoContent, ResponsiveSlider } from "../../components";
 import { UserCardLrg as CurrentRead, UserCardSm } from "../../features/library";
 import { Container } from "reactstrap";
 import styles from "./DashboardPage.module.scss";
-
-const bookData = {
-  coverImg:
-    "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-  title: "GIRL WITH THE DRAGON TATTOO",
-  author: "Stieg Larson",
-  dueDate: "3/22/2022",
-  lender: "Lindsey Jackson",
-  lenderId: "1",
-  lenderImg:
-    "data:image/svg+xml,%0A%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%20%3Cg%3E%0A%20%20%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22red%22%3E%3C%2Frect%3E%0A%20%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22Verdana%22%20dominant-baseline%3D%22middle%22%20%20text-anchor%3D%22middle%22%20font-size%3D%2235%22%20fill%3D%22white%22%3EJB%3C%2Ftext%3E%0A%20%3C%2Fg%3E%0A%20%3C%2Fsvg%3E%0A",
-  currentPage: 304,
-  pageCount: 480,
-};
-
-const checkedBooks = [
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "Killer",
-    author: "Jonathan Kellerman",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "1",
-    lenderImg:
-      "data:image/svg+xml,%0A%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%20%3Cg%3E%0A%20%20%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22red%22%3E%3C%2Frect%3E%0A%20%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22Verdana%22%20dominant-baseline%3D%22middle%22%20%20text-anchor%3D%22middle%22%20font-size%3D%2235%22%20fill%3D%22white%22%3EJB%3C%2Ftext%3E%0A%20%3C%2Fg%3E%0A%20%3C%2Fsvg%3E%0A",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=6H-ODQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-    title: "Kenobi",
-    author: "John Jackson Miller",
-    dueDate: "5/23/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "2",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a-/AOh14GjTz3-DpsVbTe5N83aKCrW7_DlrUFJOzfuqxLCj=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=Gia58Jn8mSQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "The Wisper Man",
-    author: "Alex North",
-    dueDate: "7/27/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "3",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=GY7CuwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    title: "GIRL WITH THE DRAGON TATTOO",
-    author: "Stieg Larson",
-    dueDate: "8/10/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "4",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "GIRL WITH THE DRAGON TATTOO",
-    author: "Stieg Larson",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "5",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "GIRL WITH THE DRAGON TATTOO",
-    author: "Stieg Larson",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "6",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a/AATXAJyviNEutydcl7WBBWBBVtShwyfugT_jtGoQyim7=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-];
-const LibraryBooks = [
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=WrL9de30FDMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    title: "Killer",
-    author: "Jonathan Kellerman",
-    dueDate: "3/22/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "1",
-    lenderImg:
-      "data:image/svg+xml,%0A%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%20%3Cg%3E%0A%20%20%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22red%22%3E%3C%2Frect%3E%0A%20%20%20%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22Verdana%22%20dominant-baseline%3D%22middle%22%20%20text-anchor%3D%22middle%22%20font-size%3D%2235%22%20fill%3D%22white%22%3EJB%3C%2Ftext%3E%0A%20%3C%2Fg%3E%0A%20%3C%2Fsvg%3E%0A",
-    currentPage: 304,
-    pageCount: 480,
-  },
-  {
-    coverImg:
-      "http://books.google.com/books/content?id=6H-ODQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-    title: "Kenobi",
-    author: "John Jackson Miller",
-    dueDate: "5/23/2022",
-    lender: "Lindsey Jackson",
-    lenderId: "2",
-    lenderImg:
-      "https://lh3.googleusercontent.com/a-/AOh14GjTz3-DpsVbTe5N83aKCrW7_DlrUFJOzfuqxLCj=s96-c",
-    currentPage: 304,
-    pageCount: 480,
-  },
-];
+import { useSelector } from "react-redux";
+import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
   const [activeCard, setActiveCard] = useState("");
+  const { borrowed, owned } = useSelector((state) => state.userBooks.books);
+
+  const _owned = sortCheckedInBooks(owned);
+  const _borrowed = sortCheckedInBooks(borrowed);
+  console.log(
+    "*****************************************",
+    "activeCard",
+    activeCard,
+    "*****************************************"
+  );
+
+  const BooksFromFriendsMenuItems = [
+    {
+      text: "Current Read",
+      clickHandler: () => {
+        console.log("testing");
+      },
+    },
+  ];
+
+  const renderBooksFromFriends = (userBooks) => {
+    return userBooks.map(
+      ({ _id, book, owner, currentRequest: { dueDate } }) => {
+        console.log("borrowed books:", book, owner);
+        const _book = { ...book, dueDate };
+        return (
+          <UserCardSm
+            _id={_id}
+            book={_book}
+            user={owner}
+            setActive={setActiveCard}
+            isActive={activeCard === _id}
+            menuItems={BooksFromFriendsMenuItems}
+          />
+        );
+      }
+    );
+  };
+
+  const booksYouOwnMenuItems = [
+    {
+      text: "message",
+      clickHandler: () => {
+        console.log("testing");
+      },
+    },
+  ];
+  const renderBooksYouOwn = (userBooks) => {
+    return userBooks.map(
+      ({
+        _id,
+        book: { coverImg, title },
+        currentRequest: { sender, dueDate },
+      }) => {
+        const book = { _id, coverImg, title, dueDate };
+        console.log("active:::::::::::", _id, activeCard, activeCard === _id);
+        return (
+          <UserCardSm
+            _id={_id}
+            book={book}
+            user={sender}
+            setActive={setActiveCard}
+            isActive={activeCard === _id}
+            menuItems={booksYouOwnMenuItems}
+          />
+        );
+      }
+    );
+  };
+
+  const renderNoContent = () => {
+    return (
+      <div className={styles.noContent}>
+        <NoContent
+          icon={faBook}
+          iconSize="6em"
+          text="You currently have no checked out books"
+        >
+          <Button varient="accept" onClick={() => navigate("library")}>
+            Check Library
+          </Button>
+        </NoContent>
+      </div>
+    );
+  };
+
   return (
     <Container>
       <h3 className={styles.title}>Current Read</h3>
-      <CurrentRead currentBook={bookData} />
+      {/* <CurrentRead currentBook={null} /> */}
       <h3 className={styles.title}>Books from Friends</h3>
       <ResponsiveSlider>
-        {/* {checkedBooks.map((book, i) => (
-          <UserCardSm
-            book={book}
-            user={}
-            setActive={setActiveCard}
-            isActive={activeCard === book.lenderId}
-            key={`FriendsSlider: ${i}`}
-          />
-        ))} */}
+        {renderBooksFromFriends(_borrowed.checkedOut)}
       </ResponsiveSlider>
       <h3 className={styles.title}>Your Library</h3>
-      <ResponsiveSlider>
-        {/* {LibraryBooks.map((book, i) => (
-          <UserCardSm bookData={book} key={`YourSlider: ${i}`} />
-        ))} */}
-      </ResponsiveSlider>
+      <div className={styles.yourLibrary}>
+        {_owned.checkedOut.length > 0 ? (
+          <ResponsiveSlider>
+            {renderBooksYouOwn(_owned.checkedOut)}
+          </ResponsiveSlider>
+        ) : (
+          renderNoContent()
+        )}
+      </div>
     </Container>
   );
 };

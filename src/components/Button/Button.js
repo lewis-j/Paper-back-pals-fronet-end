@@ -15,6 +15,7 @@ const Button = ({
 }) => {
   const getIcon = (icon) => {
     if (typeof icon === "function") {
+      //if Tabler Icon
       const Icon = icon;
       return <Icon style={{ width: "100%", height: "100%" }} />;
     }
