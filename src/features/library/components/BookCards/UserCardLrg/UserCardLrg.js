@@ -12,19 +12,20 @@ import {
 import "./UserCardLrg.scss";
 
 import { getProgressInPercent } from "../../../../../utilities/bookUtilities";
+import { dayMonthFormat } from "../../../../../utilities/timeUtil";
 
-const UserCardLrg = ({
-  currentBook: {
-    title,
-    author,
+const UserCardLrg = ({ _id: userCard_id, book, icon, user }) => {
+  const {
     coverImg,
-    dueDate,
-    lender,
-    lenderImg,
-    currentPage,
-    pageCount,
-  },
-}) => {
+    author,
+    title,
+    dueDate: _dueDate,
+    currentPage = 30,
+    pageCount = 224,
+  } = book;
+  const dueDate = dayMonthFormat(_dueDate);
+  const { sender_id, username, profilePic } = user;
+
   const readingProgress = getProgressInPercent(currentPage, pageCount);
 
   return (
@@ -46,8 +47,8 @@ const UserCardLrg = ({
             <CardTitle tag="h5">{title}</CardTitle>
             <CardTitle tag="h6">{author}</CardTitle>
 
-            <img src={lenderImg} alt="profile" width="40px" />
-            {lender}
+            <img src={profilePic} alt="profile" width="40px" />
+            {username}
             <dl className="row">
               <dt className="col-3">Due Date:</dt>
               <dd className="col-9">{dueDate}</dd>

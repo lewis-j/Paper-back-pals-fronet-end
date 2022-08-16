@@ -1,12 +1,12 @@
-@import "../../../../style/variables.scss";
+@use "../../../../style/variables.scss";
 .wrapper {
   height: 20em;
   max-width: 18em;
   position: relative;
   margin: 0.5em auto;
-  border: solid 1px $box-border-colors;
+  border: solid 1px variables.$box-border-colors;
   border-radius: 0.15em;
-  box-shadow: $standard-box-shadow;
+  box-shadow: variables.$standard-box-shadow;
   background-color: white;
 }
 
@@ -23,7 +23,7 @@
 .title {
   text-align: left;
   margin: 5% 15%;
-  font-family: $heading-font;
+  font-family: variables.$heading-font;
 
   h6 {
     font-size: 0.9em;
@@ -41,7 +41,7 @@
 .img {
   height: 50%;
   margin-top: 2%;
-  box-shadow: 2px 2px 5px $shadow-color;
+  box-shadow: 2px 2px 5px variables.$shadow-color;
 }
 .button {
   margin-bottom: 2%;
@@ -51,6 +51,11 @@
 
 .isLoading {
   animation: spin 4s infinite linear;
+}
+
+.inLibrary {
+  color: variables.$accepted-color;
+  border-color: variables.$accepted-color;
 }
 
 @keyframes spin {

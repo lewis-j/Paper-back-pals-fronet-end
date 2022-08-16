@@ -7,12 +7,20 @@ import { useSelector } from "react-redux";
 import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateCurrentRead } from "../../features/library";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [activeCard, setActiveCard] = useState("");
-  const { borrowed, owned } = useSelector((state) => state.userBooks.books);
+  const {
+    books: { borrowed, owned },
+    currentRead,
+  } = useSelector((state) => state.userBooks);
+  const { owner, book, currentRequest } = currentRead;
+  const _book = { ...book, dueDate: currentRequest.dueDate };
 
   const _owned = sortCheckedInBooks(owned);
   const _borrowed = sortCheckedInBooks(borrowed);
@@ -20,8 +28,9 @@ const DashboardPage = () => {
   const BooksFromFriendsMenuItems = [
     {
       text: "Current Read",
-      clickHandler: () => {
-        console.log("testing");
+      clickHandler: (userBook_id) => {
+        console.log("userBook ID::::::::::::::::::::::", userBook_id);
+        dispatch(updateCurrentRead({ userBook_id }));
       },
     },
   ];
@@ -94,7 +103,7 @@ const DashboardPage = () => {
   return (
     <Container>
       <h3 className={styles.title}>Current Read</h3>
-      {/* <CurrentRead currentBook={null} /> */}
+      <CurrentRead book={_book} user={owner} />
       <h3 className={styles.title}>Books from Friends</h3>
       <ResponsiveSlider>
         {renderBooksFromFriends(_borrowed.checkedOut)}

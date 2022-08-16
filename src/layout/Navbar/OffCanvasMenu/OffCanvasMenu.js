@@ -32,24 +32,26 @@ const OffCanvasMenu = ({ expandSize }) => {
         color="light"
         className={styles.btn}
         onClick={() => {
-          setCanvasToggle(!canvasToggle);
-        }}
-      >
-        <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />
-      </button>
-      <button
-        color="light"
-        className={styles.btn}
-        onClick={() => {
           navigate("friends");
         }}
       >
         <FontAwesomeIcon
           icon={faUsers}
           size="xl"
+          style={{ boxSizing: "border-box" }}
           className={styles.friendsIcon}
         />
       </button>
+      <button
+        color="light"
+        className={styles.btn}
+        onClick={() => {
+          setCanvasToggle(!canvasToggle);
+        }}
+      >
+        <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />
+      </button>
+
       <Offcanvas
         direction="end"
         isOpen={canvasToggle}

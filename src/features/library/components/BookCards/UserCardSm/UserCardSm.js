@@ -65,7 +65,7 @@ const UserCardSm = ({
               {menuItems.map(({ text, clickHandler }, i) => (
                 <Button
                   key={`menu-list${i}`}
-                  onClick={clickHandler}
+                  onClick={() => clickHandler(userCard_id)}
                   varient="white-outline"
                 >
                   {text}

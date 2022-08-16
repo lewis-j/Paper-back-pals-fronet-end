@@ -45,7 +45,7 @@ export const logout = createAsyncThunk("user/logout", asyncActions.logout);
 export const authUserSlice = createSlice({
   name: "authUser",
   initialState: {
-    currentUser: { currentRead: null },
+    currentUser: null,
     status: status.IDLE,
     error: null,
   },

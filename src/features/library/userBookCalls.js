@@ -43,6 +43,18 @@ export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
   }
 };
 
+export const updateCurrentRead = async ({ userBook_id }) => {
+  try {
+    const res = await API.put(`/user/setCurrentRead/${userBook_id}`);
+    console.log("fetching", `/user/setCurrentRead/${userBook_id}`, res.data);
+    if (!res.data.currentRead) throw new Error("current read was not updated");
+    return { userBook_id };
+  } catch (error) {
+    console.error("error in catch", error);
+    return Promise.reject(error);
+  }
+};
+
 export const nextBookRequestStatus = async (request_id) => {
   try {
     const res = await API.put(`/user-books/request/${request_id}/status/next`);
