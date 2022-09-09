@@ -24,7 +24,7 @@ const UserCardLrg = ({ _id: userCard_id, book, icon, user }) => {
     pageCount = 224,
   } = book;
   const dueDate = dayMonthFormat(_dueDate);
-  const { sender_id, username, profilePic } = user;
+  const { username, profilePic } = user;
 
   const readingProgress = getProgressInPercent(currentPage, pageCount);
 
