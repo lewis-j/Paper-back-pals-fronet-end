@@ -9,7 +9,7 @@ import styles from "./FriendsNavigation.module.scss";
 const navItems = ["library", "profile", "friends"];
 
 const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
-  const { pathname, state } = useLocation();
+  const { pathname } = useLocation();
   const [active, set] = useState();
 
   const navigate = useNavigate();

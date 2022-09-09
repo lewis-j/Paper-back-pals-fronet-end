@@ -1,7 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as condition from "../../data/asyncStatus";
-import { Loading } from "../Loading";
 import { PageLoading } from "../PageLoading";
 
 const PrivateRoute = ({ children }) => {

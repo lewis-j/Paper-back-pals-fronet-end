@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 
 import { Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
-import { getProgressInPercent } from "../../../utilities/bookUtilities";
 import {
   UserCardSm,
   BookCard,
@@ -81,7 +80,7 @@ const Library = () => {
     const {
       _id,
       book: { coverImg, title },
-      currentRequest: { dueDate, status, sender },
+      currentRequest: { dueDate, sender },
     } = userBook;
     const book = { _id, coverImg, title, dueDate };
 

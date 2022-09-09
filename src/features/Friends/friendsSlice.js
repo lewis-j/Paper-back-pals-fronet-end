@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as status from "../../data/asyncStatus";
 import * as friendsApi from "./friendsApi";
-import * as userBookService from "../library/userBookCalls";
 import { setExtraReducer } from "../../utilities/reduxUtil";
 
 const sendFriendRequest = createAsyncThunk(
@@ -16,20 +15,20 @@ const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
   ];
 };
 
-const createBookRequestFulfilled = (state, { payload }) => {
-  const {
-    currentFriend: { ownedBooks },
-  } = state;
-  const { request_id, userBook_id } = payload;
-  const bookIndex = ownedBooks.findIndex(
-    (userBook) => userBook._id === userBook_id
-  );
-  const _userBook = ownedBooks[bookIndex];
-  ownedBooks[bookIndex] = {
-    ..._userBook,
-    request: [..._userBook.request, { _id: request_id }],
-  };
-};
+// const createBookRequestFulfilled = (state, { payload }) => {
+//   const {
+//     currentFriend: { ownedBooks },
+//   } = state;
+//   const { request_id, userBook_id } = payload;
+//   const bookIndex = ownedBooks.findIndex(
+//     (userBook) => userBook._id === userBook_id
+//   );
+//   const _userBook = ownedBooks[bookIndex];
+//   ownedBooks[bookIndex] = {
+//     ..._userBook,
+//     request: [..._userBook.request, { _id: request_id }],
+//   };
+// };
 const acceptFriendRequest = createAsyncThunk(
   "friends/acceptFriendRequest",
   friendsApi.addFriendFromRequest

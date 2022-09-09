@@ -1,13 +1,12 @@
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { IconBookOff } from "@tabler/icons";
-import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { BookCard, UserCardSm, BookContainer } from "../../features/library";
+import { UserCardSm, BookContainer } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
 import { useState } from "react";
 import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
 import { Button, NoContent } from "../../components";
-import { faBell, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const BorrowedPage = () => {

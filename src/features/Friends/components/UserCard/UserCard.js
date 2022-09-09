@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../components";
 import styles from "./UserCard.module.scss";
 

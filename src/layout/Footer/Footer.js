@@ -5,15 +5,11 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   ListGroup,
   ListGroupItem,
-  InputGroup,
-  Input,
-  Button,
   Popover,
   PopoverBody,
   PopoverHeader,
   Container,
   Row,
-  Col,
 } from "reactstrap";
 import "./Footer.scss";
 import styles from "./Footer.module.scss";
