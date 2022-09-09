@@ -19,8 +19,13 @@ const DashboardPage = () => {
     books: { borrowed, owned },
     currentRead,
   } = useSelector((state) => state.userBooks);
-  const { owner, book, currentRequest } = currentRead;
-  const _book = { ...book, dueDate: currentRequest.dueDate };
+  const renderCurrentRead = (_currentRead) => {
+    if (!_currentRead) return null;
+    const { owner, book, currentRequest = null } = _currentRead;
+    const _book = { ...book, dueDate: currentRequest.dueDate };
+
+    return <CurrentRead book={_book} user={owner} />;
+  };
 
   const _owned = sortCheckedInBooks(owned);
   const _borrowed = sortCheckedInBooks(borrowed);
@@ -31,6 +36,12 @@ const DashboardPage = () => {
       clickHandler: (userBook_id) => {
         console.log("userBook ID::::::::::::::::::::::", userBook_id);
         dispatch(updateCurrentRead({ userBook_id }));
+      },
+    },
+    {
+      text: "Update Page",
+      clickHandler: (userBook_id) => {
+        console.log("Updating currnet page count");
       },
     },
   ];
@@ -62,6 +73,7 @@ const DashboardPage = () => {
     },
   ];
   const renderBooksYouOwn = (userBooks) => {
+    console.log("books", userBooks);
     return userBooks.map(
       ({
         _id,
@@ -103,7 +115,7 @@ const DashboardPage = () => {
   return (
     <Container>
       <h3 className={styles.title}>Current Read</h3>
-      <CurrentRead book={_book} user={owner} />
+      {renderCurrentRead(currentRead)}
       <h3 className={styles.title}>Books from Friends</h3>
       <ResponsiveSlider>
         {renderBooksFromFriends(_borrowed.checkedOut)}

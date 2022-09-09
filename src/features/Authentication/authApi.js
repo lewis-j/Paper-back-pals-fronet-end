@@ -17,6 +17,7 @@ export const googleAuth = async (idToken) => {
       {},
       setAuthHeader(idToken)
     );
+    console.log("google sign in response", res);
     const user = res.data;
     return user;
   } catch (error) {

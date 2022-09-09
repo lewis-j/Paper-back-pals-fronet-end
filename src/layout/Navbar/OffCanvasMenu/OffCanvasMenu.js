@@ -14,6 +14,7 @@ import { faCircleUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import * as NavLinks from "../NavLinks";
 import styles from "./OffCanvasMenu.module.scss";
 import { useSelector } from "react-redux";
+import { Avatar } from "../../../components";
 
 const OffCanvasMenu = ({ expandSize }) => {
   const [canvasToggle, setCanvasToggle] = useState(false);
@@ -66,8 +67,7 @@ const OffCanvasMenu = ({ expandSize }) => {
             setCanvasToggle(!canvasToggle);
           }}
         >
-          <img src={profilePic} alt={username} className={styles.avatar} />
-          {username}
+          <Avatar imgSrc={profilePic} username={username} /> {username}
         </OffcanvasHeader>
         <OffcanvasBody>
           <Nav vertical tabs>

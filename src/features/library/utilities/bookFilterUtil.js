@@ -1,7 +1,8 @@
 import requestStatus from "../../../data/requestStatus";
 
-export const sortCheckedInBooks = (books) =>
-  books.reduce(
+export const sortCheckedInBooks = (books) => {
+  if (!books) return { checkedIn: [], checkedOut: [] };
+  return books.reduce(
     (obj, book) => {
       const requestEnum = Object.values(requestStatus);
       const checkedIn = requestEnum.slice(1, 3);
@@ -13,13 +14,13 @@ export const sortCheckedInBooks = (books) =>
         if (checkedIn.includes(status)) {
           return {
             ...obj,
-            checkedIn: [...obj.checkedOut, book],
+            checkedIn: [...obj.checkedIn, book],
           };
         }
         if (checkedOut.includes(status)) {
           return {
             ...obj,
-            checkedOut: [...obj.checkedIn, book],
+            checkedOut: [...obj.checkedOut, book],
           };
         }
       }
@@ -32,3 +33,4 @@ export const sortCheckedInBooks = (books) =>
 
     { checkedIn: [], checkedOut: [] }
   );
+};

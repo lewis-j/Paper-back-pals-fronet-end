@@ -1,5 +1,5 @@
 import * as firebaseApi from "./firebase";
-import { getDefaultUserImg } from "../../utilities/getDefaultUserImg";
+import { getNewDefaultUserImg } from "../../utilities/getDefaultUserImg";
 import * as authApi from "./authApi";
 import {
   setFriendRequestInbox,
@@ -35,7 +35,7 @@ const parseSlice = (dispatch, _user) => {
 
 const fetchUser = async (_, { dispatch }) => {
   try {
-    await authApi.enableCsrfProtection();
+    // await authApi.enableCsrfProtection();
     const user = await authApi.authUserFetch();
     console.log("user in fetch call", { user });
     return parseSlice(dispatch, user);
@@ -46,7 +46,7 @@ const fetchUser = async (_, { dispatch }) => {
 
 const loginWithGoogle = async (_, { dispatch }) => {
   try {
-    await authApi.enableCsrfProtection();
+    // await authApi.enableCsrfProtection();
     const res = await firebaseApi.loginGoogle();
     const token = await res?.user?.getIdToken();
     const user = await authApi.googleAuth(token);
@@ -70,7 +70,7 @@ const loginWithForm = async ({ email, password }, { dispatch }) => {
 
 const registerUser = async ({ username, email, password }, { dispatch }) => {
   const res = await firebaseApi.registerWithEmailAndPassword(email, password);
-  const defaultPic = getDefaultUserImg(username);
+  const defaultPic = getNewDefaultUserImg(username);
   await firebaseApi.setUsernameAndPictire(res.user, username, defaultPic);
   const token = await res?.user?.getIdToken(true);
   const user = await authApi.authUserRegister(token);

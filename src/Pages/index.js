@@ -9,3 +9,4 @@ export {
   Library as FriendsLibrary,
   Profile as FriendsProfile,
 } from "./Friends";
+export { ProfilePage } from "./Profile";

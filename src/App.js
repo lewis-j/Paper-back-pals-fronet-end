@@ -14,6 +14,7 @@ import {
   FriendsPage,
   FriendsLibrary,
   FriendsProfile,
+  ProfilePage,
 } from "./Pages";
 import { PrivateRoute } from "./components";
 import { Navbar, Footer } from "./layout";
@@ -58,6 +59,7 @@ function App() {
           <Route path="library" element={<Library />} />
           <Route path="borrowed" element={<BorrowedPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="friends" element={<FriendsPage />}>
             <Route path="library" element={<FriendsLibrary />} />
             <Route path="profile" element={<FriendsProfile />} />
@@ -66,6 +68,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+
       <Footer />
     </div>
   );

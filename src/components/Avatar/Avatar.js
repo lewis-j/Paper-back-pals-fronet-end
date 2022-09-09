@@ -14,6 +14,7 @@ const Avatar = ({ imgSrc, username, size = "md" }) => {
   return (
     <img
       src={_src}
+      rel="noopener noreferrer"
       alt="profile"
       className={_s(styles.img, styles[size])}
       onError={() => setIsError(true)}
