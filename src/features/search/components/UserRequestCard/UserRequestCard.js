@@ -12,8 +12,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { sendFriendRequest } from "../../../Friends";
-import { useState } from "react";
-import { getDefaultUserImg } from "../../../../utilities/getDefaultUserImg";
 
 const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
   const dispatch = useDispatch();
@@ -21,12 +19,6 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
     console.log("person_id", person_id);
 
     dispatch(sendFriendRequest({ person_id }));
-  };
-
-  const [isBroken, setIsBroken] = useState(false);
-
-  const loadIcon = () => {
-    setIsBroken(true);
   };
 
   const { friendsList, friendRequestInbox, friendRequestOutbox } = useSelector(
@@ -80,38 +72,6 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
       </Button>
     );
   };
-
-  const renderBtn = () => {
-    if (friendsList.some((friend) => friend._id === person_id))
-      return (
-        <div className={styles.friendIcon}>
-          <FontAwesomeIcon icon={faUserGroup} size="sm" />
-          <FontAwesomeIcon icon={faCheck} size="sm" />
-        </div>
-      );
-
-    if (friendRequestInbox.some(({ sender }) => sender._id === person_id))
-      return (
-        <Button varient="accept" icon={faUserCheck}>
-          Accept
-        </Button>
-      );
-
-    if (friendRequestOutbox.some(({ reciever }) => reciever._id === person_id))
-      return (
-        <div className={styles.pendingIcon}>
-          <FontAwesomeIcon icon={faCheckCircle} /> Requested
-        </div>
-      );
-
-    return (
-      <Button icon={faUserPlus} onClick={handleAddFriend} varient="add">
-        Add
-      </Button>
-    );
-  };
-
-  const imgSrc = isBroken ? getDefaultUserImg(username) : profilePic;
 
   return (
     <div className={styles.container} key={person_id}>

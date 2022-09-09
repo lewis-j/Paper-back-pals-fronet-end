@@ -24,7 +24,7 @@ const UserCardSm = ({
 }) => {
   const { coverImg, title, dueDate: _dueDate, progressValue = 10 } = book;
   const dueDate = dayMonthFormat(_dueDate);
-  const { sender_id, username, profilePic } = user;
+  const { username, profilePic } = user;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const cardFilter = isActive

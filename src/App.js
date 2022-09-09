@@ -33,7 +33,7 @@ function App() {
       console.log("running fetch user");
       dispatch(fetchUser());
     }
-  }, []);
+  }, [dispatch, userStatus]);
 
   return (
     <div className={styles.wrapper}>

@@ -4,7 +4,6 @@ import { createBookRequest } from "../../userBooksSlice";
 import * as asyncStatus from "../../../../data/asyncStatus";
 
 import styles from "./RequestCard.module.scss";
-import { shortenString } from "../../../../utilities/stringUtil";
 import { BookInfo } from "../BookInfo";
 
 const RequestCard = ({ userBook }) => {
@@ -13,7 +12,6 @@ const RequestCard = ({ userBook }) => {
   const {
     _id: userBook_id,
     owner: { _id: recipient_id },
-    book: { title, authors, coverImg, description },
   } = userBook;
   const handleBookRequest = async () => {
     dispatch(createBookRequest({ userBook_id, recipient_id }));

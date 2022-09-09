@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { logout } from "../../../features/Authentication";
 import styles from "./NavLinks.module.scss";
 import { useDispatch } from "react-redux";
@@ -83,7 +83,6 @@ export const Settings = ({ className, closeOnClick }) => (
 );
 export const Logout = ({ className }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   let linkClass = `${className} ${styles.navLink}`;
   return (
     <div

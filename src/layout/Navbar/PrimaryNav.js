@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { searchBooks, setQuery, SearchBar } from "../../features/search";
 import * as NavLinks from "./NavLinks";
 import styles from "./PrimaryNav.module.scss";
-import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
 
 const PrimaryNav = ({ mainViewStyle }) => {
   const [isOpen, setIsOpen] = useState(false);

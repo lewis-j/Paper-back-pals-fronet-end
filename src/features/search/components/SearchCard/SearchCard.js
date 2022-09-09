@@ -3,7 +3,6 @@ import { Button } from "../../../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
-  faUser,
   faImage,
   faSpinner,
   faCheck,

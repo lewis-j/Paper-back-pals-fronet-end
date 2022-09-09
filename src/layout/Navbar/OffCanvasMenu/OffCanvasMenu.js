@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
-  Button,
   Offcanvas,
   OffcanvasHeader,
   OffcanvasBody,
   Nav,
   NavItem,
-  NavLink,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
