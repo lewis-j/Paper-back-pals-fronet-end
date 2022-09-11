@@ -11,3 +11,4 @@ export { Modal } from "./Modal";
 export { FadeIn } from "./Animation";
 export { Avatar } from "./Avatar";
 export { PageLoading } from "./PageLoading";
+export { ProgressBar } from "./ProgressBar";

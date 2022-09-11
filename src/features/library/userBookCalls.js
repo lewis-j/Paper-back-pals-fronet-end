@@ -3,7 +3,8 @@ import { updateFriendsBookRequests } from "../Friends";
 import { addNotification } from "../Notifications";
 
 export const addBook = async ({ bookDto }) => {
-  const { google_id, coverImg, title, authors, description } = bookDto;
+  const { google_id, coverImg, title, authors, description, pageCount } =
+    bookDto;
   try {
     const res = await API.post(`/user-books`, {
       google_id,
@@ -11,6 +12,7 @@ export const addBook = async ({ bookDto }) => {
       title,
       authors,
       description,
+      pageCount,
     });
 
     return res.data;

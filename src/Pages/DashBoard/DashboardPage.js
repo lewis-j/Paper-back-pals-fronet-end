@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Button, NoContent, ResponsiveSlider } from "../../components";
-import { UserCardLrg as CurrentRead, UserCardSm } from "../../features/library";
-import { Container } from "reactstrap";
+import { Button, Modal, NoContent, ResponsiveSlider } from "../../components";
+import {
+  PageCountForm,
+  UserCardLrg as CurrentRead,
+  UserCardSm,
+} from "../../features/library";
 import styles from "./DashboardPage.module.scss";
 import { useSelector } from "react-redux";
 import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
@@ -15,14 +18,16 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
 
   const [activeCard, setActiveCard] = useState("");
+  const [modal, setModal] = useState(false);
   const {
     books: { borrowed, owned },
     currentRead,
   } = useSelector((state) => state.userBooks);
+
   const renderCurrentRead = (_currentRead) => {
     if (!_currentRead) return null;
     const { owner, book, currentRequest = null } = _currentRead;
-    const _book = { ...book, dueDate: currentRequest.dueDate };
+    const _book = { ...book, dueDate: currentRequest?.dueDate };
 
     return <CurrentRead book={_book} user={owner} />;
   };
@@ -34,14 +39,13 @@ const DashboardPage = () => {
     {
       text: "Current Read",
       clickHandler: (userBook_id) => {
-        console.log("userBook ID::::::::::::::::::::::", userBook_id);
         dispatch(updateCurrentRead({ userBook_id }));
       },
     },
     {
-      text: "Update Page",
+      text: "Page Count",
       clickHandler: (userBook_id) => {
-        console.log("Updating currnet page count");
+        setModal(true);
       },
     },
   ];
@@ -73,7 +77,6 @@ const DashboardPage = () => {
     },
   ];
   const renderBooksYouOwn = (userBooks) => {
-    console.log("books", userBooks);
     return userBooks.map(
       ({
         _id,
@@ -112,8 +115,28 @@ const DashboardPage = () => {
     );
   };
 
+  const renderModalItem = (activeCard) => {
+    console.log("active card", activeCard);
+    const _userBook = borrowed.find((item) => item._id === activeCard);
+    console.log("_userBook:", _userBook);
+
+    if (!_userBook) return null;
+    const { owner, book, currentRequest = null } = _userBook;
+    const _book = { ...book, dueDate: currentRequest?.dueDate };
+
+    return (
+      <>
+        <CurrentRead book={_book} user={owner} progress={false} />
+        <PageCountForm />
+      </>
+    );
+  };
+
   return (
-    <Container>
+    <div className={`container ${styles.container}`}>
+      <Modal isOpen={modal} setIsOpen={setModal} title="set current page">
+        {renderModalItem(activeCard)}
+      </Modal>
       <h3 className={styles.title}>Current Read</h3>
       {renderCurrentRead(currentRead)}
       <h3 className={styles.title}>Books from Friends</h3>
@@ -130,7 +153,7 @@ const DashboardPage = () => {
           renderNoContent()
         )}
       </div>
-    </Container>
+    </div>
   );
 };
 

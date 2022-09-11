@@ -6,6 +6,7 @@ import { processBookResults } from "../../../utilities/bookUtilities";
 import SearchPagination from "../SearchPagination";
 import { addBook } from "../../../features/library";
 import { StatusHandler } from "../StatusHandler";
+import { shortenString } from "../../../utilities/stringUtil";
 const BookResults = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -34,17 +35,16 @@ const BookResults = () => {
   const renderCards = () =>
     bookResults.length > currentPage
       ? bookResults[currentPage].map(({ id, volumeInfo }, i) => {
-          const {
-            title,
-            shortTitle,
-            authors,
-            shortAuthor,
-            thumbnail,
-            description,
-          } = processBookResults(volumeInfo);
+          const { title, authors, thumbnail, description, pageCount } =
+            processBookResults(volumeInfo);
+          console.log(
+            "processBookResults(volumeInfo):",
+            processBookResults(volumeInfo)
+          );
+
           const cardData = {
-            title: shortTitle,
-            author: shortAuthor,
+            title: shortenString(title, 50),
+            author: shortenString(authors[0], 20),
             thumbnail,
           };
           const bookDto = {
@@ -53,13 +53,13 @@ const BookResults = () => {
             authors,
             coverImg: thumbnail,
             description,
+            pageCount,
           };
 
           if (cardData) {
             return (
-              <Col xs="12" sm="6" md="4" xl="3">
+              <Col xs="12" sm="6" md="4" xl="3" key={`${id}-${i}`}>
                 <SearchCard
-                  key={`${id}-${i}`}
                   cardData={cardData}
                   addBook={addBookToLibrary(bookDto)}
                 />

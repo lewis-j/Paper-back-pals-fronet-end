@@ -25,8 +25,6 @@ const Button = ({
     }
   };
 
-  console.log("Circle", _circle);
-
   const circle = _circle ? styles.circle : "";
   const outline = _outline ? styles.outline : "";
 

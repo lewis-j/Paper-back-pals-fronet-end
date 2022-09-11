@@ -4,6 +4,7 @@ export {
   UserCardLrg,
   UserCardSm,
   RequestCard,
+  PageCountForm,
 } from "./components";
 export { bookRequestStatus } from "./data";
 export {

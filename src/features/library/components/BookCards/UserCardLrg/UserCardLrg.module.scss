@@ -1,0 +1,46 @@
+@use "../../../../../style/variables.scss";
+
+.container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1em auto;
+  box-shadow: variables.$standard-box-shadow;
+  background-color: variables.$grey-1;
+  border-radius: 0.25rem;
+}
+.progress {
+  height: 0.5em;
+}
+
+.progressContainer {
+  padding: 0.5em;
+  box-shadow: inset 1px 1px 5px variables.$shadow-color;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  background-color: variables.$grey-2;
+}
+.imgContainer {
+  width: 100%;
+}
+
+.coverImg {
+  display: block;
+  max-width: 15em;
+  margin: 0 auto;
+  width: 100%;
+  padding: 27px;
+}
+
+.body {
+  flex-basis: 100%;
+}
+
+@media (min-width: 540px) {
+  .imgContainer {
+    flex-basis: 33%;
+  }
+  .body {
+    flex-basis: 66%;
+  }
+}

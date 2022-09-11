@@ -1,72 +1,64 @@
 import React from "react";
-import {
-  Card,
-  Row,
-  Col,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  Progress,
-} from "reactstrap";
+import { Avatar, ProgressBar } from "../../../../../components";
 
 import "./UserCardLrg.scss";
+import styles from "./UserCardLrg.module.scss";
 
 import { getProgressInPercent } from "../../../../../utilities/bookUtilities";
 import { dayMonthFormat } from "../../../../../utilities/timeUtil";
 
-const UserCardLrg = ({ _id: userCard_id, book, icon, user }) => {
+const UserCardLrg = ({
+  _id: userCard_id,
+  book,
+  icon,
+  user,
+  progress = true,
+}) => {
   const {
     coverImg,
-    author,
+    authors,
     title,
     dueDate: _dueDate,
     currentPage = 30,
     pageCount = 224,
   } = book;
+
   const dueDate = dayMonthFormat(_dueDate);
   const { username, profilePic } = user;
 
   const readingProgress = getProgressInPercent(currentPage, pageCount);
 
   return (
-    <Card
-      className="my-3 mx-auto UserBookCard__container"
-      style={{ maxWidth: "540px" }}
-    >
-      <Row className="g-0">
-        <Col md="3">
-          <img
-            src={coverImg}
-            className="img-fluid rounded-start"
-            alt={title}
-            referrerpolicy="no-referrer"
-          />
-        </Col>
-        <Col md="9">
-          <CardBody>
-            <CardTitle tag="h5">{title}</CardTitle>
-            <CardTitle tag="h6">{author}</CardTitle>
+    <div className={styles.container} style={{ maxWidth: "540px" }}>
+      <div className={styles.imgContainer}>
+        <img
+          src={coverImg}
+          alt={title}
+          className={styles.coverImg}
+          referrerpolicy="no-referrer"
+        />
+      </div>
+      <div className={styles.body}>
+        <h5 className={styles.title}>{title}</h5>
+        <h6 className={styles.subTitle}>{authors[0]}</h6>
 
-            <img src={profilePic} alt="profile" width="40px" />
-            {username}
-            <dl className="row">
-              <dt className="col-3">Due Date:</dt>
-              <dd className="col-9">{dueDate}</dd>
-            </dl>
+        <Avatar imgSrc={profilePic} username={username} />
+        {username}
+        <dl className={styles.dueDate}>
+          <dt>Due Date:</dt>
+          <dd>{dueDate}</dd>
+        </dl>
 
-            <CardFooter>
-              <small className="text-muted">
-                Reading Progress: {currentPage} of {pageCount}
-              </small>
-              <Progress
-                value={readingProgress}
-                className="UserBookCard__progress"
-              />
-            </CardFooter>
-          </CardBody>
-        </Col>
-      </Row>
-    </Card>
+        {progress && (
+          <div className={styles.progressContainer}>
+            <small>
+              Reading Progress: {currentPage} of {pageCount}
+            </small>
+            <ProgressBar value={readingProgress} className={styles.progress} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
