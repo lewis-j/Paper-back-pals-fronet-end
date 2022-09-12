@@ -22,6 +22,7 @@ import {
 const NotificationsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [refData, setRefData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const { list: notifications } = useSelector((state) => state.notifications);
   console.log("notifications:", notifications);
 
@@ -104,20 +105,16 @@ const NotificationsPage = () => {
           status,
         } = refData;
 
-        // const acceptClickHandler = async () => {
-        //   const notification = await nextBookRequestStatus(request_id);
-        //   console.log("notification in click handler", notification);
-        //   await dispatch(markAsRead({ _id: notification_id })).unwrap();
-        //   dispatch(addNotification({ notification }));
-        // };
         const acceptClickHandler = async () => {
+          setIsLoading(true);
           const res = await nextBookRequestStatus(request_id);
           console.log("notification from nextBookRequest", res);
           if (status === bookRequestStatus.CHECKED_IN)
             dispatch(setOwnedBookCurrentRequest({ userBook_id, request_id }));
           const { notification } = res;
           await dispatch(markAsRead({ _id: notification_id })).unwrap();
-          dispatch(addNotification({ notification }));
+          await dispatch(addNotification({ notification })).unwrap();
+          setIsLoading(false);
         };
 
         return (
@@ -127,7 +124,12 @@ const NotificationsPage = () => {
             </div>
             <div>{authors[0]}</div>
             <div>
-              <Button circle icon={faCheck} onClick={acceptClickHandler} />
+              <Button
+                disabled={isLoading}
+                circle
+                icon={faCheck}
+                onClick={acceptClickHandler}
+              />
               <Button circle icon={faX} onClick={() => setIsOpen(false)} />
             </div>
           </div>
@@ -138,9 +140,9 @@ const NotificationsPage = () => {
   };
   return (
     <>
-      <Container>
-        <Row>{renderNotifications()}</Row>
-      </Container>
+      <div className={styles.container}>
+        <div className={styles.notifications}>{renderNotifications()}</div>
+      </div>
 
       <Modal setIsOpen={setIsOpen} isOpen={isOpen} title="Modal title">
         <div className={styles.modalContainer}>{modalCard()}</div>

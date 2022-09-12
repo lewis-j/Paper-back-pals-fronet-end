@@ -21,6 +21,7 @@ import { Navbar, Footer } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
+import homeBackground from "./Assets/imgs/home_background.jpg";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function App() {
 
   return (
     <div className={styles.wrapper}>
-      <Routes className={styles.container}>
+      <Routes>
         <Route path="landing-page" element={<LandingPage />}>
           <Route index element={<Login />} />
           <Route path="signup" element={<Signup />} />
@@ -48,7 +49,11 @@ function App() {
           path="/"
           element={
             <PrivateRoute>
-              <Navbar mainViewStyle={styles.mainView} />
+              <div className={styles.pageContent}>
+                <Navbar mainViewStyle={styles.mainView} />
+              </div>
+
+              {/* <div className={styles.backgroundImg}></div> */}
             </PrivateRoute>
           }
         >

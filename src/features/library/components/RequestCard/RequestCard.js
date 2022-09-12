@@ -6,7 +6,12 @@ import * as asyncStatus from "../../../../data/asyncStatus";
 import styles from "./RequestCard.module.scss";
 import { BookInfo } from "../BookInfo";
 
-const RequestCard = ({ userBook }) => {
+const RequestCard = ({
+  userBook,
+  decline = () => {
+    console.log("Declining");
+  },
+}) => {
   const userBookStatus = useSelector((state) => state.userBooks.status);
   const dispatch = useDispatch();
   const {
@@ -14,7 +19,8 @@ const RequestCard = ({ userBook }) => {
     owner: { _id: recipient_id },
   } = userBook;
   const handleBookRequest = async () => {
-    dispatch(createBookRequest({ userBook_id, recipient_id }));
+    await dispatch(createBookRequest({ userBook_id, recipient_id })).unwrap();
+    decline();
   };
 
   const isLoading = userBookStatus === asyncStatus.LOADING;
@@ -26,7 +32,7 @@ const RequestCard = ({ userBook }) => {
         <Button
           disabled={isLoading}
           varient="decline"
-          onClick={() => console.log("close modal")}
+          onClick={() => decline()}
         >
           Cancel
         </Button>

@@ -24,26 +24,28 @@ const NotificationsCard = ({
       <div className={styles.avatar}>
         <Avatar imgSrc={profilePic} username={username} size={"lg"} />
       </div>
-      <div>
+      <div className={styles.content}>
         <span className={styles.username}>{username}</span>
         <div className={styles.children}>
           <div>
             <div>{message}</div>
-            <div>{timeMsg}</div>
-            {clickHandlers && !isRead && (
-              <div>
-                <Button
-                  circle
-                  icon={faCheck}
-                  onClick={() => clickHandlers.accept()}
-                />
-                <Button
-                  circle
-                  icon={faX}
-                  onClick={() => clickHandlers.decline()}
-                />
-              </div>
-            )}
+            <div className={styles.row}>
+              <div>{timeMsg}</div>
+              {clickHandlers && !isRead && (
+                <div>
+                  <Button
+                    circle
+                    icon={faCheck}
+                    onClick={() => clickHandlers.accept()}
+                  />
+                  <Button
+                    circle
+                    icon={faX}
+                    onClick={() => clickHandlers.decline()}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -3,7 +3,8 @@
 $border: 1px solid $box-border-colors;
 
 .container {
-  width: 90%;
+  width: 100%;
+  padding: 0.1em 0.5em;
   margin: 0.3em auto;
   position: relative;
   max-width: 40em;
@@ -14,6 +15,7 @@ $border: 1px solid $box-border-colors;
   border-bottom: $border;
   border-left: $border;
   border-right: $border;
+  border-radius: 0.5em;
   box-shadow: $standard-box-shadow;
 
   &:hover {
@@ -21,6 +23,14 @@ $border: 1px solid $box-border-colors;
   }
 }
 
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content {
+  width: 100%;
+}
 .avatar {
   padding: 0.5em 1em 0.5em 0;
 }

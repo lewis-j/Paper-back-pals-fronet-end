@@ -165,7 +165,13 @@ const Library = () => {
           style={modalHeight}
           title="Request Status"
         >
-          <RequestCard userBook={activeBookInfo} />
+          <RequestCard
+            userBook={activeBookInfo}
+            decline={() => {
+              setIsModalOpen(false);
+              setActiveCardId("");
+            }}
+          />
         </Modal>
         <div className={styles.title}>
           <h1>
