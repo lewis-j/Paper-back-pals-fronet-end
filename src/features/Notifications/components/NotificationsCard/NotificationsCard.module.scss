@@ -1,25 +1,22 @@
-@import "../..//../../style/variables.scss";
+@use "../../../../style/variables.scss";
 
-$border: 1px solid $box-border-colors;
+$border: 1px solid variables.$box-border-colors;
 
 .container {
   width: 100%;
   padding: 0.1em 0.5em;
-  margin: 0.3em auto;
+  // margin: 0.3em auto;
   position: relative;
-  max-width: 40em;
+  // max-width: 40em;
   display: flex;
   flex-direction: row;
-  background-color: $grey-2;
+  background-color: variables.$grey-2;
   align-items: center;
   border-bottom: $border;
-  border-left: $border;
-  border-right: $border;
-  border-radius: 0.5em;
-  box-shadow: $standard-box-shadow;
+  box-shadow: variables.$sharp-box-shadow;
 
   &:hover {
-    box-shadow: inset $standard-box-shadow;
+    box-shadow: inset variables.$standard-box-shadow;
   }
 }
 
@@ -51,7 +48,7 @@ $border: 1px solid $box-border-colors;
   background-color: #c0b8b8;
 }
 .btn {
-  border: 1px solid $box-border-colors;
+  border: 1px solid variables.$box-border-colors;
   border-radius: 3px;
   margin-left: 0.5em;
 }

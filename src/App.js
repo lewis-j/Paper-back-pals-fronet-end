@@ -9,7 +9,6 @@ import {
   DashboardPage,
   Library,
   UserResults,
-  NotificationsPage,
   BorrowedPage,
   FriendsPage,
   FriendsLibrary,
@@ -63,7 +62,6 @@ function App() {
           <Route path="user-results" element={<UserResults />} />
           <Route path="library" element={<Library />} />
           <Route path="borrowed" element={<BorrowedPage />} />
-          <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="friends" element={<FriendsPage />}>
             <Route path="library" element={<FriendsLibrary />} />

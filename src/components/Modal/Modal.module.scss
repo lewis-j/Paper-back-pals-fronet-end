@@ -9,15 +9,13 @@
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.507);
-  z-index: 1;
+  z-index: 200;
 }
 .header {
   display: flex;
   justify-content: space-between;
   padding: 5px 10px 0px 8px;
   border-bottom: 1px solid variables.$grey-4;
-}
-.content {
 }
 
 .container {

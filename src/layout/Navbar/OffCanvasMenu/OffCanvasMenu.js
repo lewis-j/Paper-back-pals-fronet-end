@@ -8,14 +8,21 @@ import {
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faUsers } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleUser,
+  faUsers,
+  faBell,
+} from "@fortawesome/free-solid-svg-icons";
 import * as NavLinks from "../NavLinks";
 import styles from "./OffCanvasMenu.module.scss";
 import { useSelector } from "react-redux";
 import { Avatar } from "../../../components";
+import { SideMenu } from "../../SideMenu";
+import { NotificationsPanel } from "../../../features/Notifications";
 
 const OffCanvasMenu = ({ expandSize }) => {
   const [canvasToggle, setCanvasToggle] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const { username, profilePic } = useSelector(
     (state) => state.authUser.currentUser
   );
@@ -27,6 +34,21 @@ const OffCanvasMenu = ({ expandSize }) => {
   };
   return (
     <div className={`d-none d-${expandSize}-flex ms-2`}>
+      <button
+        color="light"
+        className={styles.btn}
+        onClick={() => {
+          console.log("open nav");
+          setIsNavOpen(true);
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faBell}
+          size="xl"
+          style={{ boxSizing: "border-box" }}
+          className={styles.friendsIcon}
+        />
+      </button>
       <button
         color="light"
         className={styles.btn}
@@ -90,6 +112,13 @@ const OffCanvasMenu = ({ expandSize }) => {
           </Nav>
         </OffcanvasBody>
       </Offcanvas>
+      <SideMenu
+        header="Notifications"
+        open={isNavOpen}
+        close={() => setIsNavOpen(false)}
+      >
+        <NotificationsPanel />
+      </SideMenu>
     </div>
   );
 };

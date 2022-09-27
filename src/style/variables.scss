@@ -36,10 +36,36 @@ $paragraph-font: "Prompt", sans-serif;
 
 //misc
 $standard-box-shadow: 1px 1px 5px $shadow-color;
+$sharp-box-shadow: 1px 1px 5px $box-shadow-sharp;
 
 //mixins
 @mixin active-link {
   border-bottom: solid 1px $grey-1;
   filter: drop-shadow(2px 3px 13px $grey-1);
   //   transform: scale(0.98);
+}
+
+@mixin hover-link {
+  filter: drop-shadow(0px 0px 5px white);
+  cursor: pointer;
+}
+
+//scrollbar styles
+@mixin webkit-scrollbar {
+  background-color: inherit;
+  // color: white;
+}
+
+@mixin webkit-scrollbar-track {
+}
+
+@mixin webkit-scrollbar-track-piece {
+}
+
+@mixin webkit-scrollbar-button {
+}
+
+@mixin webkit-scrollbar-thumb {
+  background-color: #474747;
+  border-radius: 1rem;
 }

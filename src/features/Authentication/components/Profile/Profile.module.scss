@@ -1,0 +1,15 @@
+@use "../../../../style/variables.scss";
+
+.container {
+  background-color: #0a0a0abf;
+  color: variables.$dark-background-font-color;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 35em;
+  min-height: 30rem;
+  margin: 0 auto;
+  padding: 1em;
+  border-radius: 0.5rem;
+}

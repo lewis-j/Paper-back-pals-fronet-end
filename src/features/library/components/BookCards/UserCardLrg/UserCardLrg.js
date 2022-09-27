@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, ProgressBar } from "../../../../../components";
+import { Avatar, Button, ProgressBar } from "../../../../../components";
 
 import "./UserCardLrg.scss";
 import styles from "./UserCardLrg.module.scss";
@@ -13,6 +13,8 @@ const UserCardLrg = ({
   icon,
   user,
   progress = true,
+  menuItems = [],
+  isMenuVisible = false,
 }) => {
   const {
     coverImg,
@@ -58,6 +60,19 @@ const UserCardLrg = ({
           </div>
         )}
       </div>
+      {isMenuVisible && menuItems.length !== 0 && (
+        <div className={styles.menu}>
+          {menuItems.map(({ text, clickHandler }, i) => (
+            <Button
+              key={`menu-list${i}`}
+              onClick={() => clickHandler(userCard_id)}
+              varient="white-outline"
+            >
+              {text}
+            </Button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

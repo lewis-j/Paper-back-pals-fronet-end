@@ -3,4 +3,4 @@ export {
   addNotification,
   fetchNotifications,
 } from "./notificationsSlice";
-export { NotificationsCard } from "./components";
+export { NotificationsPanel } from "./components";

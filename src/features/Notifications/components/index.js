@@ -1,1 +1,1 @@
-export { NotificationsCard } from "./NotificationsCard";
+export { NotificationsPanel } from "./NotificationsPanel";

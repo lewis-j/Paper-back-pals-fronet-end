@@ -1,29 +1,29 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row } from "reactstrap";
-import {
-  addNotification,
-  NotificationsCard,
-} from "../../features/Notifications";
-import { Button, Modal, NoContent } from "../../components";
+import { Button, Modal, NoContent } from "../../../../components";
 import { faBell, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
-import requestTypes from "../../data/requestTypes";
+import requestTypes from "../../../../data/requestTypes";
 import { useState } from "react";
 import {
   getBookRequest,
   nextBookRequestStatus,
-} from "../../features/library/userBookCalls";
-import styles from "./NotificationsPage.module.scss";
-import { markAsRead } from "../../features/Notifications/notificationsSlice";
+} from "../../../library/userBookCalls";
+import styles from "./NotificationsPanel.module.scss";
+import { addNotification, markAsRead } from "../../notificationsSlice";
 import {
   bookRequestStatus,
   setOwnedBookCurrentRequest,
-} from "../../features/library";
+} from "../../../library";
+import { NotificationsCard } from "../NotificationsCard";
+import * as asyncStatus from "../../../../data/asyncStatus";
 
-const NotificationsPage = () => {
+const NotificationsPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [refData, setRefData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { list: notifications } = useSelector((state) => state.notifications);
+  const { list: notifications, status } = useSelector(
+    (state) => state.notifications
+  );
   console.log("notifications:", notifications);
 
   const _notifications = notifications.reduce(
@@ -87,6 +87,7 @@ const NotificationsPage = () => {
           key={`${_id} `}
           {...notificationProps}
           clickHandlers={getHandlers()}
+          isLoading={status === asyncStatus.LOADING}
         />
       );
     });
@@ -151,4 +152,4 @@ const NotificationsPage = () => {
   );
 };
 
-export default NotificationsPage;
+export default NotificationsPanel;

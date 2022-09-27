@@ -1,0 +1,15 @@
+@use "../../../../style/variables.scss";
+
+$border: 1px solid variables.$box-border-colors;
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.25rem;
+  // border-radius: 0.5em;
+  // box-shadow: variables.$standard-box-shadow;
+  border-bottom: $border;
+  // border-left: $border;
+  // border-right: $border;
+}

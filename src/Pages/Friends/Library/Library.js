@@ -86,7 +86,14 @@ const Library = () => {
 
     // const { menu } = filterRequest(bookData._id);
     return (
-      <Col sm="4" md="3" xl="2" className="mb-3" key={`UserCardSm:${_id}`}>
+      <Col
+        sm="6"
+        md="4"
+        lg="3"
+        xl="2"
+        className="mb-3"
+        key={`UserCardSm:${_id}`}
+      >
         <UserCardSm
           book={book}
           user={sender}
@@ -97,10 +104,10 @@ const Library = () => {
     );
   };
 
-  const mapCheckedInBooks = (userBook, i) => {
+  const mapCheckedInBooks = (userBook) => {
     const { _id, book, status } = userBook;
     const { menu, icon, iconStyle } = filterRequest(_id);
-
+    console.log(book);
     const { coverImg, title } = book;
     const cardInfo = { _id, coverImg, title, status };
 
@@ -130,31 +137,34 @@ const Library = () => {
       const checkedIn = requestEnum.slice(1, 3);
       const checkedOut = requestEnum.slice(3, -1);
 
+      console.log("book.currentRequest:", book.currentRequest, book.book.title);
+
       if (book.currentRequest) {
         const status = book.currentRequest.status;
 
         if (checkedIn.includes(status)) {
           return {
             ...obj,
-            checkedIn: [...obj.checkedOut, mapCheckedInBooks(book)],
+            checkedIn: [...obj.checkedIn, book],
           };
         }
         if (checkedOut.includes(status)) {
           return {
             ...obj,
-            checkedOut: [...obj.checkedIn, mapCheckedOutBooks(book)],
+            checkedOut: [...obj.checkedOut, book],
           };
         }
       }
-
       return {
         ...obj,
-        checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
+        checkedIn: [...obj.checkedIn, book],
       };
     },
 
     { checkedIn: [], checkedOut: [] }
   );
+
+  console.log(BookCards);
 
   return (
     <>
@@ -183,13 +193,21 @@ const Library = () => {
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer>{BookCards.checkedIn}</BookContainer>
+          <BookContainer>
+            {BookCards.checkedIn.map((checkedInBook) =>
+              mapCheckedInBooks(checkedInBook)
+            )}
+          </BookContainer>
         </Row>
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer>{BookCards.checkedOut}</BookContainer>
+          <BookContainer>
+            {BookCards.checkedOut.map((checkedOutBook) =>
+              mapCheckedOutBooks(checkedOutBook)
+            )}
+          </BookContainer>
         </Row>
       </div>
     </>

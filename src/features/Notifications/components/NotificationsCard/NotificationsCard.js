@@ -11,6 +11,7 @@ const NotificationsCard = ({
   user,
   createdAt,
   isActive = false,
+  isLoading = false,
 }) => {
   const { username, profilePic } = user;
   const timeMsg = getTimeFromToday(createdAt);
@@ -37,6 +38,7 @@ const NotificationsCard = ({
                     circle
                     icon={faCheck}
                     onClick={() => clickHandlers.accept()}
+                    disabled={isLoading}
                   />
                   <Button
                     circle
