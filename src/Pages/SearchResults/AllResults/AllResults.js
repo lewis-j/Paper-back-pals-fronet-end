@@ -28,6 +28,12 @@ const AllResults = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(
+    `%cbookResults:`,
+    "color:yellow; font-size:14px; font-weight:bold",
+    bookResults
+  );
+
   const isLoading = addBookStatus === asyncStatus.LOADING;
 
   const addBookToLibrary = (bookDto) => () => {
@@ -68,6 +74,7 @@ const AllResults = () => {
             shortAuthor,
             thumbnail,
             description,
+            pageCount,
           } = processBookResults(volumeInfo);
           const cardData = {
             title: shortTitle,
@@ -80,6 +87,7 @@ const AllResults = () => {
             authors,
             coverImg: thumbnail,
             description,
+            pageCount,
           };
 
           const inLibrary = checkIsOwned(id);

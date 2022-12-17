@@ -38,10 +38,15 @@ const DashboardPage = () => {
             text: "Update page",
             clickHandler: () => {
               dispatch(
-                updateCurrentPage(
-                  currentRequest._id,
-                  currentRequest.currentPage
-                )
+                updateCurrentPage({
+                  request_id: currentRequest._id,
+                  pageCount: 100,
+                })
+              );
+              console.log(
+                `%ccurrentRequest:`,
+                "color:yellow; font-size:14px; font-weight:bold",
+                currentRequest
               );
             },
           },

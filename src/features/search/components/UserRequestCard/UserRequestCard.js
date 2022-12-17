@@ -48,7 +48,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
         ),
       },
       {
-        list: friendRequestOutbox.map((p) => p.reciever),
+        list: friendRequestOutbox.map((p) => p.recipient),
         jsx: (
           <div className={styles.pendingIcon}>
             <FontAwesomeIcon icon={faCheckCircle} /> Requested
