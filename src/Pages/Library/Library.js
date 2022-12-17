@@ -16,13 +16,13 @@ const Library = () => {
     {
       text: "Message",
       clickHandler: (i) => {
-        console.log("itemclicked: ", i);
+        alert("itemclicked: ", i);
       },
     },
     {
       text: "Request",
       clickHandler: (i) => {
-        console.log("itemclicked: ", i);
+        alert("itemclicked: ", i);
       },
     },
   ];

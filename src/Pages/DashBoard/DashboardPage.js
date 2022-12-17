@@ -11,7 +11,7 @@ import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterU
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateCurrentRead } from "../../features/library";
+import { updateCurrentRead, updateCurrentPage } from "../../features/library";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -29,7 +29,25 @@ const DashboardPage = () => {
     const { owner, book, currentRequest = null } = _currentRead;
     const _book = { ...book, dueDate: currentRequest?.dueDate };
 
-    return <CurrentRead book={_book} user={owner} />;
+    return (
+      <CurrentRead
+        book={_book}
+        user={owner}
+        menuItems={[
+          {
+            text: "Update page",
+            clickHandler: () => {
+              dispatch(
+                updateCurrentPage(
+                  currentRequest._id,
+                  currentRequest.currentPage
+                )
+              );
+            },
+          },
+        ]}
+      />
+    );
   };
 
   const _owned = sortCheckedInBooks(owned);
@@ -72,7 +90,7 @@ const DashboardPage = () => {
     {
       text: "message",
       clickHandler: () => {
-        console.log("testing");
+        alert("message user");
       },
     },
   ];
@@ -116,9 +134,7 @@ const DashboardPage = () => {
   };
 
   const renderModalItem = (activeCard) => {
-    console.log("active card", activeCard);
     const _userBook = borrowed.find((item) => item._id === activeCard);
-    console.log("_userBook:", _userBook);
 
     if (!_userBook) return null;
     const { owner, book, currentRequest = null } = _userBook;

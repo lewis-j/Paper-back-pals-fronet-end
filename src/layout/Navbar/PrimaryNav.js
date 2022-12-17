@@ -28,7 +28,6 @@ const PrimaryNav = ({ mainViewStyle }) => {
   const navigate = useNavigate();
 
   const offClickClose = useCallback(() => {
-    console.log("offClick emmmitted");
     setIsSearching(false);
   }, []);
 

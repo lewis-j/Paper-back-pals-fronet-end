@@ -11,8 +11,6 @@ const UserInboxCard = ({ _id, username, profilePic, isActive = false }) => {
   const dispatch = useDispatch();
 
   const handleAccept = () => {
-    console.log("_id in notifications", _id);
-
     dispatch(acceptFriendRequest({ request_id: _id }));
   };
 

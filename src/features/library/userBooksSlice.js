@@ -19,10 +19,18 @@ export const updateCurrentRead = createAsyncThunk(
   userBookApi.updateCurrentRead
 );
 
+export const updateCurrentPage = createAsyncThunk(
+  "userBooks/updateCurrentPage",
+  userBookApi.updateCurrentPage
+);
+
 const updateCurrentReadFulfilled = (state, action) => {
-  console.log("action", action);
   const new_id = action.payload.userBook_id;
   state.currentRead = state.books.borrowed.find(({ _id }) => _id === new_id);
+};
+
+const updateCurrentPageFulfilled = (state, action) => {
+  state.currentRead.currentRequest.currentPage = action.payload.pageCount;
 };
 
 const createBookRequestFullfilled = (state, action) => {
@@ -35,7 +43,6 @@ const createBookRequestFullfilled = (state, action) => {
 };
 
 const addBookFullfilled = (state, action) => {
-  console.log("action for addbook ", action);
   state.books.owned = [...state.books.owned, action.payload];
 };
 
@@ -54,11 +61,9 @@ export const userBooksSlice = createSlice({
   },
   reducers: {
     setBooks: (state, action) => {
-      console.log("action.payload", action.payload);
       state.books = action.payload;
     },
     setBookRequests: (state, action) => {
-      console.log("action.payload", action.payload);
       state.bookRequests = action.payload.bookRequest;
     },
     setCurrentRead: (state, action) => {
@@ -74,6 +79,7 @@ export const userBooksSlice = createSlice({
     ...setExtraReducer(addBook, addBookFullfilled),
     ...setExtraReducer(createBookRequest, createBookRequestFullfilled),
     ...setExtraReducer(updateCurrentRead, updateCurrentReadFulfilled),
+    ...setExtraReducer(updateCurrentPage, updateCurrentPageFulfilled),
   },
 });
 

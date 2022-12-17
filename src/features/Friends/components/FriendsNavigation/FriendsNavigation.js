@@ -40,7 +40,6 @@ const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
           active !== item
             ? {
                 click: () => {
-                  console.log("clicked nav", item);
                   handleClick(item);
                 },
                 classStyle: styles.nav_item,

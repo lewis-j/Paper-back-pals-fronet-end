@@ -6,9 +6,6 @@ import styles from "./Avatar.module.scss";
 const Avatar = ({ imgSrc, username, size = "md" }) => {
   const [isError, setIsError] = useState(false);
   const _src = useMemo(() => {
-    console.log("isError:", isError);
-    console.log("imgSrc:", imgSrc);
-
     return !isError ? imgSrc : getDefaultUserImg(username);
   }, [isError, imgSrc, username]);
   return (

@@ -19,13 +19,11 @@ const markAsRead = createAsyncThunk(
 
 const markAsReadSuccess = (state, action) => {
   const { notification } = action.payload;
-  console.log("notification:", notification);
 
   const notificationList = state.list;
   const idx = notificationList.findIndex(
     (_notification) => _notification._id === notification._id
   );
-  console.log("idx:", idx);
 
   state.list[idx] = notification;
 };

@@ -9,7 +9,7 @@ import { BookInfo } from "../BookInfo";
 const RequestCard = ({
   userBook,
   decline = () => {
-    console.log("Declining");
+    alert("decline");
   },
 }) => {
   const userBookStatus = useSelector((state) => state.userBooks.status);
@@ -24,7 +24,6 @@ const RequestCard = ({
   };
 
   const isLoading = userBookStatus === asyncStatus.LOADING;
-  console.log("userBook", userBook);
   return (
     <div className={styles.container}>
       <BookInfo {...userBook.book} />

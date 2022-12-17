@@ -17,7 +17,6 @@ export const googleAuth = async (idToken) => {
       {},
       setAuthHeader(idToken)
     );
-    console.log("google sign in response", res);
     const user = res.data;
     return user;
   } catch (error) {
@@ -31,7 +30,6 @@ export const authUserLogin = async (idToken) => {
     const user = res.data;
     return user;
   } catch (error) {
-    console.log("error", error);
     return Promise.reject(error);
   }
 };
@@ -46,7 +44,6 @@ export const authUserRegister = async (freshIdToken) => {
     const user = res.data;
     return user;
   } catch (error) {
-    console.log("error", error);
     return Promise.reject(error);
   }
 };
@@ -57,7 +54,6 @@ export const authUserFetch = async () => {
     const user = res.data;
     return user;
   } catch (error) {
-    console.log("error", error);
     if (error.response.status === 401) error.message = "Please login again";
     return Promise.reject(error);
   }
@@ -69,7 +65,6 @@ export const authUserUpdate = async (updatedUser) => {
     const user = res.data;
     return user;
   } catch (error) {
-    console.log("error", error);
     return Promise.reject(error);
   }
 };
@@ -79,7 +74,6 @@ export const enableCsrfProtection = async () => {
     const res = await API.get(withSubDir("token"));
     setcsrfToken(res.data.csrfToken);
   } catch (error) {
-    console.log("error", error);
     return Promise.reject(error);
   }
 };
@@ -88,7 +82,6 @@ export const logout = async () => {
   try {
     return await API.delete(withSubDir("logout"));
   } catch (error) {
-    console.log("error", error);
     return Promise.reject(error);
   }
 };

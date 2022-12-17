@@ -31,7 +31,6 @@ export const getBookRequest = async (request_id) => {
 };
 
 export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
-  console.log("userbook id in createbook requseta", userBook_id);
   try {
     const res = await API.post(`/user-books/request`, {
       userBook_id,
@@ -48,7 +47,6 @@ export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
 export const updateCurrentRead = async ({ userBook_id }) => {
   try {
     const res = await API.put(`/user/setCurrentRead/${userBook_id}`);
-    console.log("fetching", `/user/setCurrentRead/${userBook_id}`, res.data);
     if (!res.data.currentRead) throw new Error("current read was not updated");
     return { userBook_id };
   } catch (error) {
@@ -63,6 +61,19 @@ export const nextBookRequestStatus = async (request_id) => {
 
     const notification = res.data;
     return notification;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const updateCurrentPage = async (request_id, pageCount) => {
+  try {
+    const res = await API.put(
+      `/user-books/request/${request_id}/updatePageCount`,
+      { pageCount }
+    );
+    const _pageCount = res.data;
+    return { pageCount: _pageCount };
   } catch (error) {
     return Promise.reject(error);
   }

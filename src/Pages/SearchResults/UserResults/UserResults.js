@@ -22,8 +22,6 @@ const UserResults = () => {
     });
   };
 
-  console.log("User Results", userResults, currentPage);
-
   const renderCards = () =>
     userResults.length > currentPage
       ? userResults[currentPage].map((user, i) => {

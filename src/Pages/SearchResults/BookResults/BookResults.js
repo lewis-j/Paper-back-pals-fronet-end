@@ -30,17 +30,11 @@ const BookResults = () => {
     dispatch(addBook({ id: user._id, bookDto }));
   };
 
-  console.log("Book Results", bookResults.length, currentPage);
-
   const renderCards = () =>
     bookResults.length > currentPage
       ? bookResults[currentPage].map(({ id, volumeInfo }, i) => {
           const { title, authors, thumbnail, description, pageCount } =
             processBookResults(volumeInfo);
-          console.log(
-            "processBookResults(volumeInfo):",
-            processBookResults(volumeInfo)
-          );
 
           const cardData = {
             title: shortenString(title, 50),

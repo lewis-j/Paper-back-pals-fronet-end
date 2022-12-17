@@ -21,13 +21,13 @@ const BorrowedPage = () => {
     {
       text: "Message",
       clickHandler: (i) => {
-        console.log("itemclicked: ", i);
+        alert("itemclicked: ", i);
       },
     },
     {
       text: "Request",
       clickHandler: (i) => {
-        console.log("itemclicked: ", i);
+        alert("itemclicked: ", i);
       },
     },
   ];
@@ -63,12 +63,6 @@ const BorrowedPage = () => {
     //   bookData.currentPage,
     //   bookData.pageCount
     // );
-    console.log(
-      "*****************************************",
-      "userBooks",
-      userBooks,
-      "*****************************************"
-    );
 
     return userBooks.map((userBook) => {
       const { _id, book: _book, owner, currentRequest } = userBook;

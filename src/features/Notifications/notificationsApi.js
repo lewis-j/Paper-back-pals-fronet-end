@@ -9,12 +9,6 @@ export const createNotifications = async ({
       `notifications/new/${recipient_id}`,
       notificationDto
     );
-    console.log(
-      "*****************************************",
-      "res",
-      res.data,
-      "*****************************************"
-    );
 
     return { notification: res.data };
   } catch (error) {
@@ -25,12 +19,6 @@ export const createNotifications = async ({
 export const fetchNotifications = async () => {
   try {
     const res = await API.get(`notifications`);
-    console.log(
-      "*****************************************",
-      "res",
-      res.data,
-      "*****************************************"
-    );
 
     return { notifications: res.data };
   } catch (error) {
@@ -41,7 +29,6 @@ export const fetchNotifications = async () => {
 export const markAsRead = async ({ _id }) => {
   try {
     const res = await API.put(`notifications/isRead/${_id}`);
-    console.log("res.data:", res.data);
 
     const { notification } = res.data;
     return { notification };

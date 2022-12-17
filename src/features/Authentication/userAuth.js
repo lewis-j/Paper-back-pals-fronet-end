@@ -37,7 +37,6 @@ const fetchUser = async (_, { dispatch }) => {
   try {
     // await authApi.enableCsrfProtection();
     const user = await authApi.authUserFetch();
-    console.log("user in fetch call", { user });
     return parseSlice(dispatch, user);
   } catch (error) {
     return Promise.reject(error);

@@ -15,10 +15,8 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
     if (bookResults.length - 1 < item) {
       const dif = item - (bookResults.length - 1);
       const calls = Math.ceil(dif / 3);
-      console.log("dif", Math.ceil(dif / 3));
       [...Array(calls).keys()].forEach(async (i) => {
         const _startIndex = bookResults.length * 12 * (i + 1);
-        console.log("starting index", _startIndex);
         await dispatch(getMoreBooks({ startIndex: _startIndex })).unwrap();
       });
     }

@@ -26,11 +26,8 @@ function App() {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authUser.status);
 
-  console.log("running app");
-
   useEffect(() => {
     if (userStatus === condition.IDLE) {
-      console.log("running fetch user");
       dispatch(fetchUser());
     }
   }, [dispatch, userStatus]);

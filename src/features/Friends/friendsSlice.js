@@ -68,7 +68,6 @@ const friendsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentFriend: (state, action) => {
-      console.log("action.payload", action.payload);
       state.currentFriend = action.payload;
     },
     addRequestToCurrentFriend: (state, { payload }) => {
@@ -85,7 +84,6 @@ const friendsSlice = createSlice({
       };
     },
     setFriends: (state, action) => {
-      console.log("action.payload", action.payload);
       state.friendsList = action.payload.friends;
     },
     setFriendRequestInbox: (state, action) => {

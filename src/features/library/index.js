@@ -14,5 +14,6 @@ export {
   createBookRequest,
   setCurrentRead,
   updateCurrentRead,
+  updateCurrentPage,
   setOwnedBookCurrentRequest,
 } from "./userBooksSlice";

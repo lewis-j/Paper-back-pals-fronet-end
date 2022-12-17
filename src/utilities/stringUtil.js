@@ -6,8 +6,6 @@ export const upperFirst = (name) => {
 };
 
 export const shortenString = (string, length) => {
-  console.log("string:", string);
-
   if (string.length < length) return string;
   const tempString = string.substring(0, length);
   const lastIndex = tempString.lastIndexOf(" ");

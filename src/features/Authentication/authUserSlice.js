@@ -3,7 +3,6 @@ import * as asyncActions from "./userAuth";
 import * as status from "../../data/asyncStatus";
 
 const rejectionReducer = (state, action) => {
-  console.log("failed action", action);
   state.status = status.FAILED;
   state.error = action.error.message;
 };
@@ -14,7 +13,6 @@ const pendingReducer = (state) => {
 };
 
 const fulfilledReducer = (state, { payload: { user } }) => {
-  console.log("fulffilled user action: ", user);
   state.status = status.SUCCEEDED;
   state.error = null;
   state.currentUser = user;

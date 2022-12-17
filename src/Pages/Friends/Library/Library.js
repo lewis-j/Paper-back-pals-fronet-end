@@ -49,7 +49,7 @@ const Library = () => {
           menu: [
             {
               text: "Cancel",
-              clickHandler: () => console.log("delete this request"),
+              clickHandler: () => alert("delete this request"),
             },
             {
               text: "Status",
@@ -107,7 +107,6 @@ const Library = () => {
   const mapCheckedInBooks = (userBook) => {
     const { _id, book, status } = userBook;
     const { menu, icon, iconStyle } = filterRequest(_id);
-    console.log(book);
     const { coverImg, title } = book;
     const cardInfo = { _id, coverImg, title, status };
 
@@ -137,8 +136,6 @@ const Library = () => {
       const checkedIn = requestEnum.slice(1, 3);
       const checkedOut = requestEnum.slice(3, -1);
 
-      console.log("book.currentRequest:", book.currentRequest, book.book.title);
-
       if (book.currentRequest) {
         const status = book.currentRequest.status;
 
@@ -163,8 +160,6 @@ const Library = () => {
 
     { checkedIn: [], checkedOut: [] }
   );
-
-  console.log(BookCards);
 
   return (
     <>

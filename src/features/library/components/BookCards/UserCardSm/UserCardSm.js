@@ -15,7 +15,7 @@ const UserCardSm = ({
     {
       text: "message",
       clickHandler: () => {
-        console.log("testing");
+        alert("send message");
       },
     },
   ],

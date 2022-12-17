@@ -16,8 +16,6 @@ import { sendFriendRequest } from "../../../Friends";
 const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
   const dispatch = useDispatch();
   const handleAddFriend = () => {
-    console.log("person_id", person_id);
-
     dispatch(sendFriendRequest({ person_id }));
   };
 

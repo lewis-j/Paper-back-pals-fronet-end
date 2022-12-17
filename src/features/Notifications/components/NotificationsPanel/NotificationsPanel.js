@@ -24,7 +24,6 @@ const NotificationsPanel = () => {
   const { list: notifications, status } = useSelector(
     (state) => state.notifications
   );
-  console.log("notifications:", notifications);
 
   const _notifications = notifications.reduce(
     (obj, cur) => {
@@ -94,8 +93,6 @@ const NotificationsPanel = () => {
   };
   const modalCard = () => {
     if (refData) {
-      console.log("refData:", refData);
-
       if (refData.requestType === requestTypes.BookRequest) {
         const {
           _id: request_id,
@@ -109,7 +106,6 @@ const NotificationsPanel = () => {
         const acceptClickHandler = async () => {
           setIsLoading(true);
           const res = await nextBookRequestStatus(request_id);
-          console.log("notification from nextBookRequest", res);
           if (status === bookRequestStatus.CHECKED_IN)
             dispatch(setOwnedBookCurrentRequest({ userBook_id, request_id }));
           const { notification } = res;

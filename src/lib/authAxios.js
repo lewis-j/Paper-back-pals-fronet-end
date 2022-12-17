@@ -14,12 +14,11 @@ export const getClient = () => {
 };
 
 const setcsrfToken = (_token) => {
-  console.log("setting token", _token);
   API.defaults.headers["XSRF-TOKEN"] = _token ? `${_token}` : "";
 };
 
 const handleAxiosError = (error) => {
-  if (error.response) console.log("error.response", error.response);
+  if (error.response) console.error("error.response", error.response);
   // return `Error in response: status:${error.response.status} headers: ${error.response.headers} data:${error.response.data}`;
   if (error.request) return `Error in request: ${error.request}`;
 
@@ -37,23 +36,23 @@ const AxiosInterceptor = ({ children }) => {
 
     const handleStatusCode = async (error) => {
       if (error.response.status === 401) {
-        console.log("dispatching removeAuthuser");
+        console.error("dispatching removeAuthuser", error.response);
         await dispatch(removeAuthUser()).unwrap();
         navigate("landing-page");
       }
       return Promise.reject(error.message);
     };
 
-    const errInterceptor = async (err) => {
-      console.log("ERROR IN INTERCEPTOR :::::::::::::", { err });
-      if (err?.error?.response) {
-        return await handleStatusCode(err.error);
+    const errInterceptor = async (error) => {
+      console.error("ERROR IN INTERCEPTOR :::::::::::::", { error });
+      if (error?.error?.response) {
+        return await handleStatusCode(error.error);
       }
-      if (err?.response) {
-        return await handleStatusCode(err);
+      if (error?.response) {
+        return await handleStatusCode(error);
       }
 
-      return Promise.reject(err.message);
+      return Promise.reject(error.message);
     };
 
     const interceptor = API.interceptors.response.use(

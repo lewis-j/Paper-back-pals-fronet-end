@@ -15,12 +15,10 @@ import styles from "./SearchBar.module.scss";
 
 const DropDownSearch = ({ searchInput, bookSearch, userSearch }) => {
   const handleBookSearch = () => {
-    console.log("searching books");
     bookSearch(searchInput);
   };
 
   const handleUserSearch = () => {
-    console.log("searching users");
     userSearch(searchInput);
   };
   return (

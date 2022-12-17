@@ -44,3 +44,24 @@
     flex-basis: 66%;
   }
 }
+.menuBtn,
+.menuClose {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.menuClose {
+  color: white;
+}
+
+.menu {
+  position: absolute;
+  top: 0px;
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0.6em;
+  height: 100%;
+  width: 100%;
+  background-color: #000000ab;
+}

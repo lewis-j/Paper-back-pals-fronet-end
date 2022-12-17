@@ -38,7 +38,6 @@ const OffCanvasMenu = ({ expandSize }) => {
         color="light"
         className={styles.btn}
         onClick={() => {
-          console.log("open nav");
           setIsNavOpen(true);
         }}
       >

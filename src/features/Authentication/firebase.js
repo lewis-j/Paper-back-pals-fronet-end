@@ -27,13 +27,11 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 const firebaseParseErrorMsg = (err, defualtMsg) => {
-  console.log("err in parser", err);
   let message = null;
   const reg = /(?<=(auth\/)).*(?=\))/;
   message = err.message.match(reg);
   message = message ? message[0].split("-").join(" ") : defualtMsg;
   message = message[0].toUpperCase() + message.slice(1);
-  console.log("message in parser", message);
   return message;
 };
 
@@ -41,7 +39,6 @@ const loginGoogle = async () => {
   try {
     return await signInWithPopup(auth, googleProvider);
   } catch (err) {
-    console.log(err);
     return Promise.reject(
       firebaseParseErrorMsg(err, "Could not log in to google")
     );
@@ -52,7 +49,6 @@ const loginWithForm = async (email, password) => {
   try {
     return await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    console.error(err);
     return Promise.reject(firebaseParseErrorMsg(err, "Failed to login"));
   }
 };
@@ -66,7 +62,6 @@ const registerWithEmailAndPassword = async (email, password) => {
       err,
       "Failed to register new user"
     );
-    console.log("error in register form", parsedErrMsg);
     return Promise.reject(parsedErrMsg);
   }
 };
@@ -76,7 +71,6 @@ const sendPasswordReset = async (email) => {
     return await sendPasswordResetEmail(auth, email);
   } catch (err) {
     const parsedErrMsg = firebaseParseErrorMsg(err, "Could not send email");
-    console.log("parsed error in send passResetEmail", parsedErrMsg);
     return Promise.reject(parsedErrMsg);
   }
 };
@@ -108,10 +102,9 @@ const setUsernameAndPictire = async (user, username, pic) => {
       displayName: username,
       photoURL: pic,
     });
-    console.log("updateprofile response", res);
     return res;
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 };
 

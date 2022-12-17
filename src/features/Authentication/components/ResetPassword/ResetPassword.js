@@ -38,7 +38,6 @@ export default function ResetPassword() {
       await sendPasswordReset(email);
       setMessage("Check your inbox for further instructions");
     } catch (error) {
-      console.log("caught this firebase error", error);
       setLoading(false);
       setError(error);
     }

@@ -9,7 +9,6 @@ const ColorPicker = () => {
       <SliderPicker
         color={value}
         onChangeComplete={(_value) => {
-          console.log(_value, value);
           setValue(_value);
         }}
       />
