@@ -1,36 +1,22 @@
-import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Row, Col } from "reactstrap";
+import { Col } from "reactstrap";
 import { SearchCard } from "../../../features/search";
 import { processBookResults } from "../../../utilities/bookUtilities";
-import SearchPagination from "../SearchPagination";
 import { addBook } from "../../../features/library";
-import { StatusHandler } from "../StatusHandler";
 import { shortenString } from "../../../utilities/stringUtil";
+import { SearchContainer } from "../../../features/search/components";
 const BookResults = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authUser.currentUser);
   const { bookResults, query: queryTitle } = useSelector(
     (state) => state.searchResults
   );
 
-  const titleRef = useRef(null);
-
-  const scrollToTop = () => {
-    titleRef.current.scrollIntoView({
-      behavior: "auto",
-      block: "end",
-      inline: "nearest",
-    });
-  };
-
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));
   };
 
-  const renderCards = () =>
+  const renderCards = (currentPage) =>
     bookResults.length > currentPage
       ? bookResults[currentPage].map(({ id, volumeInfo }, i) => {
           const { title, authors, thumbnail, description, pageCount } =
@@ -64,21 +50,9 @@ const BookResults = () => {
         })
       : [];
   return (
-    <StatusHandler results={bookResults}>
-      <Container fluid="md" className="main-container">
-        <h3 ref={titleRef} className="my-3">
-          Results for: {queryTitle}
-        </h3>
-        <Row className="row-margin">{renderCards()}</Row>
-        <Row>
-          <SearchPagination
-            setCurrentPage={setCurrentPage}
-            currentPage={currentPage}
-            scroll={scrollToTop}
-          />
-        </Row>
-      </Container>
-    </StatusHandler>
+    <SearchContainer results={bookResults} title={queryTitle}>
+      {renderCards}
+    </SearchContainer>
   );
 };
 

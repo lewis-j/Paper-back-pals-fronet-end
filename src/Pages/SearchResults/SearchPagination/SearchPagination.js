@@ -1,6 +1,7 @@
 import React from "react";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
-import "./SearchPagination..scss";
+import styles from "./SearchPagination.module.scss";
+import "./SearchPagination.scss";
 import { useBSSizeFromWidth } from "../../../utilities/getBSSizeFromWidth";
 import { useDispatch, useSelector } from "react-redux";
 import { getMoreBooks } from "../../../features/search";
@@ -38,20 +39,30 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
 
   const renderedPaginationItems = [...Array(10).keys()].map((item) => (
     <PaginationItem key={item} active={currentPage === item}>
-      <PaginationLink tag="div" onClick={() => renderNewPage(item)}>
+      <PaginationLink
+        className={styles.paginationLink}
+        tag="div"
+        onClick={() => renderNewPage(item)}
+      >
         {item + 1}
       </PaginationLink>
     </PaginationItem>
   ));
+  console.log(
+    `%cstyles.paginationLink:`,
+    "color:yellow; font-size:14px; font-weight:bold",
+    styles.paginationLink
+  );
 
   return (
-    <div>
+    <div className={styles.container}>
       <Pagination
         aria-label="Page navigation for Search"
         size={reactstrapBreakPointSize}
       >
         <PaginationItem>
           <PaginationLink
+            className={styles.paginationLink}
             tag="div"
             onClick={() => {
               setCurrentPage((currentPage) =>
@@ -64,7 +75,12 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
         </PaginationItem>
         {renderedPaginationItems}
         <PaginationItem>
-          <PaginationLink tag="div" onClick={nextPage} next />
+          <PaginationLink
+            tag="div"
+            onClick={nextPage}
+            next
+            className={styles.paginationLink}
+          />
         </PaginationItem>
       </Pagination>
     </div>

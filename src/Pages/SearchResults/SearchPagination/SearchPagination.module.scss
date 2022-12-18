@@ -1,0 +1,21 @@
+@use "../../pages" as var;
+
+$border: 1px solid var.$dark-accent;
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.paginationLink {
+  color: var.$dark-accent;
+  border: $border;
+}
+
+.paginationLink:hover,
+.paginationLink:active {
+  cursor: pointer;
+  color: var.$grey-1;
+  background-color: var.$secondary-color;
+  border: $border;
+}

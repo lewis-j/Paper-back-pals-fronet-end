@@ -1,0 +1,5 @@
+@use "../../pages.scss" as var;
+.page-item.active .page-link {
+  background-color: var.$secondary-color;
+  border: 1px solid var.$dark-accent;
+}
