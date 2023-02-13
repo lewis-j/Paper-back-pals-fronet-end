@@ -28,12 +28,6 @@ const AllResults = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(
-    `%cbookResults:`,
-    "color:yellow; font-size:14px; font-weight:bold",
-    bookResults
-  );
-
   const isLoading = addBookStatus === asyncStatus.LOADING;
 
   const addBookToLibrary = (bookDto) => () => {
@@ -129,7 +123,7 @@ const AllResults = () => {
             <Row className="row-margin">{renderBookCards()}</Row>
             <div className={styles.nav_btn_wrapper}>
               <button className={styles.nav_btn} onClick={seeMorebooks}>
-                See more books results for {queryTitle}{" "}
+                See more books results for {queryTitle}
                 <FontAwesomeIcon icon={faArrowAltCircleRight} />
               </button>
             </div>

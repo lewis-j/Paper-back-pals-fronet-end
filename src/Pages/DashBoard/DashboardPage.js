@@ -122,16 +122,12 @@ const DashboardPage = () => {
     );
   };
 
-  const renderNoContent = () => {
+  const CustomNoContent = ({ title, text, route }) => {
     return (
       <div className={styles.noContent}>
-        <NoContent
-          icon={faBook}
-          iconSize="6em"
-          text="You currently have no checked out books"
-        >
-          <Button varient="accept" onClick={() => navigate("library")}>
-            Check Library
+        <NoContent icon={faBook} iconSize="6em" text={text}>
+          <Button varient="accept" onClick={() => navigate(route)}>
+            {title}
           </Button>
         </NoContent>
       </div>
@@ -139,7 +135,10 @@ const DashboardPage = () => {
   };
 
   const renderModalItem = (activeCard) => {
-    const _userBook = borrowed.find((item) => item._id === activeCard);
+    if (_borrowed.checkedOut.length === 0) return null;
+    const _userBook = _borrowed.checkedOut.find(
+      (item) => item._id === activeCard
+    );
 
     if (!_userBook) return null;
     const { owner, book, currentRequest = null } = _userBook;
@@ -161,9 +160,17 @@ const DashboardPage = () => {
       <h3 className={styles.title}>Current Read</h3>
       {renderCurrentRead(currentRead)}
       <h3 className={styles.title}>Books from Friends</h3>
-      <ResponsiveSlider>
-        {renderBooksFromFriends(_borrowed.checkedOut)}
-      </ResponsiveSlider>
+      {_borrowed.checkedOut.length > 0 ? (
+        <ResponsiveSlider>
+          {renderBooksFromFriends(_borrowed.checkedOut)}
+        </ResponsiveSlider>
+      ) : (
+        <CustomNoContent
+          title="Search Friends Library"
+          route="friends"
+          text="You currently are not borrowing any books"
+        />
+      )}
       <h3 className={styles.title}>Your Library</h3>
       <div className={styles.yourLibrary}>
         {_owned.checkedOut.length > 0 ? (
@@ -171,7 +178,11 @@ const DashboardPage = () => {
             {renderBooksYouOwn(_owned.checkedOut)}
           </ResponsiveSlider>
         ) : (
-          renderNoContent()
+          <CustomNoContent
+            title="Check Library"
+            route="library"
+            text="You currently have no checked out books"
+          />
         )}
       </div>
     </div>

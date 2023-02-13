@@ -22,11 +22,6 @@ const SearchContainer = ({
       inline: "nearest",
     });
   };
-  console.log(
-    `%cchildren:`,
-    "color:yellow; font-size:14px; font-weight:bold",
-    typeof children
-  );
   const executeIfRenderFunction = (renderFunction) => {
     if (typeof renderFunction === "function") {
       return renderFunction(currentPage);
