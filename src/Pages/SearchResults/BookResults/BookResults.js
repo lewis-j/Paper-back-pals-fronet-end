@@ -11,7 +11,7 @@ const BookResults = () => {
   const { bookResults, query: queryTitle } = useSelector(
     (state) => state.searchResults
   );
-
+  console.log(bookResults);
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));
   };

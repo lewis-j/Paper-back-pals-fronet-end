@@ -9,9 +9,10 @@ const Profile = () => {
   const [imgFile, setImgFile] = useState(null);
 
   const { currentUser } = useSelector((state) => state.authUser);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef("");
   if (!currentUser) return null;
   const { username, profilePic } = currentUser;
+  console.log("Current user", currentUser);
   return (
     <div className={styles.container}>
       <div className={styles.avater}>

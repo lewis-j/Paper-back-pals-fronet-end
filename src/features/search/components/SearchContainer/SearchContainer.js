@@ -28,9 +28,8 @@ const SearchContainer = ({
     }
     return null;
   };
+
   const mapChildren = (children) => {
-    let test;
-    if ((test = executeIfRenderFunction(children))) return test;
     const isRender = executeIfRenderFunction(children);
     if (isRender) return isRender;
     const renderedChildren = children.map((child) => {

@@ -11,12 +11,15 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { sendFriendRequest } from "../../../Friends";
+import { sendFriendRequest, acceptFriendRequest } from "../../../Friends";
 
 const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
   const dispatch = useDispatch();
-  const handleAddFriend = () => {
+  const handleRequestFriend = () => {
     dispatch(sendFriendRequest({ person_id }));
+  };
+  const handleAcceptFriend = (request_id) => {
+    dispatch(acceptFriendRequest({ request_id }));
   };
 
   const { friendsList, friendRequestInbox, friendRequestOutbox } = useSelector(
@@ -25,14 +28,14 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
 
   const { _id: user_id } = useSelector((state) => state.authUser.currentUser);
   const createFilteredUserIdSelector = (person_id) => (list) => {
-    return list.some((person) => person._id === person_id);
+    return list.find((person) => person._id === person_id);
   };
   const getBtn = () => {
     const userInList = createFilteredUserIdSelector(person_id);
     return [
       {
         list: [{ _id: user_id }],
-        jsx: (
+        jsx: () => (
           <div className={styles.userIcon}>
             <FontAwesomeIcon icon={faCircleUser} size="xl" />
           </div>
@@ -40,7 +43,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
       },
       {
         list: friendsList,
-        jsx: (
+        jsx: () => (
           <div className={styles.friendIcon}>
             <FontAwesomeIcon icon={faUserGroup} size="sm" />
             <FontAwesomeIcon icon={faCheck} size="sm" />
@@ -48,25 +51,40 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
         ),
       },
       {
-        list: friendRequestOutbox.map((p) => p.recipient),
-        jsx: (
+        list: friendRequestOutbox.map((p) => ({
+          _id: p.recipient._id,
+          request_id: p._id,
+        })),
+        jsx: ({ request_id }) => (
           <div className={styles.pendingIcon}>
             <FontAwesomeIcon icon={faCheckCircle} /> Requested
           </div>
         ),
       },
       {
-        list: friendRequestInbox.map((p) => p.sender),
-        jsx: (
-          <Button varient="accept" icon={faUserCheck}>
+        list: friendRequestInbox.map((p) => ({
+          _id: p.sender._id,
+          request_id: p._id,
+        })),
+        jsx: ({ request_id }) => (
+          <Button
+            varient="accept"
+            icon={faUserCheck}
+            onClick={() => handleAcceptFriend(request_id)}
+          >
             Accept
           </Button>
         ),
       },
     ].reduce(
-      (result, { list, jsx }) => (userInList(list) ? jsx : result),
-      <Button icon={faUserPlus} onClick={handleAddFriend} varient="add">
-        Add
+      (result, { list, jsx }) => {
+        const userFoundInList = userInList(list);
+        if (userFoundInList) return jsx(userFoundInList);
+        return result;
+      },
+      /*need request id if persoon in list matches*/
+      <Button icon={faUserPlus} onClick={handleRequestFriend} varient="add">
+        Request
       </Button>
     );
   };

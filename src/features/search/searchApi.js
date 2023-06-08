@@ -8,9 +8,10 @@ export const searchBooks = async (query, startIndex = 0) => {
       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${36}`
     );
 
+    console.log("book response", res);
     const results = subArrays(res.data.items, 12);
 
-    return { bookResults: results };
+    return { results, total: res.data.totalItems };
   } catch (error) {
     return Promise.reject(error);
   }
@@ -20,7 +21,7 @@ export const searchUsers = async (query) => {
   try {
     const res = await API.get(`user/search?user=${query}`);
     const results = subArrays(res.data, 12);
-    return results;
+    return { results, total: res.data.length };
   } catch (error) {
     throw error;
   }

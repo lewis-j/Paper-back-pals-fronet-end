@@ -11,7 +11,7 @@ const sendFriendRequest = createAsyncThunk(
 const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
   state.friendRequestOutbox = [
     ...state.friendRequestOutbox,
-    { reciever: { _id: reciever_id } },
+    { recipient: { _id: reciever_id } },
   ];
 };
 

@@ -14,17 +14,23 @@ const pendingReducer = (state) => {
 
 const searchBooksFulfilledReducer = (state, { payload }) => {
   state.status = status.SUCCEEDED;
-  state.bookResults = payload?.bookResults;
+  state.bookResults.results = payload?.results || [];
+  state.bookResults.total = payload.total;
 };
 
 const getMoreBooksFulfilledReducer = (state, { payload }) => {
   state.status = status.SUCCEEDED;
-  state.bookResults = [...state.bookResults, ...payload.bookResults];
+  state.bookResults.results = [
+    ...state.bookResults.results,
+    ...payload.results,
+  ];
 };
 
 const searchUsersFulfilledReducer = (state, { payload }) => {
   state.status = status.SUCCEEDED;
-  state.userResults = payload;
+  console.log("user result", payload?.results);
+  state.userResults.results = payload?.results || [];
+  state.userResults.total = payload.total;
 };
 
 const searchUsersrejectionReducer = (state, action) => {
@@ -61,8 +67,7 @@ export const searchUsers = createAsyncThunk(
   "searchResults/searchUsers",
   async ({ query }, { rejectWithValue }) => {
     try {
-      const search = await searchApi.searchUsers(query);
-      return search;
+      return await searchApi.searchUsers(query);
     } catch (error) {
       if (error?.response?.data)
         return rejectWithValue({ ...error.response.data });
@@ -75,8 +80,8 @@ export const searchResultSlice = createSlice({
   name: "searchResults",
   initialState: {
     query: "",
-    bookResults: [],
-    userResults: [],
+    bookResults: { results: [] },
+    userResults: { results: [] },
     status: status.IDLE,
     error: null,
   },
