@@ -12,6 +12,7 @@ const Button = ({
   onClick,
   size,
   className = "",
+  iconStyle = "",
   disabled = false,
 }) => {
   const getIcon = (icon) => {
@@ -21,7 +22,7 @@ const Button = ({
       return <Icon style={{ width: "100%", height: "100%" }} />;
     }
     if (typeof icon === "object") {
-      return <FontAwesomeIcon icon={icon} />;
+      return <FontAwesomeIcon icon={icon} className={iconStyle} />;
     }
   };
 

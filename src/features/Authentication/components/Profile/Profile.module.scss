@@ -13,3 +13,22 @@
   padding: 1em;
   border-radius: 0.5rem;
 }
+
+.name:hover {
+  cursor: pointer;
+  @include variables.active-link;
+}
+
+.nameInput {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.closeBtn {
+  color: variables.$decline-color;
+}
+
+.acceptBtn {
+  color: variables.$accepted-color;
+}

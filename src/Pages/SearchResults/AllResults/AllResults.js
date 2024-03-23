@@ -33,7 +33,7 @@ const AllResults = () => {
   const [currentPage, setPage] = useState(0);
   const [isHidden, setHidden] = useState({ users: false, books: false });
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const titleRef = useRef(null);
 
   const isLoading = addBookStatus === asyncStatus.LOADING;
