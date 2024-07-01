@@ -1,5 +1,6 @@
 export const processBookResults = (bookInfo) => {
   return {
+    ...bookInfo,
     title: bookInfo?.title || ["unknown"],
     authors: bookInfo?.authors || ["unknown"],
     thumbnail: bookInfo?.imageLinks?.thumbnail || null,

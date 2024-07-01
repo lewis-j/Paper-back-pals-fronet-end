@@ -1,8 +1,14 @@
 $avatar-size-lg: 5em;
+$avatar-size-xl: 10em;
 
 .lg {
   width: $avatar-size-lg;
   height: $avatar-size-lg;
+}
+
+.xl {
+  width: $avatar-size-xl;
+  height: $avatar-size-xl;
 }
 
 $avatar-size-md: 2.5em;

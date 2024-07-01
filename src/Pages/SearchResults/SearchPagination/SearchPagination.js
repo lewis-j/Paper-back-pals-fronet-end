@@ -11,13 +11,16 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
 
   const { bookResults } = useSelector((state) => state.searchResults);
   const dispatch = useDispatch();
+  const pages = bookResults.results.length;
 
   const renderNewPage = async (item) => {
-    if (bookResults.length - 1 < item) {
-      const dif = item - (bookResults.length - 1);
+    console.log("pages", pages);
+    if (pages - 1 < item) {
+      const dif = item - (pages - 1);
       const calls = Math.ceil(dif / 3);
       [...Array(calls).keys()].forEach(async (i) => {
-        const _startIndex = bookResults.length * 12 * (i + 1);
+        const _startIndex = pages * 12 + i * 36;
+        console.log("startIndex", _startIndex);
         await dispatch(getMoreBooks({ startIndex: _startIndex })).unwrap();
       });
     }
@@ -42,7 +45,10 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
       <PaginationLink
         className={styles.paginationLink}
         tag="div"
-        onClick={() => renderNewPage(item)}
+        onClick={() => {
+          console.log("ITEM in click event:", item);
+          renderNewPage(item);
+        }}
       >
         {item + 1}
       </PaginationLink>

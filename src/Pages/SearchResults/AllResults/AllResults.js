@@ -4,7 +4,6 @@ import { UserRequestCard, SearchCard } from "../../../features/search";
 import { processBookResults } from "../../../utilities/bookUtilities";
 import { addBook } from "../../../features/library";
 import { StatusHandler } from "../StatusHandler";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AllResults.module.scss";
@@ -12,6 +11,7 @@ import * as asyncStatus from "../../../data/asyncStatus";
 import { useState } from "react";
 import SearchPagination from "../SearchPagination";
 import { useRef } from "react";
+import { shortenString } from "../../../utilities/stringUtil";
 
 const AllResults = () => {
   const {
@@ -50,9 +50,16 @@ const AllResults = () => {
     });
   };
 
-  const renderUserCards = () =>
-    userResults.results.length > currentPage
+  const renderUserCards = () => {
+    console.log(
+      "renderUserCards",
+      userResults.results.length > currentPage,
+      userResults.results.length,
+      currentPage
+    );
+    return userResults.results.length > currentPage
       ? userResults.results[currentPage].map((user, i) => {
+          console.log("USER in userResult:", user, i);
           const { _id, username, profilePic } = user;
           return (
             <Col xs="12" sm="6" md="4" xl="3" key={`${_id}-${i}`}>
@@ -65,22 +72,15 @@ const AllResults = () => {
           );
         })
       : [];
-
+  };
   const renderBookCards = () =>
     bookResults.results.length > currentPage
       ? bookResults.results[currentPage].map(({ id, volumeInfo }, i) => {
-          const {
-            title,
-            shortTitle,
-            authors,
-            shortAuthor,
-            thumbnail,
-            description,
-            pageCount,
-          } = processBookResults(volumeInfo);
+          const { title, authors, thumbnail, description, pageCount } =
+            processBookResults(volumeInfo);
           const cardData = {
-            title: shortTitle,
-            author: shortAuthor,
+            title: shortenString(title, 50),
+            author: shortenString(authors[0], 20),
             thumbnail,
           };
           const bookDto = {

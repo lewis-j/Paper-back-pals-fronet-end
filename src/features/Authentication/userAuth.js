@@ -17,19 +17,24 @@ const parseSlice = (dispatch, _user) => {
     ownedBooks: owned,
     borrowedBooks: borrowed,
     bookRequest,
-    notifications,
     currentRead,
     ...user
   } = _user;
-  dispatch(setFriendRequestInbox({ friendRequestInbox: friendRequestInbox }));
+  console.log(
+    `%cUSER:`,
+    "color:Yellow; font-size:14px; font-weight:bold",
+    friendRequestOutbox
+  );
   dispatch(
-    setFriendRequestOutbox({ friendRequestOutbox: friendRequestOutbox })
+    setFriendRequestInbox({ friendRequestInbox: friendRequestInbox ?? [] })
+  );
+  dispatch(
+    setFriendRequestOutbox({ friendRequestOutbox: friendRequestOutbox ?? [] })
   );
   dispatch(setCurrentRead({ currentRead }));
   dispatch(setFriends({ friends }));
   dispatch(setBooks({ borrowed, owned }));
   dispatch(setBookRequests({ bookRequest }));
-  dispatch(fetchNotifications());
   return { user };
 };
 

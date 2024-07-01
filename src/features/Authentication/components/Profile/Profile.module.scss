@@ -32,3 +32,14 @@
 .acceptBtn {
   color: variables.$accepted-color;
 }
+
+.avatar {
+  width: 2rem;
+}
+
+.profilePic {
+  cursor: pointer;
+  &:hover {
+    transform: scale(0.98);
+  }
+}

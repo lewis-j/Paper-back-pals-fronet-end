@@ -95,6 +95,16 @@ const setNewPsw = async (user, password) => {
     alert(err.message);
   }
 };
+const setUserName = async (user, username) => {
+  try {
+    const res = await updateProfile(user, {
+      displayName: username,
+    });
+    return res;
+  } catch (error) {
+    console.error("error", error);
+  }
+};
 
 const setUsernameAndPictire = async (user, username, pic) => {
   try {
@@ -115,6 +125,7 @@ export {
   loginWithForm,
   registerWithEmailAndPassword,
   setUsernameAndPictire,
+  setUserName,
   sendPasswordReset,
   setNewEmail,
   setNewPsw,

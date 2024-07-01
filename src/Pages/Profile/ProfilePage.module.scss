@@ -1,0 +1,17 @@
+@import "../../style/variables.scss";
+
+.title {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.titleContent {
+  color: $title-color;
+  margin-right: 1rem;
+}
+
+.titleIcon {
+  color: $title-color;
+}

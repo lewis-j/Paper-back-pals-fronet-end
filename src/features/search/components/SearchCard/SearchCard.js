@@ -16,6 +16,7 @@ const SearchCard = ({
   isLoading = null,
   inLibrary = null,
 }) => {
+  console.log("Card data", cardData);
   const { title, author, thumbnail } = cardData;
   const [isActive, setActive] = useState(false);
 

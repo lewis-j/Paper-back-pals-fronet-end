@@ -8,106 +8,158 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Button } from "../../../../components";
 import styles from "./Profile.module.scss";
-import { setUsernameAndPictire } from "../../firebase";
+import { setUserName } from "../../firebase";
+import API from "../../../../lib/authAxios";
+
+const EditButtons = ({ onSubmit, onClose }) => {
+  return (
+    <div className={styles.editBtns}>
+      <Button
+        circle
+        icon={faCheck}
+        iconStyle={styles.acceptBtn}
+        onClick={() => {
+          onSubmit();
+        }}
+      />
+      <Button
+        circle
+        icon={faX}
+        iconStyle={styles.closeBtn}
+        onClick={() => {
+          onClose();
+        }}
+      />
+    </div>
+  );
+};
 
 const Profile = () => {
-  const [imgFile, setImgFile] = useState("");
-  const [isNameEdit, setIsNameEdit] = useState(false);
-  const [userName, setName] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const [isEditMode, setIsEditMode] = useState({
+    img: false,
+    name: false,
+    email: false,
+  });
+  const [name, setName] = useState("");
   const nameInputRef = useRef(null);
+
+  const setAllToFalse = (prevState) => {
+    const newState = {};
+    for (let key in prevState) {
+      if (prevState.hasOwnProperty(key)) {
+        newState[key] = false;
+      }
+    }
+    return newState;
+  };
 
   useEffect(() => {
     if (nameInputRef.current) nameInputRef.current.focus();
     return () => {};
-  }, [isNameEdit]);
+  }, []);
 
   const { currentUser } = useSelector((state) => state.authUser);
+
   const fileInputRef = useRef("");
   if (!currentUser) return null;
   const { username, profilePic } = currentUser;
 
-  const exitNameEdit = () => {
-    setIsNameEdit(false);
-  };
-
   const handleNameClick = (e) => {
-    console.log("useName", username);
-    setIsNameEdit(true);
+    setIsEditMode({ ...isEditMode, name: true });
     setName(username);
   };
 
   const handleFileUpload = async () => {
-    if (!imgFile) return;
+    if (!avatar?.file) {
+      console.error("avatar.file is undefined or null");
+      return;
+    }
     try {
       const formData = new FormData();
-      formData.append("file", imgFile);
 
-      // await axios.post('/upload', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // });
+      formData.append("file", avatar.file);
 
-      console.log("File uploaded successfully!");
+      const response = await API.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Upload response:", response);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
+  const someTrue = (obj) => Object.values(obj).some((value) => value === true);
+
+  const handleSubmit = (e) => {
+    const { img, ...remainingEdits } = isEditMode;
+    if (img) handleFileUpload();
+
+    if (someTrue(remainingEdits)) {
+      console.log("submit form");
+    }
+    onCancel();
+  };
+
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar({ img: URL.createObjectURL(file), file });
+    setIsEditMode({ ...isEditMode, img: true });
+  };
+
+  const onCancel = (e) => {
+    setAvatar(null);
+    setIsEditMode((prevState) => setAllToFalse(prevState));
+  };
+
+  const imageUrl = avatar?.img || profilePic;
+
+  const inEditMode = someTrue(isEditMode);
+
   return (
     <div className={styles.container}>
-      <div className={styles.avater}>
-        <Avatar imgSrc={imgFile ? imgFile : profilePic} username={username} />
-        <input
-          type="file"
-          accept=""
-          ref={fileInputRef}
-          onChange={(e) => {
-            setImgFile(URL.createObjectURL(e.target.files[0]));
-          }}
-          hidden
-        />
-
-        <Button
-          circle
-          icon={faFileImage}
-          onClick={() => {
-            fileInputRef.current.click();
-          }}
-        />
-        <button onClick={handleFileUpload}>Upload</button>
+      <div
+        className={styles.profilePic}
+        onClick={() => {
+          fileInputRef.current.click();
+        }}
+      >
+        <Avatar imgSrc={imageUrl} username={username} size="xl" />
       </div>
-      {!isNameEdit ? (
-        <div className={styles.name} onClick={handleNameClick}>
-          {username}
-        </div>
-      ) : (
-        <div className={styles.nameInput}>
-          <input
-            ref={nameInputRef}
-            type="text"
-            value={userName}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <div className={styles.editBtns}>
-            <Button
-              circle
-              icon={faCheck}
-              iconStyle={styles.acceptBtn}
-              onClick={() => {
-                setUsernameAndPictire()
-              }}
-            />
-            <Button
-              circle
-              icon={faX}
-              iconStyle={styles.closeBtn}
-              onClick={() => {
-                exitNameEdit();
-              }}
+      <input
+        type="file"
+        accept=""
+        ref={fileInputRef}
+        onChange={onFileChange}
+        hidden
+      />
+      <div className={styles.name}>
+        {!isEditMode.name ? (
+          <div className={styles.name} onClick={handleNameClick}>
+            {username}
+          </div>
+        ) : (
+          <div className={styles.nameInput}>
+            <input
+              ref={nameInputRef}
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      <div className={styles.editBtns}>
+        {inEditMode && (
+          <EditButtons
+            onSubmit={handleSubmit}
+            onClose={() => {
+              onCancel();
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };

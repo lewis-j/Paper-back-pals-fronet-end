@@ -51,10 +51,11 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
         ),
       },
       {
-        list: friendRequestOutbox.map((p) => ({
-          _id: p.recipient._id,
-          request_id: p._id,
-        })),
+        list:
+          friendRequestOutbox?.map((p) => ({
+            _id: p.recipient.id,
+            request_id: p._id,
+          })) ?? [],
         jsx: ({ request_id }) => (
           <div className={styles.pendingIcon}>
             <FontAwesomeIcon icon={faCheckCircle} /> Requested
@@ -62,24 +63,32 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
         ),
       },
       {
-        list: friendRequestInbox.map((p) => ({
-          _id: p.sender._id,
-          request_id: p._id,
-        })),
-        jsx: ({ request_id }) => (
-          <Button
-            varient="accept"
-            icon={faUserCheck}
-            onClick={() => handleAcceptFriend(request_id)}
-          >
-            Accept
-          </Button>
-        ),
+        list:
+          friendRequestInbox?.map((p) => ({
+            _id: p.sender.id,
+            request_id: p._id,
+          })) ?? [],
+        jsx: ({ request_id }) => {
+          console.log("request_id", typeof _id, request_id);
+
+          return (
+            <Button
+              varient="accept"
+              icon={faUserCheck}
+              onClick={() => handleAcceptFriend(request_id)}
+            >
+              Accept
+            </Button>
+          );
+        },
       },
     ].reduce(
       (result, { list, jsx }) => {
         const userFoundInList = userInList(list);
-        if (userFoundInList) return jsx(userFoundInList);
+        if (userFoundInList) {
+          console.log("Found in list", list);
+          return jsx(userFoundInList);
+        }
         return result;
       },
       /*need request id if persoon in list matches*/

@@ -21,6 +21,7 @@ import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
 import homeBackground from "./Assets/imgs/home_background.jpg";
+import { fetchNotifications } from "./features/Notifications";
 
 const Library = lazy(() =>
   import("./Pages").then((module) => ({ default: module.Library }))
@@ -54,6 +55,7 @@ function App() {
   useEffect(() => {
     if (userStatus === condition.IDLE) {
       dispatch(fetchUser());
+      dispatch(fetchNotifications());
     }
   }, [dispatch, userStatus]);
 

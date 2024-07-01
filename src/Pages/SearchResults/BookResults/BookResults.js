@@ -11,14 +11,13 @@ const BookResults = () => {
   const { bookResults, query: queryTitle } = useSelector(
     (state) => state.searchResults
   );
-  console.log(bookResults);
   const addBookToLibrary = (bookDto) => () => {
     dispatch(addBook({ id: user._id, bookDto }));
   };
 
-  const renderCards = (currentPage) =>
-    bookResults.length > currentPage
-      ? bookResults[currentPage].map(({ id, volumeInfo }, i) => {
+  const renderCards = (currentPage) => {
+    return bookResults.length > currentPage
+      ? bookResults.results[currentPage].map(({ id, volumeInfo }, i) => {
           const { title, authors, thumbnail, description, pageCount } =
             processBookResults(volumeInfo);
 
@@ -49,6 +48,7 @@ const BookResults = () => {
           return null;
         })
       : [];
+  };
   return (
     <SearchContainer results={bookResults} title={queryTitle}>
       {renderCards}
