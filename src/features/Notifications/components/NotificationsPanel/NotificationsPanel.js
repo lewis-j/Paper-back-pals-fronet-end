@@ -9,7 +9,11 @@ import {
   nextBookRequestStatus,
 } from "../../../library/userBookCalls";
 import styles from "./NotificationsPanel.module.scss";
-import { addNotification, markAsRead } from "../../notificationsSlice";
+import {
+  addNotification,
+  markAsRead,
+  setIsOpen,
+} from "../../notificationsSlice";
 import {
   bookRequestStatus,
   setOwnedBookCurrentRequest,
@@ -18,12 +22,14 @@ import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 
 const NotificationsPanel = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [refData, setRefData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { list: notifications, status } = useSelector(
-    (state) => state.notifications
-  );
+  const {
+    list: notifications,
+    status,
+    isOpen,
+  } = useSelector((state) => state.notifications);
 
   const _notifications = notifications.reduce(
     (obj, cur) => {

@@ -33,9 +33,14 @@ export const notificationsSlice = createSlice({
   initialState: {
     list: [],
     status: status.IDLE,
+    isOpen: false,
     error: null,
   },
   reducers: {
+    setIsOpen: (state, action) => {
+      const { isOpen } = action.payload;
+      state.isOpen = isOpen;
+    },
     setNotifications: (state, action) => {
       state.list = action.payload.notifications;
     },
@@ -51,5 +56,6 @@ export const notificationsSlice = createSlice({
 
 export { fetchNotifications, markAsRead };
 
-export const { setNotifications, addNotification } = notificationsSlice.actions;
+export const { setNotifications, addNotification, setIsOpen } =
+  notificationsSlice.actions;
 export default notificationsSlice.reducer;

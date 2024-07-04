@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { logout } from "../../../features/Authentication";
 import styles from "./NavLinks.module.scss";
 import { useDispatch } from "react-redux";
+import { setIsOpen } from "../../../features/Notifications/notificationsSlice";
 
 const generateClass = (className) => {
   const _className = className
@@ -45,15 +46,19 @@ export const Profile = ({ className, closeOnClick }) => (
     Profile
   </NavLink>
 );
-export const Notifications = ({ className, closeOnClick }) => (
-  <NavLink
-    className={generateClass(className)}
-    onClick={closeOnClick}
-    to="notifications"
-  >
-    Notifications
-  </NavLink>
-);
+export const Notifications = ({ className, onClick }) => {
+  let linkClass = `${className} ${styles.navLink}`;
+  return (
+    <div
+      className={linkClass}
+      onClick={() => {
+        onClick();
+      }}
+    >
+      Notifications
+    </div>
+  );
+};
 export const Friends = ({ className, closeOnClick }) => (
   <NavLink
     className={generateClass(className)}

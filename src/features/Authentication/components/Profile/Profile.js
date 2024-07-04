@@ -34,6 +34,32 @@ const EditButtons = ({ onSubmit, onClose }) => {
   );
 };
 
+const EditInput = ({ isEdit, name, value, handleClick, set }) => {
+  return (
+    <div className={styles.name}>
+      {isEdit ? (
+        <div
+          className={styles.name}
+          onClick={() => {
+            handleClick();
+            set(name);
+          }}
+        >
+          {name}
+        </div>
+      ) : (
+        <div className={styles.input}>
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => set(e.target.value)}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Profile = () => {
   const [avatar, setAvatar] = useState(null);
   const [isEditMode, setIsEditMode] = useState({
@@ -41,7 +67,7 @@ const Profile = () => {
     name: false,
     email: false,
   });
-  const [name, setName] = useState("");
+  const [menu, setMenu] = useState({ name: "" });
   const nameInputRef = useRef(null);
 
   const setAllToFalse = (prevState) => {
@@ -63,11 +89,11 @@ const Profile = () => {
 
   const fileInputRef = useRef("");
   if (!currentUser) return null;
-  const { username, profilePic } = currentUser;
+  const { username, profilePic, email } = currentUser;
 
   const handleNameClick = (e) => {
     setIsEditMode({ ...isEditMode, name: true });
-    setName(username);
+    setMenu({ ...menu, name: username });
   };
 
   const handleFileUpload = async () => {
@@ -134,21 +160,23 @@ const Profile = () => {
         onChange={onFileChange}
         hidden
       />
-      <div className={styles.name}>
-        {!isEditMode.name ? (
-          <div className={styles.name} onClick={handleNameClick}>
-            {username}
-          </div>
-        ) : (
-          <div className={styles.nameInput}>
-            <input
-              ref={nameInputRef}
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-        )}
+      <div className={styles.email}>
+        <EditInput
+          isEdit={!isEditMode.email}
+          name={email}
+          value={menu.email}
+          handleClick={() => setIsEditMode({ ...isEditMode, email: true })}
+          set={(value) => setMenu({ ...menu, email: value })}
+        />
+        <div className={styles.name}>
+          <EditInput
+            isEdit={!isEditMode.name}
+            name={username}
+            value={menu.name}
+            handleClick={() => setIsEditMode({ ...isEditMode, name: true })}
+            set={(value) => setMenu({ ...menu, name: value })}
+          />
+        </div>
       </div>
       <div className={styles.editBtns}>
         {inEditMode && (
