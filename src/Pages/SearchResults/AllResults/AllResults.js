@@ -22,7 +22,7 @@ const AllResults = () => {
   const { currentUser: user } = useSelector((state) => state.authUser);
   const {
     status: addBookStatus,
-    books: { ownedBooks },
+    books: { owned: ownedBooks },
   } = useSelector((state) => state.userBooks);
   const owned = ownedBooks ? ownedBooks : [];
   const userBookGoogle_ids = owned.map(({ book: { google_id } }) => google_id);
@@ -33,7 +33,6 @@ const AllResults = () => {
   const [currentPage, setPage] = useState(0);
   const [isHidden, setHidden] = useState({ users: false, books: false });
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const titleRef = useRef(null);
 
   const isLoading = addBookStatus === asyncStatus.LOADING;
@@ -51,15 +50,8 @@ const AllResults = () => {
   };
 
   const renderUserCards = () => {
-    console.log(
-      "renderUserCards",
-      userResults.results.length > currentPage,
-      userResults.results.length,
-      currentPage
-    );
     return userResults.results.length > currentPage
       ? userResults.results[currentPage].map((user, i) => {
-          console.log("USER in userResult:", user, i);
           const { _id, username, profilePic } = user;
           return (
             <Col xs="12" sm="6" md="4" xl="3" key={`${_id}-${i}`}>
@@ -73,6 +65,7 @@ const AllResults = () => {
         })
       : [];
   };
+
   const renderBookCards = () =>
     bookResults.results.length > currentPage
       ? bookResults.results[currentPage].map(({ id, volumeInfo }, i) => {
@@ -91,8 +84,7 @@ const AllResults = () => {
             description,
             pageCount,
           };
-
-          const inLibrary = checkIsOwned(id);
+          const inLibrary = checkIsOwned(bookDto.google_id);
 
           if (cardData) {
             return (

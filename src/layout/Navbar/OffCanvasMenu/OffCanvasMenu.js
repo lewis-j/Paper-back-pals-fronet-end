@@ -19,22 +19,29 @@ import { useSelector } from "react-redux";
 import { Avatar } from "../../../components";
 import { SideMenu } from "../../SideMenu";
 import { NotificationsPanel } from "../../../features/Notifications";
+import { useDispatch } from "react-redux";
+import { setNotificationsIsOpen } from "../../../features/Notifications/notificationsSlice";
 
 const OffCanvasMenu = ({ expandSize }) => {
-  // const [isOpen, setIsOpen] = useState({ nav: false, notifications: false });
-  const [isNavOpen, setIsNav] = useState(false);
-  const [isNotOpen, setIsNot] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const { username, profilePic } = useSelector(
     (state) => state.authUser.currentUser
   );
 
+  const { isOpen: isNotificationsOpen } = useSelector(
+    (state) => state.notifications
+  );
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("menu boleans", isNavOpen, isNotOpen);
+  const setIsNotifOpen = (isOpen) => {
+    dispatch(setNotificationsIsOpen(isOpen));
+  };
 
   const clickedLink = () => {
-    setIsNav(false);
-    setIsNot(false);
+    setIsNavOpen(false);
+    setIsNotifOpen(false);
   };
   return (
     <div className={`d-none d-${expandSize}-flex ms-2`}>
@@ -42,7 +49,7 @@ const OffCanvasMenu = ({ expandSize }) => {
         color="light"
         className={styles.btn}
         onClick={() => {
-          setIsNot(true);
+          setIsNotifOpen(true);
         }}
       >
         <FontAwesomeIcon
@@ -70,7 +77,7 @@ const OffCanvasMenu = ({ expandSize }) => {
         color="light"
         className={styles.btn}
         onClick={() => {
-          setIsNav(true);
+          setIsNavOpen(true);
         }}
       >
         <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />
@@ -81,13 +88,13 @@ const OffCanvasMenu = ({ expandSize }) => {
         isOpen={isNavOpen}
         className={styles.offCanvas}
         toggle={() => {
-          setIsNav(!isNavOpen);
+          setIsNavOpen(!isNavOpen);
         }}
       >
         <OffcanvasHeader
           className={styles.header}
           toggle={() => {
-            setIsNav(!isNavOpen);
+            setIsNavOpen(!isNavOpen);
           }}
         >
           <Avatar imgSrc={profilePic} username={username} /> {username}
@@ -101,10 +108,10 @@ const OffCanvasMenu = ({ expandSize }) => {
               <NavLinks.Notifications
                 onClick={() => {
                   if (isNavOpen) {
-                    setIsNav(false);
-                    setTimeout(() => setIsNot(true), 300); // Delay to allow Offcanvas to close
+                    setIsNavOpen(false);
+                    setTimeout(() => setIsNotifOpen(true), 300); // Delay to allow Offcanvas to close
                   } else {
-                    setIsNot(true);
+                    setIsNotifOpen(true);
                   }
                 }}
               />
@@ -126,9 +133,9 @@ const OffCanvasMenu = ({ expandSize }) => {
       </Offcanvas>
       <SideMenu
         header="Notifications"
-        open={isNotOpen}
+        open={isNotificationsOpen}
         close={() => {
-          setIsNot(false);
+          setIsNotifOpen(false);
         }}
       >
         <NotificationsPanel />

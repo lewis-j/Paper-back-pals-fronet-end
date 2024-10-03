@@ -5,6 +5,7 @@ import friendsSlice from "../features/Friends/friendsSlice";
 import searchResultsSlice from "../features/search/searchResultsSlice";
 import { logger } from "redux-logger";
 import notificationsSlice from "../features/Notifications/notificationsSlice";
+import chatSlice from "../features/Chat/chatSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     friends: friendsSlice,
     searchResults: searchResultsSlice,
     notifications: notificationsSlice,
+    chat: chatSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

@@ -13,10 +13,9 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
   const dispatch = useDispatch();
   const pages = bookResults.results.length;
 
-  const renderNewPage = async (item) => {
-    console.log("pages", pages);
-    if (pages - 1 < item) {
-      const dif = item - (pages - 1);
+  const checkForAvailableBooks = async (pageNum) => {
+    if (pages - 1 < pageNum) {
+      const dif = pageNum - (pages - 1);
       const calls = Math.ceil(dif / 3);
       [...Array(calls).keys()].forEach(async (i) => {
         const _startIndex = pages * 12 + i * 36;
@@ -24,11 +23,16 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
         await dispatch(getMoreBooks({ startIndex: _startIndex })).unwrap();
       });
     }
+  };
+
+  const renderNewPage = async (item) => {
+    console.log("pages", pages);
+    await checkForAvailableBooks(item);
     setCurrentPage(item);
   };
 
   const nextPage = async () => {
-    if (bookResults.length - 1 === currentPage) {
+    if (pages - 1 === currentPage) {
       await dispatch(getMoreBooks({ startIndex: currentPage * 12 })).unwrap();
     }
 

@@ -6,7 +6,7 @@ import { _s } from "../../../../style";
 import { upperFirst } from "../../../../utilities/stringUtil";
 import styles from "./FriendsNavigation.module.scss";
 
-const navItems = ["library", "profile", "friends"];
+const navItems = ["library", "profile", "message"];
 
 const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
   const { pathname } = useLocation();

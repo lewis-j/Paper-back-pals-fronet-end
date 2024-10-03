@@ -22,6 +22,7 @@ import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
 import homeBackground from "./Assets/imgs/home_background.jpg";
 import { fetchNotifications } from "./features/Notifications";
+import Chat from "./features/Chat/components/Chat/Chat";
 
 const Library = lazy(() =>
   import("./Pages").then((module) => ({ default: module.Library }))
@@ -91,6 +92,7 @@ function App() {
             <Route path="friends" element={<FriendsPage />}>
               <Route path="library" element={<FriendsLibrary />} />
               <Route path="profile" element={<FriendsProfile />} />
+              <Route path="message" element={<Chat />} />
               {/* <Route path="messaging: user_id" element={<UserMessaging />} />
               <Route path="profile: user_id" element={<UserProfile />}/> */}
             </Route>

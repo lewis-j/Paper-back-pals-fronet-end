@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { searchBooks, setQuery, SearchBar } from "../../features/search";
 import * as NavLinks from "./NavLinks";
 import styles from "./PrimaryNav.module.scss";
+import { setNotificationsIsOpen } from "../../features/Notifications/notificationsSlice";
 
 const PrimaryNav = ({ mainViewStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -120,6 +121,9 @@ const PrimaryNav = ({ mainViewStyle }) => {
               <NavItem>
                 <NavLinks.Notifications
                   className={`d-block d-${expandSize}-none`}
+                  onClick={() => {
+                    dispatch(setNotificationsIsOpen(true));
+                  }}
                 />
               </NavItem>
               <NavItem>
