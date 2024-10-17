@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import styles from "./UserCardSm.module.scss";
+import styles from "./UserBookCardSm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { Progress } from "reactstrap";
 import { Avatar, Button } from "../../../../../components";
 import { dayMonthFormat } from "../../../../../utilities/timeUtil";
 
-const UserCardSm = ({
+const UserBookCardSm = ({
   _id: userCard_id,
   book,
   icon,
@@ -19,10 +19,12 @@ const UserCardSm = ({
       },
     },
   ],
+  readingProgress = 0,
   isActive = false,
   setActive,
 }) => {
-  const { coverImg, title, dueDate: _dueDate, progressValue = 10 } = book;
+  console.log("book pagecount", book);
+  const { coverImg, title, dueDate: _dueDate } = book;
   const dueDate = dayMonthFormat(_dueDate);
   const { username, profilePic } = user;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -43,6 +45,7 @@ const UserCardSm = ({
         icon: faBars,
         size: "sm",
         menuBtnClick: () => {
+          console.log("userCard_id", userCard_id);
           setActive(userCard_id);
         },
       };
@@ -81,7 +84,7 @@ const UserCardSm = ({
 
           <div className={styles.tracking}>
             <div className={styles.dueDate}>{dueDate}</div>
-            <Progress className={styles.progress} value={progressValue} />
+            <Progress className={styles.progress} value={readingProgress} />
           </div>
           <div className={styles.menuBtn} onClick={cardFilter.menuBtnClick}>
             <FontAwesomeIcon size="lg" type="button" icon={cardFilter.icon} />
@@ -92,4 +95,4 @@ const UserCardSm = ({
   );
 };
 
-export default UserCardSm;
+export default UserBookCardSm;

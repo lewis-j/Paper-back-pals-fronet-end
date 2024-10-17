@@ -1,11 +1,16 @@
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { BookCard, UserCardSm, BookContainer } from "../../features/library";
+import {
+  BookCard,
+  UserBookCardSm,
+  BookContainer,
+} from "../../features/library";
 import styles from "./Library.module.scss";
 import { useState } from "react";
 
 const Library = () => {
+  console.log("Library");
   const {
     books: { owned: books },
   } = useSelector((state) => state.userBooks);
@@ -28,10 +33,12 @@ const Library = () => {
   ];
 
   const mapCheckedOutBooks = (bookData, i) => {
+    console.log("checket out mapping", bookData.currentRequest);
     const progressValue = getProgressInPercent(
-      bookData.currentPage,
-      bookData.pageCount
+      bookData.currentRequest.currentPage,
+      bookData.currentRequest.pageCount
     );
+    console.log("progressValue", progressValue);
     return (
       <Col
         sm="4"
@@ -40,9 +47,14 @@ const Library = () => {
         className="mb-3"
         key={`LibraryCard:${bookData._id}`}
       >
-        <UserCardSm
-          bookData={{ ...bookData, progressValue }}
-          menuList={menuList}
+        <UserBookCardSm
+          _id={bookData._id}
+          book={bookData.book}
+          menuItems={menuList}
+          user={bookData.currentRequest.sender}
+          setActive={setActiveCard}
+          isActive={activeCard === bookData._id}
+          readingProgress={progressValue}
         />
       </Col>
     );
@@ -65,10 +77,12 @@ const Library = () => {
   };
 
   const _books = books || [];
+  console.log("books", _books);
 
   const BookCards = _books.reduce(
-    (obj, book) =>
-      book.status === "CHECKED_OUT"
+    (obj, book) => {
+      console.log("book", book.currentRequest?.status);
+      return book.currentRequest?.status === "CHECKED_OUT"
         ? {
             ...obj,
             checkedOut: [...obj.checkedOut, mapCheckedOutBooks(book)],
@@ -76,7 +90,8 @@ const Library = () => {
         : {
             ...obj,
             checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
-          },
+          };
+    },
 
     { checkedIn: [], checkedOut: [] }
   );

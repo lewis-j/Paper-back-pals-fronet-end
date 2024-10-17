@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import {
-  UserCardSm,
+  UserBookCardSm,
   BookCard,
   BookContainer,
   RequestCard,
@@ -92,9 +92,9 @@ const Library = () => {
         lg="3"
         xl="2"
         className="mb-3"
-        key={`UserCardSm:${_id}`}
+        key={`UserBookCardSm:${_id}`}
       >
-        <UserCardSm
+        <UserBookCardSm
           book={book}
           user={sender}
           setActive={setActiveCardId}

@@ -1,6 +1,6 @@
 import requestStatus from "../../../data/requestStatus";
 
-export const sortCheckedInBooks = (books) => {
+export const sortBooksByStatus = (books) => {
   if (!books) return { checkedIn: [], checkedOut: [] };
   return books.reduce(
     (obj, book) => {

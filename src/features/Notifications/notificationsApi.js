@@ -17,6 +17,7 @@ export const createNotifications = async ({
 };
 
 export const fetchNotifications = async () => {
+  console.log("fetchNotifications");
   try {
     const res = await API.get(`notifications`);
 

@@ -1,10 +1,10 @@
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { IconBookOff } from "@tabler/icons";
-import { UserCardSm, BookContainer } from "../../features/library";
+import { UserBookCardSm, BookContainer } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
 import { useState } from "react";
-import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
+import { sortBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
 import { Button, NoContent } from "../../components";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ const BorrowedPage = () => {
   const navigate = useNavigate();
   const { borrowed: books } = useSelector((state) => state.userBooks.books);
 
-  const { checkedOut, checkedIn: pendingBooks } = sortCheckedInBooks(books);
+  const { checkedOut, checkedIn: pendingBooks } = sortBooksByStatus(books);
 
   const [activeCard, setActiveCard] = useState("");
 
@@ -70,7 +70,7 @@ const BorrowedPage = () => {
 
       return (
         <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryCard:${_id}`}>
-          <UserCardSm
+          <UserBookCardSm
             _id={_id}
             book={book}
             user={owner}

@@ -66,20 +66,18 @@ export const nextBookRequestStatus = async (request_id) => {
   }
 };
 
-export const updateCurrentPage = async ({ request_id, pageCount }) => {
+export const updateCurrentPage = async ({
+  request_id,
+  currentPage,
+  userBook_id,
+}) => {
   try {
-    console.log(
-      `%cpageCount:`,
-      "color:yellow; font-size:14px; font-weight:bold",
-      pageCount
-    );
-
     const res = await API.put(
       `/user-books/request/${request_id}/updatePageCount`,
-      { pageCount }
+      { currentPage }
     );
-    const _pageCount = res.data;
-    return { pageCount: _pageCount };
+    if (res.status === 200) return { currentPage, userBook_id };
+    return Promise.reject(res);
   } catch (error) {
     return Promise.reject(error);
   }

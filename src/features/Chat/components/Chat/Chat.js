@@ -4,6 +4,9 @@ import { io } from "socket.io-client";
 import { setMessages, addMessage, setCurrentRoomId } from "../../chatSlice";
 import { getMessages, enterChatRoom } from "../../chatApi";
 import chatStyles from "./Chat.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+
 const nestURL = process.env.REACT_APP_NEST_URI;
 
 const Chat = () => {
@@ -71,19 +74,27 @@ const Chat = () => {
           <div
             key={index}
             className={`${chatStyles.message} ${
-              msg.sender === currentUser ? chatStyles.sent : chatStyles.received
+              msg.sender === currentUser._id
+                ? chatStyles.sent
+                : chatStyles.received
             }`}
           >
             <div className={chatStyles.messageContent}>{msg.content}</div>
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={messageInput}
-        onChange={(e) => setMessageInput(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
+      <div className={chatStyles.inputContainer}>
+        <input
+          type="text"
+          value={messageInput}
+          onChange={(e) => setMessageInput(e.target.value)}
+          className={chatStyles.messageInput}
+          placeholder="Type a message"
+        />
+        <button onClick={sendMessage} className={chatStyles.sendButton}>
+          <FontAwesomeIcon icon={faPaperPlane} />
+        </button>
+      </div>
     </div>
   );
 };

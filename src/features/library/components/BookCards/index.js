@@ -1,3 +1,3 @@
 export { UserCardLrg } from "./UserCardLrg";
-export { UserCardSm } from "./UserCardSm";
+export { UserBookCardSm } from "./UserBookCardSm";
 export { BookCard } from "./BookCard";

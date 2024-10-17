@@ -34,12 +34,14 @@ const NotificationsCard = ({
               <div>{timeMsg}</div>
               {clickHandlers && !isRead && (
                 <div>
-                  <Button
-                    circle
-                    icon={faCheck}
-                    onClick={() => clickHandlers.accept()}
-                    disabled={isLoading}
-                  />
+                  {clickHandlers.accept && (
+                    <Button
+                      circle
+                      icon={faCheck}
+                      onClick={() => clickHandlers.accept()}
+                      disabled={isLoading}
+                    />
+                  )}
                   <Button
                     circle
                     icon={faX}

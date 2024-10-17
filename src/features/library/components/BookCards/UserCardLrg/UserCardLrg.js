@@ -14,6 +14,8 @@ const UserCardLrg = ({
   _id: userCard_id,
   book,
   icon,
+  isActive,
+  setActive,
   user,
   progress = true,
   menuItems = [],
@@ -29,14 +31,13 @@ const UserCardLrg = ({
 
   const dueDate = dayMonthFormat(_dueDate);
   const { username, profilePic } = user;
-  const [isMenuVisible, setIsMenuVisible] = useState();
 
   const readingProgress = getProgressInPercent(currentPage, pageCount);
 
   return (
     <div className={styles.container} style={{ maxWidth: "540px" }}>
-      {!isMenuVisible && (
-        <div className={styles.menuBtn} onClick={() => setIsMenuVisible(true)}>
+      {!isActive && (
+        <div className={styles.menuBtn} onClick={() => setActive(userCard_id)}>
           <FontAwesomeIcon icon={faBars} size="lg" />
         </div>
       )}
@@ -68,12 +69,12 @@ const UserCardLrg = ({
           </div>
         )}
       </div>
-      {isMenuVisible && menuItems.length !== 0 && (
+      {isActive && menuItems.length !== 0 && (
         <div className={styles.menu}>
           <div
             className={styles.menuClose}
             onClick={() => {
-              setIsMenuVisible(false);
+              setActive("");
             }}
           >
             <FontAwesomeIcon icon={faClose} />

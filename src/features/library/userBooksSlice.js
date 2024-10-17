@@ -30,7 +30,11 @@ const updateCurrentReadFulfilled = (state, action) => {
 };
 
 const updateCurrentPageFulfilled = (state, action) => {
-  state.currentRead.currentRequest.currentPage = action.payload.pageCount;
+  console.log("action in update current page", action);
+  const book_id = action.payload.userBook_id;
+  const bookIdx = state.books.borrowed.findIndex(({ _id }) => _id === book_id);
+  state.books.borrowed[bookIdx].currentRequest.currentPage =
+    action.payload.currentPage;
 };
 
 const createBookRequestFullfilled = (state, action) => {

@@ -2,8 +2,12 @@ import { useState } from "react";
 import { Button } from "../../../../components";
 import styles from "./PageCountForm.module.scss";
 
-const PageCountForm = ({ currentPage = 123123 }) => {
+const PageCountForm = ({ currentPage = 123123, onSubmit }) => {
   const [value, setValue] = useState(currentPage);
+
+  const handleSubmit = () => {
+    onSubmit(value);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.label}>Update your current page</div>
@@ -14,7 +18,7 @@ const PageCountForm = ({ currentPage = 123123 }) => {
         autoFocus
         onFocus={(e) => e.target.select()}
       />
-      <Button>enter</Button>
+      <Button onClick={handleSubmit}>enter</Button>
     </div>
   );
 };

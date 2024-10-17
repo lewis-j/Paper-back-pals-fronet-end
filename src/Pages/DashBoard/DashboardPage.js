@@ -3,15 +3,16 @@ import { Button, Modal, NoContent, ResponsiveSlider } from "../../components";
 import {
   PageCountForm,
   UserCardLrg as CurrentRead,
-  UserCardSm,
+  UserBookCardSm,
 } from "../../features/library";
 import styles from "./DashboardPage.module.scss";
 import { useSelector } from "react-redux";
-import { sortCheckedInBooks } from "../../features/library/utilities/bookFilterUtil";
+import { sortBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateCurrentRead, updateCurrentPage } from "../../features/library";
+import { getProgressInPercent } from "../../utilities/bookUtilities";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -24,39 +25,42 @@ const DashboardPage = () => {
     currentRead,
   } = useSelector((state) => state.userBooks);
 
+  const filterOutCurrentRead = (books) => {
+    return books.filter((book) => book._id !== currentRead._id);
+  };
+
+  const booksToFriends = sortBooksByStatus(owned).checkedOut;
+  const booksFromFriends = sortBooksByStatus(borrowed).checkedOut;
+
   const renderCurrentRead = (_currentRead) => {
     if (!_currentRead) return null;
     const { owner, book, currentRequest = null } = _currentRead;
-    const _book = { ...book, dueDate: currentRequest?.dueDate };
+    const _book = {
+      ...book,
+      dueDate: currentRequest?.dueDate,
+      currentPage: currentRequest?.currentPage,
+    };
+
+    const currentReadMenuItems = [
+      {
+        text: "Update page",
+        clickHandler: () => {
+          setModal(true);
+        },
+      },
+    ];
 
     return (
       <CurrentRead
+        _id={_currentRead._id}
         book={_book}
         user={owner}
-        menuItems={[
-          {
-            text: "Update page",
-            clickHandler: () => {
-              dispatch(
-                updateCurrentPage({
-                  request_id: currentRequest._id,
-                  pageCount: 100,
-                })
-              );
-              console.log(
-                `%ccurrentRequest:`,
-                "color:yellow; font-size:14px; font-weight:bold",
-                currentRequest
-              );
-            },
-          },
-        ]}
+        isActive={activeCard === _currentRead._id}
+        setActive={setActiveCard}
+        menuItems={currentReadMenuItems}
       />
     );
   };
-
-  const _owned = sortCheckedInBooks(owned);
-  const _borrowed = sortCheckedInBooks(borrowed);
 
   const BooksFromFriendsMenuItems = [
     {
@@ -75,13 +79,18 @@ const DashboardPage = () => {
 
   const renderBooksFromFriends = (userBooks) => {
     return userBooks.map(
-      ({ _id, book, owner, currentRequest: { dueDate } }) => {
+      ({ _id, book, owner, currentRequest: { dueDate, currentPage } }) => {
         const _book = { ...book, dueDate };
+        const readingProgress = getProgressInPercent(
+          currentPage,
+          book.pageCount
+        );
         return (
-          <UserCardSm
+          <UserBookCardSm
             _id={_id}
             book={_book}
             user={owner}
+            readingProgress={readingProgress}
             setActive={setActiveCard}
             isActive={activeCard === _id}
             menuItems={BooksFromFriendsMenuItems}
@@ -99,7 +108,7 @@ const DashboardPage = () => {
       },
     },
   ];
-  const renderBooksYouOwn = (userBooks) => {
+  const renderBooksToFriends = (userBooks) => {
     return userBooks.map(
       ({
         _id,
@@ -109,7 +118,7 @@ const DashboardPage = () => {
         const book = { _id, coverImg, title, dueDate };
 
         return (
-          <UserCardSm
+          <UserBookCardSm
             _id={_id}
             book={book}
             user={sender}
@@ -135,19 +144,29 @@ const DashboardPage = () => {
   };
 
   const renderModalItem = (activeCard) => {
-    if (_borrowed.checkedOut.length === 0) return null;
-    const _userBook = _borrowed.checkedOut.find(
-      (item) => item._id === activeCard
-    );
-
+    console.log("activeCard", activeCard);
+    if (booksFromFriends.length === 0) return null;
+    const _userBook = booksFromFriends.find((item) => item._id === activeCard);
     if (!_userBook) return null;
-    const { owner, book, currentRequest = null } = _userBook;
+    const { _id: userBook_id, owner, book, currentRequest = null } = _userBook;
     const _book = { ...book, dueDate: currentRequest?.dueDate };
+    const pageCountFormSubmit = (currentPage) => {
+      dispatch(
+        updateCurrentPage({
+          request_id: currentRequest._id,
+          currentPage: currentPage,
+          userBook_id,
+        })
+      );
+    };
 
     return (
       <>
         <CurrentRead book={_book} user={owner} progress={false} />
-        <PageCountForm />
+        <PageCountForm
+          currentPage={currentRequest?.currentPage}
+          onSubmit={pageCountFormSubmit}
+        />
       </>
     );
   };
@@ -160,9 +179,9 @@ const DashboardPage = () => {
       <h3 className={styles.title}>Current Read</h3>
       {renderCurrentRead(currentRead)}
       <h3 className={styles.title}>Books from Friends</h3>
-      {_borrowed.checkedOut.length > 0 ? (
+      {booksFromFriends.length > 0 ? (
         <ResponsiveSlider>
-          {renderBooksFromFriends(_borrowed.checkedOut)}
+          {renderBooksFromFriends(filterOutCurrentRead(booksFromFriends))}
         </ResponsiveSlider>
       ) : (
         <CustomNoContent
@@ -171,11 +190,11 @@ const DashboardPage = () => {
           text="You currently are not borrowing any books"
         />
       )}
-      <h3 className={styles.title}>Your Library</h3>
+      <h3 className={styles.title}>Books to Friends</h3>
       <div className={styles.yourLibrary}>
-        {_owned.checkedOut.length > 0 ? (
+        {booksToFriends.length > 0 ? (
           <ResponsiveSlider>
-            {renderBooksYouOwn(_owned.checkedOut)}
+            {renderBooksToFriends(booksToFriends)}
           </ResponsiveSlider>
         ) : (
           <CustomNoContent

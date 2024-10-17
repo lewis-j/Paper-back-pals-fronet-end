@@ -10,5 +10,6 @@ export const processBookResults = (bookInfo) => {
 };
 
 export const getProgressInPercent = (currentPage, pageCount) => {
+  if (pageCount === 0) return 0;
   return (currentPage / pageCount) * 100;
 };

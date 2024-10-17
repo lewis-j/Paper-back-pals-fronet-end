@@ -2,14 +2,94 @@
 
 $border: 1px solid variables.$box-border-colors;
 
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 80vh; // Adjust this value as needed
+}
+
 .notifications {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 0.25rem;
-  // border-radius: 0.5em;
-  // box-shadow: variables.$standard-box-shadow;
-  border-bottom: $border;
-  // border-left: $border;
-  // border-right: $border;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.readNotificationsDropdown {
+  border-top: $border;
+  margin-top: auto; // Push to the bottom
+}
+
+.dropdownToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: variables.$secondary-color;
+
+  &:hover {
+    background-color: variables.$grey-6;
+  }
+}
+
+.dropdownIcon {
+  margin-left: 0.5rem;
+}
+
+.readNotifications {
+  max-height: 200px; // Adjust this value as needed
+  overflow-y: auto;
+}
+
+.bookInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bookCover {
+  width: 100px;
+  height: auto;
+  margin-right: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bookDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.bookTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.bookAuthor {
+  font-size: 1rem;
+  color: variables.$secondary-color;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.acceptButton {
+  background-color: variables.$accepted-color;
+  color: white;
+}
+
+.declineButton {
+  background-color: variables.$decline-color;
+  color: white;
 }

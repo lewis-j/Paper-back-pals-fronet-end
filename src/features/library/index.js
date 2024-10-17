@@ -2,7 +2,7 @@ export {
   BookContainer,
   BookCard,
   UserCardLrg,
-  UserCardSm,
+  UserBookCardSm,
   RequestCard,
   PageCountForm,
 } from "./components";
