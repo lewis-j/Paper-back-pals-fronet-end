@@ -32,6 +32,11 @@ const DashboardPage = () => {
   const booksToFriends = sortBooksByStatus(owned).checkedOut;
   const booksFromFriends = sortBooksByStatus(borrowed).checkedOut;
 
+  const populateCurrentRead = (currentRead_id) => {
+    console.log("currentRead_id", currentRead_id);
+    if (!currentRead_id) return null;
+    return booksFromFriends.find((book) => book._id === currentRead_id);
+  };
   const renderCurrentRead = (_currentRead) => {
     if (!_currentRead) return null;
     const { owner, book, currentRequest = null } = _currentRead;
@@ -177,7 +182,7 @@ const DashboardPage = () => {
         {renderModalItem(activeCard)}
       </Modal>
       <h3 className={styles.title}>Current Read</h3>
-      {renderCurrentRead(currentRead)}
+      {renderCurrentRead(populateCurrentRead(currentRead?._id))}
       <h3 className={styles.title}>Books from Friends</h3>
       {booksFromFriends.length > 0 ? (
         <ResponsiveSlider>
