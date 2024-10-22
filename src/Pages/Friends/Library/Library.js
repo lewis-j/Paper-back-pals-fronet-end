@@ -18,6 +18,7 @@ import requestStatus from "../../../data/requestStatus";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
+  const currentUser = useSelector((state) => state.authUser.currentUser);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeCardId, setActiveCardId] = useState("");
@@ -25,17 +26,13 @@ const Library = () => {
   const { username, ownedBooks } = currentFriend;
   const containerRef = useRef();
 
-  const requestList = useSelector((state) => state.userBooks.bookRequests);
-
   const activeBookInfo = useSelector(getFriendsOwnedBookById(activeCardId));
 
-  const filterRequest = (book_id) => {
-    let requestobj = requestList.find(({ userBook }) => {
-      return userBook._id === book_id;
-    });
-
-    const request = requestobj?.status || null;
-
+  const filterRequest = (request) => {
+    const foundRequest = request.find(
+      (req) => req.sender._id === currentUser._id
+    );
+    console.log("foundRequest", foundRequest);
     const openRequestCardModal = ({ target }) => {
       const { y: containerY } = containerRef.current.getBoundingClientRect();
       const { y } = target.getBoundingClientRect();
@@ -59,7 +56,7 @@ const Library = () => {
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
         },
-      }[request] || {
+      }[foundRequest.status] || {
         menu: [
           {
             text: "Request",
@@ -105,10 +102,11 @@ const Library = () => {
   };
 
   const mapCheckedInBooks = (userBook) => {
-    const { _id, book, status } = userBook;
-    const { menu, icon, iconStyle } = filterRequest(_id);
+    const { _id, book, request } = userBook;
+    console.log("userBook", userBook);
+    const { menu, icon, iconStyle } = filterRequest(request);
     const { coverImg, title } = book;
-    const cardInfo = { _id, coverImg, title, status };
+    const cardInfo = { _id, coverImg, title };
 
     return (
       <Col

@@ -59,16 +59,12 @@ export const userBooksSlice = createSlice({
       borrowed: [],
       owned: [],
     },
-    bookRequests: [],
     status: status.IDLE,
     error: null,
   },
   reducers: {
     setBooks: (state, action) => {
       state.books = action.payload;
-    },
-    setBookRequests: (state, action) => {
-      state.bookRequests = action.payload.bookRequest;
     },
     setCurrentRead: (state, action) => {
       state.currentRead = action.payload.currentRead;
@@ -87,11 +83,7 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const {
-  setBooks,
-  setBookRequests,
-  setOwnedBookCurrentRequest,
-  setCurrentRead,
-} = userBooksSlice.actions;
+export const { setBooks, setOwnedBookCurrentRequest, setCurrentRead } =
+  userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

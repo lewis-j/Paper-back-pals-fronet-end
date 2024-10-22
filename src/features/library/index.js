@@ -10,7 +10,6 @@ export { bookRequestStatus } from "./data";
 export {
   addBook,
   setBooks,
-  setBookRequests,
   createBookRequest,
   setCurrentRead,
   updateCurrentRead,

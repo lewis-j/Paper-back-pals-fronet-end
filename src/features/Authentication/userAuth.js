@@ -6,8 +6,7 @@ import {
   setFriendRequestOutbox,
   setFriends,
 } from "../Friends";
-import { setBookRequests, setBooks, setCurrentRead } from "../library";
-import { fetchNotifications } from "../Notifications";
+import { setBooks, setCurrentRead } from "../library";
 
 const parseSlice = (dispatch, _user) => {
   const {
@@ -16,7 +15,6 @@ const parseSlice = (dispatch, _user) => {
     friendRequestOutbox,
     ownedBooks: owned,
     borrowedBooks: borrowed,
-    bookRequest,
     currentRead,
     ...user
   } = _user;
@@ -34,7 +32,6 @@ const parseSlice = (dispatch, _user) => {
   dispatch(setCurrentRead({ currentRead }));
   dispatch(setFriends({ friends }));
   dispatch(setBooks({ borrowed, owned }));
-  dispatch(setBookRequests({ bookRequest }));
   return { user };
 };
 
