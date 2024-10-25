@@ -132,7 +132,7 @@ const DashboardPage = () => {
     );
   };
 
-  const CustomNoContent = ({ title, text, route }) => {
+  const EmptyStatePrompt = ({ title, text, route }) => {
     return (
       <div className={styles.noContent}>
         <NoContent icon={faBook} iconSize="6em" text={text}>
@@ -192,7 +192,7 @@ const DashboardPage = () => {
           {filterOutCurrentRead(booksFromFriends).map(renderBooksFromFriends)}
         </ResponsiveSlider>
       ) : (
-        <CustomNoContent
+        <EmptyStatePrompt
           title="Search Friends Library"
           route="friends"
           text="You currently are not borrowing any books"
@@ -205,7 +205,7 @@ const DashboardPage = () => {
             {booksToFriends.map(renderBooksToFriends)}
           </ResponsiveSlider>
         ) : (
-          <CustomNoContent
+          <EmptyStatePrompt
             title="Check Library"
             route="library"
             text="You currently have no checked out books"
