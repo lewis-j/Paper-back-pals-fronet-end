@@ -52,13 +52,28 @@ const ProfilePage = lazy(() =>
 function App() {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authUser.status);
+  const currentUser = useSelector((state) => state.authUser.currentUser);
 
   useEffect(() => {
-    if (userStatus === condition.IDLE) {
-      dispatch(fetchUser());
+    const fetchData = async () => {
+      console.log("userStatus", userStatus);
+      if (userStatus === condition.IDLE) {
+        try {
+          await dispatch(fetchUser()).unwrap();
+        } catch (error) {
+          console.error("Failed to fetch user:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [dispatch, userStatus]);
+
+  useEffect(() => {
+    if (currentUser && userStatus === condition.SUCCEEDED) {
       dispatch(fetchNotifications());
     }
-  }, [dispatch, userStatus]);
+  }, [dispatch, currentUser, userStatus]);
 
   return (
     <div className={styles.wrapper}>
