@@ -8,6 +8,7 @@ import {
 } from "../../features/library";
 import styles from "./Library.module.scss";
 import { useState } from "react";
+import { categorizeOwnedBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
 
 const Library = () => {
   console.log("Library");
@@ -16,6 +17,10 @@ const Library = () => {
   } = useSelector((state) => state.userBooks);
 
   const [activeCard, setActiveCard] = useState("");
+
+  const categorizedBooks = categorizeOwnedBooksByStatus(books);
+  const checkedOutBooks = categorizedBooks.CHECKED_OUT || [];
+  const checkedInBooks = categorizedBooks.CHECKED_IN || [];
 
   const menuList = [
     {
@@ -32,69 +37,42 @@ const Library = () => {
     },
   ];
 
-  const mapCheckedOutBooks = (bookData, i) => {
-    console.log("checket out mapping", bookData.currentRequest);
-    const progressValue = getProgressInPercent(
-      bookData.currentRequest.currentPage,
-      bookData.currentRequest.pageCount
-    );
-    console.log("progressValue", progressValue);
+  const BookCol = ({ children, key }) => (
+    <Col sm="4" md="3" xl="2" className="mb-3" key={key}>
+      {children}
+    </Col>
+  );
+
+  const mapCheckedOutBooks = (userBook, i) => {
     return (
-      <Col
-        sm="4"
-        md="3"
-        xl="2"
-        className="mb-3"
-        key={`LibraryCard:${bookData._id}`}
-      >
+      <BookCol key={`LibraryCard:${userBook._id}`}>
         <UserBookCardSm
-          _id={bookData._id}
-          book={bookData.book}
+          _id={userBook._id}
+          book={userBook.book}
           menuItems={menuList}
-          user={bookData.currentRequest.sender}
+          user={userBook.sender}
           setActive={setActiveCard}
-          isActive={activeCard === bookData._id}
-          readingProgress={progressValue}
+          isActive={activeCard === userBook._id}
         />
-      </Col>
+      </BookCol>
     );
   };
 
-  const mapCheckedInBooks = ({ _id, book, status }, i) => {
+  const renderCheckedInBookCard = ({ _id, book, status }, i) => {
     const { coverImg, title } = book;
     const cardInfo = { _id, coverImg, title, status };
 
     return (
-      <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryBookCard${_id}`}>
+      <BookCol key={`LibraryBookCard${_id}`}>
         <BookCard
           cardInfo={cardInfo}
           menuItems={menuList}
           isActive={activeCard === _id}
           setActive={setActiveCard}
         />
-      </Col>
+      </BookCol>
     );
   };
-
-  const _books = books || [];
-  console.log("books", _books);
-
-  const BookCards = _books.reduce(
-    (obj, book) => {
-      console.log("book", book.currentRequest?.status);
-      return book.currentRequest?.status === "CHECKED_OUT"
-        ? {
-            ...obj,
-            checkedOut: [...obj.checkedOut, mapCheckedOutBooks(book)],
-          }
-        : {
-            ...obj,
-            checkedIn: [...obj.checkedIn, mapCheckedInBooks(book)],
-          };
-    },
-
-    { checkedIn: [], checkedOut: [] }
-  );
 
   return (
     <>
@@ -106,13 +84,17 @@ const Library = () => {
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer>{BookCards.checkedIn}</BookContainer>
+          <BookContainer>
+            {checkedInBooks.map(renderCheckedInBookCard)}
+          </BookContainer>
         </Row>
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer>{BookCards.checkedOut}</BookContainer>
+          <BookContainer>
+            {checkedOutBooks.map(mapCheckedOutBooks)}
+          </BookContainer>
         </Row>
       </Container>
     </>

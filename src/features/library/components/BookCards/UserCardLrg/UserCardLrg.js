@@ -46,7 +46,7 @@ const UserCardLrg = ({
           src={coverImg}
           alt={title}
           className={styles.coverImg}
-          referrerpolicy="no-referrer"
+          referrerPolicy="no-referrer"
         />
       </div>
       <div className={styles.body}>

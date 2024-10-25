@@ -1,36 +1,49 @@
 import requestStatus from "../../../data/requestStatus";
 
-export const sortBooksByStatus = (books) => {
-  if (!books) return { checkedIn: [], checkedOut: [] };
-  return books.reduce(
-    (obj, book) => {
-      const requestEnum = Object.values(requestStatus);
-      const checkedIn = requestEnum.slice(1, 3);
-      const checkedOut = requestEnum.slice(3, -1);
+export const categorizeOwnedBooksByStatus = (ownedBooks) => {
+  let categorizedBooks = {};
+  ownedBooks.forEach((userBook) => {
+    const isCheckedOut = userBook.request.some((request) =>
+      Object.keys(requestStatus)
+        .slice(1)
+        .some((status) => {
+          if (status === request.status) {
+            const singleRequestBook = {
+              ...userBook,
+              dueDate: request.dueDate,
+              currentPage: request.currentPage,
+              sender: request.sender,
+              request: { status: request.status, id: request._id },
+            };
+            categorizedBooks[status] = categorizedBooks[status]
+              ? [...categorizedBooks[status], singleRequestBook]
+              : [singleRequestBook];
+            return true;
+          }
+          return false;
+        })
+    );
 
-      if (book.currentRequest) {
-        const status = book.currentRequest.status;
+    if (!isCheckedOut) {
+      categorizedBooks[requestStatus.CHECKED_IN] = categorizedBooks[
+        requestStatus.CHECKED_IN
+      ]
+        ? [...categorizedBooks[requestStatus.CHECKED_IN], userBook]
+        : [userBook];
+    }
+  });
 
-        if (checkedIn.includes(status)) {
-          return {
-            ...obj,
-            checkedIn: [...obj.checkedIn, book],
-          };
-        }
-        if (checkedOut.includes(status)) {
-          return {
-            ...obj,
-            checkedOut: [...obj.checkedOut, book],
-          };
-        }
-      }
+  return categorizedBooks;
+};
 
-      return {
-        ...obj,
-        checkedIn: [...obj.checkedIn, book],
-      };
-    },
+export const categorizeBorrowedBooksByStatus = (borrowedBooks) => {
+  const categorizedBooks = {};
+  borrowedBooks.forEach((userBook) => {
+    const status = userBook.request.status;
+    categorizedBooks[status] = categorizedBooks[status]
+      ? [...categorizedBooks[status], userBook]
+      : [userBook];
+  });
 
-    { checkedIn: [], checkedOut: [] }
-  );
+  return categorizedBooks;
 };

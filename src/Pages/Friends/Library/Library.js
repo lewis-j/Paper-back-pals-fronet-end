@@ -14,7 +14,7 @@ import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 import { Modal } from "../../../components";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import requestStatus from "../../../data/requestStatus";
+import { categorizeOwnedBooksByStatus } from "../../../features/library/utilities/bookFilterUtil";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
@@ -28,21 +28,25 @@ const Library = () => {
 
   const activeBookInfo = useSelector(getFriendsOwnedBookById(activeCardId));
 
+  const categorizedBooks = categorizeOwnedBooksByStatus(ownedBooks);
+  const checkedInBooks = categorizedBooks.CHECKED_IN || [];
+  const checkedOutBooks = categorizedBooks.CHECKED_OUT || [];
+
+  const openRequestCardModal = ({ target }) => {
+    const { y: containerY } = containerRef.current.getBoundingClientRect();
+    const { y } = target.getBoundingClientRect();
+    setModalHeight({ top: `${y - containerY}px` });
+    setIsModalOpen(true);
+  };
+
   const filterRequest = (request) => {
     const foundRequest = request.find(
       (req) => req.sender._id === currentUser._id
     );
-    console.log("foundRequest", foundRequest);
-    const openRequestCardModal = ({ target }) => {
-      const { y: containerY } = containerRef.current.getBoundingClientRect();
-      const { y } = target.getBoundingClientRect();
-      setModalHeight({ top: `${y - containerY}px` });
-      setIsModalOpen(true);
-    };
 
-    return (
-      {
-        [bookRequestStatus.CHECKED_IN]: {
+    switch (foundRequest?.status) {
+      case bookRequestStatus.CHECKED_IN:
+        return {
           menu: [
             {
               text: "Cancel",
@@ -55,109 +59,67 @@ const Library = () => {
           ],
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
-        },
-      }[foundRequest.status] || {
-        menu: [
-          {
-            text: "Request",
-            clickHandler: openRequestCardModal,
-          },
-        ],
-        icon: null,
-      }
-    );
+        };
+      default:
+        return {
+          menu: [
+            {
+              text: "Request",
+              clickHandler: openRequestCardModal,
+            },
+          ],
+          icon: null,
+        };
+    }
   };
 
-  const mapCheckedOutBooks = (userBook, i) => {
-    // const progressValue = getProgressInPercent(
-    //   bookData.currentPage,
-    //   bookData.pageCount
-    // );
+  const BookCol = ({ children, key }) => (
+    <Col sm="6" md="4" lg="3" xl="2" className="mb-3" key={key}>
+      {children}
+    </Col>
+  );
 
+  const renderCheckedOutUserBookCard = (userBook, i) => {
     const {
       _id,
       book: { coverImg, title },
-      currentRequest: { dueDate, sender },
+      dueDate,
+      sender,
     } = userBook;
     const book = { _id, coverImg, title, dueDate };
 
     // const { menu } = filterRequest(bookData._id);
     return (
-      <Col
-        sm="6"
-        md="4"
-        lg="3"
-        xl="2"
-        className="mb-3"
-        key={`UserBookCardSm:${_id}`}
-      >
+      <BookCol key={`UserBookCardSm:${_id}`}>
         <UserBookCardSm
+          _id={_id}
           book={book}
           user={sender}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
         />
-      </Col>
+      </BookCol>
     );
   };
 
-  const mapCheckedInBooks = (userBook) => {
+  const renderCheckedInBookCard = (userBook) => {
     const { _id, book, request } = userBook;
-    console.log("userBook", userBook);
     const { menu, icon, iconStyle } = filterRequest(request);
     const { coverImg, title } = book;
-    const cardInfo = { _id, coverImg, title };
 
     return (
-      <Col
-        sm="6"
-        md="4"
-        lg="3"
-        xl="2"
-        className={styles.card}
-        key={`BookCards:${_id}`}
-      >
+      <BookCol key={`BookCards:${_id}`}>
         <BookCard
           menuItems={menu}
-          cardInfo={cardInfo}
+          cardInfo={{ _id, coverImg, title }}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
           icon={icon}
           iconStyle={iconStyle}
         />
-      </Col>
+      </BookCol>
     );
   };
-  const BookCards = ownedBooks.reduce(
-    (obj, book) => {
-      const requestEnum = Object.values(requestStatus);
-      const checkedIn = requestEnum.slice(1, 3);
-      const checkedOut = requestEnum.slice(3, -1);
-
-      if (book.currentRequest) {
-        const status = book.currentRequest.status;
-
-        if (checkedIn.includes(status)) {
-          return {
-            ...obj,
-            checkedIn: [...obj.checkedIn, book],
-          };
-        }
-        if (checkedOut.includes(status)) {
-          return {
-            ...obj,
-            checkedOut: [...obj.checkedOut, book],
-          };
-        }
-      }
-      return {
-        ...obj,
-        checkedIn: [...obj.checkedIn, book],
-      };
-    },
-
-    { checkedIn: [], checkedOut: [] }
-  );
 
   return (
     <>
@@ -187,9 +149,7 @@ const Library = () => {
         </div>
         <Row className={styles.section}>
           <BookContainer>
-            {BookCards.checkedIn.map((checkedInBook) =>
-              mapCheckedInBooks(checkedInBook)
-            )}
+            {checkedInBooks.map(renderCheckedInBookCard)}
           </BookContainer>
         </Row>
         <div>
@@ -197,9 +157,7 @@ const Library = () => {
         </div>
         <Row className={styles.section}>
           <BookContainer>
-            {BookCards.checkedOut.map((checkedOutBook) =>
-              mapCheckedOutBooks(checkedOutBook)
-            )}
+            {checkedOutBooks.map(renderCheckedOutUserBookCard)}
           </BookContainer>
         </Row>
       </div>

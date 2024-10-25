@@ -15,10 +15,6 @@ import {
 } from "../../../library/userBookCalls";
 import styles from "./NotificationsPanel.module.scss";
 import { addNotification, markAsRead } from "../../notificationsSlice";
-import {
-  bookRequestStatus,
-  setOwnedBookCurrentRequest,
-} from "../../../library";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -161,8 +157,6 @@ const NotificationsPanel = () => {
     const acceptClickHandler = async () => {
       setIsLoading(true);
       const res = await nextBookRequestStatus(request_id);
-      if (status === bookRequestStatus.CHECKED_IN)
-        dispatch(setOwnedBookCurrentRequest({ userBook_id, request_id }));
       const { notification } = res;
       await dispatch(markAsRead({ _id: notification_id })).unwrap();
       await dispatch(addNotification({ notification })).unwrap();

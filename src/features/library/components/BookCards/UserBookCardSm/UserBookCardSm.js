@@ -11,6 +11,7 @@ const UserBookCardSm = ({
   book,
   icon,
   user,
+  dueDate,
   menuItems = [
     {
       text: "message",
@@ -23,9 +24,8 @@ const UserBookCardSm = ({
   isActive = false,
   setActive,
 }) => {
-  console.log("book pagecount", book);
-  const { coverImg, title, dueDate: _dueDate } = book;
-  const dueDate = dayMonthFormat(_dueDate);
+  const { coverImg, title } = book;
+  const formattedDueDate = dueDate ? dayMonthFormat(dueDate) : null;
   const { username, profilePic } = user;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
@@ -61,7 +61,7 @@ const UserBookCardSm = ({
           <img
             src={coverImg}
             alt={`${title} book cover`}
-            referrerpolicy="no-referrer"
+            referrerPolicy="no-referrer"
           />
           {isMenuVisible && menuItems.length !== 0 && (
             <div className={styles.menu}>
@@ -81,9 +81,8 @@ const UserBookCardSm = ({
           <div className={styles.avatar}>
             <Avatar imgSrc={profilePic} size="sm" username={username} />
           </div>
-
           <div className={styles.tracking}>
-            <div className={styles.dueDate}>{dueDate}</div>
+            <div className={styles.dueDate}>{formattedDueDate}</div>
             <Progress className={styles.progress} value={readingProgress} />
           </div>
           <div className={styles.menuBtn} onClick={cardFilter.menuBtnClick}>

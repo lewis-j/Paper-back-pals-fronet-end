@@ -15,20 +15,6 @@ const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
   ];
 };
 
-// const createBookRequestFulfilled = (state, { payload }) => {
-//   const {
-//     currentFriend: { ownedBooks },
-//   } = state;
-//   const { request_id, userBook_id } = payload;
-//   const bookIndex = ownedBooks.findIndex(
-//     (userBook) => userBook._id === userBook_id
-//   );
-//   const _userBook = ownedBooks[bookIndex];
-//   ownedBooks[bookIndex] = {
-//     ..._userBook,
-//     request: [..._userBook.request, { _id: request_id }],
-//   };
-// };
 const acceptFriendRequest = createAsyncThunk(
   "friends/acceptFriendRequest",
   friendsApi.addFriendFromRequest

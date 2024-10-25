@@ -7,7 +7,10 @@ import {
 } from "../../features/library";
 import styles from "./DashboardPage.module.scss";
 import { useSelector } from "react-redux";
-import { sortBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
+import {
+  categorizeBorrowedBooksByStatus,
+  categorizeOwnedBooksByStatus,
+} from "../../features/library/utilities/bookFilterUtil";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -26,29 +29,35 @@ const DashboardPage = () => {
   } = useSelector((state) => state.userBooks);
 
   const filterOutCurrentRead = (books) => {
+    if (!currentRead) return books;
     return books.filter((book) => book._id !== currentRead._id);
   };
 
-  const booksToFriends = sortBooksByStatus(owned).checkedOut;
-  const booksFromFriends = sortBooksByStatus(borrowed).checkedOut;
+  const ownedBookCategories = categorizeOwnedBooksByStatus(owned);
+  console.log("ownedBookCategories", ownedBookCategories);
+  const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
+  console.log("booksToFriends", booksToFriends);
+  const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowed);
+  console.log("borrowedBookCategories", borrowedBookCategories);
+  const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
+  console.log("booksFromFriends", booksFromFriends);
 
   const populateCurrentRead = (currentRead_id) => {
-    console.log("currentRead_id", currentRead_id);
     if (!currentRead_id) return null;
     return booksFromFriends.find((book) => book._id === currentRead_id);
   };
   const renderCurrentRead = (_currentRead) => {
     if (!_currentRead) return null;
-    const { owner, book, currentRequest = null } = _currentRead;
+    const { owner, book } = _currentRead;
     const _book = {
       ...book,
-      dueDate: currentRequest?.dueDate,
-      currentPage: currentRequest?.currentPage,
+      dueDate: _currentRead?.dueDate,
+      currentPage: _currentRead?.currentPage,
     };
 
     const currentReadMenuItems = [
       {
-        text: "Update page",
+        text: "Update Page Count",
         clickHandler: () => {
           setModal(true);
         },
@@ -72,6 +81,7 @@ const DashboardPage = () => {
       text: "Current Read",
       clickHandler: (userBook_id) => {
         dispatch(updateCurrentRead({ userBook_id }));
+        setActiveCard("");
       },
     },
     {
@@ -82,26 +92,20 @@ const DashboardPage = () => {
     },
   ];
 
-  const renderBooksFromFriends = (userBooks) => {
-    return userBooks.map(
-      ({ _id, book, owner, currentRequest: { dueDate, currentPage } }) => {
-        const _book = { ...book, dueDate };
-        const readingProgress = getProgressInPercent(
-          currentPage,
-          book.pageCount
-        );
-        return (
-          <UserBookCardSm
-            _id={_id}
-            book={_book}
-            user={owner}
-            readingProgress={readingProgress}
-            setActive={setActiveCard}
-            isActive={activeCard === _id}
-            menuItems={BooksFromFriendsMenuItems}
-          />
-        );
-      }
+  const renderBooksFromFriends = (userBook) => {
+    const { _id, book, owner, dueDate, currentPage } = userBook;
+    const readingProgress = getProgressInPercent(currentPage, book.pageCount);
+    return (
+      <UserBookCardSm
+        _id={_id}
+        book={book}
+        user={owner}
+        dueDate={dueDate}
+        readingProgress={readingProgress}
+        setActive={setActiveCard}
+        isActive={activeCard === _id}
+        menuItems={BooksFromFriendsMenuItems}
+      />
     );
   };
 
@@ -113,26 +117,18 @@ const DashboardPage = () => {
       },
     },
   ];
-  const renderBooksToFriends = (userBooks) => {
-    return userBooks.map(
-      ({
-        _id,
-        book: { coverImg, title },
-        currentRequest: { sender, dueDate },
-      }) => {
-        const book = { _id, coverImg, title, dueDate };
-
-        return (
-          <UserBookCardSm
-            _id={_id}
-            book={book}
-            user={sender}
-            setActive={setActiveCard}
-            isActive={activeCard === _id}
-            menuItems={booksYouOwnMenuItems}
-          />
-        );
-      }
+  const renderBooksToFriends = (userBook) => {
+    const { _id, book, sender, dueDate } = userBook;
+    return (
+      <UserBookCardSm
+        _id={_id}
+        book={book}
+        user={sender}
+        dueDate={dueDate}
+        setActive={setActiveCard}
+        isActive={activeCard === _id}
+        menuItems={booksYouOwnMenuItems}
+      />
     );
   };
 
@@ -149,16 +145,23 @@ const DashboardPage = () => {
   };
 
   const renderModalItem = (activeCard) => {
-    console.log("activeCard", activeCard);
     if (booksFromFriends.length === 0) return null;
     const _userBook = booksFromFriends.find((item) => item._id === activeCard);
+    console.log("_userBook", _userBook);
     if (!_userBook) return null;
-    const { _id: userBook_id, owner, book, currentRequest = null } = _userBook;
-    const _book = { ...book, dueDate: currentRequest?.dueDate };
+    const {
+      _id: userBook_id,
+      owner,
+      book,
+      dueDate,
+      request,
+      currentPage,
+    } = _userBook;
+    const _book = { ...book, dueDate };
     const pageCountFormSubmit = (currentPage) => {
       dispatch(
         updateCurrentPage({
-          request_id: currentRequest._id,
+          request_id: request._id,
           currentPage: currentPage,
           userBook_id,
         })
@@ -169,7 +172,7 @@ const DashboardPage = () => {
       <>
         <CurrentRead book={_book} user={owner} progress={false} />
         <PageCountForm
-          currentPage={currentRequest?.currentPage}
+          currentPage={currentPage}
           onSubmit={pageCountFormSubmit}
         />
       </>
@@ -186,7 +189,7 @@ const DashboardPage = () => {
       <h3 className={styles.title}>Books from Friends</h3>
       {booksFromFriends.length > 0 ? (
         <ResponsiveSlider>
-          {renderBooksFromFriends(filterOutCurrentRead(booksFromFriends))}
+          {filterOutCurrentRead(booksFromFriends).map(renderBooksFromFriends)}
         </ResponsiveSlider>
       ) : (
         <CustomNoContent
@@ -199,7 +202,7 @@ const DashboardPage = () => {
       <div className={styles.yourLibrary}>
         {booksToFriends.length > 0 ? (
           <ResponsiveSlider>
-            {renderBooksToFriends(booksToFriends)}
+            {booksToFriends.map(renderBooksToFriends)}
           </ResponsiveSlider>
         ) : (
           <CustomNoContent

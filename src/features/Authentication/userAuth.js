@@ -8,6 +8,18 @@ import {
 } from "../Friends";
 import { setBooks, setCurrentRead } from "../library";
 
+const mergeFriendsIntoRequest = (friends, owndedBooks) => {
+  return owndedBooks.map((book) => {
+    const request = book.request.map((request) => {
+      const friend = friends.find(
+        (friend) => friend._id === request.sender._id
+      );
+      return { ...request, sender: friend };
+    });
+    return { ...book, request };
+  });
+};
+
 const parseSlice = (dispatch, _user) => {
   const {
     friends,
@@ -18,11 +30,6 @@ const parseSlice = (dispatch, _user) => {
     currentRead,
     ...user
   } = _user;
-  console.log(
-    `%cUSER:`,
-    "color:Yellow; font-size:14px; font-weight:bold",
-    friendRequestOutbox
-  );
   dispatch(
     setFriendRequestInbox({ friendRequestInbox: friendRequestInbox ?? [] })
   );
@@ -31,7 +38,8 @@ const parseSlice = (dispatch, _user) => {
   );
   dispatch(setCurrentRead({ currentRead }));
   dispatch(setFriends({ friends }));
-  dispatch(setBooks({ borrowed, owned }));
+  const mergedfriendIntoBooks = mergeFriendsIntoRequest(friends, owned);
+  dispatch(setBooks({ borrowed, owned: mergedfriendIntoBooks }));
   return { user };
 };
 

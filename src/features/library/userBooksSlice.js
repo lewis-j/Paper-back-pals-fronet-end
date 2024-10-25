@@ -33,8 +33,7 @@ const updateCurrentPageFulfilled = (state, action) => {
   console.log("action in update current page", action);
   const book_id = action.payload.userBook_id;
   const bookIdx = state.books.borrowed.findIndex(({ _id }) => _id === book_id);
-  state.books.borrowed[bookIdx].currentRequest.currentPage =
-    action.payload.currentPage;
+  state.books.borrowed[bookIdx].currentPage = action.payload.currentPage;
 };
 
 const createBookRequestFullfilled = (state, action) => {
@@ -69,11 +68,6 @@ export const userBooksSlice = createSlice({
     setCurrentRead: (state, action) => {
       state.currentRead = action.payload.currentRead;
     },
-    setOwnedBookCurrentRequest: (state, action) => {
-      const { userBook_id, request_id } = action.payload;
-      const idx = state.books.owned.findIndex(({ _id }) => _id === userBook_id);
-      state.books.owned[idx] = request_id;
-    },
   },
   extraReducers: {
     ...setExtraReducer(addBook, addBookFullfilled),
@@ -83,7 +77,6 @@ export const userBooksSlice = createSlice({
   },
 });
 
-export const { setBooks, setOwnedBookCurrentRequest, setCurrentRead } =
-  userBooksSlice.actions;
+export const { setBooks, setCurrentRead } = userBooksSlice.actions;
 
 export default userBooksSlice.reducer;

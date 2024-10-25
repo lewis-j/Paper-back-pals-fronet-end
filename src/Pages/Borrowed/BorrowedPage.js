@@ -4,16 +4,20 @@ import { IconBookOff } from "@tabler/icons";
 import { UserBookCardSm, BookContainer } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
 import { useState } from "react";
-import { sortBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
+import { categorizeBorrowedBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
 import { Button, NoContent } from "../../components";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
-  const { borrowed: books } = useSelector((state) => state.userBooks.books);
+  const { borrowed: borrowedBooks } = useSelector(
+    (state) => state.userBooks.books
+  );
 
-  const { checkedOut, checkedIn: pendingBooks } = sortBooksByStatus(books);
+  const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowedBooks);
+  const checkedOut = borrowedBookCategories.CHECKED_OUT || [];
+  const pendingBooks = borrowedBookCategories.CHECKED_IN || [];
 
   const [activeCard, setActiveCard] = useState("");
 
@@ -58,53 +62,39 @@ const BorrowedPage = () => {
     </NoContent>
   );
 
-  const renderBooks = (filter) => (userBooks) => {
-    // const progressValue = getProgressInPercent(
-    //   bookData.currentPage,
-    //   bookData.pageCount
-    // );
+  const renderBooks = (userBook) => {
+    const { _id, book, owner, dueDate } = userBook;
 
-    return userBooks.map((userBook) => {
-      const { _id, book: _book, owner, currentRequest } = userBook;
-      const book = filter(currentRequest, _book);
-
-      return (
-        <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryCard:${_id}`}>
-          <UserBookCardSm
-            _id={_id}
-            book={book}
-            user={owner}
-            setActive={setActiveCard}
-            isActive={activeCard === _id}
-            menuItems={checkedOutBookMenuitems}
-          />
-        </Col>
-      );
-    });
+    return (
+      <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryCard:${_id}`}>
+        <UserBookCardSm
+          _id={_id}
+          book={book}
+          user={owner}
+          dueDate={dueDate}
+          setActive={setActiveCard}
+          isActive={activeCard === _id}
+          menuItems={checkedOutBookMenuitems}
+        />
+      </Col>
+    );
   };
 
-  const borrowedBooksFilter = (currentRequest, book) => {
-    return { ...book, dueDate: currentRequest.dueDate };
-  };
-
-  const pendingBookstFilter = (currentRequest, book) => {
-    return currentRequest ? { ...book, dueDate: currentRequest.dueDate } : book;
-  };
-  const renderBorrowedBooks = renderBooks(borrowedBooksFilter);
-  const renderPendingBooks = renderBooks(pendingBookstFilter);
+  const renderBorrowedBooks = checkedOut.map(renderBooks);
+  const renderPendingBooks = pendingBooks.map(renderBooks);
 
   return (
     <>
       <Container>
         <div className={styles.title}>
-          <h1>Your Library</h1>
+          <h1>Borrowed Library</h1>
         </div>
         <div>
           <h4 className={styles.subtitle}>Borrowing</h4>
         </div>
         <Row className={styles.section}>
           <BookContainer noContent={noContentBorrowing}>
-            {renderBorrowedBooks(checkedOut)}
+            {renderBorrowedBooks}
           </BookContainer>
         </Row>
         <div>
@@ -112,7 +102,7 @@ const BorrowedPage = () => {
         </div>
         <Row className={styles.section}>
           <BookContainer noContent={noContentRequest}>
-            {renderPendingBooks(pendingBooks)}
+            {renderPendingBooks}
           </BookContainer>
         </Row>
       </Container>
