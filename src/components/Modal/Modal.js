@@ -5,7 +5,7 @@ import styles from "./Modal.module.scss";
 
 const Modal = ({ children, title, setIsOpen, isOpen, style }) => {
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) return null;
     const closeModal = () => {
       setIsOpen(false);
     };

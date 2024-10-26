@@ -5,6 +5,7 @@ import {
   UserCardLrg as CurrentRead,
   UserBookCardSm,
   BookCard,
+  RequestBadge,
 } from "../../features/library";
 import styles from "./DashboardPage.module.scss";
 import { useSelector } from "react-redux";
@@ -12,13 +13,11 @@ import {
   categorizeBorrowedBooksByStatus,
   categorizeOwnedBooksByStatus,
 } from "../../features/library/utilities/bookFilterUtil";
-import { faBook, faUserFriends } from "@fortawesome/free-solid-svg-icons";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateCurrentRead, updateCurrentPage } from "../../features/library";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { RequestBadge } from "../../features/library/components";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -36,11 +35,17 @@ const DashboardPage = () => {
     return books.filter((book) => book._id !== currentRead._id);
   };
 
+  const getOwnedBookRequests = (ownedBookCategories) => {
+    return ownedBookCategories.CHECKED_IN &&
+      ownedBookCategories.CHECKED_IN.length > 0
+      ? ownedBookCategories.CHECKED_IN.filter(
+          (book) => book.request && book.request.length > 0
+        )
+      : [];
+  };
   const ownedBookCategories = categorizeOwnedBooksByStatus(owned);
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
-  const ownedBookRequests =
-    ownedBookCategories.CHECKED_IN.filter((book) => book.request.length > 0) ||
-    [];
+  const ownedBookRequests = getOwnedBookRequests(ownedBookCategories);
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowed);
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
 
