@@ -60,11 +60,12 @@ const Library = () => {
 
   const renderCheckedInBookCard = ({ _id, book, status }, i) => {
     const { coverImg, title } = book;
-    const cardInfo = { _id, coverImg, title, status };
+    const cardInfo = { coverImg, title, status };
 
     return (
       <BookCol key={`LibraryBookCard${_id}`}>
         <BookCard
+          _id={_id}
           cardInfo={cardInfo}
           menuItems={menuList}
           isActive={activeCard === _id}

@@ -4,6 +4,7 @@ import {
   PageCountForm,
   UserCardLrg as CurrentRead,
   UserBookCardSm,
+  BookCard,
 } from "../../features/library";
 import styles from "./DashboardPage.module.scss";
 import { useSelector } from "react-redux";
@@ -11,11 +12,13 @@ import {
   categorizeBorrowedBooksByStatus,
   categorizeOwnedBooksByStatus,
 } from "../../features/library/utilities/bookFilterUtil";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateCurrentRead, updateCurrentPage } from "../../features/library";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { RequestBadge } from "../../features/library/components";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -34,13 +37,12 @@ const DashboardPage = () => {
   };
 
   const ownedBookCategories = categorizeOwnedBooksByStatus(owned);
-  console.log("ownedBookCategories", ownedBookCategories);
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
-  console.log("booksToFriends", booksToFriends);
+  const ownedBookRequests =
+    ownedBookCategories.CHECKED_IN.filter((book) => book.request.length > 0) ||
+    [];
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowed);
-  console.log("borrowedBookCategories", borrowedBookCategories);
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
-  console.log("booksFromFriends", booksFromFriends);
 
   const populateCurrentRead = (currentRead_id) => {
     if (!currentRead_id) return null;
@@ -92,6 +94,25 @@ const DashboardPage = () => {
     },
   ];
 
+  const renderOwnedBookRequest = (userBook) => {
+    const {
+      _id,
+      book: { coverImg, title },
+      request,
+    } = userBook;
+    const requestCount = request.length;
+    return (
+      <RequestBadge count={requestCount}>
+        <BookCard
+          _id={_id}
+          cardInfo={{ coverImg, title }}
+          setActive={setActiveCard}
+          isActive={activeCard === _id}
+        />
+      </RequestBadge>
+    );
+  };
+
   const renderBooksFromFriends = (userBook) => {
     const { _id, book, owner, dueDate, currentPage } = userBook;
     const readingProgress = getProgressInPercent(currentPage, book.pageCount);
@@ -136,7 +157,12 @@ const DashboardPage = () => {
     return (
       <div className={styles.noContent}>
         <NoContent icon={faBook} iconSize="6em" text={text}>
-          <Button varient="accept" onClick={() => navigate(route)}>
+          <Button
+            varient="accept"
+            onClick={() => {
+              if (route) navigate(route);
+            }}
+          >
             {title}
           </Button>
         </NoContent>
@@ -209,6 +235,19 @@ const DashboardPage = () => {
             title="Check Library"
             route="library"
             text="You currently have no checked out books"
+          />
+        )}
+      </div>
+      <h3 className={styles.title}>Books requested</h3>
+      <div className={styles.yourLibrary}>
+        {booksToFriends.length > 0 ? (
+          <ResponsiveSlider>
+            {ownedBookRequests.map(renderOwnedBookRequest)}
+          </ResponsiveSlider>
+        ) : (
+          <EmptyStatePrompt
+            title="add more books"
+            text="No one has requested your books"
           />
         )}
       </div>

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faX, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import styles from "./BookCard.module.scss";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import { Button } from "../../../../../components";
 import { _s } from "../../../../../style";
 
 const BookCard = ({
+  _id,
   cardInfo,
   menuItems = [],
   isActive = false,
@@ -15,7 +16,7 @@ const BookCard = ({
   iconStyle = {},
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const { _id, coverImg, title } = cardInfo;
+  const { coverImg, title } = cardInfo;
 
   const cardFilter = isActive
     ? {

@@ -111,7 +111,8 @@ const Library = () => {
       <BookCol key={`BookCards:${_id}`}>
         <BookCard
           menuItems={menu}
-          cardInfo={{ _id, coverImg, title }}
+          cardInfo={{ coverImg, title }}
+          _id={_id}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
           icon={icon}

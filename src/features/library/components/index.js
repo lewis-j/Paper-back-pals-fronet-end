@@ -1,4 +1,9 @@
-export { BookCard, UserCardLrg, UserBookCardSm } from "./BookCards";
+export {
+  BookCard,
+  UserCardLrg,
+  UserBookCardSm,
+  RequestBadge,
+} from "./BookCards";
 export { BookContainer } from "./BookContainer";
 export { RequestCard } from "./RequestCard";
 export { BookInfo } from "./BookInfo";
