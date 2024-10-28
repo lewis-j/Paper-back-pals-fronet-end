@@ -1,22 +1,25 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 
-const Modal = ({ children, title, setIsOpen, isOpen, style }) => {
+const Modal = ({ children, title, onClose, isOpen, style }) => {
   useEffect(() => {
     if (!isOpen) return null;
     const closeModal = () => {
-      setIsOpen(false);
+      onClose();
     };
     window.addEventListener("click", closeModal);
 
     return () => {
       window.removeEventListener("click", closeModal);
     };
-  }, [isOpen, setIsOpen]);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
-  return (
+
+  return createPortal(
     <div className={styles.wrapper}>
       <div
         style={style}
@@ -25,13 +28,14 @@ const Modal = ({ children, title, setIsOpen, isOpen, style }) => {
       >
         <div className={styles.header}>
           <h5>{title}</h5>
-          <span onClick={() => setIsOpen(false)}>
+          <span onClick={() => onClose()}>
             <FontAwesomeIcon icon={faXmark} />
           </span>
         </div>
         <div className={styles.content}>{children}</div>
       </div>
-    </div>
+    </div>,
+    document.getElementById("modal-root")
   );
 };
 

@@ -24,7 +24,8 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
 
   const [activeCard, setActiveCard] = useState("");
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState({ isOpen: false, type: null, data: null });
+
   const {
     books: { borrowed, owned },
     currentRead,
@@ -66,7 +67,7 @@ const DashboardPage = () => {
       {
         text: "Update Page Count",
         clickHandler: () => {
-          setModal(true);
+          setModal({ isOpen: true, type: "pageCount", data: _currentRead });
         },
       },
     ];
@@ -83,6 +84,25 @@ const DashboardPage = () => {
     );
   };
 
+  const openModal = (type, title, data = null) => {
+    setModal({ isOpen: true, type, title, data });
+  };
+
+  const closeModal = () => {
+    setModal({ isOpen: false, type: null, title: null, data: null });
+  };
+
+  const getModalContent = () => {
+    switch (modal.type) {
+      case "pageCount":
+        return <ChangePageCountForm bookData={modal.data} />;
+      case "returnBook":
+        return <ReturnBookForm bookData={modal.data} />;
+      default:
+        return null;
+    }
+  };
+
   const BooksFromFriendsMenuItems = [
     {
       text: "Current Read",
@@ -94,9 +114,16 @@ const DashboardPage = () => {
     {
       text: "Page Count",
       clickHandler: (userBook_id) => {
-        setModal(true);
+        openModal("pageCount", "Update Page Count", userBook_id);
       },
     },
+    {
+      text: "Return Book",
+      clickHandler: (userBook_id) => {
+        openModal("returnBook", "Confirm Book Return", userBook_id);
+      },
+    },
+    { text: "Message Friend" },
   ];
 
   const renderOwnedBookRequest = (userBook) => {
@@ -135,13 +162,14 @@ const DashboardPage = () => {
     );
   };
 
-  const booksYouOwnMenuItems = [
+  const booksToFriendsMenuItems = [
     {
-      text: "message",
+      text: "Message",
       clickHandler: () => {
         alert("message user");
       },
     },
+    { text: "Details" },
   ];
   const renderBooksToFriends = (userBook) => {
     const { _id, book, sender, dueDate } = userBook;
@@ -153,7 +181,7 @@ const DashboardPage = () => {
         dueDate={dueDate}
         setActive={setActiveCard}
         isActive={activeCard === _id}
-        menuItems={booksYouOwnMenuItems}
+        menuItems={booksToFriendsMenuItems}
       />
     );
   };
@@ -175,10 +203,9 @@ const DashboardPage = () => {
     );
   };
 
-  const renderModalItem = (activeCard) => {
+  const ChangePageCountForm = ({ bookData }) => {
     if (booksFromFriends.length === 0) return null;
-    const _userBook = booksFromFriends.find((item) => item._id === activeCard);
-    console.log("_userBook", _userBook);
+    const _userBook = booksFromFriends.find((item) => item._id === bookData);
     if (!_userBook) return null;
     const {
       _id: userBook_id,
@@ -210,10 +237,28 @@ const DashboardPage = () => {
     );
   };
 
+  const ReturnBookForm = ({ bookData }) => {
+    const _userBook = booksFromFriends.find((item) => item._id === bookData);
+    if (!_userBook) return null;
+    const { owner, book, dueDate } = _userBook;
+    const _book = { ...book, dueDate };
+    return (
+      <>
+        <CurrentRead book={_book} user={owner} progress={false} />
+        <div>
+          <p>
+            Do you want to return {book.title} to {owner.username}?
+          </p>
+          <Button varient="accept">Return Book</Button>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className={`container ${styles.container}`}>
-      <Modal isOpen={modal} setIsOpen={setModal} title="set current page">
-        {renderModalItem(activeCard)}
+      <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>
+        {getModalContent()}
       </Modal>
       <h3 className={styles.title}>Current Read</h3>
       {renderCurrentRead(populateCurrentRead(currentRead?._id))}

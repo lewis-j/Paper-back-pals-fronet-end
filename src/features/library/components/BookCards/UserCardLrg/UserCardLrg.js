@@ -36,7 +36,7 @@ const UserCardLrg = ({
 
   return (
     <div className={styles.container} style={{ maxWidth: "540px" }}>
-      {!isActive && (
+      {!isActive && menuItems.length !== 0 && (
         <div className={styles.menuBtn} onClick={() => setActive(userCard_id)}>
           <FontAwesomeIcon icon={faBars} size="lg" />
         </div>
