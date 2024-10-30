@@ -1,8 +1,8 @@
 export {
   BookContainer,
   BookCard,
-  UserCardLrg,
   UserBookCardSm,
+  UserBookCardLrg,
   RequestCard,
   PageCountForm,
   RequestBadge,

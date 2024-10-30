@@ -10,7 +10,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 
-const UserCardLrg = ({
+const UserBookCardLrg = ({
   _id: userCard_id,
   book,
   icon,
@@ -94,4 +94,4 @@ const UserCardLrg = ({
   );
 };
 
-export default UserCardLrg;
+export default UserBookCardLrg;

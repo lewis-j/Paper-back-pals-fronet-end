@@ -1,7 +1,7 @@
 export {
   BookCard,
-  UserCardLrg,
   UserBookCardSm,
+  UserBookCardLrg,
   RequestBadge,
 } from "./BookCards";
 export { BookContainer } from "./BookContainer";
