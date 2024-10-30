@@ -2,16 +2,9 @@ import React from "react";
 import { Button, Modal } from "../../../components";
 import { PageCountForm, UserBookCardLrg } from "../../../features/library";
 const DashboardModal = ({ modal, onClose, booksFromFriends }) => {
-  const getUserBook = (bookData) => {
-    return booksFromFriends.find((item) => item._id === bookData);
-  };
-
-  const ChangePageCountForm = ({ bookData }) => {
-    console.log("bookData", bookData);
+  const ChangePageCountForm = ({ userBook }) => {
     if (booksFromFriends.length === 0) return null;
-    const _userBook = booksFromFriends.find((item) => item._id === bookData);
-    console.log("_userBook", _userBook);
-    if (!_userBook) return null;
+    if (!userBook) return null;
     const {
       _id: userBook_id,
       owner,
@@ -19,7 +12,7 @@ const DashboardModal = ({ modal, onClose, booksFromFriends }) => {
       dueDate,
       request,
       currentPage,
-    } = _userBook;
+    } = userBook;
     const _book = { ...book, dueDate };
     const pageCountFormSubmit = (currentPage) => {
       //   handleUpdatePageCount(request._id, currentPage, userBook_id);
@@ -36,10 +29,9 @@ const DashboardModal = ({ modal, onClose, booksFromFriends }) => {
     );
   };
 
-  const ReturnBookForm = ({ bookData }) => {
-    const _userBook = booksFromFriends.find((item) => item._id === bookData);
-    if (!_userBook) return null;
-    const { owner, book, dueDate } = _userBook;
+  const ReturnBookForm = ({ userBook }) => {
+    if (!userBook) return null;
+    const { owner, book, dueDate } = userBook;
     const _book = { ...book, dueDate };
     return (
       <>
@@ -55,13 +47,11 @@ const DashboardModal = ({ modal, onClose, booksFromFriends }) => {
   };
 
   const getModalContent = () => {
-    const userBook = getUserBook(modal.data);
-
     switch (modal.type) {
       case "pageCount":
-        return <ChangePageCountForm userBook={userBook} onClose={onClose} />;
+        return <ChangePageCountForm userBook={modal.data} onClose={onClose} />;
       case "returnBook":
-        return <ReturnBookForm userBook={userBook} onClose={onClose} />;
+        return <ReturnBookForm userBook={modal.data} onClose={onClose} />;
       default:
         return null;
     }

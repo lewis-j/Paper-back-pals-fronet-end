@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./DashboardPage.module.scss";
 import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { useBookSelectors } from "./hooks/useBookActions";
 import { useDashboardState } from "./hooks/useDashboardState";
 import CurrentReadSection from "./components/CurrentReadSection";
 import BooksFromFriendsSection from "./components/BooksFromFriendsSection";
 import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
 import DashboardModal from "./components/DashboardModal";
+import { useBookSelectors } from "./hooks/useBookSelectors";
 
 const DashboardPage = () => {
   const { currentRead, booksToFriends, booksFromFriends, ownedBookRequests } =

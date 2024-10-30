@@ -2,7 +2,7 @@ import React from "react";
 import { ResponsiveSlider } from "../../../components";
 import { UserBookCardSm } from "../../../features/library";
 import { getProgressInPercent } from "../../../utilities/bookUtilities";
-import { useBookSelectors } from "../hooks/useBookActions";
+
 import styles from "../DashboardPage.module.scss";
 import EmptyStatePrompt from "./EmptyStatePrompt/EmptyStatePrompt";
 
@@ -12,26 +12,24 @@ const BooksFromFriendsSection = ({
   setActiveCard,
   openModal,
 }) => {
-  const { handleUpdateCurrentRead } = useBookSelectors();
-
-  const getMenuItems = (userBook_id) => [
+  const getMenuItems = (userBook) => [
     {
       text: "Current Read",
       clickHandler: () => {
-        handleUpdateCurrentRead(userBook_id);
+        //handleUpdateCurrentRead(userBook_id);
         setActiveCard("");
       },
     },
     {
       text: "Update Page Count",
       clickHandler: () => {
-        openModal("pageCount", "Update Page Count", userBook_id);
+        openModal("pageCount", "Update Page Count", userBook);
       },
     },
     {
       text: "Return Book",
       clickHandler: () => {
-        openModal("returnBook", "Confirm Book Return", userBook_id);
+        openModal("returnBook", "Confirm Book Return", userBook);
       },
     },
   ];
@@ -51,7 +49,7 @@ const BooksFromFriendsSection = ({
         readingProgress={readingProgress}
         setActive={setActiveCard}
         isActive={activeCard === _id}
-        menuItems={getMenuItems(_id)}
+        menuItems={getMenuItems(userBook)}
       />
     );
   };
