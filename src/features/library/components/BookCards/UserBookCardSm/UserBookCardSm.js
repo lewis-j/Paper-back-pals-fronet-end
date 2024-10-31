@@ -5,29 +5,27 @@ import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { Progress } from "reactstrap";
 import { Avatar, Button } from "../../../../../components";
 import { dayMonthFormat } from "../../../../../utilities/timeUtil";
+import { getProgressInPercent } from "../../../../../utilities/bookUtilities";
 
 const UserBookCardSm = ({
   _id: userCard_id,
   book,
-  icon,
   user,
   dueDate,
-  menuItems = [
-    {
-      text: "message",
-      clickHandler: () => {
-        alert("send message");
-      },
-    },
-  ],
-  readingProgress = 0,
+  currentPage = 0,
+  menuItems = [],
   isActive = false,
   setActive,
 }) => {
-  const { coverImg, title } = book;
-  const formattedDueDate = dueDate ? dayMonthFormat(dueDate) : null;
+  const { coverImg, title, pageCount = 0 } = book;
   const { username, profilePic } = user;
+  const formattedDueDate = dueDate ? dayMonthFormat(dueDate) : null;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+
+  const readingProgress =
+    currentPage === 0 || pageCount === 0
+      ? 0
+      : getProgressInPercent(currentPage, pageCount);
 
   const cardFilter = isActive
     ? {

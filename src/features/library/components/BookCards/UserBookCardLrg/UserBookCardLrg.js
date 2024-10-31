@@ -6,33 +6,27 @@ import styles from "./UserCardLrg.module.scss";
 
 import { getProgressInPercent } from "../../../../../utilities/bookUtilities";
 import { dayMonthFormat } from "../../../../../utilities/timeUtil";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 
 const UserBookCardLrg = ({
   _id: userCard_id,
   book,
-  icon,
+  user,
+  dueDate,
+  currentPage = 0,
+  menuItems = [],
   isActive,
   setActive,
-  user,
-  progress = true,
-  menuItems = [],
 }) => {
-  const {
-    coverImg,
-    authors,
-    title,
-    dueDate: _dueDate,
-    currentPage = 30,
-    pageCount = 224,
-  } = book;
-
-  const dueDate = dayMonthFormat(_dueDate);
+  const { coverImg, authors, title, pageCount = 0 } = book;
   const { username, profilePic } = user;
+  const formattedDueDate = dueDate ? dayMonthFormat(dueDate) : null;
 
-  const readingProgress = getProgressInPercent(currentPage, pageCount);
+  const readingProgress =
+    currentPage === 0 || pageCount === 0
+      ? 0
+      : getProgressInPercent(currentPage, pageCount);
 
   return (
     <div className={styles.container} style={{ maxWidth: "540px" }}>
@@ -57,10 +51,10 @@ const UserBookCardLrg = ({
         {username}
         <dl className={styles.dueDate}>
           <dt>Due Date:</dt>
-          <dd>{dueDate}</dd>
+          <dd>{formattedDueDate}</dd>
         </dl>
 
-        {progress && (
+        {readingProgress !== 0 && (
           <div className={styles.progressContainer}>
             <small>
               Reading Progress: {currentPage} of {pageCount}

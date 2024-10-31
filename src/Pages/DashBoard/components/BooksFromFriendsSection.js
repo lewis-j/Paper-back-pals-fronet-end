@@ -10,46 +10,22 @@ const BooksFromFriendsSection = ({
   books,
   activeCard,
   setActiveCard,
-  openModal,
+  menuItems,
 }) => {
-  const getMenuItems = (userBook) => [
-    {
-      text: "Current Read",
-      clickHandler: () => {
-        //handleUpdateCurrentRead(userBook_id);
-        setActiveCard("");
-      },
-    },
-    {
-      text: "Update Page Count",
-      clickHandler: () => {
-        openModal("pageCount", "Update Page Count", userBook);
-      },
-    },
-    {
-      text: "Return Book",
-      clickHandler: () => {
-        openModal("returnBook", "Confirm Book Return", userBook);
-      },
-    },
-  ];
-
-  const renderBook = (userBook) => {
+  const renderBook = (userBook, idx) => {
     const { _id, book, owner, dueDate, currentPage } = userBook;
-
-    const readingProgress = getProgressInPercent(currentPage, book.pageCount);
 
     return (
       <UserBookCardSm
-        key={_id}
+        key={`${_id}-${idx}`}
         _id={_id}
         book={book}
         user={owner}
         dueDate={dueDate}
-        readingProgress={readingProgress}
+        currentPage={currentPage}
         setActive={setActiveCard}
         isActive={activeCard === _id}
-        menuItems={getMenuItems(userBook)}
+        menuItems={menuItems}
       />
     );
   };

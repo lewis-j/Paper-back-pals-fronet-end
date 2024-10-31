@@ -4,24 +4,12 @@ import { UserBookCardSm } from "../../../features/library";
 import EmptyStatePrompt from "./EmptyStatePrompt/EmptyStatePrompt";
 import styles from "../DashboardPage.module.scss";
 
-const BooksToFriendsSection = ({ books, activeCard, setActiveCard }) => {
-  const getMenuItems = (userBook_id) => [
-    {
-      text: "Message Friend",
-      clickHandler: () => {
-        // TODO: Implement messaging functionality
-        alert("Message functionality to be implemented");
-      },
-    },
-    {
-      text: "View Details",
-      clickHandler: () => {
-        // TODO: Implement view details functionality
-        alert("View details functionality to be implemented");
-      },
-    },
-  ];
-
+const BooksToFriendsSection = ({
+  books,
+  activeCard,
+  setActiveCard,
+  menuItems,
+}) => {
   const renderBook = (userBook) => {
     const {
       _id,
@@ -39,7 +27,7 @@ const BooksToFriendsSection = ({ books, activeCard, setActiveCard }) => {
         dueDate={dueDate}
         setActive={setActiveCard}
         isActive={activeCard === _id}
-        menuItems={getMenuItems(_id)}
+        menuItems={menuItems}
       />
     );
   };

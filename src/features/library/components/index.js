@@ -7,4 +7,4 @@ export {
 export { BookContainer } from "./BookContainer";
 export { RequestCard } from "./RequestCard";
 export { BookInfo } from "./BookInfo";
-export { PageCountForm } from "./PageCountForm";
+export { PageCountForm } from "./ModalForms/PageCountForm";

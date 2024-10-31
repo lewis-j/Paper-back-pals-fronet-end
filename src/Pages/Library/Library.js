@@ -66,7 +66,7 @@ const Library = () => {
       <BookCol key={`LibraryBookCard${_id}`}>
         <BookCard
           _id={_id}
-          cardInfo={cardInfo}
+          book={cardInfo}
           menuItems={menuList}
           isActive={activeCard === _id}
           setActive={setActiveCard}

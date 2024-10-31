@@ -8,7 +8,7 @@ const CurrentReadSection = ({
   currentRead,
   activeCard,
   setActiveCard,
-  openModal,
+  menuItems,
 }) => {
   const EmptyStatePrompt = ({ title, text, route }) => {
     return (
@@ -31,32 +31,14 @@ const CurrentReadSection = ({
     }
 
     const { _id, owner, book, dueDate, currentPage } = currentRead;
-    const _book = {
-      ...book,
-      dueDate,
-      currentPage,
-    };
-
-    const menuItems = [
-      {
-        text: "Update Page Count",
-        clickHandler: () => {
-          openModal("pageCount", "Update Page Count", _id);
-        },
-      },
-      {
-        text: "Return Book",
-        clickHandler: () => {
-          openModal("returnBook", "Return Book", _id);
-        },
-      },
-    ];
 
     return (
       <UserBookCardLrg
         _id={_id}
-        book={_book}
+        book={book}
         user={owner}
+        dueDate={dueDate}
+        currentPage={currentPage}
         isActive={activeCard === _id}
         setActive={setActiveCard}
         menuItems={menuItems}

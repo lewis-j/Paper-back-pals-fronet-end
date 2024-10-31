@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../../../../components";
+import { Button } from "../../../../../components";
 import styles from "./PageCountForm.module.scss";
 
 const PageCountForm = ({ currentPage = 123123, onSubmit }) => {

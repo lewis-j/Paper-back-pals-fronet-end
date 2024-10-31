@@ -8,7 +8,7 @@ import { _s } from "../../../../../style";
 
 const BookCard = ({
   _id,
-  cardInfo,
+  book,
   menuItems = [],
   isActive = false,
   setActive,
@@ -16,7 +16,7 @@ const BookCard = ({
   iconStyle = {},
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const { coverImg, title } = cardInfo;
+  const { coverImg, title } = book;
 
   const cardFilter = isActive
     ? {

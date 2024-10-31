@@ -1,48 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./DashboardPage.module.scss";
-import { getProgressInPercent } from "../../utilities/bookUtilities";
-import { useDashboardState } from "./hooks/useDashboardState";
 import CurrentReadSection from "./components/CurrentReadSection";
 import BooksFromFriendsSection from "./components/BooksFromFriendsSection";
 import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
-import DashboardModal from "./components/DashboardModal";
 import { useBookSelectors } from "./hooks/useBookSelectors";
+import { getMenuItems, getModalContent } from "./dashboardHelpers";
+import useModalMenu from "./components/useModalMenu";
 
 const DashboardPage = () => {
   const { currentRead, booksToFriends, booksFromFriends, ownedBookRequests } =
     useBookSelectors();
 
-  const { modal, activeCard, setActiveCard, openModal, closeModal } =
-    useDashboardState();
+  const [activeCardId, setActiveCard] = useState("");
+
+  const { menuItems, renderModal } = useModalMenu(
+    getMenuItems(activeCardId),
+    getModalContent
+  );
+
+  const createBookFinder = (userBook) => (book_id) => {
+    return userBook.find((book) => book._id === book_id);
+  };
+
+  const fromFriendsMenuItems = menuItems.booksFromFriends(
+    createBookFinder(booksFromFriends)
+  );
+
+  const toFriendsMenuItems = menuItems.booksToFriends(
+    createBookFinder(booksToFriends)
+  );
 
   return (
     <div className={`container ${styles.container}`}>
-      <DashboardModal
-        modal={modal}
-        onClose={closeModal}
-        booksFromFriends={booksFromFriends}
-      />
+      {renderModal()}
       <CurrentReadSection
         currentRead={currentRead}
-        activeCard={activeCard}
+        activeCard={activeCardId}
         setActiveCard={setActiveCard}
-        openModal={openModal}
+        menuItems={menuItems.currentRead(currentRead)}
       />
       <BooksFromFriendsSection
         books={booksFromFriends}
-        activeCard={activeCard}
+        activeCard={activeCardId}
         setActiveCard={setActiveCard}
-        openModal={openModal}
+        menuItems={fromFriendsMenuItems}
       />
       <BooksToFriendsSection
         books={booksToFriends}
-        activeCard={activeCard}
+        activeCard={activeCardId}
         setActiveCard={setActiveCard}
+        menuItems={toFriendsMenuItems}
       />
       <BookRequestsSection
         requests={ownedBookRequests}
-        activeCard={activeCard}
+        activeCard={activeCardId}
         setActiveCard={setActiveCard}
       />
     </div>
