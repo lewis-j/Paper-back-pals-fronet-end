@@ -5,7 +5,7 @@ import BooksFromFriendsSection from "./components/BooksFromFriendsSection";
 import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
 import { useBookSelectors } from "./hooks/useBookSelectors";
-import { getMenuItems, getModalContent } from "./dashboardHelpers";
+import { getMenuItems, getModalContent } from "./dashboardMenuConfig";
 import useModalMenu from "./components/useModalMenu";
 
 const DashboardPage = () => {

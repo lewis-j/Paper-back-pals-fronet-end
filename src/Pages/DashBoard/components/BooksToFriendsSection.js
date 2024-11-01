@@ -16,8 +16,9 @@ const BooksToFriendsSection = ({
       book,
       sender, // The friend who borrowed the book
       dueDate,
+      currentPage,
     } = userBook;
-
+    console.log("Userbook in BooksToFriendsSection", userBook);
     return (
       <UserBookCardSm
         key={_id}
@@ -25,6 +26,7 @@ const BooksToFriendsSection = ({
         book={book}
         user={sender}
         dueDate={dueDate}
+        currentPage={currentPage}
         setActive={setActiveCard}
         isActive={activeCard === _id}
         menuItems={menuItems}

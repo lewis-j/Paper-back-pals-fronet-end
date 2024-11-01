@@ -80,13 +80,9 @@ const Library = () => {
   );
 
   const renderCheckedOutUserBookCard = (userBook, i) => {
-    const {
-      _id,
-      book: { coverImg, title },
-      dueDate,
-      sender,
-    } = userBook;
-    const book = { _id, coverImg, title, dueDate };
+    const { _id, book, dueDate, currentPage, sender } = userBook;
+
+    console.log("Userbook in renderCheckedOutUserBookCard", userBook);
 
     // const { menu } = filterRequest(bookData._id);
     return (
@@ -95,6 +91,8 @@ const Library = () => {
           _id={_id}
           book={book}
           user={sender}
+          dueDate={dueDate}
+          currentPage={currentPage}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
         />

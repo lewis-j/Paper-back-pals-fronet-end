@@ -44,15 +44,19 @@ const Library = () => {
   );
 
   const mapCheckedOutBooks = (userBook, i) => {
+    console.log("Userbook in mapCheckedOutBooks", userBook);
+    const { _id, book, sender, dueDate, currentPage } = userBook;
     return (
       <BookCol key={`LibraryCard:${userBook._id}`}>
         <UserBookCardSm
-          _id={userBook._id}
-          book={userBook.book}
+          _id={_id}
+          book={book}
           menuItems={menuList}
-          user={userBook.sender}
+          user={sender}
+          dueDate={dueDate}
+          currentPage={currentPage}
           setActive={setActiveCard}
-          isActive={activeCard === userBook._id}
+          isActive={activeCard === _id}
         />
       </BookCol>
     );

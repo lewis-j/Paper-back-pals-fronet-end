@@ -63,7 +63,7 @@ const BorrowedPage = () => {
   );
 
   const renderBooks = (userBook) => {
-    const { _id, book, owner, dueDate } = userBook;
+    const { _id, book, owner, dueDate, currentPage } = userBook;
 
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryCard:${_id}`}>
@@ -72,6 +72,7 @@ const BorrowedPage = () => {
           book={book}
           user={owner}
           dueDate={dueDate}
+          currentPage={currentPage}
           setActive={setActiveCard}
           isActive={activeCard === _id}
           menuItems={checkedOutBookMenuitems}

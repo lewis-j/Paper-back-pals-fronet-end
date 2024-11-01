@@ -20,7 +20,7 @@ const BookRequestsSection = ({ requests, activeCard, setActiveCard }) => {
       <RequestBadge key={_id} count={requestCount}>
         <BookCard
           _id={_id}
-          cardInfo={{ coverImg, title }}
+          book={{ coverImg, title }}
           setActive={setActiveCard}
           isActive={activeCard === _id}
         />
