@@ -5,7 +5,8 @@
   border: 1px solid $box-border-colors;
   border-radius: 3px;
   margin: 0.3em;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.2;
   &:hover {
     transform: scale(0.95);
   }
@@ -34,7 +35,17 @@
   color: $grey-1;
   border: 1px solid $grey-1;
   background-color: transparent;
-  filter: drop-shadow(2px 2px 4px $grey-1);
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+  font-size: 0.8em;
+  padding: 0.4em 0.6em;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 }
 
 .granite-outline {

@@ -12,12 +12,8 @@ const DashboardPage = () => {
   const { currentRead, booksToFriends, booksFromFriends, ownedBookRequests } =
     useBookSelectors();
 
-  const [activeCardId, setActiveCard] = useState("");
-
-  const { menuItems, renderModal } = useModalMenu(
-    getMenuItems(activeCardId),
-    getModalContent
-  );
+  const { menuItems, renderModal, activeCardId, setActiveCardId } =
+    useModalMenu(getMenuItems, getModalContent);
 
   const createBookFinder = (userBook) => (book_id) => {
     return userBook.find((book) => book._id === book_id);
@@ -31,31 +27,36 @@ const DashboardPage = () => {
     createBookFinder(booksToFriends)
   );
 
+  const requestMenuItems = menuItems.bookRequests(
+    createBookFinder(ownedBookRequests)
+  );
+
   return (
     <div className={`container ${styles.container}`}>
       {renderModal()}
       <CurrentReadSection
         currentRead={currentRead}
         activeCard={activeCardId}
-        setActiveCard={setActiveCard}
+        setActiveCard={setActiveCardId}
         menuItems={menuItems.currentRead(currentRead)}
       />
       <BooksFromFriendsSection
         books={booksFromFriends}
         activeCard={activeCardId}
-        setActiveCard={setActiveCard}
+        setActiveCard={setActiveCardId}
         menuItems={fromFriendsMenuItems}
       />
       <BooksToFriendsSection
         books={booksToFriends}
         activeCard={activeCardId}
-        setActiveCard={setActiveCard}
+        setActiveCard={setActiveCardId}
         menuItems={toFriendsMenuItems}
       />
       <BookRequestsSection
         requests={ownedBookRequests}
         activeCard={activeCardId}
-        setActiveCard={setActiveCard}
+        setActiveCard={setActiveCardId}
+        menuItems={requestMenuItems}
       />
     </div>
   );

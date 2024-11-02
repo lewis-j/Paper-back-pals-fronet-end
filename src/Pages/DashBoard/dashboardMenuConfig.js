@@ -1,5 +1,6 @@
 import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm";
 import ReturnBookForm from "../../features/library/components/ModalForms/ReturnBookForm";
+import ViewRequestsForm from "../../features/library/components/ModalForms/ViewRequestsForm";
 
 // Constants
 const MODAL_TYPES = {
@@ -10,10 +11,11 @@ const MODAL_TYPES = {
   SEND_MESSAGE: "sendMessage",
   EXTEND_BORROW: "extendBorrow",
   MARK_COMPLETE: "markComplete",
+  VIEW_REQUESTS: "viewRequests",
 };
 
 // Menu configurations for different sections
-export const getMenuItems = (book_id) => (openModal) => ({
+export const getMenuItems = (openModal, book_id) => ({
   booksFromFriends: (getUserBookById) => {
     const userBook = getUserBookById(book_id);
 
@@ -108,6 +110,32 @@ export const getMenuItems = (book_id) => (openModal) => ({
       },
     ];
   },
+
+  bookRequests: (getUserBookById) => {
+    const userBook = getUserBookById(book_id);
+    return [
+      {
+        text: "View Requests",
+        clickHandler: () => {
+          openModal(MODAL_TYPES.VIEW_REQUESTS, "Book Requests", userBook);
+        },
+      },
+      {
+        text: "Message Requesters",
+        clickHandler: () => {
+          // TODO: Implement messaging functionality
+          alert("Message functionality to be implemented");
+        },
+      },
+      {
+        text: "Remove from Library",
+        clickHandler: () => {
+          // TODO: Implement remove book functionality
+          alert("Remove book functionality to be implemented");
+        },
+      },
+    ];
+  },
 });
 
 // Modal content components
@@ -118,6 +146,8 @@ export const getModalContent = (modal, onClose) => {
       return <ChangePageCountForm userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.RETURN_BOOK:
       return <ReturnBookForm userBook={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.VIEW_REQUESTS:
+      return <ViewRequestsForm userBook={modal.data} onClose={onClose} />;
     default:
       return null;
   }

@@ -7,8 +7,10 @@ import styles from "./Modal.module.scss";
 const Modal = ({ children, title, onClose, isOpen, style }) => {
   useEffect(() => {
     if (!isOpen) return null;
-    const closeModal = () => {
-      onClose();
+    const closeModal = (e) => {
+      if (e.target.className === styles.wrapper) {
+        onClose();
+      }
     };
     window.addEventListener("click", closeModal);
 
@@ -28,7 +30,7 @@ const Modal = ({ children, title, onClose, isOpen, style }) => {
       >
         <div className={styles.header}>
           <h5>{title}</h5>
-          <span onClick={() => onClose()}>
+          <span className={styles.closeBtn} onClick={() => onClose()}>
             <FontAwesomeIcon icon={faXmark} />
           </span>
         </div>

@@ -18,7 +18,6 @@ const BooksToFriendsSection = ({
       dueDate,
       currentPage,
     } = userBook;
-    console.log("Userbook in BooksToFriendsSection", userBook);
     return (
       <UserBookCardSm
         key={_id}

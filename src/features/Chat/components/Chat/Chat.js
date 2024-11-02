@@ -62,7 +62,6 @@ const Chat = () => {
         message: messageInput,
         sender: selectedUser._id,
       };
-      console.log("sending message data", messageData);
       socket.emit("sendMessage", messageData);
       setMessageInput("");
     }

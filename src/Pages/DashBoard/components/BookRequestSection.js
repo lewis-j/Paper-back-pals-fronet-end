@@ -4,7 +4,12 @@ import { BookCard, RequestBadge } from "../../../features/library";
 import styles from "../DashboardPage.module.scss";
 import EmptyStatePrompt from "./EmptyStatePrompt/EmptyStatePrompt";
 
-const BookRequestsSection = ({ requests, activeCard, setActiveCard }) => {
+const BookRequestsSection = ({
+  requests,
+  activeCard,
+  setActiveCard,
+  menuItems,
+}) => {
   const renderBookRequest = (userBook) => {
     const {
       _id,
@@ -23,6 +28,7 @@ const BookRequestsSection = ({ requests, activeCard, setActiveCard }) => {
           book={{ coverImg, title }}
           setActive={setActiveCard}
           isActive={activeCard === _id}
+          menuItems={menuItems}
         />
       </RequestBadge>
     );

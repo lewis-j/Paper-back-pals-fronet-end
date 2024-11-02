@@ -71,12 +71,58 @@ $transitionSpeed: 0.1s;
 
 .menu {
   position: absolute;
-  top: 0px;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0.6em;
+  justify-content: center;
+  gap: 0.5px;
+  padding: 0.8em;
   height: 103%;
   width: 100%;
-  background-color: #00000075;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+
+  button {
+    width: 100%;
+    padding: 0.4em 0.6em;
+    font-size: 0.8em;
+    letter-spacing: 0.3px;
+    white-space: normal;
+    line-height: 1.2;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.menuVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menuBtn {
+  cursor: pointer;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }

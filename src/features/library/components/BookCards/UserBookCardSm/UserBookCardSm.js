@@ -20,7 +20,6 @@ const UserBookCardSm = ({
   const { coverImg, title, pageCount = 0 } = book;
   const { username, profilePic } = user;
   const formattedDueDate = dueDate ? dayMonthFormat(dueDate) : null;
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const readingProgress =
     currentPage === 0 || pageCount === 0
@@ -33,41 +32,36 @@ const UserBookCardSm = ({
         imgStyle: styles.imgOpen,
         icon: faX,
         size: "xs",
-        menuBtnClick: () => {
-          setActive("");
-        },
+        menuBtnClick: () => setActive(""),
       }
     : {
         infoStyle: styles.info,
         imgStyle: styles.img,
         icon: faBars,
         size: "sm",
-        menuBtnClick: () => {
-          console.log("userCard_id", userCard_id);
-          setActive(userCard_id);
-        },
+        menuBtnClick: () => setActive(userCard_id),
       };
   return (
     <>
       <div className={styles.container}>
-        <div
-          className={cardFilter.imgStyle}
-          onTransitionEnd={() => {
-            setIsMenuVisible(isActive);
-          }}
-        >
+        <div className={cardFilter.imgStyle}>
           <img
             src={coverImg}
             alt={`${title} book cover`}
             referrerPolicy="no-referrer"
           />
-          {isMenuVisible && menuItems.length !== 0 && (
-            <div className={styles.menu}>
+          {menuItems.length > 0 && (
+            <div
+              className={`${styles.menu} ${isActive ? styles.menuVisible : ""}`}
+              role="menu"
+              aria-hidden={!isActive}
+            >
               {menuItems.map(({ text, clickHandler }, i) => (
                 <Button
-                  key={`menu-list${i}`}
+                  key={`menu-item-${i}`}
                   onClick={() => clickHandler(userCard_id)}
                   varient="white-outline"
+                  role="menuitem"
                 >
                   {text}
                 </Button>

@@ -9,15 +9,18 @@ const useModalMenu = (getMenuItems, getModalContent) => {
     data: null,
   });
 
+  const [activeCardId, setActiveCardId] = useState("");
+
   const openModal = (type, title, data = null) => {
     setModal({ isOpen: true, type, title, data });
   };
 
   const closeModal = () => {
     setModal({ isOpen: false, type: null, title: null, data: null });
+    setActiveCardId("");
   };
 
-  const menuItems = getMenuItems(openModal);
+  const menuItems = getMenuItems(openModal, activeCardId);
 
   const renderModal = () => {
     console.log("modal", modal);
@@ -30,6 +33,8 @@ const useModalMenu = (getMenuItems, getModalContent) => {
   return {
     menuItems,
     renderModal,
+    activeCardId,
+    setActiveCardId,
   };
 };
 

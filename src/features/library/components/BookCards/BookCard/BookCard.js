@@ -15,7 +15,6 @@ const BookCard = ({
   icon = null,
   iconStyle = {},
 }) => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { coverImg, title } = book;
 
   const cardFilter = isActive
@@ -38,24 +37,18 @@ const BookCard = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.book}>
-        {icon && !isMenuVisible && (
+      <div className={`${styles.book} ${isActive ? styles.isActive : ""}`}>
+        {icon && !isActive && (
           <FontAwesomeIcon
             className={_s(styles.badge, iconStyle)}
             icon={icon}
           />
         )}
         <img className={styles.img} src={coverImg} alt={title} />
-        <div
-          onTransitionEnd={() => {
-            setIsMenuVisible(isActive);
-          }}
-          className={cardFilter.className}
-          onClick={cardFilter.menuBtnClick}
-        >
+        <div className={cardFilter.className} onClick={cardFilter.menuBtnClick}>
           <FontAwesomeIcon icon={cardFilter.icon} size={cardFilter.size} />
         </div>
-        {isMenuVisible && menuItems.length !== 0 && (
+        {isActive && menuItems.length !== 0 && (
           <div className={styles.menu}>
             {menuItems.map(({ text, clickHandler }, i) => (
               <Button
