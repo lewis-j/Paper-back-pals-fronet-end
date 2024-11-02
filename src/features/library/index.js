@@ -6,6 +6,7 @@ export {
   RequestCard,
   PageCountForm,
   RequestBadge,
+  BookStatusTracker,
 } from "./components";
 export { bookRequestStatus } from "./data";
 export {

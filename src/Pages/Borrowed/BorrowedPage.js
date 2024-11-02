@@ -1,7 +1,11 @@
 import { Col, Container, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import { IconBookOff } from "@tabler/icons";
-import { UserBookCardSm, BookContainer } from "../../features/library";
+import {
+  UserBookCardSm,
+  BookContainer,
+  BookStatusTracker,
+} from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
 import { useState } from "react";
 import { categorizeBorrowedBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
@@ -16,6 +20,7 @@ const BorrowedPage = () => {
   );
 
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowedBooks);
+  console.log("borrowedBookCategories", borrowedBookCategories);
   const checkedOut = borrowedBookCategories.CHECKED_OUT || [];
   const pendingBooks = borrowedBookCategories.CHECKED_IN || [];
 
@@ -84,9 +89,50 @@ const BorrowedPage = () => {
   const renderBorrowedBooks = checkedOut.map(renderBooks);
   const renderPendingBooks = pendingBooks.map(renderBooks);
 
+  const booksInTransition = borrowedBooks.filter((book) =>
+    ["SENDING", "RETURNING", "ACCEPTED", "IS_DUE"].includes(
+      book.request?.status
+    )
+  );
+
+  const handleConfirmPickup = async (bookId) => {
+    // API call to confirm book pickup
+    console.log("Confirming pickup for book:", bookId);
+  };
+
+  const handleStartReturn = async (bookId) => {
+    // API call to start return process
+    console.log("Starting return process for book:", bookId);
+  };
+
+  const handleConfirmDropoff = async (bookId) => {
+    // API call to confirm book dropoff
+    console.log("Confirming dropoff for book:", bookId);
+  };
+
   return (
     <>
       <Container>
+        {booksInTransition.length > 0 && (
+          <>
+            <div>
+              <h4 className={styles.subtitle}>In Progress</h4>
+            </div>
+            <Row>
+              {booksInTransition.map((book) => (
+                <Col xs="12" key={`tracker-${book._id}`}>
+                  <BookStatusTracker
+                    book={book}
+                    isBorrower={true}
+                    onConfirmPickup={handleConfirmPickup}
+                    onStartReturn={handleStartReturn}
+                    onConfirmDropoff={handleConfirmDropoff}
+                  />
+                </Col>
+              ))}
+            </Row>
+          </>
+        )}
         <div className={styles.title}>
           <h1>Borrowed Library</h1>
         </div>
