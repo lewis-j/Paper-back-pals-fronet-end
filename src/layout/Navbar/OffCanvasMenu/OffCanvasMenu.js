@@ -12,6 +12,7 @@ import {
   faCircleUser,
   faUsers,
   faBell,
+  faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 import * as NavLinks from "../NavLinks";
 import styles from "./OffCanvasMenu.module.scss";
@@ -21,6 +22,7 @@ import { SideMenu } from "../../SideMenu";
 import { NotificationsPanel } from "../../../features/Notifications";
 import { useDispatch } from "react-redux";
 import { setNotificationsIsOpen } from "../../../features/Notifications/notificationsSlice";
+import { setChatOpen } from "../../../features/Chat/chatSlice";
 
 const OffCanvasMenu = ({ expandSize }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -32,11 +34,20 @@ const OffCanvasMenu = ({ expandSize }) => {
     (state) => state.notifications
   );
 
+  const { isChatOpen } = useSelector((state) => state.chat);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const setIsNotifOpen = (isOpen) => {
     dispatch(setNotificationsIsOpen(isOpen));
+  };
+
+  const toggleChat = () => {
+    dispatch(setChatOpen(!isChatOpen));
+    if (isNavOpen) {
+      setIsNavOpen(false);
+    }
   };
 
   const clickedLink = () => {
@@ -54,6 +65,14 @@ const OffCanvasMenu = ({ expandSize }) => {
       >
         <FontAwesomeIcon
           icon={faBell}
+          size="xl"
+          style={{ boxSizing: "border-box" }}
+          className={styles.friendsIcon}
+        />
+      </button>
+      <button color="light" className={styles.btn} onClick={toggleChat}>
+        <FontAwesomeIcon
+          icon={faMessage}
           size="xl"
           style={{ boxSizing: "border-box" }}
           className={styles.friendsIcon}
@@ -120,7 +139,10 @@ const OffCanvasMenu = ({ expandSize }) => {
               <NavLinks.Friends closeOnClick={clickedLink} />
             </NavItem>
             <NavItem>
-              <NavLinks.Messages closeOnClick={clickedLink} />
+              <NavLinks.Messages
+                onClick={toggleChat}
+                closeOnClick={clickedLink}
+              />
             </NavItem>
             <NavItem>
               <NavLinks.Settings closeOnClick={clickedLink} />

@@ -1,4 +1,4 @@
-import { useEffect, Suspense, lazy } from "react";
+import { useEffect, Suspense, lazy, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
@@ -11,6 +11,8 @@ import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
 import { fetchNotifications } from "./features/Notifications";
 import Chat from "./features/Chat/components/Chat/Chat";
+import ChatModal from "./features/Chat/components/ChatModal/ChatModal";
+import { setChatOpen } from "./features/Chat/chatSlice";
 
 const Library = lazy(() =>
   import("./Pages").then((module) => ({ default: module.Library }))
@@ -93,10 +95,19 @@ function App() {
             <Route path="friends" element={<FriendsPage />}>
               <Route path="library" element={<FriendsLibrary />} />
               <Route path="profile" element={<FriendsProfile />} />
-              <Route path="message" element={<Chat />} />
+              <Route
+                path="message"
+                element={
+                  <div onClick={() => dispatch(setChatOpen(true))}>
+                    Open Chat
+                  </div>
+                }
+              />
             </Route>
           </Route>
         </Routes>
+
+        <ChatModal />
 
         <Footer />
       </Suspense>

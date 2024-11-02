@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   messages: [],
   currentRoomId: null,
+  isChatOpen: false,
 };
 
 const chatSlice = createSlice({
@@ -18,8 +19,12 @@ const chatSlice = createSlice({
     setCurrentRoomId: (state, action) => {
       state.currentRoomId = action.payload;
     },
+    setChatOpen: (state, action) => {
+      state.isChatOpen = action.payload;
+    },
   },
 });
 
-export const { setMessages, addMessage, setCurrentRoomId } = chatSlice.actions;
+export const { setMessages, addMessage, setCurrentRoomId, setChatOpen } =
+  chatSlice.actions;
 export default chatSlice.reducer;

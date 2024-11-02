@@ -6,7 +6,7 @@ import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
 import { useBookSelectors } from "./hooks/useBookSelectors";
 import { getMenuItems, getModalContent } from "./dashboardMenuConfig";
-import useModalMenu from "./components/useModalMenu";
+import useModalMenu from "./hooks/useModalMenu";
 
 const DashboardPage = () => {
   const { currentRead, booksToFriends, booksFromFriends, ownedBookRequests } =
