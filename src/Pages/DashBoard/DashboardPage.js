@@ -5,7 +5,6 @@ import BooksFromFriendsSection from "./components/BooksFromFriendsSection";
 import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
 import { useBookSelectors } from "./hooks/useBookSelectors";
-import { getMenuItems, getModalContent } from "./dashboardMenuConfig";
 import useModalMenu from "./hooks/useModalMenu";
 
 const DashboardPage = () => {
@@ -13,7 +12,7 @@ const DashboardPage = () => {
     useBookSelectors();
 
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
-    useModalMenu(getMenuItems, getModalContent);
+    useModalMenu();
 
   const createBookFinder = (userBook) => (book_id) => {
     return userBook.find((book) => book._id === book_id);

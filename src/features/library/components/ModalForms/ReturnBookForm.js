@@ -8,7 +8,7 @@ import * as asyncStatus from "../../../../data/asyncStatus";
 const ReturnBookForm = ({ userBook }) => {
   const dispatch = useDispatch();
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
-  console.log("userBookAsyncStatus", userBookAsyncStatus);
+  console.log("Userbook in ReturnBookForm", userBook);
   if (!userBook) return null;
   const { owner, book, dueDate } = userBook;
   const handleReturnBook = () => {

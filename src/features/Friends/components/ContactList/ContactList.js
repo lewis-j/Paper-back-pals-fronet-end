@@ -2,7 +2,7 @@ import styles from "./ContactList.module.scss";
 import { UserCard } from "../UserCard";
 import { useSelector } from "react-redux";
 
-const ContactList = ({ activeId, setUser }) => {
+const ContactList = ({ activeId = null, setUser }) => {
   const { friendsList } = useSelector((state) => state.friends);
   if (!friendsList || friendsList.length === 0)
     return <div>no friends yet</div>;

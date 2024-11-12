@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal } from "../../../components";
+import { getMenuItems, getModalContent } from "../dashboardMenuConfig";
 
-const useModalMenu = (getMenuItems, getModalContent) => {
+const useModalMenu = () => {
   const [modal, setModal] = useState({
     isOpen: false,
     type: null,
@@ -32,6 +33,7 @@ const useModalMenu = (getMenuItems, getModalContent) => {
   };
   return {
     menuItems,
+    openModal,
     renderModal,
     activeCardId,
     setActiveCardId,

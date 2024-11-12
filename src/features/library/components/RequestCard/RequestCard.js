@@ -18,6 +18,7 @@ const RequestCard = ({
     _id: userBook_id,
     owner: { _id: recipient_id },
   } = userBook;
+  console.log("userBook in request card", userBook);
   const handleBookRequest = async () => {
     await dispatch(createBookRequest({ userBook_id, recipient_id })).unwrap();
     decline();
@@ -26,7 +27,7 @@ const RequestCard = ({
   const isLoading = userBookStatus === asyncStatus.LOADING;
   return (
     <div className={styles.container}>
-      <BookInfo {...userBook.book} />
+      <BookInfo {...userBook} />
       <div className={styles.button}>
         <Button
           disabled={isLoading}

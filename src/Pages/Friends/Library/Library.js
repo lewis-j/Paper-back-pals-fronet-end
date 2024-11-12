@@ -125,7 +125,7 @@ const Library = () => {
       <div className="container" ref={containerRef}>
         <Modal
           isOpen={isModalOpen}
-          setIsOpen={setIsModalOpen}
+          onClose={() => setIsModalOpen(false)}
           style={modalHeight}
           title="Request Status"
         >

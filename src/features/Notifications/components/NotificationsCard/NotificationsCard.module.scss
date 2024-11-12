@@ -4,30 +4,35 @@ $border: 1px solid variables.$box-border-colors;
 
 .container {
   width: 100%;
-  padding: 0.1em 0.5em;
-  // margin: 0.3em auto;
-  position: relative;
-  // max-width: 40em;
+  padding: 1rem;
   display: flex;
   flex-direction: row;
-  background-color: variables.$grey-2;
+  background-color: white;
   align-items: center;
-  border-bottom: $border;
-  box-shadow: variables.$sharp-box-shadow;
+  border-radius: 8px;
+  border: $border;
+  transition: all 0.2s ease;
 
   &:hover {
-    box-shadow: inset variables.$standard-box-shadow;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
+}
+
+.content {
+  width: 100%;
+  padding-left: 1rem;
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 0.5rem;
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
 }
-.content {
-  width: 100%;
-}
+
 .avatar {
   padding: 0.5em 1em 0.5em 0;
 }

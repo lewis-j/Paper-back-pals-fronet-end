@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "reactstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IconBookOff } from "@tabler/icons";
 import {
   UserBookCardSm,
@@ -12,12 +12,14 @@ import { categorizeBorrowedBooksByStatus } from "../../features/library/utilitie
 import { Button, NoContent } from "../../components";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { nextBookRequestStatus } from "../../features/library/userBookCalls";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
   const { borrowed: borrowedBooks } = useSelector(
     (state) => state.userBooks.books
   );
+  const dispatch = useDispatch();
 
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowedBooks);
   console.log("borrowedBookCategories", borrowedBookCategories);
@@ -95,19 +97,18 @@ const BorrowedPage = () => {
     )
   );
 
-  const handleConfirmPickup = async (bookId) => {
+  const handleConfirmPickup = async (requestId) => {
     // API call to confirm book pickup
-    console.log("Confirming pickup for book:", bookId);
+    console.log("Confirming pickup for book:", requestId);
+
+    dispatch(nextBookRequestStatus(requestId));
   };
 
-  const handleStartReturn = async (bookId) => {
-    // API call to start return process
-    console.log("Starting return process for book:", bookId);
-  };
-
-  const handleConfirmDropoff = async (bookId) => {
+  const handleConfirmDropoff = async (requestId) => {
     // API call to confirm book dropoff
-    console.log("Confirming dropoff for book:", bookId);
+    console.log("Confirming dropoff for book:", requestId);
+
+    dispatch(nextBookRequestStatus(requestId));
   };
 
   return (
@@ -125,7 +126,6 @@ const BorrowedPage = () => {
                     book={book}
                     isBorrower={true}
                     onConfirmPickup={handleConfirmPickup}
-                    onStartReturn={handleStartReturn}
                     onConfirmDropoff={handleConfirmDropoff}
                   />
                 </Col>

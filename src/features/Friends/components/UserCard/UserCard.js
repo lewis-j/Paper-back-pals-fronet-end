@@ -8,7 +8,7 @@ const UserCard = ({ _id, username, profilePic }) => {
       <div className={styles.avatar}>
         <Avatar imgSrc={profilePic} username={username} />
       </div>
-      <span className={styles.username}>{username}</span>
+      <h4 className={styles.username}>{username}</h4>
     </div>
   );
 };

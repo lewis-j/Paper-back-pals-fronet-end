@@ -8,6 +8,7 @@ import {
   IconAlertCircle,
 } from "@tabler/icons";
 import styles from "./BookStatusTracker.module.scss";
+import requestStatus from "../../../../data/requestStatus";
 
 const statusConfig = {
   CHECKED_IN: {
@@ -19,6 +20,7 @@ const statusConfig = {
     index: 1,
     label: "Accepted",
     icon: IconCheck,
+    ownerAction: "Confirm Drop-off",
   },
   SENDING: {
     index: 2,
@@ -41,7 +43,7 @@ const statusConfig = {
     index: 5,
     label: "Returning",
     icon: IconTruck,
-    ownerAction: "Confirm Return",
+    ownerAction: "Confirm Return Pickup",
   },
   RETURNED: {
     index: 6,
@@ -54,33 +56,36 @@ const BookStatusTracker = ({
   book,
   isBorrower = true,
   onConfirmPickup,
-  onStartReturn,
   onConfirmDropoff,
-  onConfirmReturn,
 }) => {
   const currentStatus = book.request?.status;
   const currentStatusConfig = statusConfig[currentStatus];
+  const requestId = book.request?.request_id;
 
   const handleAction = () => {
     if (!book._id) return;
 
     if (isBorrower) {
       switch (currentStatus) {
-        case "ACCEPTED":
-          onConfirmPickup?.(book._id);
+        case requestStatus.SENDING:
+          onConfirmPickup?.(requestId);
           break;
-        case "IS_DUE":
-          onStartReturn?.(book._id);
-          break;
-        case "RETURNING":
-          onConfirmDropoff?.(book._id);
+        case requestStatus.IS_DUE:
+          onConfirmDropoff?.(requestId);
           break;
         default:
           break;
       }
     } else {
-      if (currentStatus === "RETURNING") {
-        onConfirmReturn?.(book._id);
+      switch (currentStatus) {
+        case requestStatus.ACCEPTED:
+          onConfirmDropoff?.(requestId);
+          break;
+        case requestStatus.RETURNING:
+          onConfirmPickup?.(requestId);
+          break;
+        default:
+          break;
       }
     }
   };

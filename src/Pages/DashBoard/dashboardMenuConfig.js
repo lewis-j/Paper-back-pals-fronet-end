@@ -1,9 +1,10 @@
+import { BookInfo } from "../../features/library/components";
 import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm";
 import ReturnBookForm from "../../features/library/components/ModalForms/ReturnBookForm";
-import ViewRequestsForm from "../../features/library/components/ModalForms/ViewRequestsForm";
+import UserBookRequest from "../../features/library/components/ModalForms/UserBookRequest/UserBookRequest";
 
 // Constants
-const MODAL_TYPES = {
+export const MODAL_TYPES = {
   PAGE_COUNT: "pageCount",
   RETURN_BOOK: "returnBook",
   CURRENT_READ: "currentRead",
@@ -12,6 +13,7 @@ const MODAL_TYPES = {
   EXTEND_BORROW: "extendBorrow",
   MARK_COMPLETE: "markComplete",
   VIEW_REQUESTS: "viewRequests",
+  CONFIRM_REQUEST: "confirmRequest",
 };
 
 // Menu configurations for different sections
@@ -73,7 +75,7 @@ export const getMenuItems = (openModal, book_id) => ({
       text: "Book Details",
       clickHandler: () => {
         // TODO: Implement book details functionality
-        alert("Book details functionality to be implemented");
+        openModal(MODAL_TYPES.BOOK_DETAILS, "Book Details", currentRead);
       },
     },
     {
@@ -138,6 +140,10 @@ export const getMenuItems = (openModal, book_id) => ({
   },
 });
 
+const ConfirmRequest = ({ userBook, onClose }) => {
+  return <div>ConfirmRequest</div>;
+};
+
 // Modal content components
 export const getModalContent = (modal, onClose) => {
   console.log("modal", modal);
@@ -147,7 +153,11 @@ export const getModalContent = (modal, onClose) => {
     case MODAL_TYPES.RETURN_BOOK:
       return <ReturnBookForm userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_REQUESTS:
-      return <ViewRequestsForm userBook={modal.data} onClose={onClose} />;
+      return <UserBookRequest userBook={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.BOOK_DETAILS:
+      return <BookInfo userBook={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.CONFIRM_REQUEST:
+      return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
     default:
       return null;
   }
