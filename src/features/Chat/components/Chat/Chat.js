@@ -9,10 +9,8 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const nestURL = process.env.REACT_APP_NEST_URI;
 
-const Chat = () => {
+const Chat = ({ participantId }) => {
   const dispatch = useDispatch();
-  const selectedUser = useSelector((state) => state.friends.currentFriend);
-  console.log("current freind", selectedUser);
   const roomId = useSelector((state) => state.chat.currentRoomId);
   const messages = useSelector((state) => state.chat.messages);
   const [socket, setSocket] = useState(null);
@@ -21,25 +19,12 @@ const Chat = () => {
   //get selectedUserId
 
   useEffect(() => {
-    const fetch = async () => {
-      if (selectedUser) {
-        const data = await enterChatRoom(selectedUser._id);
-        dispatch(setCurrentRoomId(data.roomId));
-      }
-    };
-    fetch();
-  }, [selectedUser, dispatch]);
-
-  useEffect(() => {
-    console.log("nestURl", nestURL);
     const newSocket = io(nestURL);
     setSocket(newSocket);
 
     newSocket.emit("joinRoom", roomId);
-    dispatch(setCurrentRoomId(roomId));
     const fetchMessages = async () => {
       const messages = await getMessages(roomId);
-      console.log("message", messages);
       dispatch(setMessages(messages));
     };
 
@@ -60,7 +45,7 @@ const Chat = () => {
       const messageData = {
         roomId,
         message: messageInput,
-        sender: selectedUser._id,
+        sender: participantId,
       };
       socket.emit("sendMessage", messageData);
       setMessageInput("");

@@ -1,6 +1,15 @@
+import { useDispatch } from "react-redux";
 import { MODAL_TYPES } from "../config/modals";
+import { openChatWithFriend } from "../../Chat/chatSlice";
 
 export const useModalActions = (openModal) => {
+  const dispatch = useDispatch();
+
+  const openChatModal = async (userId) => {
+    console.log("userId", userId);
+
+    dispatch(openChatWithFriend(userId));
+  };
   return {
     openModal,
     // Book reading actions
@@ -26,6 +35,8 @@ export const useModalActions = (openModal) => {
     viewProgress: (userBook) => openModal(MODAL_TYPES.VIEW_PROGRESS, userBook),
 
     // Communication
-    sendMessage: (userBook) => openModal(MODAL_TYPES.SEND_MESSAGE, userBook),
+    sendMessage: (userId) => {
+      openChatModal(userId);
+    },
   };
 };

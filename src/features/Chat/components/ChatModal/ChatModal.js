@@ -1,31 +1,45 @@
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setChatOpen, setCurrentRoomId } from "../../chatSlice";
+import {
+  setChatOpen,
+  setCurrentRoomId,
+  setParticipantId,
+} from "../../chatSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Chat from "../Chat/Chat";
 import styles from "./ChatModal.module.scss";
 import { ContactList } from "../../../Friends";
 import { enterChatRoom } from "../../chatApi";
-import { useState } from "react";
-import { Avatar } from "../../../../components";
 import { UserCard } from "../../../Friends/components/UserCard";
+import { useEffect } from "react";
 
 const ChatModal = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.chat.isChatOpen);
-  const currentRoomId = useSelector((state) => state.chat.currentRoomId);
+  const participantId = useSelector((state) => state.chat.paticipantId);
   const friends = useSelector((state) => state.friends.friendsList);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const selectedUser = friends.find((friend) => friend._id === participantId);
+
+  useEffect(() => {
+    if (participantId) {
+      const fetch = async () => {
+        const data = await enterChatRoom(participantId);
+        dispatch(setCurrentRoomId(data.roomId));
+      };
+      fetch();
+    }
+  }, [participantId, dispatch]);
 
   const selectUserForChat = async (userId) => {
-    const data = await enterChatRoom(userId);
-    setSelectedUser(friends.find((friend) => friend._id === userId));
-    dispatch(setCurrentRoomId(data.roomId));
+    dispatch(setParticipantId(userId));
+    // const data = await enterChatRoom(userId);
+    // dispatch(setCurrentRoomId(data.roomId));
   };
 
   const handleBack = () => {
     dispatch(setCurrentRoomId(null));
+    dispatch(setParticipantId(null));
   };
   console.log("selectedUser", selectedUser);
   if (!isOpen) return null;
@@ -34,7 +48,7 @@ const ChatModal = () => {
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
-          {currentRoomId && (
+          {participantId && (
             <>
               <button
                 className={styles.backButton}
@@ -56,7 +70,11 @@ const ChatModal = () => {
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>
-        {currentRoomId ? <Chat /> : <ContactList setUser={selectUserForChat} />}
+        {participantId ? (
+          <Chat participantId={participantId} />
+        ) : (
+          <ContactList setUser={selectUserForChat} />
+        )}
       </div>
     </div>,
     document.getElementById("portal-root")

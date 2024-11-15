@@ -62,7 +62,7 @@ export const getMenuItems = (modalActions, book_id) => ({
       },
       {
         text: "Message Borrower",
-        clickHandler: () => modalActions.sendMessage(userBook),
+        clickHandler: () => modalActions.sendMessage(userBook.sender._id),
       },
       {
         text: "Request Return",
@@ -73,14 +73,11 @@ export const getMenuItems = (modalActions, book_id) => ({
 
   bookRequests: (getUserBookById) => {
     const userBook = getUserBookById(book_id);
+
     return [
       {
         text: "View Requests",
         clickHandler: () => modalActions.viewRequests(userBook),
-      },
-      {
-        text: "Message Requesters",
-        clickHandler: () => modalActions.sendMessage(userBook),
       },
       {
         text: "Remove from Library",

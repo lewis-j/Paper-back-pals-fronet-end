@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   messages: [],
   currentRoomId: null,
+  paticipantId: null,
   isChatOpen: false,
 };
 
@@ -22,9 +23,13 @@ const chatSlice = createSlice({
     setChatOpen: (state, action) => {
       state.isChatOpen = action.payload;
     },
+    setParticipantId: (state, action) => {
+      state.paticipantId = action.payload;
+    },
     openChatWithFriend: (state, action) => {
+      console.log("action", action);
       state.isChatOpen = true;
-      state.currentRoomId = action.payload;
+      state.paticipantId = action.payload;
     },
   },
 });
@@ -35,5 +40,6 @@ export const {
   setCurrentRoomId,
   setChatOpen,
   openChatWithFriend,
+  setParticipantId,
 } = chatSlice.actions;
 export default chatSlice.reducer;
