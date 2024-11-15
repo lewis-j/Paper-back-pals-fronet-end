@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "./UserBookRequest.module.scss";
 
+import { useModal } from "../../../../../context/ModalContext";
+import { MODAL_TYPES } from "../../../../../Pages/Dashboard/dashboardMenuConfig";
+
 const UserBookRequest = ({ userBook, onClose }) => {
+  const { openModal } = useModal();
   const requests = userBook.request;
 
   const formatDate = (dateString) => {
@@ -13,6 +17,14 @@ const UserBookRequest = ({ userBook, onClose }) => {
     });
   };
 
+  const handleRequestClick = (request) => {
+    onClose();
+    openModal(MODAL_TYPES.CONFIRM_REQUEST, "Confirm Request", {
+      userBook,
+      request,
+    });
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -21,7 +33,7 @@ const UserBookRequest = ({ userBook, onClose }) => {
             <div
               key={request._id}
               className={`${styles.requestCard} ${styles.clickable}`}
-              onClick={() => {}}
+              onClick={() => handleRequestClick(request)}
             >
               <div className={styles.userInfo}>
                 <img

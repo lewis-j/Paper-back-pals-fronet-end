@@ -22,7 +22,7 @@ const BookRequestsSection = ({
     console.log("requestCount", requestCount);
 
     return (
-      <RequestBadge key={_id} count={requestCount}>
+      <RequestBadge key={_id} count={requestCount} clickHandler={() => {}}>
         <BookCard
           _id={_id}
           book={{ coverImg, title }}
