@@ -1,5 +1,5 @@
 import { PageCountForm, UserBookCardLrg } from "../..";
-import { useBookActions } from "../../../../Pages/Dashboard/hooks/useBookActions";
+import { useBookActions } from "../../hooks/useBookActions";
 
 const ChangePageCountForm = ({ userBook }) => {
   const { handleUpdatePageCount } = useBookActions();

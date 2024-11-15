@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./UserBookRequest.module.scss";
 
 import { useModal } from "../../../../../context/ModalContext";
-import { MODAL_TYPES } from "../../../../../Pages/Dashboard/dashboardMenuConfig";
+import { MODAL_TYPES } from "../../../config/modals/modalTypes";
 
 const UserBookRequest = ({ userBook, onClose }) => {
   const { openModal } = useModal();
