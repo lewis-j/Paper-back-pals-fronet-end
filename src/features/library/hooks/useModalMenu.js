@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal } from "../../../components";
-import { getMenuItems, getModalContent } from "../dashboardMenuConfig";
+import {
+  getMenuItems,
+  getModalContent,
+} from "../../../Pages/Dashboard/dashboardMenuConfig";
 import { ModalContext } from "../../../context/ModalContext";
+import { useModalActions } from "../../../features/library/hooks/useModalActions";
+import { MODAL_CONFIG } from "../../../features/library/config/modals/modalConfig";
 
-const useModalMenu = () => {
+export const useModalMenu = () => {
   const [modal, setModal] = useState({
     isOpen: false,
     type: null,
@@ -13,33 +18,38 @@ const useModalMenu = () => {
 
   const [activeCardId, setActiveCardId] = useState("");
 
-  const openModal = (type, title, data = null) => {
-    setModal({ isOpen: true, type, title, data });
+  const openModal = (type, data) => {
+    const config = MODAL_CONFIG[type];
+    if (!config) {
+      console.warn(`No configuration found for modal type: ${type}`);
+      return;
+    }
+    setModal({ isOpen: true, type, title: config.title, data });
   };
+  const modalActions = useModalActions(openModal);
 
   const closeModal = () => {
     setModal({ isOpen: false, type: null, title: null, data: null });
     setActiveCardId("");
   };
 
-  const menuItems = getMenuItems(openModal, activeCardId);
+  const menuItems = getMenuItems(modalActions, activeCardId);
 
   const renderModal = () => {
     return (
-      <ModalContext.Provider value={{ openModal }}>
+      <ModalContext.Provider value={{ openModal: modalActions.openModal }}>
         <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>
           {getModalContent(modal, closeModal)}
         </Modal>
       </ModalContext.Provider>
     );
   };
+
   return {
     menuItems,
-    openModal,
+    openModal: modalActions.openModal,
     renderModal,
     activeCardId,
     setActiveCardId,
   };
 };
-
-export default useModalMenu;

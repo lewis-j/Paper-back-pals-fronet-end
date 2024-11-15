@@ -1,18 +1,6 @@
-import { useModal } from "../../../context/ModalContext";
-import { MODAL_TYPES, MODAL_CONFIG } from "../config/modals";
+import { MODAL_TYPES } from "../config/modals";
 
-export const useModalActions = () => {
-  const { openModal: openModalBase } = useModal();
-
-  const openModal = (type, data) => {
-    const config = MODAL_CONFIG[type];
-    if (!config) {
-      console.warn(`No configuration found for modal type: ${type}`);
-      return;
-    }
-    openModalBase(type, config.title, data);
-  };
-
+export const useModalActions = (openModal) => {
   return {
     openModal,
     // Book reading actions
