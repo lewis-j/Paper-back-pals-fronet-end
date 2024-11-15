@@ -2,6 +2,7 @@ import { BookInfo } from "../../features/library/components";
 import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm";
 import ReturnBookForm from "../../features/library/components/ModalForms/ReturnBookForm";
 import UserBookRequest from "../../features/library/components/ModalForms/UserBookRequest/UserBookRequest";
+import ViewProgress from "../../features/library/components/ModalForms/ViewProgress/ViewProgress";
 import { MODAL_TYPES } from "../../features/library/config/modals/modalTypes";
 
 // Menu configurations for different sections
@@ -107,6 +108,8 @@ export const getModalContent = (modal, onClose) => {
       return <BookInfo userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.CONFIRM_REQUEST:
       return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.VIEW_PROGRESS:
+      return <ViewProgress userBook={modal.data} onClose={onClose} />;
     default:
       return null;
   }

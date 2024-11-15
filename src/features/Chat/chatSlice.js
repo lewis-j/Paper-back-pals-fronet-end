@@ -22,9 +22,18 @@ const chatSlice = createSlice({
     setChatOpen: (state, action) => {
       state.isChatOpen = action.payload;
     },
+    openChatWithFriend: (state, action) => {
+      state.isChatOpen = true;
+      state.currentRoomId = action.payload;
+    },
   },
 });
 
-export const { setMessages, addMessage, setCurrentRoomId, setChatOpen } =
-  chatSlice.actions;
+export const {
+  setMessages,
+  addMessage,
+  setCurrentRoomId,
+  setChatOpen,
+  openChatWithFriend,
+} = chatSlice.actions;
 export default chatSlice.reducer;
