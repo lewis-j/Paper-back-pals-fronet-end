@@ -21,6 +21,15 @@ export const addBook = async ({ bookDto }) => {
   }
 };
 
+export const deleteUserBook = async ({ userBook_id }) => {
+  try {
+    await API.delete(`/user-books/${userBook_id}`);
+    return { userBook_id };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 export const getBookRequest = async (request_id) => {
   try {
     const res = await API.get(`/user-books/request/${request_id}`);
