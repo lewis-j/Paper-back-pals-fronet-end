@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { updateCurrentPage } from "../../../features/library";
+import { deleteUserBook } from "../userBooksSlice";
 
 export const useBookActions = () => {
   const dispatch = useDispatch();
@@ -8,5 +9,9 @@ export const useBookActions = () => {
     dispatch(updateCurrentPage({ requestId, currentPage, userBookId }));
   };
 
-  return { handleUpdatePageCount };
+  const onConfirmBookRemoval = (userBookId) => {
+    dispatch(deleteUserBook(userBookId));
+  };
+
+  return { handleUpdatePageCount, onConfirmBookRemoval };
 };

@@ -10,6 +10,7 @@ export const useModalActions = (openModal) => {
 
     dispatch(openChatWithFriend(userId));
   };
+
   return {
     openModal,
     // Book reading actions
@@ -32,7 +33,10 @@ export const useModalActions = (openModal) => {
 
     // Book management
     removeBook: (userBook) => openModal(MODAL_TYPES.REMOVE_BOOK, userBook),
-    viewProgress: (userBook) => openModal(MODAL_TYPES.VIEW_PROGRESS, userBook),
+    viewProgress: (userBook) => {
+      console.log("viewing progress in usemodal");
+      openModal(MODAL_TYPES.VIEW_PROGRESS, userBook);
+    },
 
     // Communication
     sendMessage: (userId) => {

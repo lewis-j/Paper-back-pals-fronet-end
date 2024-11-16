@@ -1,0 +1,99 @@
+@import "../../../../../style/variables.scss";
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($gradient-color-1, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  background-color: $grey-1;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: $standard-box-shadow;
+
+  h2 {
+    margin-bottom: 1rem;
+    color: $title-color;
+    font-family: $heading-font;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    color: $secondary-color;
+    font-family: $paragraph-font;
+  }
+}
+
+.bookInfo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: $grey-2;
+  border-radius: 4px;
+}
+
+.coverImg {
+  width: 80px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.details {
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-family: $heading-font;
+    color: $title-color;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $secondary-color;
+    font-family: $paragraph-font;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+  }
+}
+
+.cancelBtn {
+  background-color: $grey-2;
+  color: $secondary-color;
+
+  &:hover {
+    background-color: $grey-3;
+    @include hover-link;
+  }
+}
+
+.removeBtn {
+  background-color: $decline-color;
+  color: $dark-background-font-color;
+
+  &:hover {
+    background-color: darken($decline-color, 5%);
+    @include hover-link;
+  }
+}

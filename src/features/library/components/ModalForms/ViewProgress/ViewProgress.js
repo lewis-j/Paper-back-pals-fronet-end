@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import styles from "./ViewProgress.module.scss";
 
 const ViewProgress = ({ userBook, onClose }) => {
+  console.log("view progress", userBook);
   const { book, currentPage, dueDate, sender } = userBook;
   const progress = (currentPage / book.pageCount) * 100;
   const pagesRemaining = book.pageCount - currentPage;

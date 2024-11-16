@@ -3,6 +3,7 @@ import { Modal } from "../../../components";
 import {
   getMenuItems,
   getModalContent,
+  ModalContent,
 } from "../../../Pages/Dashboard/dashboardMenuConfig";
 import { ModalContext } from "../../../context/ModalContext";
 import { useModalActions } from "../../../features/library/hooks/useModalActions";
@@ -39,7 +40,7 @@ export const useModalMenu = () => {
     return (
       <ModalContext.Provider value={{ openModal: modalActions.openModal }}>
         <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>
-          {getModalContent(modal, closeModal)}
+          <ModalContent modal={modal} onClose={closeModal} />
         </Modal>
       </ModalContext.Provider>
     );

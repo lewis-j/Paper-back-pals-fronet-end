@@ -1,9 +1,11 @@
 import { BookInfo } from "../../features/library/components";
 import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm";
+import RemoveBookConfirm from "../../features/library/components/ModalForms/RemoveBookConfirm/RemoveBookConfirm";
 import ReturnBookForm from "../../features/library/components/ModalForms/ReturnBookForm";
 import UserBookRequest from "../../features/library/components/ModalForms/UserBookRequest/UserBookRequest";
 import ViewProgress from "../../features/library/components/ModalForms/ViewProgress/ViewProgress";
 import { MODAL_TYPES } from "../../features/library/config/modals/modalTypes";
+import { useBookActions } from "../../features/library/hooks/useBookActions";
 
 // Menu configurations for different sections
 export const getMenuItems = (modalActions, book_id) => ({
@@ -58,7 +60,10 @@ export const getMenuItems = (modalActions, book_id) => ({
     return [
       {
         text: "View Progress",
-        clickHandler: () => modalActions.viewProgress(userBook),
+        clickHandler: () => {
+          console.log("viewing progress");
+          modalActions.viewProgress(userBook);
+        },
       },
       {
         text: "Message Borrower",
@@ -92,8 +97,10 @@ const ConfirmRequest = ({ userBook, onClose }) => {
 };
 
 // Modal content components
-export const getModalContent = (modal, onClose) => {
-  console.log("modal", modal);
+export const ModalContent = ({ modal, onClose }) => {
+  const { onConfirmBookRemoval } = useBookActions();
+
+  console.log("modal", modal.type);
   switch (modal.type) {
     case MODAL_TYPES.PAGE_COUNT:
       return <ChangePageCountForm userBook={modal.data} onClose={onClose} />;
@@ -106,7 +113,16 @@ export const getModalContent = (modal, onClose) => {
     case MODAL_TYPES.CONFIRM_REQUEST:
       return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_PROGRESS:
+      console.log("viewing progress in switch");
       return <ViewProgress userBook={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.REMOVE_BOOK:
+      return (
+        <RemoveBookConfirm
+          userBook={modal.data}
+          onClose={onClose}
+          onConfirm={onConfirmBookRemoval}
+        />
+      );
     default:
       return null;
   }
