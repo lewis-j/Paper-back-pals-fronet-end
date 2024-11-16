@@ -1,8 +1,6 @@
 import { PageCountForm, UserBookCardLrg } from "../..";
-import { useBookActions } from "../../hooks/useBookActions";
 
-const ChangePageCountForm = ({ userBook }) => {
-  const { handleUpdatePageCount } = useBookActions();
+const ChangePageCountForm = ({ userBook, onConfirm }) => {
   if (!userBook) return null;
   const {
     _id: userBook_id,
@@ -14,7 +12,7 @@ const ChangePageCountForm = ({ userBook }) => {
   } = userBook;
 
   const pageCountFormSubmit = (_currentPage) => {
-    handleUpdatePageCount(request._id, _currentPage, userBook_id);
+    onConfirm(request.request_id, _currentPage, userBook_id);
   };
 
   return (

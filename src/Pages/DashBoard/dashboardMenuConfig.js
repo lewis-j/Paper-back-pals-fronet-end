@@ -98,12 +98,18 @@ const ConfirmRequest = ({ userBook, onClose }) => {
 
 // Modal content components
 export const ModalContent = ({ modal, onClose }) => {
-  const { onConfirmBookRemoval } = useBookActions();
+  const { onConfirmBookRemoval, handleUpdatePageCount } = useBookActions();
 
   console.log("modal", modal.type);
   switch (modal.type) {
     case MODAL_TYPES.PAGE_COUNT:
-      return <ChangePageCountForm userBook={modal.data} onClose={onClose} />;
+      return (
+        <ChangePageCountForm
+          userBook={modal.data}
+          onClose={onClose}
+          onConfirm={handleUpdatePageCount}
+        />
+      );
     case MODAL_TYPES.RETURN_BOOK:
       return <ReturnBookForm userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_REQUESTS:

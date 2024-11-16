@@ -5,8 +5,8 @@ import { deleteUserBook } from "../userBooksSlice";
 export const useBookActions = () => {
   const dispatch = useDispatch();
 
-  const handleUpdatePageCount = (requestId, currentPage, userBookId) => {
-    dispatch(updateCurrentPage({ requestId, currentPage, userBookId }));
+  const handleUpdatePageCount = (request_id, currentPage, userBook_id) => {
+    dispatch(updateCurrentPage({ request_id, currentPage, userBook_id }));
   };
 
   const onConfirmBookRemoval = (userBookId) => {
