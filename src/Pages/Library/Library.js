@@ -11,7 +11,6 @@ import { useState } from "react";
 import { categorizeOwnedBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
 
 const Library = () => {
-  console.log("Library");
   const {
     books: { owned: books },
   } = useSelector((state) => state.userBooks);
@@ -44,7 +43,6 @@ const Library = () => {
   );
 
   const mapCheckedOutBooks = (userBook, i) => {
-    console.log("Userbook in mapCheckedOutBooks", userBook);
     const { _id, book, sender, dueDate, currentPage } = userBook;
     return (
       <BookCol key={`LibraryCard:${userBook._id}`}>

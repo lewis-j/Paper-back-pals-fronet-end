@@ -82,8 +82,6 @@ const Library = () => {
   const renderCheckedOutUserBookCard = (userBook, i) => {
     const { _id, book, dueDate, currentPage, sender } = userBook;
 
-    console.log("Userbook in renderCheckedOutUserBookCard", userBook);
-
     // const { menu } = filterRequest(bookData._id);
     return (
       <BookCol key={`UserBookCardSm:${_id}`}>

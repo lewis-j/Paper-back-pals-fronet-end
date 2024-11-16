@@ -61,7 +61,6 @@ export const getMenuItems = (modalActions, book_id) => ({
       {
         text: "View Progress",
         clickHandler: () => {
-          console.log("viewing progress");
           modalActions.viewProgress(userBook);
         },
       },
@@ -100,7 +99,6 @@ const ConfirmRequest = ({ userBook, onClose }) => {
 export const ModalContent = ({ modal, onClose }) => {
   const { onConfirmBookRemoval, handleUpdatePageCount } = useBookActions();
 
-  console.log("modal", modal.type);
   switch (modal.type) {
     case MODAL_TYPES.PAGE_COUNT:
       return (
@@ -119,7 +117,6 @@ export const ModalContent = ({ modal, onClose }) => {
     case MODAL_TYPES.CONFIRM_REQUEST:
       return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_PROGRESS:
-      console.log("viewing progress in switch");
       return <ViewProgress userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.REMOVE_BOOK:
       return (

@@ -69,8 +69,6 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
             request_id: p._id,
           })) ?? [],
         jsx: ({ request_id }) => {
-          console.log("request_id", typeof _id, request_id);
-
           return (
             <Button
               varient="accept"
@@ -86,7 +84,6 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
       (result, { list, jsx }) => {
         const userFoundInList = userInList(list);
         if (userFoundInList) {
-          console.log("Found in list", list);
           return jsx(userFoundInList);
         }
         return result;

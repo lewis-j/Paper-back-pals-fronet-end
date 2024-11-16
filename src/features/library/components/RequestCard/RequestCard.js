@@ -18,7 +18,6 @@ const RequestCard = ({
     _id: userBook_id,
     owner: { _id: recipient_id },
   } = userBook;
-  console.log("userBook in request card", userBook);
   const handleBookRequest = async () => {
     await dispatch(createBookRequest({ userBook_id, recipient_id })).unwrap();
     decline();

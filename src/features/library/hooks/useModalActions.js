@@ -6,8 +6,6 @@ export const useModalActions = (openModal) => {
   const dispatch = useDispatch();
 
   const openChatModal = async (userId) => {
-    console.log("userId", userId);
-
     dispatch(openChatWithFriend(userId));
   };
 
@@ -34,7 +32,6 @@ export const useModalActions = (openModal) => {
     // Book management
     removeBook: (userBook) => openModal(MODAL_TYPES.REMOVE_BOOK, userBook),
     viewProgress: (userBook) => {
-      console.log("viewing progress in usemodal");
       openModal(MODAL_TYPES.VIEW_PROGRESS, userBook);
     },
 

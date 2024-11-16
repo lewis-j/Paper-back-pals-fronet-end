@@ -28,7 +28,6 @@ const getMoreBooksFulfilledReducer = (state, { payload }) => {
 
 const searchUsersFulfilledReducer = (state, { payload }) => {
   state.status = status.SUCCEEDED;
-  console.log("user result", payload?.results);
   state.userResults.results = payload?.results || [];
   state.userResults.total = payload.total;
 };

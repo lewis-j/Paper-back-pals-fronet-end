@@ -5,7 +5,6 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
 
 const EmptyStatePrompt = ({ title, text, route }) => {
   const navigate = useNavigate();
-  console.log("title", title);
   return (
     <div className={styles.noContent}>
       <NoContent icon={faBook} iconSize="6em" text={text}>

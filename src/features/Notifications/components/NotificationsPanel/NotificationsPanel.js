@@ -21,7 +21,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const BookRequestModal = ({ refData, onClose, onAccept, isLoading }) => {
   const dispatch = useDispatch();
-  console.log("refData", refData);
   const {
     _id: request_id,
     notification_id,
@@ -126,7 +125,6 @@ const NotificationsPanel = () => {
 
   const renderNotifications = () => {
     const unreadNotifications = _notifications.unread.map((notification, i) => {
-      console.log("unread notification", notification);
       const { requestRef, requestType, _id, __v, ...remaining } = notification;
       const notificationProps = { ...remaining, _id };
 
@@ -212,8 +210,6 @@ const NotificationsPanel = () => {
   };
 
   const modalCard = () => {
-    console.log("modalState", modalState);
-
     if (refData) {
       if (modalState === 1) {
         if (refData.requestType === requestTypes.BookRequest) {
@@ -229,7 +225,6 @@ const NotificationsPanel = () => {
           // return <FriendRequestModal refData={refData} />;
         }
       } else if (modalState === -1) {
-        console.log("modalState is -1");
         return (
           <MarkAsReadModal
             onConfirm={() => setModalState(0)}

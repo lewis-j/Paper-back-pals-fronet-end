@@ -27,7 +27,6 @@ const chatSlice = createSlice({
       state.paticipantId = action.payload;
     },
     openChatWithFriend: (state, action) => {
-      console.log("action", action);
       state.isChatOpen = true;
       state.paticipantId = action.payload;
     },

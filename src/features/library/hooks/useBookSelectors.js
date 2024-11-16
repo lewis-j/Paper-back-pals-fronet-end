@@ -14,7 +14,6 @@ export const useBookSelectors = () => {
   // Process book categories
   const ownedBookCategories = categorizeOwnedBooksByStatus(owned);
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowed);
-  console.log("borrowedBookCategories", borrowedBookCategories);
 
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];

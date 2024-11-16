@@ -38,7 +38,6 @@ export const notificationsSlice = createSlice({
   },
   reducers: {
     setNotificationsIsOpen: (state, action) => {
-      console.log("State", state, "action", action);
       state.isOpen = action.payload;
     },
     setNotifications: (state, action) => {

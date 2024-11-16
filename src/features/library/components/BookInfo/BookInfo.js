@@ -6,8 +6,6 @@ const BookInfo = ({ userBook, onClose }) => {
   const { book, owner, currentPage, dueDate } = userBook;
   const progress = ((currentPage / book.pageCount) * 100).toFixed(1);
 
-  console.log("userBook book description", userBook.book.description);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>

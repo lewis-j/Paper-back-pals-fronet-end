@@ -22,7 +22,6 @@ const BorrowedPage = () => {
   const dispatch = useDispatch();
 
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowedBooks);
-  console.log("borrowedBookCategories", borrowedBookCategories);
   const checkedOut = borrowedBookCategories.CHECKED_OUT || [];
   const pendingBooks = borrowedBookCategories.CHECKED_IN || [];
 
@@ -99,14 +98,12 @@ const BorrowedPage = () => {
 
   const handleConfirmPickup = async (requestId) => {
     // API call to confirm book pickup
-    console.log("Confirming pickup for book:", requestId);
 
     dispatch(nextBookRequestStatus(requestId));
   };
 
   const handleConfirmDropoff = async (requestId) => {
     // API call to confirm book dropoff
-    console.log("Confirming dropoff for book:", requestId);
 
     dispatch(nextBookRequestStatus(requestId));
   };

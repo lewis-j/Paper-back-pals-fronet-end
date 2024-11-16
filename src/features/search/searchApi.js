@@ -8,7 +8,6 @@ export const searchBooks = async (query, startIndex = 0) => {
       `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${36}`
     );
 
-    console.log("book response", res);
     const results = subArrays(res.data.items, 12);
 
     return { results, total: res.data.totalItems };

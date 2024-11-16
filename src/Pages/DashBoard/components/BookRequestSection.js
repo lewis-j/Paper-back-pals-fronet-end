@@ -19,8 +19,6 @@ const BookRequestsSection = ({
 
     const requestCount = request.length;
 
-    console.log("requestCount", requestCount);
-
     return (
       <RequestBadge key={_id} count={requestCount} clickHandler={() => {}}>
         <BookCard

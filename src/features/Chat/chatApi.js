@@ -3,7 +3,6 @@ import API from "../../lib/authAxios";
 export const getMessages = async (roomId) => {
   try {
     const res = await API.get(`chat/${roomId}/messages`);
-    console.log("responsone from our chat api", res);
     return res.data;
   } catch (error) {
     console.error(error);

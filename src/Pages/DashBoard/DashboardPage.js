@@ -28,7 +28,6 @@ const DashboardPage = () => {
   const requestMenuItems = menuItems.bookRequests(
     createBookFinder(ownedBookRequests)
   );
-  console.log("booksToFriends", booksToFriends);
   return (
     <div className={`container ${styles.container}`}>
       {renderModal()}

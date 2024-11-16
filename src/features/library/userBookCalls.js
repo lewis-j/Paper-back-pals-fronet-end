@@ -80,12 +80,6 @@ export const updateCurrentPage = async ({
   currentPage,
   userBook_id,
 }) => {
-  console.log(
-    "updating page count in api call",
-    request_id,
-    currentPage,
-    userBook_id
-  );
   try {
     const res = await API.put(
       `/user-books/request/${request_id}/updatePageCount`,

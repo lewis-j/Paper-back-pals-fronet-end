@@ -41,7 +41,6 @@ const ChatModal = () => {
     dispatch(setCurrentRoomId(null));
     dispatch(setParticipantId(null));
   };
-  console.log("selectedUser", selectedUser);
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(

@@ -46,7 +46,6 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("userStatus", userStatus);
       if (userStatus === condition.IDLE) {
         try {
           await dispatch(fetchUser()).unwrap();

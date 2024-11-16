@@ -111,7 +111,6 @@ const Profile = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Upload response:", response);
     } catch (error) {
       console.error("Error uploading file:", error);
     }

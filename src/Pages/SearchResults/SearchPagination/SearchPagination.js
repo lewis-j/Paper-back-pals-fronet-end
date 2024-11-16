@@ -19,14 +19,12 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
       const calls = Math.ceil(dif / 3);
       [...Array(calls).keys()].forEach(async (i) => {
         const _startIndex = pages * 12 + i * 36;
-        console.log("startIndex", _startIndex);
         await dispatch(getMoreBooks({ startIndex: _startIndex })).unwrap();
       });
     }
   };
 
   const renderNewPage = async (item) => {
-    console.log("pages", pages);
     await checkForAvailableBooks(item);
     setCurrentPage(item);
   };
@@ -50,7 +48,6 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
         className={styles.paginationLink}
         tag="div"
         onClick={() => {
-          console.log("ITEM in click event:", item);
           renderNewPage(item);
         }}
       >
@@ -58,11 +55,6 @@ const SearchPagination = ({ setCurrentPage, currentPage, scroll }) => {
       </PaginationLink>
     </PaginationItem>
   ));
-  console.log(
-    `%cstyles.paginationLink:`,
-    "color:yellow; font-size:14px; font-weight:bold",
-    styles.paginationLink
-  );
 
   return (
     <div className={styles.container}>
