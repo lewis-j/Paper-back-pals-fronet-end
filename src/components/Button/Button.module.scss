@@ -16,7 +16,7 @@
   font-size: 1.35em;
 }
 .default {
-  color: black;
+  color: $secondary-color;
 }
 
 .accept {
@@ -50,21 +50,21 @@
 
 .granite-outline {
   background-color: transparent;
-  filter: drop-shadow(2px 2px 4px #666461);
-  color: #666461;
-  border-color: #666461;
+  filter: drop-shadow(2px 2px 4px $secondary-color);
+  color: $secondary-color;
+  border-color: $secondary-color;
   height: 1.6em;
   font-size: 1.6em;
 
   transition: transform 0.1s ease-in-out;
   &:hover {
-    filter: drop-shadow(2px 2px 4px black);
-    border-color: black;
-    color: black;
+    filter: drop-shadow(2px 2px 4px $dark-accent);
+    border-color: $dark-accent;
+    color: $dark-accent;
   }
   a {
     text-decoration: none;
-    color: #666461;
+    color: $secondary-color;
   }
 }
 

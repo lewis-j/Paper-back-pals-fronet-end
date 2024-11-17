@@ -13,5 +13,15 @@ export const useBookActions = () => {
     dispatch(deleteUserBook(userBookId));
   };
 
-  return { handleUpdatePageCount, onConfirmBookRemoval };
+  const markComplete = async (request_id, userBook_id, pageCount) => {
+    await dispatch(
+      updateCurrentPage({
+        request_id,
+        userBook_id,
+        currentPage: pageCount,
+      })
+    ).unwrap();
+  };
+
+  return { handleUpdatePageCount, onConfirmBookRemoval, markComplete };
 };

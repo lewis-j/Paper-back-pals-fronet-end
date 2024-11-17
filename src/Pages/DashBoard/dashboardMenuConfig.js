@@ -1,5 +1,5 @@
-import { BookInfo } from "../../features/library/components";
-import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm";
+import { BookInfo, MarkComplete } from "../../features/library/components";
+import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm/ChangePageCountForm";
 import RemoveBookConfirm from "../../features/library/components/ModalForms/RemoveBookConfirm/RemoveBookConfirm";
 import ReturnBookForm from "../../features/library/components/ModalForms/ReturnBookForm";
 import UserBookRequest from "../../features/library/components/ModalForms/UserBookRequest/UserBookRequest";
@@ -97,7 +97,8 @@ const ConfirmRequest = ({ userBook, onClose }) => {
 
 // Modal content components
 export const ModalContent = ({ modal, onClose }) => {
-  const { onConfirmBookRemoval, handleUpdatePageCount } = useBookActions();
+  const { onConfirmBookRemoval, handleUpdatePageCount, markComplete } =
+    useBookActions();
 
   switch (modal.type) {
     case MODAL_TYPES.PAGE_COUNT:
@@ -106,6 +107,14 @@ export const ModalContent = ({ modal, onClose }) => {
           userBook={modal.data}
           onClose={onClose}
           onConfirm={handleUpdatePageCount}
+        />
+      );
+    case MODAL_TYPES.MARK_COMPLETE:
+      return (
+        <MarkComplete
+          bookData={modal.data}
+          onClose={onClose}
+          onMarkComplete={markComplete}
         />
       );
     case MODAL_TYPES.RETURN_BOOK:

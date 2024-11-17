@@ -4,7 +4,10 @@ export {
   UserBookCardSm,
   UserBookCardLrg,
   RequestCard,
-  PageCountForm,
+  ChangePageCountForm,
+  UserBookRequest,
+  ViewProgress,
+  MarkComplete,
   RequestBadge,
   BookStatusTracker,
 } from "./components";
