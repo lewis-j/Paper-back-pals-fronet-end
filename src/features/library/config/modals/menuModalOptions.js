@@ -7,7 +7,6 @@ import {
   ReturnBookForm,
   UserBookDetails,
 } from "../../components";
-import BookDetails from "../../components/BookDetails/BookDetails";
 import { useBookActions } from "../../hooks/useBookActions";
 import { MODAL_TYPES } from "./modalTypes";
 

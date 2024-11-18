@@ -14,10 +14,6 @@ export const MODAL_CONFIG = {
     title: "Mark as Complete",
     component: "MarkCompleteForm",
   },
-  [MODAL_TYPES.BOOK_DETAILS]: {
-    title: "Book Details",
-    component: "BookInfo",
-  },
   [MODAL_TYPES.USER_BOOK_DETAILS]: {
     title: "User Book Details",
     component: "UserBookDetails",
