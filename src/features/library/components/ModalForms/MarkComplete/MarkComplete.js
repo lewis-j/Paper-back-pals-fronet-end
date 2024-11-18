@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "./MarkComplete.module.scss";
+import FormContainer from "../Shared/FormContainer/FormContainer";
 
-const MarkComplete = ({ bookData, onClose, onMarkComplete }) => {
+const MarkComplete = ({ userBook, onClose, onMarkComplete }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -9,16 +10,10 @@ const MarkComplete = ({ bookData, onClose, onMarkComplete }) => {
     setIsSubmitting(true);
 
     try {
-      console.log(
-        "onMarkComplete",
-        bookData.request.request_id,
-        bookData._id,
-        bookData.book.pageCount
-      );
       await onMarkComplete(
-        bookData.request.request_id,
-        bookData._id,
-        bookData.book.pageCount
+        userBook.request.request_id,
+        userBook._id,
+        userBook.book.pageCount
       );
       onClose();
     } catch (error) {
@@ -28,55 +23,32 @@ const MarkComplete = ({ bookData, onClose, onMarkComplete }) => {
     }
   };
 
-  const progressPercentage = Math.round(
-    (bookData.currentPage / bookData.book.pageCount) * 100
-  );
-
   return (
-    <div className={styles.container}>
-      <h2>Mark Book as Complete</h2>
-      <div className={styles.bookInfo}>
-        <img
-          src={bookData.book.coverImg}
-          alt={bookData.book.title}
-          className={styles.coverImage}
-        />
-        <div className={styles.details}>
-          <h3>{bookData.book.title}</h3>
-          <p>By: {bookData.book.authors.join(", ")}</p>
-          <div className={styles.progress}>
-            <p>Current Progress: {progressPercentage}%</p>
-            <p>
-              Page {bookData.currentPage} of {bookData.book.pageCount}
-            </p>
-          </div>
-        </div>
+    <FormContainer bookData={userBook}>
+      <div className={styles.label}>Mark book as complete</div>
+      <p className={styles.confirmation}>
+        This will update your progress to {userBook.book.pageCount} pages,
+        marking the book as complete.
+      </p>
+      <div className={styles.buttonContainer}>
+        <button
+          type="button"
+          onClick={onClose}
+          className={styles.cancelButton}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Updating Progress..." : "Mark Complete"}
+        </button>
       </div>
-
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <p className={styles.confirmation}>
-          This will update your progress to {bookData.book.pageCount} pages,
-          marking the book as complete.
-        </p>
-        <div className={styles.buttons}>
-          <button
-            type="button"
-            onClick={onClose}
-            className={styles.cancelButton}
-            disabled={isSubmitting}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Updating Progress..." : "Mark Complete"}
-          </button>
-        </div>
-      </form>
-    </div>
+    </FormContainer>
   );
 };
 
