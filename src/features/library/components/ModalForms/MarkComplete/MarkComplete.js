@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./MarkComplete.module.scss";
+import formStyles from "../Shared/FormContainer/FormContainer.module.scss";
 import FormContainer from "../Shared/FormContainer/FormContainer";
 
 const MarkComplete = ({ userBook, onClose, onMarkComplete }) => {
@@ -25,23 +25,23 @@ const MarkComplete = ({ userBook, onClose, onMarkComplete }) => {
 
   return (
     <FormContainer bookData={userBook}>
-      <div className={styles.label}>Mark book as complete</div>
-      <p className={styles.confirmation}>
+      <div className={formStyles.label}>Mark book as complete</div>
+      <p className={formStyles.confirmation}>
         This will update your progress to {userBook.book.pageCount} pages,
         marking the book as complete.
       </p>
-      <div className={styles.buttonContainer}>
+      <div className={formStyles.buttonContainer}>
         <button
           type="button"
           onClick={onClose}
-          className={styles.cancelButton}
+          className={formStyles.cancelButton}
           disabled={isSubmitting}
         >
           Cancel
         </button>
         <button
           type="submit"
-          className={styles.submitButton}
+          className={formStyles.submitButton}
           disabled={isSubmitting}
           onClick={handleSubmit}
         >
