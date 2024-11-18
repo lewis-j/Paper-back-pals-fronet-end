@@ -7,26 +7,16 @@ import {
 import styles from "./Library.module.scss";
 import { useState } from "react";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
+import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 
 const Library = () => {
-  const [activeCard, setActiveCard] = useState("");
+  const { menuItems, renderModal, activeCardId, setActiveCardId } =
+    useModalMenu();
 
   const { booksInLibrary, booksToFriends } = useBookSelectors();
 
-  const menuList = [
-    {
-      text: "Message",
-      clickHandler: (i) => {
-        alert("itemclicked: ", i);
-      },
-    },
-    {
-      text: "Request",
-      clickHandler: (i) => {
-        alert("itemclicked: ", i);
-      },
-    },
-  ];
+  const toFriendsMenuItems = menuItems.booksToFriends(booksToFriends);
+  const inLibraryMenuItems = menuItems.booksInLibrary(booksInLibrary);
 
   const BookCol = ({ children, key }) => (
     <Col sm="4" md="3" xl="2" className="mb-3" key={key}>
@@ -41,12 +31,12 @@ const Library = () => {
         <UserBookCardSm
           _id={_id}
           book={book}
-          menuItems={menuList}
+          menuItems={toFriendsMenuItems}
           user={sender}
           dueDate={dueDate}
           currentPage={currentPage}
-          setActive={setActiveCard}
-          isActive={activeCard === _id}
+          setActive={setActiveCardId}
+          isActive={activeCardId === _id}
         />
       </BookCol>
     );
@@ -61,9 +51,9 @@ const Library = () => {
         <BookCard
           _id={_id}
           book={cardInfo}
-          menuItems={menuList}
-          isActive={activeCard === _id}
-          setActive={setActiveCard}
+          menuItems={inLibraryMenuItems}
+          isActive={activeCardId === _id}
+          setActive={setActiveCardId}
         />
       </BookCol>
     );
@@ -71,6 +61,7 @@ const Library = () => {
 
   return (
     <>
+      {renderModal()}
       <Container>
         <div className={styles.title}>
           <h1>Your Library</h1>

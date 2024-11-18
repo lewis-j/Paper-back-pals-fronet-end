@@ -1,11 +1,15 @@
-import { BookInfo, MarkComplete } from "../../features/library/components";
-import ChangePageCountForm from "../../features/library/components/ModalForms/ChangePageCountForm/ChangePageCountForm";
-import RemoveBookConfirm from "../../features/library/components/ModalForms/RemoveBookConfirm/RemoveBookConfirm";
-import ReturnBookForm from "../../features/library/components/ModalForms/ReturnBookForm/ReturnBookForm";
-import UserBookRequest from "../../features/library/components/ModalForms/UserBookRequest/UserBookRequest";
-import ViewProgress from "../../features/library/components/ModalForms/ViewProgress/ViewProgress";
-import { MODAL_TYPES } from "../../features/library/config/modals/modalTypes";
-import { useBookActions } from "../../features/library/hooks/useBookActions";
+import {
+  BookInfo,
+  ChangePageCountForm,
+  MarkComplete,
+  UserBookRequest,
+  ViewProgress,
+  RemoveBookConfirm,
+  ReturnBookForm,
+  UserBookDetails,
+} from "../../components";
+import { useBookActions } from "../../hooks/useBookActions";
+import { MODAL_TYPES } from "./modalTypes";
 
 const createBookFinder = (book_id) => (userBooks) => {
   return userBooks.find((book) => book._id === book_id);
@@ -15,6 +19,20 @@ const createBookFinder = (book_id) => (userBooks) => {
 export const getMenuItems = (modalActions, book_id) => {
   const getUserBookById = createBookFinder(book_id);
   return {
+    booksInLibrary: (userBooks) => {
+      const userBook = getUserBookById(userBooks);
+
+      return [
+        {
+          text: "Book Details",
+          clickHandler: () => modalActions.viewBookDetails(userBook),
+        },
+        {
+          text: "Remove from Library",
+          clickHandler: () => modalActions.removeBook(userBook),
+        },
+      ];
+    },
     booksFromFriends: (userBooks) => {
       const userBook = getUserBookById(userBooks);
 
@@ -136,7 +154,7 @@ export const ModalContent = ({ modal, onClose }) => {
     case MODAL_TYPES.VIEW_REQUESTS:
       return <UserBookRequest userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.BOOK_DETAILS:
-      return <BookInfo userBook={modal.data} onClose={onClose} />;
+      return <UserBookDetails userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.CONFIRM_REQUEST:
       return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_PROGRESS:

@@ -10,6 +10,7 @@ export {
   MarkComplete,
   RequestBadge,
   BookStatusTracker,
+  UserBookDetails,
 } from "./components";
 export { bookRequestStatus } from "./data";
 export {

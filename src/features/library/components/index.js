@@ -9,8 +9,10 @@ export {
   UserBookRequest,
   ViewProgress,
   MarkComplete,
+  RemoveBookConfirm,
+  ReturnBookForm,
 } from "./ModalForms";
 export { BookStatusTracker } from "./BookStatusTracker";
 export { BookContainer } from "./BookContainer";
 export { RequestCard } from "./RequestCard";
-export { BookInfo } from "./BookInfo";
+export { UserBookDetails } from "./UserBookDetails";

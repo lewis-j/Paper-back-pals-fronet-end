@@ -4,7 +4,7 @@ import { createBookRequest } from "../../userBooksSlice";
 import * as asyncStatus from "../../../../data/asyncStatus";
 
 import styles from "./RequestCard.module.scss";
-import { BookInfo } from "../BookInfo";
+import { UserBookDetails } from "../UserBookDetails";
 
 const RequestCard = ({
   userBook,
@@ -26,7 +26,7 @@ const RequestCard = ({
   const isLoading = userBookStatus === asyncStatus.LOADING;
   return (
     <div className={styles.container}>
-      <BookInfo {...userBook} />
+      <UserBookDetails {...userBook} />
       <div className={styles.button}>
         <Button
           disabled={isLoading}

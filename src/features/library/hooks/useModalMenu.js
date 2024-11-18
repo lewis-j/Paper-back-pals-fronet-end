@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Modal } from "../../../components";
-import {
-  getMenuItems,
-  ModalContent,
-} from "../../../Pages/Dashboard/dashboardMenuConfig";
 import { ModalContext } from "../../../context/ModalContext";
 import { useModalActions } from "../../../features/library/hooks/useModalActions";
 import { MODAL_CONFIG } from "../../../features/library/config/modals/modalConfig";
+import { getMenuItems, ModalContent } from "../config/modals/menuModalOptions";
 
 export const useModalMenu = () => {
   const [modal, setModal] = useState({

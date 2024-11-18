@@ -1,29 +1,16 @@
 import React from "react";
 import { format } from "date-fns/format";
-import styles from "./BookInfo.module.scss";
+import styles from "./UserBookDetails.module.scss";
+import BookDetails from "../BookDetails/BookDetails";
 
-const BookInfo = ({ userBook, onClose }) => {
+const UserBookDetails = ({ userBook, onClose }) => {
+  console.log("userBook in BookInfo: ", userBook);
   const { book, owner, currentPage, dueDate } = userBook;
   const progress = ((currentPage / book.pageCount) * 100).toFixed(1);
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <img
-          src={book.coverImg}
-          alt={book.title}
-          className={styles.coverImage}
-        />
-        <div className={styles.titleSection}>
-          <h2 className={styles.title}>{book.title}</h2>
-          <p className={styles.author}>{book.authors.join(", ")}</p>
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>Description</h3>
-        <p className={styles.description}>{book.description}</p>
-      </div>
+      <BookDetails book={book} />
 
       <div className={styles.grid}>
         <div>
@@ -34,7 +21,7 @@ const BookInfo = ({ userBook, onClose }) => {
         </div>
         <div>
           <h3 className={styles.sectionTitle}>Due Date</h3>
-          <p>{format(new Date(dueDate), "MMM dd, yyyy")}</p>
+          {dueDate && <p>{format(new Date(dueDate), "MMM dd, yyyy")}</p>}
         </div>
       </div>
 
@@ -57,4 +44,4 @@ const BookInfo = ({ userBook, onClose }) => {
   );
 };
 
-export default BookInfo;
+export default UserBookDetails;
