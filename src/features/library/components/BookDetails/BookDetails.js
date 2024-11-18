@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./BookDetails.module.scss"; // Create a new module if needed
 
-const BookDetails = ({ book }) => {
+const BookDetails = ({ book, onClose }) => {
+  console.log("book in BookDetails: ", book);
   return (
     <>
       <div className={styles.header}>

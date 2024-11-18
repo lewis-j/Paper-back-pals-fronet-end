@@ -5,6 +5,7 @@ export const MODAL_TYPES = {
   CURRENT_READ: "currentRead",
   MARK_COMPLETE: "markComplete",
   BOOK_DETAILS: "bookDetails",
+  USER_BOOK_DETAILS: "userBookDetails",
   VIEW_PROGRESS: "viewProgress",
 
   // Book lending actions

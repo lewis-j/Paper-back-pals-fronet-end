@@ -15,8 +15,10 @@ export const useModalActions = (openModal) => {
     updateProgress: (userBook) => openModal(MODAL_TYPES.PAGE_COUNT, userBook),
     setCurrentRead: (userBook) => openModal(MODAL_TYPES.CURRENT_READ, userBook),
     markComplete: (userBook) => openModal(MODAL_TYPES.MARK_COMPLETE, userBook),
-    viewBookDetails: (userBook) =>
-      openModal(MODAL_TYPES.BOOK_DETAILS, userBook),
+    viewBookDetails: (bookInfo) =>
+      openModal(MODAL_TYPES.BOOK_DETAILS, bookInfo),
+    viewUserBookDetails: (userBook) =>
+      openModal(MODAL_TYPES.USER_BOOK_DETAILS, userBook),
 
     // Book lending actions
     returnBook: (userBook) => openModal(MODAL_TYPES.RETURN_BOOK, userBook),

@@ -1,5 +1,4 @@
 import {
-  BookInfo,
   ChangePageCountForm,
   MarkComplete,
   UserBookRequest,
@@ -8,6 +7,7 @@ import {
   ReturnBookForm,
   UserBookDetails,
 } from "../../components";
+import BookDetails from "../../components/BookDetails/BookDetails";
 import { useBookActions } from "../../hooks/useBookActions";
 import { MODAL_TYPES } from "./modalTypes";
 
@@ -25,7 +25,7 @@ export const getMenuItems = (modalActions, book_id) => {
       return [
         {
           text: "Book Details",
-          clickHandler: () => modalActions.viewBookDetails(userBook),
+          clickHandler: () => modalActions.viewBookDetails(userBook.book),
         },
         {
           text: "Remove from Library",
@@ -71,7 +71,7 @@ export const getMenuItems = (modalActions, book_id) => {
       },
       {
         text: "Book Details",
-        clickHandler: () => modalActions.viewBookDetails(currentRead),
+        clickHandler: () => modalActions.viewUserBookDetails(currentRead),
       },
       {
         text: "Return Book",
@@ -153,10 +153,12 @@ export const ModalContent = ({ modal, onClose }) => {
       );
     case MODAL_TYPES.VIEW_REQUESTS:
       return <UserBookRequest userBook={modal.data} onClose={onClose} />;
-    case MODAL_TYPES.BOOK_DETAILS:
+    case MODAL_TYPES.USER_BOOK_DETAILS:
       return <UserBookDetails userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.CONFIRM_REQUEST:
       return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.BOOK_DETAILS:
+      return <BookDetails book={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_PROGRESS:
       return <ViewProgress userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.REMOVE_BOOK:
