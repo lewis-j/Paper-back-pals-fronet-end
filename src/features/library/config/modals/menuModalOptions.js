@@ -25,7 +25,7 @@ export const getMenuItems = (modalActions, book_id) => {
       return [
         {
           text: "Book Details",
-          clickHandler: () => modalActions.viewBookDetails(userBook.book),
+          clickHandler: () => modalActions.viewUserBookDetails(userBook),
         },
         {
           text: "Remove from Library",
@@ -96,6 +96,10 @@ export const getMenuItems = (modalActions, book_id) => {
           text: "Request Return",
           clickHandler: () => modalActions.requestReturn(userBook),
         },
+        {
+          text: "Book Details",
+          clickHandler: () => modalActions.viewUserBookDetails(userBook),
+        },
       ];
     },
 
@@ -122,6 +126,7 @@ const ConfirmRequest = ({ userBook, onClose }) => {
 
 // Modal content components
 export const ModalContent = ({ modal, onClose }) => {
+  console.log("modal in ModalContent: ", modal);
   const { removeBook, handleUpdatePageCount, markComplete, returnBook } =
     useBookActions();
 
@@ -158,7 +163,7 @@ export const ModalContent = ({ modal, onClose }) => {
     case MODAL_TYPES.CONFIRM_REQUEST:
       return <ConfirmRequest userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.BOOK_DETAILS:
-      return <BookDetails book={modal.data} onClose={onClose} />;
+      return <UserBookDetails book={modal.data} onClose={onClose} />;
     case MODAL_TYPES.VIEW_PROGRESS:
       return <ViewProgress userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.REMOVE_BOOK:

@@ -6,8 +6,9 @@ import { getProgressInPercent } from "../../../../../../utilities/bookUtilities"
 const BookModalHeader = ({
   book,
   owner,
+  sender,
   currentPage,
-  dueDate,
+  dueDate = null,
   showProgress = true,
   showOwner = true,
 }) => {
@@ -33,6 +34,12 @@ const BookModalHeader = ({
             <div className={styles.ownerInfo}>
               <Avatar imgSrc={owner.profilePic} username={owner.username} />
               <span className={styles.ownerName}>{owner.username}</span>
+            </div>
+          )}
+          {sender && (
+            <div className={styles.senderInfo}>
+              <Avatar imgSrc={sender.profilePic} username={sender.username} />
+              <span className={styles.senderName}>{sender.username}</span>
             </div>
           )}
 

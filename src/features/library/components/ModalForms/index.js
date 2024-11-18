@@ -4,3 +4,4 @@ export { default as ViewProgress } from "./ViewProgress/ViewProgress";
 export { default as MarkComplete } from "./MarkComplete/MarkComplete";
 export { default as RemoveBookConfirm } from "./RemoveBookConfirm/RemoveBookConfirm";
 export { default as ReturnBookForm } from "./ReturnBookForm/ReturnBookForm";
+export { default as UserBookDetails } from "./UserBookDetails/UserBookDetails";

@@ -18,6 +18,10 @@ export const MODAL_CONFIG = {
     title: "Book Details",
     component: "BookInfo",
   },
+  [MODAL_TYPES.USER_BOOK_DETAILS]: {
+    title: "User Book Details",
+    component: "UserBookDetails",
+  },
   [MODAL_TYPES.VIEW_PROGRESS]: {
     title: "Reading Progress",
     component: "ViewProgressForm",
