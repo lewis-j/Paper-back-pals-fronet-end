@@ -17,6 +17,7 @@ export const useBookSelectors = () => {
 
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
+  const booksInLibrary = ownedBookCategories.CHECKED_IN || [];
 
   // Get owned book requests
   const ownedBookRequests =
@@ -39,6 +40,7 @@ export const useBookSelectors = () => {
     currentRead: populateCurrentRead(currentRead?._id),
     booksFromFriends: filterOutCurrentRead(booksFromFriends),
     booksToFriends,
+    booksInLibrary,
     ownedBookRequests,
   };
 };

@@ -13,21 +13,10 @@ const DashboardPage = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
 
-  const createBookFinder = (userBook) => (book_id) => {
-    return userBook.find((book) => book._id === book_id);
-  };
+  const fromFriendsMenuItems = menuItems.booksFromFriends(booksFromFriends);
+  const toFriendsMenuItems = menuItems.booksToFriends(booksToFriends);
+  const requestMenuItems = menuItems.bookRequests(ownedBookRequests);
 
-  const fromFriendsMenuItems = menuItems.booksFromFriends(
-    createBookFinder(booksFromFriends)
-  );
-
-  const toFriendsMenuItems = menuItems.booksToFriends(
-    createBookFinder(booksToFriends)
-  );
-
-  const requestMenuItems = menuItems.bookRequests(
-    createBookFinder(ownedBookRequests)
-  );
   return (
     <div className={`container ${styles.container}`}>
       {renderModal()}

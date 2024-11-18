@@ -7,89 +7,96 @@ import ViewProgress from "../../features/library/components/ModalForms/ViewProgr
 import { MODAL_TYPES } from "../../features/library/config/modals/modalTypes";
 import { useBookActions } from "../../features/library/hooks/useBookActions";
 
-// Menu configurations for different sections
-export const getMenuItems = (modalActions, book_id) => ({
-  booksFromFriends: (getUserBookById) => {
-    const userBook = getUserBookById(book_id);
+const createBookFinder = (book_id) => (userBooks) => {
+  return userBooks.find((book) => book._id === book_id);
+};
 
-    return [
-      {
-        text: "Set as Current Read",
-        clickHandler: () => modalActions.setCurrentRead(userBook),
-      },
+// Menu configurations for different sections
+export const getMenuItems = (modalActions, book_id) => {
+  const getUserBookById = createBookFinder(book_id);
+  return {
+    booksFromFriends: (userBooks) => {
+      const userBook = getUserBookById(userBooks);
+
+      return [
+        {
+          text: "Set as Current Read",
+          clickHandler: () => modalActions.setCurrentRead(userBook),
+        },
+        {
+          text: "Update Progress",
+          clickHandler: () => modalActions.updateProgress(userBook),
+        },
+        {
+          text: "Request Extension",
+          clickHandler: () => modalActions.requestExtension(userBook),
+        },
+        {
+          text: "Message Owner",
+          clickHandler: () => modalActions.sendMessage(userBook),
+        },
+        {
+          text: "Return Book",
+          clickHandler: () => modalActions.returnBook(userBook),
+        },
+      ];
+    },
+
+    currentRead: (currentRead) => [
       {
         text: "Update Progress",
-        clickHandler: () => modalActions.updateProgress(userBook),
+        clickHandler: () => modalActions.updateProgress(currentRead),
       },
       {
-        text: "Request Extension",
-        clickHandler: () => modalActions.requestExtension(userBook),
+        text: "Mark as Complete",
+        clickHandler: () => modalActions.markComplete(currentRead),
       },
       {
-        text: "Message Owner",
-        clickHandler: () => modalActions.sendMessage(userBook),
+        text: "Book Details",
+        clickHandler: () => modalActions.viewBookDetails(currentRead),
       },
       {
         text: "Return Book",
-        clickHandler: () => modalActions.returnBook(userBook),
+        clickHandler: () => modalActions.returnBook(currentRead),
       },
-    ];
-  },
+    ],
 
-  currentRead: (currentRead) => [
-    {
-      text: "Update Progress",
-      clickHandler: () => modalActions.updateProgress(currentRead),
-    },
-    {
-      text: "Mark as Complete",
-      clickHandler: () => modalActions.markComplete(currentRead),
-    },
-    {
-      text: "Book Details",
-      clickHandler: () => modalActions.viewBookDetails(currentRead),
-    },
-    {
-      text: "Return Book",
-      clickHandler: () => modalActions.returnBook(currentRead),
-    },
-  ],
-
-  booksToFriends: (getUserBookById) => {
-    const userBook = getUserBookById(book_id);
-    return [
-      {
-        text: "View Progress",
-        clickHandler: () => {
-          modalActions.viewProgress(userBook);
+    booksToFriends: (userBooks) => {
+      const userBook = getUserBookById(userBooks);
+      return [
+        {
+          text: "View Progress",
+          clickHandler: () => {
+            modalActions.viewProgress(userBook);
+          },
         },
-      },
-      {
-        text: "Message Borrower",
-        clickHandler: () => modalActions.sendMessage(userBook.sender._id),
-      },
-      {
-        text: "Request Return",
-        clickHandler: () => modalActions.requestReturn(userBook),
-      },
-    ];
-  },
+        {
+          text: "Message Borrower",
+          clickHandler: () => modalActions.sendMessage(userBook.sender._id),
+        },
+        {
+          text: "Request Return",
+          clickHandler: () => modalActions.requestReturn(userBook),
+        },
+      ];
+    },
 
-  bookRequests: (getUserBookById) => {
-    const userBook = getUserBookById(book_id);
+    bookRequests: (userBooks) => {
+      const userBook = getUserBookById(userBooks);
 
-    return [
-      {
-        text: "View Requests",
-        clickHandler: () => modalActions.viewRequests(userBook),
-      },
-      {
-        text: "Remove from Library",
-        clickHandler: () => modalActions.removeBook(userBook),
-      },
-    ];
-  },
-});
+      return [
+        {
+          text: "View Requests",
+          clickHandler: () => modalActions.viewRequests(userBook),
+        },
+        {
+          text: "Remove from Library",
+          clickHandler: () => modalActions.removeBook(userBook),
+        },
+      ];
+    },
+  };
+};
 
 const ConfirmRequest = ({ userBook, onClose }) => {
   return <div>ConfirmRequest</div>;
