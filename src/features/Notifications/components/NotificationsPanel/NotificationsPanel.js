@@ -9,15 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import requestTypes from "../../../../data/requestTypes";
 import { useState } from "react";
-import {
-  getBookRequest,
-  nextBookRequestStatus,
-} from "../../../library/userBookCalls";
+import { getBookRequest } from "../../../library/userBookCalls";
 import styles from "./NotificationsPanel.module.scss";
 import { addNotification, markAsRead } from "../../notificationsSlice";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { nextBookRequestStatus } from "../../../library/userBooksSlice";
 
 const BookRequestModal = ({ refData, onClose, onAccept, isLoading }) => {
   const dispatch = useDispatch();
@@ -32,10 +30,8 @@ const BookRequestModal = ({ refData, onClose, onAccept, isLoading }) => {
   } = refData;
 
   const acceptClickHandler = async () => {
-    const res = await nextBookRequestStatus(request_id);
-    const { notification } = res;
+    await dispatch(nextBookRequestStatus(request_id)).unwrap();
     await dispatch(markAsRead({ _id: notification_id })).unwrap();
-    await dispatch(addNotification({ notification })).unwrap();
   };
 
   return (

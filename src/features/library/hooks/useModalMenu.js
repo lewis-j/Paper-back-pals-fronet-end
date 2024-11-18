@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Modal } from "../../../components";
 import {
   getMenuItems,
-  getModalContent,
   ModalContent,
 } from "../../../Pages/Dashboard/dashboardMenuConfig";
 import { ModalContext } from "../../../context/ModalContext";

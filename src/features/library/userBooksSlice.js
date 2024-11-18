@@ -35,12 +35,13 @@ export const nextBookRequestStatus = createAsyncThunk(
 );
 
 const nextBookRequestStatusFulfilled = (state, action) => {
-  const request_id = action.payload.request_id;
+  console.log("action", action);
+  const request_id = action.payload.bookRequest.request_id;
   // TODO: update the status of the book in the borrowed array instead of the notification array
-  // const bookIdx = state.books.borrowed.findIndex(
-  //   ({ request }) => request.request_id === request_id
-  // );
-  // state.books.borrowed[bookIdx].status = action.payload.status;
+  const bookIdx = state.books.borrowed.findIndex(
+    ({ request }) => request.request_id === request_id
+  );
+  state.books.borrowed[bookIdx].status = action.payload.bookRequest.status;
 };
 
 const updateCurrentReadFulfilled = (state, action) => {

@@ -64,12 +64,12 @@ export const updateCurrentRead = async ({ userBook_id }) => {
   }
 };
 
-export const nextBookRequestStatus = async (request_id) => {
+export const nextBookRequestStatus = async (request_id, { dispatch }) => {
   try {
     const res = await API.put(`/user-books/request/${request_id}/status/next`);
-
-    const notification = res.data;
-    return notification;
+    const { notification, bookRequest } = res.data;
+    dispatch(addNotification({ notification }));
+    return { notification, bookRequest };
   } catch (error) {
     return Promise.reject(error);
   }
