@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { updateCurrentPage } from "../../../features/library";
 import { deleteUserBook } from "../userBooksSlice";
+import { nextBookRequestStatus } from "../userBookCalls";
 
 export const useBookActions = () => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ export const useBookActions = () => {
     dispatch(updateCurrentPage({ request_id, currentPage, userBook_id }));
   };
 
-  const onConfirmBookRemoval = (userBookId) => {
+  const removeBook = (userBookId) => {
     dispatch(deleteUserBook(userBookId));
   };
 
@@ -23,5 +24,18 @@ export const useBookActions = () => {
     ).unwrap();
   };
 
-  return { handleUpdatePageCount, onConfirmBookRemoval, markComplete };
+  const returnBook = async (request_id) => {
+    try {
+      await nextBookRequestStatus(request_id);
+    } catch (error) {
+      console.error("error in returnBook", error);
+    }
+  };
+
+  return {
+    handleUpdatePageCount,
+    removeBook,
+    markComplete,
+    returnBook,
+  };
 };

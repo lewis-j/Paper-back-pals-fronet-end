@@ -29,6 +29,20 @@ export const updateCurrentPage = createAsyncThunk(
   userBookApi.updateCurrentPage
 );
 
+export const nextBookRequestStatus = createAsyncThunk(
+  "userBooks/nextBookRequestStatus",
+  userBookApi.nextBookRequestStatus
+);
+
+const nextBookRequestStatusFulfilled = (state, action) => {
+  const request_id = action.payload.request_id;
+  // TODO: update the status of the book in the borrowed array instead of the notification array
+  // const bookIdx = state.books.borrowed.findIndex(
+  //   ({ request }) => request.request_id === request_id
+  // );
+  // state.books.borrowed[bookIdx].status = action.payload.status;
+};
+
 const updateCurrentReadFulfilled = (state, action) => {
   const new_id = action.payload.userBook_id;
   state.currentRead = state.books.borrowed.find(({ _id }) => _id === new_id);
@@ -85,6 +99,7 @@ export const userBooksSlice = createSlice({
     ...setExtraReducer(createBookRequest, createBookRequestFullfilled),
     ...setExtraReducer(updateCurrentRead, updateCurrentReadFulfilled),
     ...setExtraReducer(updateCurrentPage, updateCurrentPageFulfilled),
+    ...setExtraReducer(nextBookRequestStatus, nextBookRequestStatusFulfilled),
   },
 });
 

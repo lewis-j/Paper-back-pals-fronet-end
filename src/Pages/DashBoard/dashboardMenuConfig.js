@@ -97,7 +97,7 @@ const ConfirmRequest = ({ userBook, onClose }) => {
 
 // Modal content components
 export const ModalContent = ({ modal, onClose }) => {
-  const { onConfirmBookRemoval, handleUpdatePageCount, markComplete } =
+  const { removeBook, handleUpdatePageCount, markComplete, returnBook } =
     useBookActions();
 
   switch (modal.type) {
@@ -119,7 +119,13 @@ export const ModalContent = ({ modal, onClose }) => {
         />
       );
     case MODAL_TYPES.RETURN_BOOK:
-      return <ReturnBookForm userBook={modal.data} onClose={onClose} />;
+      return (
+        <ReturnBookForm
+          userBook={modal.data}
+          onClose={onClose}
+          onReturnBook={returnBook}
+        />
+      );
     case MODAL_TYPES.VIEW_REQUESTS:
       return <UserBookRequest userBook={modal.data} onClose={onClose} />;
     case MODAL_TYPES.BOOK_DETAILS:
@@ -133,7 +139,7 @@ export const ModalContent = ({ modal, onClose }) => {
         <RemoveBookConfirm
           userBook={modal.data}
           onClose={onClose}
-          onConfirm={onConfirmBookRemoval}
+          onConfirm={removeBook}
         />
       );
     default:
