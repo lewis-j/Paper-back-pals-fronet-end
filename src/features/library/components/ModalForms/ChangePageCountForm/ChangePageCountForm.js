@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./ChangePageCountForm.module.scss";
+import formStyles from "../Shared/FormContainer/FormContainer.module.scss";
 import FormContainer from "../Shared/FormContainer/FormContainer";
 
 const ChangePageCountForm = ({ userBook, onClose, onUpdatePages }) => {
@@ -14,9 +14,9 @@ const ChangePageCountForm = ({ userBook, onClose, onUpdatePages }) => {
 
   return (
     <FormContainer bookData={userBook}>
-      <div className={styles.label}>Update current page</div>
+      <div className={formStyles.label}>Update current page</div>
       <input
-        className={styles.pageInput}
+        className={formStyles.pageInput}
         type="number"
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -24,7 +24,7 @@ const ChangePageCountForm = ({ userBook, onClose, onUpdatePages }) => {
         max={userBook.book.pageCount}
       />
       <button
-        className={styles.submitButton}
+        className={formStyles.submitButton}
         type="submit"
         onClick={handleSubmit}
       >
