@@ -70,7 +70,12 @@ const Library = () => {
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer>
+          <BookContainer
+            noContent={{
+              text: "No Books in Library",
+              description: "Add some books to get started!",
+            }}
+          >
             {booksInLibrary.map(renderCheckedInBookCard)}
           </BookContainer>
         </Row>
@@ -78,7 +83,12 @@ const Library = () => {
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer>
+          <BookContainer
+            noContent={{
+              text: "No Checked Out Books",
+              description: "Share books with friends to see them here",
+            }}
+          >
             {booksToFriends.map(mapCheckedOutBooks)}
           </BookContainer>
         </Row>

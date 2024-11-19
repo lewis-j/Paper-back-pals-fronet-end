@@ -15,9 +15,20 @@ export const useBookSelectors = () => {
   const ownedBookCategories = categorizeOwnedBooksByStatus(owned);
   const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowed);
 
+  console.log("borrowedBookCategories: ", borrowedBookCategories);
+
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
   const booksInLibrary = ownedBookCategories.CHECKED_IN || [];
+  const borrowedBookRequests = borrowedBookCategories.CHECKED_IN || [];
+  // const booksInTransition = borrowedBookCategories.filter((book) =>
+  //   ["SENDING", "RETURNING", "ACCEPTED", "IS_DUE"].includes(
+  //     book.request?.status
+  //   )
+  // );
+  const booksInTransition = [];
+
+  console.log("booksFromFriends", booksFromFriends);
 
   // Get owned book requests
   const ownedBookRequests =
@@ -39,8 +50,11 @@ export const useBookSelectors = () => {
   return {
     currentRead: populateCurrentRead(currentRead?._id),
     booksFromFriends: filterOutCurrentRead(booksFromFriends),
+    allBooksFromFriends: booksFromFriends,
     booksToFriends,
     booksInLibrary,
+    booksInTransition,
     ownedBookRequests,
+    borrowedBookRequests,
   };
 };

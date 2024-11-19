@@ -7,68 +7,33 @@ import {
   BookStatusTracker,
 } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
-import { useState } from "react";
-import { categorizeBorrowedBooksByStatus } from "../../features/library/utilities/bookFilterUtil";
-import { Button, NoContent } from "../../components";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { nextBookRequestStatus } from "../../features/library/userBookCalls";
+import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
+import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
-  const { borrowed: borrowedBooks } = useSelector(
-    (state) => state.userBooks.books
-  );
   const dispatch = useDispatch();
+  const { menuItems, renderModal, activeCardId, setActiveCardId } =
+    useModalMenu();
 
-  const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowedBooks);
-  const checkedOut = borrowedBookCategories.CHECKED_OUT || [];
-  const pendingBooks = borrowedBookCategories.CHECKED_IN || [];
+  const {
+    borrowedBookRequests: pendingBooks,
+    allBooksFromFriends: checkedOutBooks,
+    booksInTransition,
+  } = useBookSelectors();
 
-  const [activeCard, setActiveCard] = useState("");
+  const removeMenuItems = (menuItems, textToRemove) =>
+    menuItems.filter((item) => item.text !== textToRemove);
 
-  const checkedOutBookMenuitems = [
-    {
-      text: "Message",
-      clickHandler: (i) => {
-        alert("itemclicked: ", i);
-      },
-    },
-    {
-      text: "Request",
-      clickHandler: (i) => {
-        alert("itemclicked: ", i);
-      },
-    },
-  ];
-
-  const noContentBorrowing = () => (
-    <NoContent text="No Books Yet!" icon={IconBookOff}>
-      <div>Check your Friends library to start borrowing books!</div>
-      <Button
-        varient="add"
-        icon={faUserGroup}
-        onClick={() => navigate("/friends")}
-      >
-        Friends
-      </Button>
-    </NoContent>
+  const checkedOutBookMenuitems = removeMenuItems(
+    menuItems.booksFromFriends(checkedOutBooks),
+    "Set as Current Read"
   );
-
-  const noContentRequest = () => (
-    <NoContent text="No Request Yet!" icon={IconBookOff}>
-      <div>Check your Friends library to start borrowing books!</div>
-      <Button
-        varient="add"
-        icon={faUserGroup}
-        onClick={() => navigate("/friends")}
-      >
-        Friends
-      </Button>
-    </NoContent>
-  );
-
-  const renderBooks = (userBook) => {
+  const pendingBookMenuitems = menuItems.borrowedBookRequests(pendingBooks);
+  const createRenderBooksWithMenuItems = (menuItems) => (userBook) => {
     const { _id, book, owner, dueDate, currentPage } = userBook;
 
     return (
@@ -79,22 +44,13 @@ const BorrowedPage = () => {
           user={owner}
           dueDate={dueDate}
           currentPage={currentPage}
-          setActive={setActiveCard}
-          isActive={activeCard === _id}
-          menuItems={checkedOutBookMenuitems}
+          setActive={setActiveCardId}
+          isActive={activeCardId === _id}
+          menuItems={menuItems}
         />
       </Col>
     );
   };
-
-  const renderBorrowedBooks = checkedOut.map(renderBooks);
-  const renderPendingBooks = pendingBooks.map(renderBooks);
-
-  const booksInTransition = borrowedBooks.filter((book) =>
-    ["SENDING", "RETURNING", "ACCEPTED", "IS_DUE"].includes(
-      book.request?.status
-    )
-  );
 
   const handleConfirmPickup = async (requestId) => {
     // API call to confirm book pickup
@@ -108,8 +64,17 @@ const BorrowedPage = () => {
     dispatch(nextBookRequestStatus(requestId));
   };
 
+  const borrowedBooksNoContent = {
+    text: "No books Yet!",
+    description: "Check your Friends library to start borrowing books!",
+    buttonText: "Friends",
+    buttonIcon: faUserGroup,
+    onClick: () => navigate("/friends"),
+  };
+
   return (
     <>
+      {renderModal()}
       <Container>
         {booksInTransition.length > 0 && (
           <>
@@ -137,16 +102,20 @@ const BorrowedPage = () => {
           <h4 className={styles.subtitle}>Borrowing</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer noContent={noContentBorrowing}>
-            {renderBorrowedBooks}
+          <BookContainer noContent={borrowedBooksNoContent}>
+            {checkedOutBooks.map(
+              createRenderBooksWithMenuItems(checkedOutBookMenuitems)
+            )}
           </BookContainer>
         </Row>
         <div>
           <h4 className={styles.subtitle}>Pending Books</h4>
         </div>
         <Row className={styles.section}>
-          <BookContainer noContent={noContentRequest}>
-            {renderPendingBooks}
+          <BookContainer noContent={borrowedBooksNoContent}>
+            {pendingBooks.map(
+              createRenderBooksWithMenuItems(pendingBookMenuitems)
+            )}
           </BookContainer>
         </Row>
       </Container>

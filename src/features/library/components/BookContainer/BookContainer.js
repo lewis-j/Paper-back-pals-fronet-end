@@ -6,7 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { Col } from "reactstrap";
 import { useState } from "react";
 
-const BookContainer = ({ children: cards, noContent = null }) => {
+const defaultNoContent = {
+  text: "No Books Yet!",
+  icon: IconBookOff,
+  description: null,
+  buttonText: null,
+  buttonIcon: null,
+  onClick: null,
+};
+
+const BookContainer = ({ children: cards, noContent = defaultNoContent }) => {
   const [renderBookCount, setRenderBookCount] = useState(12);
   const [loadingSection, setLoadingSection] = useState(false);
   const navigate = useNavigate();
@@ -20,17 +29,18 @@ const BookContainer = ({ children: cards, noContent = null }) => {
   };
 
   if (cards.length === 0) {
-    if (noContent) return noContent();
+    const { text, icon, description, buttonText, buttonIcon, onClick } = {
+      ...defaultNoContent,
+      ...noContent,
+    };
     return (
-      <NoContent text="No Books Yet!" icon={IconBookOff}>
-        <div>Check Notifications for Book request</div>
-        <Button
-          varient="add"
-          icon={faBell}
-          onClick={() => navigate("/notifications")}
-        >
-          Notifications
-        </Button>
+      <NoContent text={text} icon={icon}>
+        {description && <div>{description}</div>}
+        {buttonText && (
+          <Button varient="add" icon={buttonIcon} onClick={onClick}>
+            {buttonText}
+          </Button>
+        )}
       </NoContent>
     );
   }

@@ -101,6 +101,15 @@ export const getMenuItems = (modalActions, book_id) => {
         },
       ];
     },
+    borrowedBookRequests: (userBooks) => {
+      const userBook = getUserBookById(userBooks);
+      return [
+        {
+          text: "Book Details",
+          clickHandler: () => modalActions.viewUserBookDetails(userBook),
+        },
+      ];
+    },
 
     bookRequests: (userBooks) => {
       const userBook = getUserBookById(userBooks);
