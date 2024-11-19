@@ -15,6 +15,7 @@ export const MODAL_TYPES = {
   // Request management
   VIEW_REQUESTS: "viewRequests",
   CONFIRM_REQUEST: "confirmRequest",
+  REMOVE_REQUEST: "removeRequest",
 
   // Book management
   REMOVE_BOOK: "removeBook",

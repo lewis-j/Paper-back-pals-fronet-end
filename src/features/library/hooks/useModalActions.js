@@ -30,6 +30,8 @@ export const useModalActions = (openModal) => {
     // Request management
     viewRequests: (userBook) => openModal(MODAL_TYPES.VIEW_REQUESTS, userBook),
     confirmRequest: (data) => openModal(MODAL_TYPES.CONFIRM_REQUEST, data),
+    removeRequest: (userBook) =>
+      openModal(MODAL_TYPES.REMOVE_REQUEST, userBook),
 
     // Book management
     removeBook: (userBook) => openModal(MODAL_TYPES.REMOVE_BOOK, userBook),

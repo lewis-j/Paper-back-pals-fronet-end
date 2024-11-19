@@ -46,6 +46,10 @@ export const MODAL_CONFIG = {
     title: "Confirm Request",
     component: "ConfirmRequest",
   },
+  [MODAL_TYPES.REMOVE_REQUEST]: {
+    title: "Remove Request",
+    component: "RemoveRequest",
+  },
 
   // Book management
   [MODAL_TYPES.REMOVE_BOOK]: {

@@ -108,6 +108,14 @@ export const getMenuItems = (modalActions, book_id) => {
           text: "Book Details",
           clickHandler: () => modalActions.viewUserBookDetails(userBook),
         },
+        {
+          text: "Message Owner",
+          clickHandler: () => modalActions.sendMessage(userBook),
+        },
+        {
+          text: "Remove Request",
+          clickHandler: () => modalActions.removeRequest(userBook),
+        },
       ];
     },
 
@@ -130,6 +138,10 @@ export const getMenuItems = (modalActions, book_id) => {
 
 const ConfirmRequest = ({ userBook, onClose }) => {
   return <div>ConfirmRequest</div>;
+};
+
+const RemoveRequest = ({ userBook, onClose }) => {
+  return <div>RemoveRequest</div>;
 };
 
 // Modal content components
@@ -182,6 +194,8 @@ export const ModalContent = ({ modal, onClose }) => {
           onConfirm={removeBook}
         />
       );
+    case MODAL_TYPES.REMOVE_REQUEST:
+      return <RemoveRequest userBook={modal.data} onClose={onClose} />;
     default:
       return null;
   }
