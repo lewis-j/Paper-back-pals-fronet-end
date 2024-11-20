@@ -112,18 +112,20 @@ const MarkComplete = ({ userBook, onClose, onMarkComplete }) => {
   );
 };
 
-const RemoveBook = ({ userBook, onClose, onConfirm }) => {
+const RemoveBook = ({ userBook, onClose, onConfirmDelete }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log("removing book", userBook);
 
   const handleRemove = async () => {
     setIsSubmitting(true);
     try {
-      await onConfirm(userBook._id);
-      onClose();
+      await onConfirmDelete(userBook._id);
     } catch (error) {
       console.error("Error removing book:", error);
     } finally {
       setIsSubmitting(false);
+      onClose();
     }
   };
 
@@ -285,6 +287,10 @@ const RemoveRequest = ({ userBook, onClose }) => {
   return <div>RemoveRequest</div>;
 };
 
+const RequestExtension = ({ userBook, onClose }) => {
+  return <div>RequestExtension</div>;
+};
+
 const BookModalForm = {
   ViewProgress,
   ChangePageCount,
@@ -295,6 +301,7 @@ const BookModalForm = {
   UserBookRequest,
   ConfirmRequest,
   RemoveRequest,
+  RequestExtension,
 };
 
 export default BookModalForm;

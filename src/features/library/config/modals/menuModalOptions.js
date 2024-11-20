@@ -1,12 +1,3 @@
-import {
-  ChangePageCountForm,
-  MarkComplete,
-  UserBookRequest,
-  ViewProgress,
-  RemoveBookConfirm,
-  ReturnBookForm,
-  UserBookDetails,
-} from "../../components";
 import BookModalForm from "../../components/ModalForms/BookModalForm/BookModalForm";
 import FormContainer from "../../components/ModalForms/Shared/FormContainer/FormContainer";
 import { useBookActions } from "../../hooks/useBookActions";
@@ -138,10 +129,10 @@ export const getMenuItems = (modalActions, book_id) => {
   };
 };
 
-const MODAL_CONFIG = {
+const modalConfig = (userBook, actions, onClose) => ({
   [MODAL_TYPES.PAGE_COUNT]: {
     label: "Update current page",
-    component: ({ modalData: userBook, onClose, actions }) => (
+    component: (
       <BookModalForm.ChangePageCount
         userBook={userBook}
         onClose={onClose}
@@ -151,7 +142,7 @@ const MODAL_CONFIG = {
   },
   [MODAL_TYPES.MARK_COMPLETE]: {
     label: "Mark book as complete",
-    component: ({ modalData: userBook, onClose, actions }) => (
+    component: (
       <BookModalForm.MarkComplete
         userBook={userBook}
         onClose={onClose}
@@ -161,7 +152,7 @@ const MODAL_CONFIG = {
   },
   [MODAL_TYPES.RETURN_BOOK]: {
     label: "Return Book",
-    component: ({ modalData: userBook, onClose, actions }) => (
+    component: (
       <BookModalForm.ReturnBook
         userBook={userBook}
         onClose={onClose}
@@ -171,73 +162,61 @@ const MODAL_CONFIG = {
   },
   [MODAL_TYPES.VIEW_REQUESTS]: {
     label: "View Requests",
-    component: ({ modalData: userBook, onClose }) => (
+    component: (
       <BookModalForm.UserBookRequest userBook={userBook} onClose={onClose} />
     ),
   },
   [MODAL_TYPES.USER_BOOK_DETAILS]: {
     label: "Book Description",
-    component: ({ modalData: userBook, onClose }) => (
+    component: (
       <BookModalForm.UserBookDetails userBook={userBook} onClose={onClose} />
     ),
   },
   [MODAL_TYPES.CONFIRM_REQUEST]: {
     label: "Confirm Request",
-    component: ({ modalData: userBook, onClose }) => (
+    component: (
       <BookModalForm.ConfirmRequest userBook={userBook} onClose={onClose} />
-    ),
-  },
-  [MODAL_TYPES.BOOK_DETAILS]: {
-    label: "Book Description",
-    component: ({ modalData: book, onClose }) => (
-      <BookModalForm.UserBookDetails book={book} onClose={onClose} />
     ),
   },
   [MODAL_TYPES.VIEW_PROGRESS]: {
     label: "Reading Progress",
-    component: ({ modalData: userBook, onClose }) => (
+    component: (
       <BookModalForm.ViewProgress userBook={userBook} onClose={onClose} />
     ),
   },
   [MODAL_TYPES.REMOVE_BOOK]: {
     label: "Remove Book",
-    component: ({ modalData: userBook, onClose, actions }) => (
-      <BookModalForm.RemoveBookConfirm
+    component: (
+      <BookModalForm.RemoveBook
         userBook={userBook}
         onClose={onClose}
-        onConfirm={actions.removeBook}
+        onConfirmDelete={actions.removeBook}
       />
     ),
   },
   [MODAL_TYPES.REMOVE_REQUEST]: {
     label: "Remove Request",
-    component: ({ modalData: userBook, onClose }) => (
+    component: (
       <BookModalForm.RemoveRequest userBook={userBook} onClose={onClose} />
     ),
   },
-};
-
-const BookModal = ({ modalType, modalData, onClose }) => {
-  const actions = useBookActions();
-  const config = MODAL_CONFIG[modalType];
-
-  if (!config) return null;
-
-  return config.component({ modalData, onClose, actions });
-};
+  [MODAL_TYPES.EXTEND_BORROW]: {
+    label: "Extend Borrow",
+    component: (
+      <BookModalForm.RequestExtension userBook={userBook} onClose={onClose} />
+    ),
+  },
+});
 
 // Modal content components
 export const ModalContent = ({ modal, onClose }) => {
-  const config = MODAL_CONFIG[modal.type];
+  const actions = useBookActions();
+  const config = modalConfig(modal.data, actions, onClose)[modal.type];
   const label = config?.label || modal.title || "";
 
   return (
     <FormContainer bookData={modal.data} label={label}>
-      <BookModal
-        modalType={modal.type}
-        modalData={modal.data}
-        onClose={onClose}
-      />
+      {config && config.component}
     </FormContainer>
   );
 };

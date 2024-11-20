@@ -4,7 +4,7 @@ import { createBookRequest } from "../../userBooksSlice";
 import * as asyncStatus from "../../../../data/asyncStatus";
 
 import styles from "./RequestCard.module.scss";
-import { UserBookDetails } from "../ModalForms";
+import { BookModalForm } from "../ModalForms";
 
 const RequestCard = ({
   userBook,
@@ -26,7 +26,7 @@ const RequestCard = ({
   const isLoading = userBookStatus === asyncStatus.LOADING;
   return (
     <div className={styles.container}>
-      <UserBookDetails userBook={userBook} />
+      <BookModalForm.UserBookDetails userBook={userBook} />
       <div className={styles.button}>
         <Button
           disabled={isLoading}

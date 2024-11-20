@@ -21,7 +21,7 @@ export const addBook = async ({ bookDto }) => {
   }
 };
 
-export const deleteUserBook = async ({ userBook_id }) => {
+export const deleteUserBook = async (userBook_id) => {
   try {
     await API.delete(`/user-books/${userBook_id}`);
     return { userBook_id };
