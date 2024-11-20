@@ -1,3 +1,4 @@
+@import "../../../../../style/variables.scss";
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -14,14 +15,14 @@
 
 .statLabel {
   font-size: 0.875rem;
-  color: var(--text-secondary);
+  color: $secondary-color;
   margin-bottom: 0.5rem;
 }
 
 .statValue {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: $title-color;
 }
 
 .container {
@@ -37,7 +38,7 @@
 
 .requestCard {
   padding: 1rem;
-  background-color: var(--background-secondary);
+  background-color: $grey-2;
   border-radius: 0.5rem;
 
   &.clickable {
@@ -45,7 +46,7 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: var(--background-hover);
+      background-color: $grey-3;
     }
   }
 }
@@ -65,36 +66,37 @@
 
 .date {
   margin-left: auto;
-  color: var(--text-secondary);
+  color: $secondary-color;
   font-size: 0.875rem;
 }
 
 .closeButton {
   width: 100%;
   padding: 0.75rem;
-  background-color: var(--background-secondary);
+  background-color: $grey-2;
   border: none;
   border-radius: 0.5rem;
-  color: var(--text-primary);
+  color: $title-color;
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--background-hover);
+    background-color: $grey-3;
   }
 }
 
 .pageInput {
   padding: 0.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid $box-border-colors;
   border-radius: 0.25rem;
   font-size: 1rem;
-  background-color: var(--background-secondary);
+  font-family: $paragraph-font;
+  background-color: $grey-2;
 
   &:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+    border-color: $dark-accent;
+    box-shadow: 0 0 0 2px rgba($dark-accent, 0.2);
   }
 }
 
@@ -109,14 +111,15 @@
   min-width: 100px;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  background-color: var(--background-secondary);
-  color: var(--text-secondary);
+  font-family: $paragraph-font;
+  background-color: $grey-2;
+  color: $secondary-color;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: var(--background-hover);
+    background-color: darken($grey-2, 5%);
   }
 
   &:disabled {
@@ -130,13 +133,14 @@
   min-width: 100px;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  background-color: var(--success);
-  color: var(--text-on-accent);
+  font-family: $paragraph-font;
+  background-color: $accepted-color;
+  color: $dark-background-font-color;
   border: none;
   cursor: pointer;
 
   &:hover {
-    filter: brightness(0.9);
+    @include hover-link;
   }
 
   &:disabled {
@@ -146,7 +150,35 @@
 }
 
 .confirmation {
-  color: var(--text-primary);
+  color: $title-color;
   text-align: center;
   margin-bottom: 1rem;
+}
+
+.errorMessage {
+  color: $decline-color;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: $title-color;
+  margin-bottom: 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.username {
+  font-weight: 500;
+  color: $title-color;
+}
+
+.message {
+  margin: 1rem 0;
+  text-align: center;
+  color: $title-color;
 }

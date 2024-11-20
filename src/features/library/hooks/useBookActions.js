@@ -6,36 +6,42 @@ import { nextBookRequestStatus } from "../userBookCalls";
 export const useBookActions = () => {
   const dispatch = useDispatch();
 
-  const handleUpdatePageCount = (request_id, currentPage, userBook_id) => {
-    dispatch(updateCurrentPage({ request_id, currentPage, userBook_id }));
+  // Helper function to handle dispatch operations
+  const dispatchAction = async (action, errorMessage = null) => {
+    try {
+      await dispatch(action).unwrap();
+      return true;
+    } catch (error) {
+      if (errorMessage) console.error(errorMessage, error);
+      return false;
+    }
   };
 
-  const removeBook = (userBookId) => {
-    dispatch(deleteUserBook(userBookId));
-  };
+  const handleUpdatePageCount = (request_id, currentPage, userBook_id) =>
+    dispatchAction(updateCurrentPage({ request_id, currentPage, userBook_id }));
 
-  const markComplete = async (request_id, userBook_id, pageCount) => {
-    await dispatch(
+  const removeBook = (userBookId) => dispatchAction(deleteUserBook(userBookId));
+
+  const confirmRequest = (request_id) =>
+    dispatchAction(nextBookRequestStatus(request_id));
+
+  const markComplete = (request_id, userBook_id, pageCount) =>
+    dispatchAction(
       updateCurrentPage({
         request_id,
         userBook_id,
         currentPage: pageCount,
       })
-    ).unwrap();
-  };
+    );
 
-  const returnBook = async (request_id) => {
-    try {
-      await nextBookRequestStatus(request_id);
-    } catch (error) {
-      console.error("error in returnBook", error);
-    }
-  };
+  const returnBook = (request_id) =>
+    dispatchAction(nextBookRequestStatus(request_id), "error in returnBook");
 
   return {
     handleUpdatePageCount,
     removeBook,
     markComplete,
     returnBook,
+    confirmRequest,
   };
 };

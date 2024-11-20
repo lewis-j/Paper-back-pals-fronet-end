@@ -1,8 +1,9 @@
+import { useSelector } from "react-redux";
 import BookModalForm from "../../components/ModalForms/BookModalForm/BookModalForm";
 import FormContainer from "../../components/ModalForms/Shared/FormContainer/FormContainer";
 import { useBookActions } from "../../hooks/useBookActions";
 import { MODAL_TYPES } from "./modalTypes";
-
+import * as asyncStatus from "../../../../data/asyncStatus";
 const createBookFinder = (book_id) => (userBooks) => {
   return userBooks.find((book) => book._id === book_id);
 };
@@ -129,14 +130,16 @@ export const getMenuItems = (modalActions, book_id) => {
   };
 };
 
-const modalConfig = (userBook, actions, onClose) => ({
+const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
   [MODAL_TYPES.PAGE_COUNT]: {
     label: "Update current page",
     component: (
       <BookModalForm.ChangePageCount
-        userBook={userBook}
+        userBook={modalData.userBook}
         onClose={onClose}
         onUpdatePages={actions.handleUpdatePageCount}
+        isSubmitting={isSubmitting}
+        error={error}
       />
     ),
   },
@@ -144,9 +147,11 @@ const modalConfig = (userBook, actions, onClose) => ({
     label: "Mark book as complete",
     component: (
       <BookModalForm.MarkComplete
-        userBook={userBook}
+        userBook={modalData.userBook}
         onClose={onClose}
         onMarkComplete={actions.markComplete}
+        isSubmitting={isSubmitting}
+        error={error}
       />
     ),
   },
@@ -154,56 +159,88 @@ const modalConfig = (userBook, actions, onClose) => ({
     label: "Return Book",
     component: (
       <BookModalForm.ReturnBook
-        userBook={userBook}
+        userBook={modalData.userBook}
         onClose={onClose}
         onReturnBook={actions.returnBook}
+        isSubmitting={isSubmitting}
+        error={error}
       />
     ),
   },
   [MODAL_TYPES.VIEW_REQUESTS]: {
     label: "View Requests",
     component: (
-      <BookModalForm.UserBookRequest userBook={userBook} onClose={onClose} />
+      <BookModalForm.UserBookRequest
+        userBook={modalData.userBook}
+        onClose={onClose}
+      />
     ),
   },
   [MODAL_TYPES.USER_BOOK_DETAILS]: {
     label: "Book Description",
     component: (
-      <BookModalForm.UserBookDetails userBook={userBook} onClose={onClose} />
+      <BookModalForm.UserBookDetails
+        userBook={modalData.userBook}
+        onClose={onClose}
+      />
     ),
   },
   [MODAL_TYPES.CONFIRM_REQUEST]: {
     label: "Confirm Request",
     component: (
-      <BookModalForm.ConfirmRequest userBook={userBook} onClose={onClose} />
+      <BookModalForm.ConfirmRequest
+        requestData={modalData.request}
+        userBook={modalData.userBook}
+        onClose={onClose}
+        onConfirmRequest={actions.confirmRequest}
+        isSubmitting={isSubmitting}
+        error={error}
+      />
     ),
   },
   [MODAL_TYPES.VIEW_PROGRESS]: {
     label: "Reading Progress",
     component: (
-      <BookModalForm.ViewProgress userBook={userBook} onClose={onClose} />
+      <BookModalForm.ViewProgress
+        userBook={modalData.userBook}
+        onClose={onClose}
+      />
     ),
   },
   [MODAL_TYPES.REMOVE_BOOK]: {
     label: "Remove Book",
     component: (
       <BookModalForm.RemoveBook
-        userBook={userBook}
+        userBook={modalData.userBook}
         onClose={onClose}
         onConfirmDelete={actions.removeBook}
+        isSubmitting={isSubmitting}
+        error={error}
       />
     ),
   },
   [MODAL_TYPES.REMOVE_REQUEST]: {
     label: "Remove Request",
     component: (
-      <BookModalForm.RemoveRequest userBook={userBook} onClose={onClose} />
+      <BookModalForm.RemoveRequest
+        userBook={modalData.userBook}
+        onClose={onClose}
+        onRemoveRequest={actions.removeRequest}
+        isSubmitting={isSubmitting}
+        error={error}
+      />
     ),
   },
   [MODAL_TYPES.EXTEND_BORROW]: {
     label: "Extend Borrow",
     component: (
-      <BookModalForm.RequestExtension userBook={userBook} onClose={onClose} />
+      <BookModalForm.RequestExtension
+        userBook={modalData.userBook}
+        onClose={onClose}
+        onRequestExtension={actions.requestExtension}
+        isSubmitting={isSubmitting}
+        error={error}
+      />
     ),
   },
 });
@@ -211,11 +248,15 @@ const modalConfig = (userBook, actions, onClose) => ({
 // Modal content components
 export const ModalContent = ({ modal, onClose }) => {
   const actions = useBookActions();
-  const config = modalConfig(modal.data, actions, onClose)[modal.type];
+  const status = useSelector((state) => state.userBooks.status);
+  const error = useSelector((state) => state.userBooks.error);
+  const isSubmitting = status === asyncStatus.LOADING;
+  const config = modalConfig(modal.data, actions, isSubmitting, error, onClose)[
+    modal.type
+  ];
   const label = config?.label || modal.title || "";
-
   return (
-    <FormContainer bookData={modal.data} label={label}>
+    <FormContainer bookData={modal.data.userBook} label={label}>
       {config && config.component}
     </FormContainer>
   );

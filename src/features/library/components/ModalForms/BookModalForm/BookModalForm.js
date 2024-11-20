@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import * as asyncStatus from "../../../../../data/asyncStatus";
-import formStyles from "../Shared/FormContainer/FormContainer.module.scss";
 import styles from "./BookModalForm.module.scss";
 import { Loading } from "../../../../../components";
 import { useModal } from "../../../../../context/ModalContext";
@@ -19,12 +18,8 @@ const ViewProgress = ({ userBook, onClose }) => {
           <span className={styles.statValue}>{pagesRemaining}</span>
         </div>
       </div>
-      <div className={formStyles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={formStyles.cancelButton}
-        >
+      <div className={styles.buttonContainer}>
+        <button type="button" onClick={onClose} className={styles.cancelButton}>
           Close
         </button>
       </div>
@@ -46,7 +41,7 @@ const ChangePageCount = ({ userBook, onClose, onUpdatePages }) => {
   return (
     <>
       <input
-        className={formStyles.pageInput}
+        className={styles.pageInput}
         type="number"
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -54,7 +49,7 @@ const ChangePageCount = ({ userBook, onClose, onUpdatePages }) => {
         max={userBook.book.pageCount}
       />
       <button
-        className={formStyles.submitButton}
+        className={styles.submitButton}
         type="submit"
         onClick={handleSubmit}
       >
@@ -64,44 +59,44 @@ const ChangePageCount = ({ userBook, onClose, onUpdatePages }) => {
   );
 };
 
-const MarkComplete = ({ userBook, onClose, onMarkComplete }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+const MarkComplete = ({
+  userBook,
+  onClose,
+  onMarkComplete,
+  isSubmitting,
+  error,
+}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      await onMarkComplete(
-        userBook.request.request_id,
-        userBook._id,
-        userBook.book.pageCount
-      );
+    const success = await onMarkComplete(
+      userBook.request.request_id,
+      userBook._id,
+      userBook.book.pageCount
+    );
+    if (success) {
       onClose();
-    } catch (error) {
-      console.error("Error updating reading progress:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <>
-      <p className={formStyles.confirmation}>
+      <p className={styles.confirmation}>
         This will update your progress to {userBook.book.pageCount} pages,
         marking the book as complete.
       </p>
-      <div className={formStyles.buttonContainer}>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
         <button
           type="button"
           onClick={onClose}
-          className={formStyles.cancelButton}
+          className={styles.cancelButton}
           disabled={isSubmitting}
         >
           Cancel
         </button>
         <button
           type="submit"
-          className={formStyles.submitButton}
+          className={styles.submitButton}
           disabled={isSubmitting}
           onClick={handleSubmit}
         >
@@ -112,41 +107,39 @@ const MarkComplete = ({ userBook, onClose, onMarkComplete }) => {
   );
 };
 
-const RemoveBook = ({ userBook, onClose, onConfirmDelete }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  console.log("removing book", userBook);
-
+const RemoveBook = ({
+  userBook,
+  onClose,
+  onConfirmDelete,
+  isSubmitting,
+  error,
+}) => {
   const handleRemove = async () => {
-    setIsSubmitting(true);
-    try {
-      await onConfirmDelete(userBook._id);
-    } catch (error) {
-      console.error("Error removing book:", error);
-    } finally {
-      setIsSubmitting(false);
+    const success = await onConfirmDelete(userBook._id);
+    if (success) {
       onClose();
     }
   };
 
   return (
     <>
-      <p className={formStyles.confirmation}>
+      <p className={styles.confirmation}>
         Are you sure you want to remove "{userBook.book.title}" from your
         library?
       </p>
-      <div className={formStyles.buttonContainer}>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
         <button
           type="button"
           onClick={onClose}
-          className={formStyles.cancelButton}
+          className={styles.cancelButton}
           disabled={isSubmitting}
         >
           Cancel
         </button>
         <button
           type="submit"
-          className={formStyles.submitButton}
+          className={styles.submitButton}
           disabled={isSubmitting}
           onClick={handleRemove}
         >
@@ -157,43 +150,44 @@ const RemoveBook = ({ userBook, onClose, onConfirmDelete }) => {
   );
 };
 
-const ReturnBook = ({ userBook, onClose, onReturnBook }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const ReturnBook = ({
+  userBook,
+  onClose,
+  onReturnBook,
+  isSubmitting,
+  error,
+}) => {
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
   if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
 
   const handleReturnBook = async () => {
-    setIsSubmitting(true);
-    try {
-      await onReturnBook(userBook.request.request_id);
+    const success = await onReturnBook(userBook.request.request_id);
+    if (success) {
       onClose();
-    } catch (error) {
-      console.error("Error returning book:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <>
-      <p className={formStyles.confirmation}>
+      <p className={styles.confirmation}>
         Do you want to return {userBook.book.title} to {userBook.owner.username}
         ?
       </p>
-      <div className={formStyles.buttonContainer}>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
         <button
           type="button"
           onClick={onClose}
-          className={formStyles.cancelButton}
+          className={styles.cancelButton}
           disabled={isSubmitting}
         >
           Cancel
         </button>
         <button
           type="submit"
-          className={formStyles.submitButton}
+          className={styles.submitButton}
           disabled={isSubmitting}
           onClick={handleReturnBook}
         >
@@ -212,13 +206,9 @@ const UserBookDetails = ({ userBook, onClose }) => {
 
   return (
     <>
-      <p className={formStyles.description}>{userBook.book.description}</p>
-      <div className={formStyles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={formStyles.cancelButton}
-        >
+      <p className={styles.description}>{userBook.book.description}</p>
+      <div className={styles.buttonContainer}>
+        <button type="button" onClick={onClose} className={styles.cancelButton}>
           Close
         </button>
       </div>
@@ -241,7 +231,7 @@ const UserBookRequest = ({ userBook, onClose }) => {
 
   const handleRequestClick = (request) => {
     onClose();
-    openModal(MODAL_TYPES.CONFIRM_REQUEST, "Confirm Request", {
+    openModal(MODAL_TYPES.CONFIRM_REQUEST, {
       userBook,
       request,
     });
@@ -279,8 +269,50 @@ const UserBookRequest = ({ userBook, onClose }) => {
   );
 };
 
-const ConfirmRequest = ({ userBook, request, onClose }) => {
-  return <div>ConfirmRequest</div>;
+const ConfirmRequest = ({
+  userBook,
+  requestData,
+  onClose,
+  onConfirmRequest,
+  isSubmitting,
+  error,
+}) => {
+  if (!userBook || !requestData) return null;
+
+  const handleConfirm = async () => {
+    const success = await onConfirmRequest(requestData._id);
+    if (success) {
+      onClose();
+    }
+  };
+
+  return (
+    <>
+      <p className={styles.confirmation}>
+        Do you want to lend "{userBook.book.title}" to{" "}
+        {requestData.sender.username}?
+      </p>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
+        <button
+          type="button"
+          onClick={onClose}
+          className={styles.cancelButton}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+          onClick={handleConfirm}
+        >
+          {isSubmitting ? "Confirming..." : "Confirm Request"}
+        </button>
+      </div>
+    </>
+  );
 };
 
 const RemoveRequest = ({ userBook, onClose }) => {
