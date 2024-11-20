@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Loading } from "../../../../../components";
 import { useSelector } from "react-redux";
-
 import * as asyncStatus from "../../../../../data/asyncStatus";
 import formStyles from "../Shared/FormContainer/FormContainer.module.scss";
-import FormContainer from "../Shared/FormContainer/FormContainer";
 
 const ReturnBookForm = ({ userBook, onClose, onReturnBook }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
+  if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
 
   const handleReturnBook = async () => {
     setIsSubmitting(true);
@@ -24,11 +23,8 @@ const ReturnBookForm = ({ userBook, onClose, onReturnBook }) => {
     }
   };
 
-  if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
-
   return (
-    <FormContainer bookData={userBook}>
-      <div className={formStyles.label}>Return Book</div>
+    <>
       <p className={formStyles.confirmation}>
         Do you want to return {userBook.book.title} to {userBook.owner.username}
         ?
@@ -51,7 +47,7 @@ const ReturnBookForm = ({ userBook, onClose, onReturnBook }) => {
           {isSubmitting ? "Returning Book..." : "Return Book"}
         </button>
       </div>
-    </FormContainer>
+    </>
   );
 };
 

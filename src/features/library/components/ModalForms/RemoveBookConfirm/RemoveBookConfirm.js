@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import formStyles from "../Shared/FormContainer/FormContainer.module.scss";
-import FormContainer from "../Shared/FormContainer/FormContainer";
 
 const RemoveBookConfirm = ({ userBook, onClose, onConfirm }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,8 +17,7 @@ const RemoveBookConfirm = ({ userBook, onClose, onConfirm }) => {
   };
 
   return (
-    <FormContainer bookData={userBook}>
-      <div className={formStyles.label}>Remove Book</div>
+    <>
       <p className={formStyles.confirmation}>
         Are you sure you want to remove "{userBook.book.title}" from your
         library?
@@ -42,7 +40,7 @@ const RemoveBookConfirm = ({ userBook, onClose, onConfirm }) => {
           {isSubmitting ? "Removing..." : "Remove Book"}
         </button>
       </div>
-    </FormContainer>
+    </>
   );
 };
 

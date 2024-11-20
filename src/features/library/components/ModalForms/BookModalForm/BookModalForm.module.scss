@@ -1,0 +1,152 @@
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.container {
+  width: 100%;
+}
+
+.requestList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.requestCard {
+  padding: 1rem;
+  background-color: var(--background-secondary);
+  border-radius: 0.5rem;
+
+  &.clickable {
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--background-hover);
+    }
+  }
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profilePic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.date {
+  margin-left: auto;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.closeButton {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--background-secondary);
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+}
+
+.pageInput {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  background-color: var(--background-secondary);
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.cancelButton {
+  min-width: 100px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--background-secondary);
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.submitButton {
+  align-self: flex-end;
+  min-width: 100px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--success);
+  color: var(--text-on-accent);
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.confirmation {
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 1rem;
+}
