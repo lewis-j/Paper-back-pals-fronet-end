@@ -6,7 +6,7 @@ import { Loading } from "../../../../../components";
 import { useModal } from "../../../../../context/ModalContext";
 import { MODAL_TYPES } from "../../../config/modals";
 
-const ViewProgress = ({ userBook, onClose }) => {
+const ReadingProgressView = ({ userBook, onClose }) => {
   const { book, currentPage } = userBook;
   const pagesRemaining = book.pageCount - currentPage;
 
@@ -27,7 +27,7 @@ const ViewProgress = ({ userBook, onClose }) => {
   );
 };
 
-const ChangePageCount = ({ userBook, onClose, onUpdateProgress }) => {
+const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
   const { _id: userBook_id, request, currentPage } = userBook;
   const [value, setValue] = useState(currentPage);
 
@@ -59,7 +59,7 @@ const ChangePageCount = ({ userBook, onClose, onUpdateProgress }) => {
   );
 };
 
-const MarkComplete = ({
+const CompleteBookForm = ({
   userBook,
   onClose,
   onComplete,
@@ -107,7 +107,13 @@ const MarkComplete = ({
   );
 };
 
-const RemoveBook = ({ userBook, onClose, onDelete, isSubmitting, error }) => {
+const DeleteBookForm = ({
+  userBook,
+  onClose,
+  onDelete,
+  isSubmitting,
+  error,
+}) => {
   const handleRemove = async () => {
     const success = await onDelete(userBook._id);
     if (success) {
@@ -144,7 +150,13 @@ const RemoveBook = ({ userBook, onClose, onDelete, isSubmitting, error }) => {
   );
 };
 
-const ReturnBook = ({ userBook, onClose, onReturn, isSubmitting, error }) => {
+const ReturnBookForm = ({
+  userBook,
+  onClose,
+  onReturn,
+  isSubmitting,
+  error,
+}) => {
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
@@ -186,7 +198,7 @@ const ReturnBook = ({ userBook, onClose, onReturn, isSubmitting, error }) => {
   );
 };
 
-const UserBookDetails = ({ userBook, onClose }) => {
+const BookDetailsView = ({ userBook, onClose }) => {
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
@@ -204,7 +216,7 @@ const UserBookDetails = ({ userBook, onClose }) => {
   );
 };
 
-const UserBookRequest = ({ userBook, onClose }) => {
+const BorrowRequestsList = ({ userBook, onClose }) => {
   const { openModal } = useModal();
   const requests = userBook.request;
 
@@ -257,7 +269,7 @@ const UserBookRequest = ({ userBook, onClose }) => {
   );
 };
 
-const ConfirmRequest = ({
+const ConfirmBorrowRequestForm = ({
   userBook,
   requestData,
   onClose,
@@ -303,7 +315,7 @@ const ConfirmRequest = ({
   );
 };
 
-const CancelBorrowRequest = ({
+const CancelBorrowRequestForm = ({
   userBook,
   onClose,
   onCancel,
@@ -346,21 +358,21 @@ const CancelBorrowRequest = ({
   );
 };
 
-const RequestExtension = ({ userBook, onClose }) => {
+const ExtendBorrowForm = ({ userBook, onClose }) => {
   return <div>RequestExtension</div>;
 };
 
 const BookModalForm = {
-  ViewProgress,
-  ChangePageCount,
-  MarkComplete,
-  RemoveBook,
-  ReturnBook,
-  UserBookDetails,
-  UserBookRequest,
-  ConfirmRequest,
-  CancelBorrowRequest,
-  RequestExtension,
+  ReadingProgressView,
+  UpdatePageForm,
+  CompleteBookForm,
+  DeleteBookForm,
+  ReturnBookForm,
+  BookDetailsView,
+  BorrowRequestsList,
+  ConfirmBorrowRequestForm,
+  CancelBorrowRequestForm,
+  ExtendBorrowForm,
 };
 
 export default BookModalForm;

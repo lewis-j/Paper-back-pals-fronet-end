@@ -134,7 +134,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
   [MODAL_TYPES.UPDATE_PAGE_COUNT]: {
     label: "Update current page",
     component: (
-      <BookModalForm.ChangePageCount
+      <BookModalForm.UpdatePageForm
         userBook={modalData.userBook}
         onClose={onClose}
         onUpdateProgress={actions.updateReadingProgress}
@@ -146,7 +146,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
   [MODAL_TYPES.COMPLETE_BOOK]: {
     label: "Mark book as complete",
     component: (
-      <BookModalForm.MarkComplete
+      <BookModalForm.CompleteBookForm
         userBook={modalData.userBook}
         onClose={onClose}
         onComplete={actions.completeBook}
@@ -158,7 +158,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
   [MODAL_TYPES.RETURN_BORROWED_BOOK]: {
     label: "Return Book",
     component: (
-      <BookModalForm.ReturnBook
+      <BookModalForm.ReturnBookForm
         userBook={modalData.userBook}
         onClose={onClose}
         onReturn={actions.returnBorrowedBook}
@@ -170,7 +170,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
   [MODAL_TYPES.VIEW_BORROW_REQUESTS]: {
     label: "View Requests",
     component: (
-      <BookModalForm.UserBookRequest
+      <BookModalForm.BorrowRequestsList
         userBook={modalData.userBook}
         onClose={onClose}
       />
@@ -179,7 +179,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
   [MODAL_TYPES.VIEW_BOOK_DETAILS]: {
     label: "Book Description",
     component: (
-      <BookModalForm.UserBookDetails
+      <BookModalForm.BookDetailsView
         userBook={modalData.userBook}
         onClose={onClose}
       />
