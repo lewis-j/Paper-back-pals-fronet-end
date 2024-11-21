@@ -54,6 +54,16 @@ export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
   }
 };
 
+export const removeBookRequest = async (request_id) => {
+  try {
+    await API.delete(`/user-books/request/${request_id}`);
+    return { request_id };
+  } catch (error) {
+    console.error("Failed to remove book request:", error);
+    return Promise.reject(error);
+  }
+};
+
 export const updateCurrentRead = async ({ userBook_id }) => {
   try {
     const res = await API.put(`/user/setCurrentRead/${userBook_id}`);

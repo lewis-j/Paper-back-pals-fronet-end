@@ -1,6 +1,10 @@
 import { useDispatch } from "react-redux";
 import { updateCurrentPage } from "../../../features/library";
-import { deleteUserBook } from "../userBooksSlice";
+import {
+  cancelBorrowRequest,
+  deleteUserBook,
+  removeBookRequest,
+} from "../userBooksSlice";
 import { nextBookRequestStatus } from "../userBookCalls";
 
 export const useBookActions = () => {
@@ -9,6 +13,7 @@ export const useBookActions = () => {
   // Helper function to handle dispatch operations
   const dispatchAction = async (action, errorMessage = null) => {
     try {
+      console.log("dispatching action", action);
       await dispatch(action).unwrap();
       return true;
     } catch (error) {
@@ -17,15 +22,19 @@ export const useBookActions = () => {
     }
   };
 
-  const handleUpdatePageCount = (request_id, currentPage, userBook_id) =>
+  const updateReadingProgress = (request_id, currentPage, userBook_id) =>
     dispatchAction(updateCurrentPage({ request_id, currentPage, userBook_id }));
 
-  const removeBook = (userBookId) => dispatchAction(deleteUserBook(userBookId));
+  const deleteBookFromLibrary = (userBookId) =>
+    dispatchAction(deleteUserBook(userBookId));
 
-  const confirmRequest = (request_id) =>
-    dispatchAction(nextBookRequestStatus(request_id));
+  const acceptBorrowRequest = (request_id) =>
+    dispatchAction(
+      nextBookRequestStatus(request_id),
+      "error in acceptBorrowRequest"
+    );
 
-  const markComplete = (request_id, userBook_id, pageCount) =>
+  const completeBook = (request_id, userBook_id, pageCount) =>
     dispatchAction(
       updateCurrentPage({
         request_id,
@@ -34,14 +43,24 @@ export const useBookActions = () => {
       })
     );
 
-  const returnBook = (request_id) =>
-    dispatchAction(nextBookRequestStatus(request_id), "error in returnBook");
+  const returnBorrowedBook = (request_id) =>
+    dispatchAction(
+      nextBookRequestStatus(request_id),
+      "error in returnBorrowedBook"
+    );
+
+  const cancelPendingBorrowRequest = (request_id) =>
+    dispatchAction(
+      cancelBorrowRequest(request_id),
+      "error in cancelPendingBorrowRequest"
+    );
 
   return {
-    handleUpdatePageCount,
-    removeBook,
-    markComplete,
-    returnBook,
-    confirmRequest,
+    updateReadingProgress,
+    deleteBookFromLibrary,
+    completeBook,
+    returnBorrowedBook,
+    acceptBorrowRequest,
+    cancelPendingBorrowRequest,
   };
 };

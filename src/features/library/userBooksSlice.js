@@ -19,6 +19,11 @@ export const createBookRequest = createAsyncThunk(
   userBookApi.createBookRequest
 );
 
+export const removeBookRequest = createAsyncThunk(
+  "userBooks/removeRequest",
+  userBookApi.removeBookRequest
+);
+
 export const updateCurrentRead = createAsyncThunk(
   "useBooks/updateCurrentRead",
   userBookApi.updateCurrentRead
@@ -34,6 +39,16 @@ export const nextBookRequestStatus = createAsyncThunk(
   userBookApi.nextBookRequestStatus
 );
 
+export const cancelBorrowRequest = createAsyncThunk(
+  "userBooks/cancelBorrowRequest",
+  userBookApi.removeBookRequest
+);
+
+export const denyLendRequest = createAsyncThunk(
+  "userBooks/denyLendRequest",
+  userBookApi.removeBookRequest
+);
+
 const nextBookRequestStatusFulfilled = (state, action) => {
   console.log("action", action);
   const request_id = action.payload.bookRequest.request_id;
@@ -42,6 +57,12 @@ const nextBookRequestStatusFulfilled = (state, action) => {
     ({ request }) => request.request_id === request_id
   );
   state.books.borrowed[bookIdx].status = action.payload.bookRequest.status;
+};
+
+const removeBookRequestFulfilled = (state, action) => {
+  state.books.borrowed = state.books.borrowed.filter(
+    ({ request }) => request.request_id !== action.payload.request_id
+  );
 };
 
 const updateCurrentReadFulfilled = (state, action) => {
@@ -74,6 +95,22 @@ const deleteUserBookFulfilled = (state, action) => {
   );
 };
 
+const cancelBorrowRequestFulfilled = (state, action) => {
+  state.books.borrowed = state.books.borrowed.filter(
+    ({ request }) => request.request_id !== action.payload.request_id
+  );
+};
+
+const denyLendRequestFulfilled = (state, action) => {
+  // Update the owned books' requests array
+  // Implementation depends on how requests are stored in your owned books
+  state.books.owned.forEach((book) => {
+    book.requests = book.requests.filter(
+      (request) => request.request_id !== action.payload.request_id
+    );
+  });
+};
+
 export const userBooksSlice = createSlice({
   name: "userBooks",
 
@@ -101,6 +138,9 @@ export const userBooksSlice = createSlice({
     ...setExtraReducer(updateCurrentRead, updateCurrentReadFulfilled),
     ...setExtraReducer(updateCurrentPage, updateCurrentPageFulfilled),
     ...setExtraReducer(nextBookRequestStatus, nextBookRequestStatusFulfilled),
+    ...setExtraReducer(removeBookRequest, removeBookRequestFulfilled),
+    ...setExtraReducer(cancelBorrowRequest, cancelBorrowRequestFulfilled),
+    ...setExtraReducer(denyLendRequest, denyLendRequestFulfilled),
   },
 });
 

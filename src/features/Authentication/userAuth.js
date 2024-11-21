@@ -59,7 +59,6 @@ const loginWithGoogle = async (_, { dispatch }) => {
     const res = await firebaseApi.loginGoogle();
     const token = await res?.user?.getIdToken();
     const user = await authApi.googleAuth(token);
-
     return parseSlice(dispatch, user);
   } catch (err) {
     return Promise.reject(err);

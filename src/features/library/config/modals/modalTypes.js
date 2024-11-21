@@ -1,25 +1,52 @@
+class ModalType {
+  constructor(name, title) {
+    this.name = name;
+    this.title = title;
+  }
+  toString() {
+    return this.name;
+  }
+}
+
 export const MODAL_TYPES = {
-  // Book reading actions
-  PAGE_COUNT: "pageCount",
+  // Reading Progress
+  UPDATE_PAGE_COUNT: new ModalType("UPDATE_PAGE_COUNT", "Update Page Count"),
+  SET_CURRENT_READ: new ModalType("SET_CURRENT_READ", "Set Current Read"),
+  COMPLETE_BOOK: new ModalType("COMPLETE_BOOK", "Complete Book"),
+  VIEW_BOOK_DETAILS: new ModalType("VIEW_BOOK_DETAILS", "Book Details"),
+  VIEW_READING_PROGRESS: new ModalType(
+    "VIEW_READING_PROGRESS",
+    "Reading Progress"
+  ),
 
-  CURRENT_READ: "currentRead",
-  MARK_COMPLETE: "markComplete",
-  USER_BOOK_DETAILS: "userBookDetails",
-  VIEW_PROGRESS: "viewProgress",
+  // Borrowing & Lending
+  RETURN_BORROWED_BOOK: new ModalType("RETURN_BORROWED_BOOK", "Return Book"),
+  REQUEST_BORROW_EXTENSION: new ModalType(
+    "REQUEST_BORROW_EXTENSION",
+    "Request Extension"
+  ),
+  REQUEST_BOOK_RETURN: new ModalType("REQUEST_BOOK_RETURN", "Request Return"),
 
-  // Book lending actions
-  RETURN_BOOK: "returnBook",
-  EXTEND_BORROW: "extendBorrow",
-  REQUEST_RETURN: "requestReturn",
+  // Request Management
+  VIEW_BORROW_REQUESTS: new ModalType(
+    "VIEW_BORROW_REQUESTS",
+    "View Borrow Requests"
+  ),
+  CONFIRM_BORROW_REQUEST: new ModalType(
+    "CONFIRM_BORROW_REQUEST",
+    "Confirm Borrow Request"
+  ),
+  CANCEL_BORROW_REQUEST: new ModalType(
+    "CANCEL_BORROW_REQUEST",
+    "Cancel Borrow Request"
+  ),
 
-  // Request management
-  VIEW_REQUESTS: "viewRequests",
-  CONFIRM_REQUEST: "confirmRequest",
-  REMOVE_REQUEST: "removeRequest",
-
-  // Book management
-  REMOVE_BOOK: "removeBook",
+  // Library Management
+  REMOVE_FROM_LIBRARY: new ModalType(
+    "REMOVE_FROM_LIBRARY",
+    "Remove from Library"
+  ),
 
   // Communication
-  SEND_MESSAGE: "sendMessage",
+  OPEN_CHAT: new ModalType("OPEN_CHAT", "Open Chat"),
 };

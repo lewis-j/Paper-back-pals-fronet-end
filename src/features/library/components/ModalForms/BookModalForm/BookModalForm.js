@@ -27,14 +27,14 @@ const ViewProgress = ({ userBook, onClose }) => {
   );
 };
 
-const ChangePageCount = ({ userBook, onClose, onUpdatePages }) => {
+const ChangePageCount = ({ userBook, onClose, onUpdateProgress }) => {
   const { _id: userBook_id, request, currentPage } = userBook;
   const [value, setValue] = useState(currentPage);
 
   if (!userBook) return null;
 
   const handleSubmit = () => {
-    onUpdatePages(request.request_id, value, userBook_id);
+    onUpdateProgress(request.request_id, value, userBook_id);
     onClose();
   };
 
@@ -62,13 +62,13 @@ const ChangePageCount = ({ userBook, onClose, onUpdatePages }) => {
 const MarkComplete = ({
   userBook,
   onClose,
-  onMarkComplete,
+  onComplete,
   isSubmitting,
   error,
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await onMarkComplete(
+    const success = await onComplete(
       userBook.request.request_id,
       userBook._id,
       userBook.book.pageCount
@@ -107,15 +107,9 @@ const MarkComplete = ({
   );
 };
 
-const RemoveBook = ({
-  userBook,
-  onClose,
-  onConfirmDelete,
-  isSubmitting,
-  error,
-}) => {
+const RemoveBook = ({ userBook, onClose, onDelete, isSubmitting, error }) => {
   const handleRemove = async () => {
-    const success = await onConfirmDelete(userBook._id);
+    const success = await onDelete(userBook._id);
     if (success) {
       onClose();
     }
@@ -150,20 +144,14 @@ const RemoveBook = ({
   );
 };
 
-const ReturnBook = ({
-  userBook,
-  onClose,
-  onReturnBook,
-  isSubmitting,
-  error,
-}) => {
+const ReturnBook = ({ userBook, onClose, onReturn, isSubmitting, error }) => {
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
   if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
 
   const handleReturnBook = async () => {
-    const success = await onReturnBook(userBook.request.request_id);
+    const success = await onReturn(userBook.request.request_id);
     if (success) {
       onClose();
     }
@@ -315,8 +303,47 @@ const ConfirmRequest = ({
   );
 };
 
-const RemoveRequest = ({ userBook, onClose }) => {
-  return <div>RemoveRequest</div>;
+const CancelBorrowRequest = ({
+  userBook,
+  onClose,
+  onCancel,
+  isSubmitting,
+  error,
+}) => {
+  const handleRemove = async () => {
+    const success = await onCancel(userBook.request.request_id);
+    if (success) {
+      onClose();
+    }
+  };
+
+  return (
+    <>
+      <p className={styles.confirmation}>
+        Are you sure you want to cancel your request for "{userBook.book.title}
+        "?
+      </p>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
+        <button
+          type="button"
+          onClick={onClose}
+          className={styles.cancelButton}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+          onClick={handleRemove}
+        >
+          {isSubmitting ? "Canceling Request..." : "Cancel Request"}
+        </button>
+      </div>
+    </>
+  );
 };
 
 const RequestExtension = ({ userBook, onClose }) => {
@@ -332,7 +359,7 @@ const BookModalForm = {
   UserBookDetails,
   UserBookRequest,
   ConfirmRequest,
-  RemoveRequest,
+  CancelBorrowRequest,
   RequestExtension,
 };
 

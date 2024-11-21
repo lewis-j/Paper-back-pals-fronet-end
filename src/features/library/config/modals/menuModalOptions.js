@@ -21,8 +21,8 @@ export const getMenuItems = (modalActions, book_id) => {
           clickHandler: () => modalActions.viewUserBookDetails(userBook),
         },
         {
-          text: "Remove from Library",
-          clickHandler: () => modalActions.removeBook(userBook),
+          text: "Remove Book",
+          clickHandler: () => modalActions.removeFromLibrary(userBook),
         },
       ];
     },
@@ -31,24 +31,24 @@ export const getMenuItems = (modalActions, book_id) => {
 
       return [
         {
-          text: "Set as Current Read",
+          text: "Start Reading",
           clickHandler: () => modalActions.setCurrentRead(userBook),
         },
         {
-          text: "Update Progress",
-          clickHandler: () => modalActions.updateProgress(userBook),
+          text: "Update Page",
+          clickHandler: () => modalActions.updatePageCount(userBook),
         },
         {
           text: "Request Extension",
-          clickHandler: () => modalActions.requestExtension(userBook),
+          clickHandler: () => modalActions.requestBorrowExtension(userBook),
         },
         {
           text: "Message Owner",
-          clickHandler: () => modalActions.sendMessage(userBook),
+          clickHandler: () => modalActions.openChat(userBook.owner._id),
         },
         {
           text: "Return Book",
-          clickHandler: () => modalActions.returnBook(userBook),
+          clickHandler: () => modalActions.returnBorrowedBook(userBook),
         },
       ];
     },
@@ -56,11 +56,11 @@ export const getMenuItems = (modalActions, book_id) => {
     currentRead: (currentRead) => [
       {
         text: "Update Progress",
-        clickHandler: () => modalActions.updateProgress(currentRead),
+        clickHandler: () => modalActions.updatePageCount(currentRead),
       },
       {
         text: "Mark as Complete",
-        clickHandler: () => modalActions.markComplete(currentRead),
+        clickHandler: () => modalActions.markBookComplete(currentRead),
       },
       {
         text: "Book Details",
@@ -68,7 +68,7 @@ export const getMenuItems = (modalActions, book_id) => {
       },
       {
         text: "Return Book",
-        clickHandler: () => modalActions.returnBook(currentRead),
+        clickHandler: () => modalActions.returnBorrowedBook(currentRead),
       },
     ],
 
@@ -108,7 +108,7 @@ export const getMenuItems = (modalActions, book_id) => {
         },
         {
           text: "Remove Request",
-          clickHandler: () => modalActions.removeRequest(userBook),
+          clickHandler: () => modalActions.cancelBorrowRequest(userBook),
         },
       ];
     },
@@ -131,43 +131,43 @@ export const getMenuItems = (modalActions, book_id) => {
 };
 
 const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
-  [MODAL_TYPES.PAGE_COUNT]: {
+  [MODAL_TYPES.UPDATE_PAGE_COUNT]: {
     label: "Update current page",
     component: (
       <BookModalForm.ChangePageCount
         userBook={modalData.userBook}
         onClose={onClose}
-        onUpdatePages={actions.handleUpdatePageCount}
+        onUpdateProgress={actions.updateReadingProgress}
         isSubmitting={isSubmitting}
         error={error}
       />
     ),
   },
-  [MODAL_TYPES.MARK_COMPLETE]: {
+  [MODAL_TYPES.COMPLETE_BOOK]: {
     label: "Mark book as complete",
     component: (
       <BookModalForm.MarkComplete
         userBook={modalData.userBook}
         onClose={onClose}
-        onMarkComplete={actions.markComplete}
+        onComplete={actions.completeBook}
         isSubmitting={isSubmitting}
         error={error}
       />
     ),
   },
-  [MODAL_TYPES.RETURN_BOOK]: {
+  [MODAL_TYPES.RETURN_BORROWED_BOOK]: {
     label: "Return Book",
     component: (
       <BookModalForm.ReturnBook
         userBook={modalData.userBook}
         onClose={onClose}
-        onReturnBook={actions.returnBook}
+        onReturn={actions.returnBorrowedBook}
         isSubmitting={isSubmitting}
         error={error}
       />
     ),
   },
-  [MODAL_TYPES.VIEW_REQUESTS]: {
+  [MODAL_TYPES.VIEW_BORROW_REQUESTS]: {
     label: "View Requests",
     component: (
       <BookModalForm.UserBookRequest
@@ -176,7 +176,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
       />
     ),
   },
-  [MODAL_TYPES.USER_BOOK_DETAILS]: {
+  [MODAL_TYPES.VIEW_BOOK_DETAILS]: {
     label: "Book Description",
     component: (
       <BookModalForm.UserBookDetails
@@ -185,7 +185,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
       />
     ),
   },
-  [MODAL_TYPES.CONFIRM_REQUEST]: {
+  [MODAL_TYPES.CONFIRM_BORROW_REQUEST]: {
     label: "Confirm Request",
     component: (
       <BookModalForm.ConfirmRequest
@@ -198,7 +198,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
       />
     ),
   },
-  [MODAL_TYPES.VIEW_PROGRESS]: {
+  [MODAL_TYPES.VIEW_READING_PROGRESS]: {
     label: "Reading Progress",
     component: (
       <BookModalForm.ViewProgress
@@ -207,31 +207,31 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => ({
       />
     ),
   },
-  [MODAL_TYPES.REMOVE_BOOK]: {
+  [MODAL_TYPES.REMOVE_FROM_LIBRARY]: {
     label: "Remove Book",
     component: (
       <BookModalForm.RemoveBook
         userBook={modalData.userBook}
         onClose={onClose}
-        onConfirmDelete={actions.removeBook}
+        onDelete={actions.deleteBookFromLibrary}
         isSubmitting={isSubmitting}
         error={error}
       />
     ),
   },
-  [MODAL_TYPES.REMOVE_REQUEST]: {
+  [MODAL_TYPES.CANCEL_BORROW_REQUEST]: {
     label: "Remove Request",
     component: (
-      <BookModalForm.RemoveRequest
+      <BookModalForm.CancelBorrowRequest
         userBook={modalData.userBook}
         onClose={onClose}
-        onRemoveRequest={actions.removeRequest}
+        onCancel={actions.cancelPendingBorrowRequest}
         isSubmitting={isSubmitting}
         error={error}
       />
     ),
   },
-  [MODAL_TYPES.EXTEND_BORROW]: {
+  [MODAL_TYPES.REQUEST_BORROW_EXTENSION]: {
     label: "Extend Borrow",
     component: (
       <BookModalForm.RequestExtension

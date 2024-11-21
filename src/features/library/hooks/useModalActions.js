@@ -11,40 +11,42 @@ export const useModalActions = (openModal) => {
 
   return {
     openModal,
-    // Book reading actions
-    updateProgress: (userBook) =>
-      openModal(MODAL_TYPES.PAGE_COUNT, { userBook }),
+    // Reading Progress
+    updatePageCount: (userBook) =>
+      openModal(MODAL_TYPES.UPDATE_PAGE_COUNT, { userBook }),
     setCurrentRead: (userBook) =>
-      openModal(MODAL_TYPES.CURRENT_READ, { userBook }),
-    markComplete: (userBook) =>
-      openModal(MODAL_TYPES.MARK_COMPLETE, { userBook }),
+      openModal(MODAL_TYPES.SET_CURRENT_READ, { userBook }),
+    markBookComplete: (userBook) =>
+      openModal(MODAL_TYPES.COMPLETE_BOOK, { userBook }),
     viewBookDetails: (bookInfo) =>
-      openModal(MODAL_TYPES.BOOK_DETAILS, bookInfo),
+      openModal(MODAL_TYPES.VIEW_BOOK_DETAILS, bookInfo),
     viewUserBookDetails: (userBook) =>
-      openModal(MODAL_TYPES.USER_BOOK_DETAILS, { userBook }),
+      openModal(MODAL_TYPES.VIEW_BOOK_DETAILS, { userBook }),
+    viewReadingProgress: (userBook) =>
+      openModal(MODAL_TYPES.VIEW_READING_PROGRESS, { userBook }),
 
-    // Book lending actions
-    returnBook: (userBook) => openModal(MODAL_TYPES.RETURN_BOOK, { userBook }),
-    requestExtension: (userBook) =>
-      openModal(MODAL_TYPES.EXTEND_BORROW, { userBook }),
-    requestReturn: (userBook) =>
-      openModal(MODAL_TYPES.REQUEST_RETURN, { userBook }),
+    // Borrowing & Lending
+    returnBorrowedBook: (userBook) =>
+      openModal(MODAL_TYPES.RETURN_BORROWED_BOOK, { userBook }),
+    requestBorrowExtension: (userBook) =>
+      openModal(MODAL_TYPES.REQUEST_BORROW_EXTENSION, { userBook }),
+    requestBookReturn: (userBook) =>
+      openModal(MODAL_TYPES.REQUEST_BOOK_RETURN, { userBook }),
 
-    // Request management
-    viewRequests: (userBook) =>
-      openModal(MODAL_TYPES.VIEW_REQUESTS, { userBook }),
-    confirmRequest: (data) => openModal(MODAL_TYPES.CONFIRM_REQUEST, data),
-    removeRequest: (userBook) =>
-      openModal(MODAL_TYPES.REMOVE_REQUEST, { userBook }),
+    // Request Management
+    viewBorrowRequests: (userBook) =>
+      openModal(MODAL_TYPES.VIEW_BORROW_REQUESTS, { userBook }),
+    confirmBorrowRequest: (data) =>
+      openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, data),
+    cancelBorrowRequest: (userBook) =>
+      openModal(MODAL_TYPES.CANCEL_BORROW_REQUEST, { userBook }),
 
-    // Book management
-    removeBook: (userBook) => openModal(MODAL_TYPES.REMOVE_BOOK, { userBook }),
-    viewProgress: (userBook) => {
-      openModal(MODAL_TYPES.VIEW_PROGRESS, { userBook });
-    },
+    // Library Management
+    removeFromLibrary: (userBook) =>
+      openModal(MODAL_TYPES.REMOVE_FROM_LIBRARY, { userBook }),
 
     // Communication
-    sendMessage: (userId) => {
+    openChat: (userId) => {
       openChatModal(userId);
     },
   };

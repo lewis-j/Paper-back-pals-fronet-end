@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Modal } from "../../../components";
 import { ModalContext } from "../../../context/ModalContext";
 import { useModalActions } from "../../../features/library/hooks/useModalActions";
-import { MODAL_CONFIG } from "../../../features/library/config/modals/modalConfig";
 import { getMenuItems, ModalContent } from "../config/modals/menuModalOptions";
+import { MODAL_TYPES } from "../config/modals/modalTypes";
 
 export const useModalMenu = () => {
   const [modal, setModal] = useState({
@@ -16,7 +16,7 @@ export const useModalMenu = () => {
   const [activeCardId, setActiveCardId] = useState("");
 
   const openModal = (type, data) => {
-    const config = MODAL_CONFIG[type];
+    const config = MODAL_TYPES[type];
     if (!config) {
       console.warn(`No configuration found for modal type: ${type}`);
       return;
