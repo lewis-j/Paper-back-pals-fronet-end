@@ -1,10 +1,10 @@
 class ModalType {
-  constructor(name, title) {
-    this.name = name;
+  constructor(value, title) {
+    this.value = value;
     this.title = title;
   }
   toString() {
-    return this.name;
+    return this.value;
   }
 }
 

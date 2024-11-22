@@ -21,7 +21,7 @@ export const useModalMenu = () => {
       console.warn(`No configuration found for modal type: ${type}`);
       return;
     }
-    setModal({ isOpen: true, type, title: config.title, data });
+    setModal({ isOpen: true, type: config.value, title: config.title, data });
   };
   const modalActions = useModalActions(openModal);
 
