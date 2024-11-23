@@ -20,6 +20,10 @@ export const MODAL_TYPES = {
   ),
 
   // Borrowing & Lending
+  CREATE_BORROW_REQUEST: new ModalType(
+    "CREATE_BORROW_REQUEST",
+    "Create Borrow Request"
+  ),
   RETURN_BORROWED_BOOK: new ModalType("RETURN_BORROWED_BOOK", "Return Book"),
   REQUEST_BORROW_EXTENSION: new ModalType(
     "REQUEST_BORROW_EXTENSION",

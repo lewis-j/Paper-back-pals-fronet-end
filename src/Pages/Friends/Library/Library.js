@@ -16,23 +16,36 @@ import { Modal } from "../../../components";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { categorizeOwnedBooksByStatus } from "../../../features/library/utilities/bookFilterUtil";
 import { useBookSelectors } from "../../../features/library/hooks/useBookSelectors";
+import { useModalMenu } from "../../../features/library/hooks/useModalMenu";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
   const currentUser = useSelector((state) => state.authUser.currentUser);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeCardId, setActiveCardId] = useState("");
   const [modalHeight, setModalHeight] = useState({ top: "0px" });
   const { username, ownedBooks } = currentFriend;
+  const books = ownedBooks.map((book) => ({
+    ...book,
+    owner: {
+      _id: currentFriend._id,
+      username: currentFriend.username,
+      profilePic: currentFriend.profilePic,
+    },
+  }));
   const containerRef = useRef();
+  const { menuItems, renderModal, activeCardId, setActiveCardId } =
+    useModalMenu();
 
   const activeBookInfo = useSelector(getFriendsOwnedBookById(activeCardId));
 
   const { booksInLibrary: checkedInBooks, booksToFriends: checkedOutBooks } =
     useBookSelectors({
-      books: { owned: ownedBooks },
+      books: { owned: books },
     });
+
+  const friendsBooksMenuItems = menuItems.friendsBooks(checkedInBooks);
+  // const checkedOutMenuItems = menuItems.booksToFriends(checkedOutBooks);
 
   const openRequestCardModal = ({ target }) => {
     const { y: containerY } = containerRef.current.getBoundingClientRect();
@@ -45,7 +58,7 @@ const Library = () => {
     const foundRequest = request.find(
       (req) => req.sender._id === currentUser._id
     );
-
+    console.log("foundRequest", foundRequest);
     switch (foundRequest?.status) {
       case bookRequestStatus.CHECKED_IN:
         return {
@@ -64,12 +77,7 @@ const Library = () => {
         };
       default:
         return {
-          menu: [
-            {
-              text: "Request",
-              clickHandler: openRequestCardModal,
-            },
-          ],
+          menu: [...friendsBooksMenuItems],
           icon: null,
         };
     }
@@ -101,6 +109,7 @@ const Library = () => {
   };
 
   const renderCheckedInBookCard = (userBook) => {
+    console.log("userBook", userBook);
     const { _id, book, request } = userBook;
     const { menu, icon, iconStyle } = filterRequest(request);
     const { coverImg, title } = book;
@@ -123,20 +132,7 @@ const Library = () => {
   return (
     <>
       <div className="container" ref={containerRef}>
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          style={modalHeight}
-          title="Request Status"
-        >
-          <RequestCard
-            userBook={activeBookInfo}
-            decline={() => {
-              setIsModalOpen(false);
-              setActiveCardId("");
-            }}
-          />
-        </Modal>
+        {renderModal()}
         <div className={styles.title}>
           <h1>
             {upperFirst(username)}

@@ -34,6 +34,8 @@ export const useModalActions = (openModal) => {
       openModal(MODAL_TYPES.REQUEST_BOOK_RETURN, { userBook }),
 
     // Request Management
+    createBorrowRequest: (userBook) =>
+      openModal(MODAL_TYPES.CREATE_BORROW_REQUEST, { userBook }),
     viewBorrowRequests: (userBook) =>
       openModal(MODAL_TYPES.VIEW_BORROW_REQUESTS, { userBook }),
     confirmBorrowRequest: (data) =>

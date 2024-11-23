@@ -114,6 +114,24 @@ export const getMenuItems = (modalActions, book_id) => {
         },
       ];
     },
+    friendsBooks: (userBooks) => {
+      const userBook = getUserBookById(userBooks);
+      console.log("userBook", userBook);
+      return [
+        {
+          text: "Book Details",
+          clickHandler: () => modalActions.viewUserBookDetails(userBook),
+        },
+        {
+          text: "Message Owner",
+          clickHandler: () => modalActions.openChat(userBook.owner._id),
+        },
+        {
+          text: "Request Book",
+          clickHandler: () => modalActions.createBorrowRequest(userBook),
+        },
+      ];
+    },
 
     bookRequests: (userBooks) => {
       const userBook = getUserBookById(userBooks);
@@ -217,6 +235,18 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => {
           userBook={modalData.userBook}
           onClose={onClose}
           onDelete={actions.deleteBookFromLibrary}
+          isSubmitting={isSubmitting}
+          error={error}
+        />
+      ),
+    },
+    [MODAL_TYPES.CREATE_BORROW_REQUEST.value]: {
+      label: "Create Borrow Request",
+      component: (
+        <BookModalForm.CreateBorrowRequestForm
+          userBook={modalData.userBook}
+          onClose={onClose}
+          onSubmit={actions.createBorrowRequest}
           isSubmitting={isSubmitting}
           error={error}
         />

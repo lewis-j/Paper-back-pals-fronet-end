@@ -315,6 +315,49 @@ const ConfirmBorrowRequestForm = ({
   );
 };
 
+const CreateBorrowRequestForm = ({
+  userBook,
+  onClose,
+  onSubmit,
+  isSubmitting,
+  error,
+}) => {
+  const handleSubmit = async () => {
+    const success = await onSubmit(userBook._id);
+    if (success) {
+      onClose();
+    }
+  };
+
+  return (
+    <>
+      <p className={styles.confirmation}>
+        Would you like to request to borrow "{userBook.book.title}" from{" "}
+        {userBook.owner.username}?
+      </p>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
+        <button
+          type="button"
+          onClick={onClose}
+          className={styles.cancelButton}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Sending Request..." : "Send Borrow Request"}
+        </button>
+      </div>
+    </>
+  );
+};
+
 const CancelBorrowRequestForm = ({
   userBook,
   onClose,
@@ -409,6 +452,7 @@ const BookModalForm = {
   ReturnBookForm,
   BookDetailsView,
   BorrowRequestsList,
+  CreateBorrowRequestForm,
   ConfirmBorrowRequestForm,
   CancelBorrowRequestForm,
   ExtendBorrowForm,
