@@ -5,17 +5,27 @@ import {
   categorizeOwnedBooksByStatus,
 } from "../../../features/library/utilities/bookFilterUtil";
 
-export const useBookSelectors = () => {
-  const {
-    books: { borrowed, owned },
-    currentRead,
-  } = useSelector((state) => state.userBooks);
+export const useBookSelectors = (userBooks) => {
+  console.log("userBooks", userBooks);
+  // const {
+  //   books: { borrowed, owned },
+  //   currentRead,
+  // } = userBooks
 
   // Process book categories
-  const ownedBookCategories = categorizeOwnedBooksByStatus(owned);
-  const borrowedBookCategories = categorizeBorrowedBooksByStatus(borrowed);
+  if (
+    !userBooks?.books?.owned &&
+    !userBooks?.books?.borrowed &&
+    !userBooks?.currentRead
+  )
+    return {};
 
-  console.log("borrowedBookCategories: ", borrowedBookCategories);
+  const ownedBookCategories = userBooks?.books?.owned
+    ? categorizeOwnedBooksByStatus(userBooks.books.owned)
+    : [];
+  const borrowedBookCategories = userBooks?.books?.borrowed
+    ? categorizeBorrowedBooksByStatus(userBooks.books.borrowed)
+    : [];
 
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
@@ -27,8 +37,6 @@ export const useBookSelectors = () => {
   //   )
   // );
   const booksInTransition = [];
-
-  console.log("booksFromFriends", booksFromFriends);
 
   // Get owned book requests
   const ownedBookRequests =
@@ -43,12 +51,12 @@ export const useBookSelectors = () => {
   };
 
   const filterOutCurrentRead = (books) => {
-    if (!currentRead) return books;
-    return books.filter((book) => book._id !== currentRead._id);
+    if (!userBooks?.currentRead) return books;
+    return books.filter((book) => book._id !== userBooks.currentRead._id);
   };
 
   return {
-    currentRead: populateCurrentRead(currentRead?._id),
+    currentRead: populateCurrentRead(userBooks.currentRead?._id),
     booksFromFriends: filterOutCurrentRead(booksFromFriends),
     allBooksFromFriends: booksFromFriends,
     booksToFriends,

@@ -8,12 +8,15 @@ import styles from "./Library.module.scss";
 import { useState } from "react";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
+import { useSelector } from "react-redux";
 
 const Library = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
 
-  const { booksInLibrary, booksToFriends } = useBookSelectors();
+  const { booksInLibrary, booksToFriends } = useBookSelectors(
+    useSelector((state) => state.userBooks)
+  );
 
   const toFriendsMenuItems = menuItems.booksToFriends(booksToFriends);
   const inLibraryMenuItems = menuItems.booksInLibrary(booksInLibrary);

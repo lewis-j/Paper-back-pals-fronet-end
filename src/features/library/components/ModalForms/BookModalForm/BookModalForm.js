@@ -358,8 +358,47 @@ const CancelBorrowRequestForm = ({
   );
 };
 
-const ExtendBorrowForm = ({ userBook, onClose }) => {
-  return <div>RequestExtension</div>;
+const ExtendBorrowForm = ({
+  userBook,
+  onClose,
+  onExtend,
+  isSubmitting,
+  error,
+}) => {
+  const handleExtend = async () => {
+    const success = await onExtend(userBook.request.request_id);
+    if (success) {
+      onClose();
+    }
+  };
+
+  return (
+    <>
+      <p className={styles.confirmation}>
+        Would you like to request a loan extension for "{userBook.book.title}"
+        from {userBook.owner.username}?
+      </p>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.buttonContainer}>
+        <button
+          type="button"
+          onClick={onClose}
+          className={styles.cancelButton}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+          onClick={handleExtend}
+        >
+          {isSubmitting ? "Requesting Extension..." : "Request Extension"}
+        </button>
+      </div>
+    </>
+  );
 };
 
 const BookModalForm = {

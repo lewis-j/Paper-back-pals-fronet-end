@@ -6,9 +6,10 @@ import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
+import { useSelector } from "react-redux";
 const DashboardPage = () => {
   const { currentRead, booksToFriends, booksFromFriends, ownedBookRequests } =
-    useBookSelectors();
+    useBookSelectors(useSelector((state) => state.userBooks));
 
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();

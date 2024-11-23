@@ -23,7 +23,7 @@ const BorrowedPage = () => {
     borrowedBookRequests: pendingBooks,
     allBooksFromFriends: checkedOutBooks,
     booksInTransition,
-  } = useBookSelectors();
+  } = useBookSelectors(useSelector((state) => state.userBooks));
 
   const removeMenuItems = (menuItems, textToRemove) =>
     menuItems.filter((item) => item.text !== textToRemove);

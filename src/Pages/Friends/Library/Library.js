@@ -15,6 +15,7 @@ import styles from "./Library.module.scss";
 import { Modal } from "../../../components";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { categorizeOwnedBooksByStatus } from "../../../features/library/utilities/bookFilterUtil";
+import { useBookSelectors } from "../../../features/library/hooks/useBookSelectors";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
@@ -28,9 +29,10 @@ const Library = () => {
 
   const activeBookInfo = useSelector(getFriendsOwnedBookById(activeCardId));
 
-  const categorizedBooks = categorizeOwnedBooksByStatus(ownedBooks);
-  const checkedInBooks = categorizedBooks.CHECKED_IN || [];
-  const checkedOutBooks = categorizedBooks.CHECKED_OUT || [];
+  const { booksInLibrary: checkedInBooks, booksToFriends: checkedOutBooks } =
+    useBookSelectors({
+      books: { owned: ownedBooks },
+    });
 
   const openRequestCardModal = ({ target }) => {
     const { y: containerY } = containerRef.current.getBoundingClientRect();
