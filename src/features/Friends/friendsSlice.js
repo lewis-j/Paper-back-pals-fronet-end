@@ -79,17 +79,27 @@ const friendsSlice = createSlice({
       state.friendRequestOutbox = action.payload.friendRequestOutbox;
     },
     updateFriendsBookRequests: (state, { payload }) => {
+      console.log("updateFriendsBookRequests", payload);
       const {
         currentFriend: { ownedBooks },
       } = state;
-      const { request_id, userBook_id } = payload;
+      const { bookRequest, userBook_id } = payload;
       const bookIndex = ownedBooks.findIndex(
         (userBook) => userBook._id === userBook_id
       );
       const _userBook = ownedBooks[bookIndex];
       ownedBooks[bookIndex] = {
         ..._userBook,
-        request: [..._userBook.request, { _id: request_id }],
+        request: [
+          ..._userBook.request,
+          {
+            _id: bookRequest.request.request_id,
+            status: bookRequest.request.status,
+            dueDate: bookRequest.dueDate,
+            currentPage: bookRequest.currentPage,
+            sender: { _id: bookRequest.request.sender },
+          },
+        ],
       };
     },
   },

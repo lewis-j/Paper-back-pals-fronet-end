@@ -77,12 +77,13 @@ const updateCurrentPageFulfilled = (state, action) => {
 };
 
 const createBookRequestFullfilled = (state, action) => {
-  state.bookRequests.push({
-    userBook: {
-      _id: action.payload.userBook_id,
-    },
-    status: bookRequestStatus.CHECKED_IN,
-  });
+  // state.bookRequests.push({
+  //   userBook: {
+  //     _id: action.payload.userBook_id,
+  //   },
+  //   status: bookRequestStatus.CHECKED_IN,
+  // });
+  state.books.borrowed.push(action.payload.bookRequest);
 };
 
 const addBookFullfilled = (state, action) => {

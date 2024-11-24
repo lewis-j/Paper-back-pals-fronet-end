@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { updateCurrentPage } from "../../../features/library";
 import {
   cancelBorrowRequest,
+  createBookRequest,
   deleteUserBook,
   removeBookRequest,
 } from "../userBooksSlice";
@@ -27,6 +28,9 @@ export const useBookActions = () => {
 
   const deleteBookFromLibrary = (userBookId) =>
     dispatchAction(deleteUserBook(userBookId));
+
+  const createBorrowRequest = (userBookId) =>
+    dispatchAction(createBookRequest(userBookId));
 
   const acceptBorrowRequest = (request_id) =>
     dispatchAction(
@@ -58,6 +62,7 @@ export const useBookActions = () => {
   return {
     updateReadingProgress,
     deleteBookFromLibrary,
+    createBorrowRequest,
     completeBook,
     returnBorrowedBook,
     acceptBorrowRequest,

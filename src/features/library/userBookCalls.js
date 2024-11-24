@@ -41,13 +41,15 @@ export const getBookRequest = async (request_id) => {
   }
 };
 
-export const createBookRequest = async ({ userBook_id }, { dispatch }) => {
+export const createBookRequest = async (userBook_id, { dispatch }) => {
+  console.log("userBook_id", userBook_id);
   try {
     const res = await API.post(`/user-books/request`, { userBook_id });
-    const { request_id, notification } = res.data;
+    const { bookRequest, notification } = res.data;
     dispatch(addNotification({ notification }));
-    dispatch(updateFriendsBookRequests({ request_id, userBook_id }));
-    return { userBook_id };
+    dispatch(updateFriendsBookRequests({ bookRequest, userBook_id }));
+    console.log("BookRequest", bookRequest);
+    return { bookRequest };
   } catch (error) {
     console.error("Failed to create book request:", error);
     return Promise.reject(error);
