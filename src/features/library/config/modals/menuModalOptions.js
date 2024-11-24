@@ -106,7 +106,7 @@ export const getMenuItems = (modalActions, book_id) => {
         },
         {
           text: "Message Owner",
-          clickHandler: () => modalActions.openChat(userBook),
+          clickHandler: () => modalActions.openChat(userBook.owner._id),
         },
         {
           text: "Remove Request",

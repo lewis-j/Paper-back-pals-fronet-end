@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 
 import { Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
@@ -12,18 +12,13 @@ import {
 import { getFriendsOwnedBookById } from "../../../features/Friends";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
-import { Modal } from "../../../components";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import { categorizeOwnedBooksByStatus } from "../../../features/library/utilities/bookFilterUtil";
 import { useBookSelectors } from "../../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../../features/library/hooks/useModalMenu";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
   const currentUser = useSelector((state) => state.authUser.currentUser);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalHeight, setModalHeight] = useState({ top: "0px" });
   const { username, ownedBooks } = currentFriend;
   const books = ownedBooks.map((book) => ({
     ...book,
@@ -33,11 +28,8 @@ const Library = () => {
       profilePic: currentFriend.profilePic,
     },
   }));
-  const containerRef = useRef();
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
-
-  const activeBookInfo = useSelector(getFriendsOwnedBookById(activeCardId));
 
   const { booksInLibrary: checkedInBooks, booksToFriends: checkedOutBooks } =
     useBookSelectors({
@@ -45,14 +37,10 @@ const Library = () => {
     });
 
   const friendsBooksMenuItems = menuItems.friendsBooks(checkedInBooks);
+  const borrowedBookRequestsMenuItems =
+    menuItems.borrowedBookRequests(checkedInBooks);
+  const booksFromFriendsMenuItems = menuItems.booksFromFriends(checkedInBooks);
   // const checkedOutMenuItems = menuItems.booksToFriends(checkedOutBooks);
-
-  const openRequestCardModal = ({ target }) => {
-    const { y: containerY } = containerRef.current.getBoundingClientRect();
-    const { y } = target.getBoundingClientRect();
-    setModalHeight({ top: `${y - containerY}px` });
-    setIsModalOpen(true);
-  };
 
   const filterRequest = (request) => {
     const foundRequest = request.find(
@@ -62,16 +50,13 @@ const Library = () => {
     switch (foundRequest?.status) {
       case bookRequestStatus.CHECKED_IN:
         return {
-          menu: [
-            {
-              text: "Cancel",
-              clickHandler: () => alert("delete this request"),
-            },
-            {
-              text: "Status",
-              clickHandler: openRequestCardModal,
-            },
-          ],
+          menu: [...borrowedBookRequestsMenuItems],
+          icon: faCheckCircle,
+          iconStyle: styles.requestSentIcon,
+        };
+      case bookRequestStatus.CHECKED_OUT:
+        return {
+          menu: [...booksFromFriendsMenuItems],
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
         };
@@ -100,6 +85,7 @@ const Library = () => {
           book={book}
           user={sender}
           dueDate={dueDate}
+          men
           currentPage={currentPage}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
@@ -131,7 +117,7 @@ const Library = () => {
 
   return (
     <>
-      <div className="container" ref={containerRef}>
+      <div className="container">
         {renderModal()}
         <div className={styles.title}>
           <h1>
