@@ -20,6 +20,7 @@ const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
   const currentUser = useSelector((state) => state.authUser.currentUser);
   const { username, ownedBooks } = currentFriend;
+  console.log("ownedBooks", ownedBooks);
   const books = ownedBooks.map((book) => ({
     ...book,
     owner: {
@@ -43,6 +44,7 @@ const Library = () => {
   // const checkedOutMenuItems = menuItems.booksToFriends(checkedOutBooks);
 
   const filterRequest = (request) => {
+    console.log("request in filterRequest", request);
     const foundRequest = request.find(
       (req) => req.sender._id === currentUser._id
     );
@@ -76,6 +78,7 @@ const Library = () => {
 
   const renderCheckedOutUserBookCard = (userBook, i) => {
     const { _id, book, dueDate, currentPage, sender } = userBook;
+    console.log("userBook in renderCheckedOutUserBookCard", userBook);
 
     // const { menu } = filterRequest(bookData._id);
     return (
@@ -85,7 +88,7 @@ const Library = () => {
           book={book}
           user={sender}
           dueDate={dueDate}
-          men
+          // menuItems={menu}
           currentPage={currentPage}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}

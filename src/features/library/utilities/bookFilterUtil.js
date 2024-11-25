@@ -1,30 +1,31 @@
 import requestStatus from "../../../data/requestStatus";
 
 export const categorizeOwnedBooksByStatus = (ownedBooks) => {
+  console.log("ownedBooks in categorizeOwnedBooksByStatus", ownedBooks);
   let categorizedBooks = {};
+
   ownedBooks.forEach((userBook) => {
-    const isCheckedOut = userBook.request.some((request) =>
-      Object.keys(requestStatus)
-        .slice(1)
-        .some((status) => {
-          if (status === request.status) {
-            const singleRequestBook = {
-              ...userBook,
-              dueDate: request.dueDate,
-              currentPage: request.currentPage,
-              sender: request.sender,
-              request: { status: request.status, id: request._id },
-            };
-            categorizedBooks[status] = categorizedBooks[status]
-              ? [...categorizedBooks[status], singleRequestBook]
-              : [singleRequestBook];
-            return true;
-          }
-          return false;
-        })
+    // Find the first active request (if any)
+    const activeRequest = userBook.request.find((request) =>
+      Object.keys(requestStatus).slice(1).includes(request.status)
     );
 
-    if (!isCheckedOut) {
+    if (activeRequest) {
+      const status = activeRequest.status;
+      const singleRequestBook = {
+        ...userBook,
+        dueDate: activeRequest.dueDate,
+        currentPage: activeRequest.currentPage,
+        sender: activeRequest.sender,
+        allRequests: userBook.request,
+        requests: { status: activeRequest.status, id: activeRequest._id },
+      };
+
+      categorizedBooks[status] = categorizedBooks[status]
+        ? [...categorizedBooks[status], singleRequestBook]
+        : [singleRequestBook];
+    } else {
+      // If no active request, book is checked in
       categorizedBooks[requestStatus.CHECKED_IN] = categorizedBooks[
         requestStatus.CHECKED_IN
       ]
