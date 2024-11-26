@@ -36,6 +36,8 @@ const Library = () => {
     useBookSelectors({
       books: { owned: books },
     });
+  console.log("checkedInBooks", checkedInBooks);
+  console.log("checkedOutBooks", checkedOutBooks);
 
   const friendsBooksMenuItems = menuItems.friendsBooks(checkedInBooks);
   const borrowedBookRequestsMenuItems =
@@ -43,9 +45,9 @@ const Library = () => {
   const booksFromFriendsMenuItems = menuItems.booksFromFriends(checkedInBooks);
   // const checkedOutMenuItems = menuItems.booksToFriends(checkedOutBooks);
 
-  const filterRequest = (request) => {
-    console.log("request in filterRequest", request);
-    const foundRequest = request.find(
+  const filterRequest = (requests) => {
+    console.log("request in filterRequest", requests);
+    const foundRequest = requests.find(
       (req) => req.sender._id === currentUser._id
     );
     console.log("foundRequest", foundRequest);
@@ -99,8 +101,8 @@ const Library = () => {
 
   const renderCheckedInBookCard = (userBook) => {
     console.log("userBook", userBook);
-    const { _id, book, request } = userBook;
-    const { menu, icon, iconStyle } = filterRequest(request);
+    const { _id, book, requests } = userBook;
+    const { menu, icon, iconStyle } = filterRequest(requests);
     const { coverImg, title } = book;
 
     return (

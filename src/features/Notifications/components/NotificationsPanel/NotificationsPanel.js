@@ -15,7 +15,7 @@ import { addNotification, markAsRead } from "../../notificationsSlice";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { nextBookRequestStatus } from "../../../library/userBooksSlice";
+import { createBookFromRequestFinder } from "../../../library/userBooksSlice";
 
 const BookRequestModal = ({ refData, onClose, onAccept, isLoading }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const BookRequestModal = ({ refData, onClose, onAccept, isLoading }) => {
   } = refData;
 
   const acceptClickHandler = async () => {
-    await dispatch(nextBookRequestStatus(request_id)).unwrap();
+    // await dispatch(nextBookRequestStatus(request_id)).unwrap();
     await dispatch(markAsRead({ _id: notification_id })).unwrap();
   };
 
@@ -93,6 +93,7 @@ const NotificationsPanel = () => {
   const { list: notifications, status } = useSelector(
     (state) => state.notifications
   );
+  const findBookFromRequest = useSelector(createBookFromRequestFinder);
   const [showReadNotifications, setShowReadNotifications] = useState(false);
 
   const processNotifications = (notifications) => {
@@ -121,8 +122,13 @@ const NotificationsPanel = () => {
 
   const renderNotifications = () => {
     const unreadNotifications = _notifications.unread.map((notification, i) => {
+      console.log("notification", notification);
       const { requestRef, requestType, _id, __v, ...remaining } = notification;
       const notificationProps = { ...remaining, _id };
+
+      const book = findBookFromRequest(requestRef);
+
+      console.log("book from request", book);
 
       const getAcceptAndDeclineHandlers = () => {
         let data = {

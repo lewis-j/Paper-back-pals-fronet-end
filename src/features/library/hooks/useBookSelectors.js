@@ -23,6 +23,7 @@ export const useBookSelectors = (userBooks) => {
   const ownedBookCategories = userBooks?.books?.owned
     ? categorizeOwnedBooksByStatus(userBooks.books.owned)
     : [];
+  console.log("ownedBookCategories", ownedBookCategories);
   const borrowedBookCategories = userBooks?.books?.borrowed
     ? categorizeBorrowedBooksByStatus(userBooks.books.borrowed)
     : [];
@@ -31,6 +32,7 @@ export const useBookSelectors = (userBooks) => {
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
   const booksInLibrary = ownedBookCategories.CHECKED_IN || [];
   const borrowedBookRequests = borrowedBookCategories.CHECKED_IN || [];
+
   // const booksInTransition = borrowedBookCategories.filter((book) =>
   //   ["SENDING", "RETURNING", "ACCEPTED", "IS_DUE"].includes(
   //     book.request?.status
@@ -41,7 +43,7 @@ export const useBookSelectors = (userBooks) => {
   // Get owned book requests
   const ownedBookRequests =
     ownedBookCategories.CHECKED_IN?.filter(
-      (book) => book.request && book.request.length > 0
+      (book) => book.requests && book.requests.length > 0
     ) || [];
 
   // Current read helpers

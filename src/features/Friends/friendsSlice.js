@@ -90,8 +90,8 @@ const friendsSlice = createSlice({
       const _userBook = ownedBooks[bookIndex];
       ownedBooks[bookIndex] = {
         ..._userBook,
-        request: [
-          ..._userBook.request,
+        requests: [
+          ..._userBook.requests,
           {
             _id: bookRequest.request.request_id,
             status: bookRequest.request.status,

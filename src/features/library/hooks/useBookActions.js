@@ -5,8 +5,9 @@ import {
   createBookRequest,
   deleteUserBook,
   removeBookRequest,
+  updateBorrowRequestStatus,
+  updateLendRequestStatus,
 } from "../userBooksSlice";
-import { nextBookRequestStatus } from "../userBookCalls";
 
 export const useBookActions = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export const useBookActions = () => {
 
   const acceptBorrowRequest = (request_id) =>
     dispatchAction(
-      nextBookRequestStatus(request_id),
+      updateLendRequestStatus(request_id),
       "error in acceptBorrowRequest"
     );
 
@@ -49,7 +50,7 @@ export const useBookActions = () => {
 
   const returnBorrowedBook = (request_id) =>
     dispatchAction(
-      nextBookRequestStatus(request_id),
+      updateBorrowRequestStatus(request_id),
       "error in returnBorrowedBook"
     );
 

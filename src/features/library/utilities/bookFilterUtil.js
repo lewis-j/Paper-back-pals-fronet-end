@@ -6,7 +6,7 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
 
   ownedBooks.forEach((userBook) => {
     // Find the first active request (if any)
-    const activeRequest = userBook.request.find((request) =>
+    const activeRequest = userBook.requests.find((request) =>
       Object.keys(requestStatus).slice(1).includes(request.status)
     );
 
@@ -17,8 +17,11 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
         dueDate: activeRequest.dueDate,
         currentPage: activeRequest.currentPage,
         sender: activeRequest.sender,
-        allRequests: userBook.request,
-        requests: { status: activeRequest.status, id: activeRequest._id },
+        requests: userBook.requests,
+        request: {
+          status: activeRequest.status,
+          id: activeRequest._id,
+        },
       };
 
       categorizedBooks[status] = categorizedBooks[status]
@@ -29,8 +32,11 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
       categorizedBooks[requestStatus.CHECKED_IN] = categorizedBooks[
         requestStatus.CHECKED_IN
       ]
-        ? [...categorizedBooks[requestStatus.CHECKED_IN], userBook]
-        : [userBook];
+        ? [
+            ...categorizedBooks[requestStatus.CHECKED_IN],
+            { ...userBook, request: { status: requestStatus.CHECKED_IN } },
+          ]
+        : [{ ...userBook, request: { status: requestStatus.CHECKED_IN } }];
     }
   });
 

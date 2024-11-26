@@ -218,7 +218,7 @@ const BookDetailsView = ({ userBook, onClose }) => {
 
 const BorrowRequestsList = ({ userBook, onClose }) => {
   const { openModal } = useModal();
-  const requests = userBook.request;
+  const requests = userBook.requests;
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -231,7 +231,7 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
 
   const handleRequestClick = (request) => {
     onClose();
-    openModal(MODAL_TYPES.CONFIRM_REQUEST, {
+    openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, {
       userBook,
       request,
     });

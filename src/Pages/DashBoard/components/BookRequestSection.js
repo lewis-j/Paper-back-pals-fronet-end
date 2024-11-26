@@ -14,10 +14,10 @@ const BookRequestsSection = ({
     const {
       _id,
       book: { coverImg, title },
-      request,
+      requests,
     } = userBook;
 
-    const requestCount = request.length;
+    const requestCount = requests.length;
 
     return (
       <RequestBadge key={_id} count={requestCount} clickHandler={() => {}}>

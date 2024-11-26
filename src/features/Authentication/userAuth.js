@@ -10,13 +10,13 @@ import { setBooks, setCurrentRead } from "../library";
 
 const mergeFriendsIntoRequest = (friends, owndedBooks) => {
   return owndedBooks.map((book) => {
-    const request = book.request.map((request) => {
+    const requests = book.requests.map((request) => {
       const friend = friends.find(
         (friend) => friend._id === request.sender._id
       );
       return { ...request, sender: friend };
     });
-    return { ...book, request };
+    return { ...book, requests };
   });
 };
 

@@ -213,7 +213,7 @@ const modalConfig = (modalData, actions, isSubmitting, error, onClose) => {
           requestData={modalData.request}
           userBook={modalData.userBook}
           onClose={onClose}
-          onConfirmRequest={actions.confirmRequest}
+          onConfirmRequest={actions.acceptBorrowRequest}
           isSubmitting={isSubmitting}
           error={error}
         />
