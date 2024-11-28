@@ -9,9 +9,17 @@ import {
   updateBorrowRequestStatus,
   updateLendRequestStatus,
 } from "../userBooksSlice";
+import {
+  markAsRead,
+  selectNotificationByRequestRefIdCreator,
+} from "../../Notifications/notificationsSlice";
+import { useSelector } from "react-redux";
 
 export const useBookActions = () => {
   const dispatch = useDispatch();
+  const selectNotificationByRequestRefId = useSelector(
+    selectNotificationByRequestRefIdCreator
+  );
 
   // Helper function to handle dispatch operations
   const dispatchAction = async (action, errorMessage = null) => {
@@ -46,42 +54,85 @@ export const useBookActions = () => {
     );
 
   // Borrowing/Lending Actions
+  const REQUEST_OWNER = {
+    BORROWER: "borrower",
+    LENDER: "lender",
+  };
+  const requestActionAndMarkNotificationAsRead = (
+    request_id,
+    requestOwner,
+    errorMessage
+  ) => {
+    //get notification_id from request
+    const notification_id = selectNotificationByRequestRefId(request_id);
+    //mark notification as read
+    const isNotificationMarkedAsRead = dispatchAction(
+      markAsRead(notification_id),
+      "error in mark notification as read"
+    );
+    if (isNotificationMarkedAsRead) {
+      if (requestOwner === REQUEST_OWNER.BORROWER) {
+        return dispatchAction(
+          updateBorrowRequestStatus(request_id),
+          errorMessage
+        );
+      } else if (requestOwner === REQUEST_OWNER.LENDER) {
+        return dispatchAction(
+          updateLendRequestStatus(request_id),
+          errorMessage
+        );
+      } else {
+        console.error("Invalid request owner", requestOwner);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
   const createBorrowRequest = (userBookId) =>
     dispatchAction(createBookRequest(userBookId));
 
-  const acceptBorrowRequest = (request_id) =>
-    dispatchAction(
-      updateLendRequestStatus(request_id),
+  const acceptBorrowRequest = (request_id) => {
+    requestActionAndMarkNotificationAsRead(
+      request_id,
+      REQUEST_OWNER.BORROWER,
       "error in acceptBorrowRequest"
     );
-
+  };
   const confirmLenderDropOff = (request_id) =>
-    dispatchAction(
+    requestActionAndMarkNotificationAsRead(
+      request_id,
+      REQUEST_OWNER.LENDER,
       updateLendRequestStatus(request_id),
       "error in confirmLenderDropOff"
     );
 
   const confirmBorrowerPickup = (request_id) =>
-    dispatchAction(
-      updateBorrowRequestStatus(request_id),
+    requestActionAndMarkNotificationAsRead(
+      request_id,
+      REQUEST_OWNER.BORROWER,
       "error in confirmBorrowerPickup"
     );
 
   const returnBorrowedBook = (request_id) =>
-    dispatchAction(
-      updateBorrowRequestStatus(request_id),
+    requestActionAndMarkNotificationAsRead(
+      request_id,
+      REQUEST_OWNER.BORROWER,
       "error in returnBorrowedBook"
     );
 
   const confirmBorrowerDropOff = (request_id) =>
-    dispatchAction(
-      updateBorrowRequestStatus(request_id),
+    requestActionAndMarkNotificationAsRead(
+      request_id,
+      REQUEST_OWNER.BORROWER,
       "error in confirmBorrowerDropOff"
     );
 
   const confirmLenderPickup = (request_id) =>
-    dispatchAction(
-      updateLendRequestStatus(request_id),
+    requestActionAndMarkNotificationAsRead(
+      request_id,
+      REQUEST_OWNER.LENDER,
       "error in confirmLenderPickup"
     );
 

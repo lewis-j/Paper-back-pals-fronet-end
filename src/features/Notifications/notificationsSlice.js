@@ -57,4 +57,16 @@ export { fetchNotifications, markAsRead };
 
 export const { setNotifications, addNotification, setNotificationsIsOpen } =
   notificationsSlice.actions;
+
+export const selectNotificationByRequestRefIdCreator =
+  (state) => (requestRefId) => {
+    const notification = state.notifications.list.find(
+      (notification) => notification.requestRef === requestRefId
+    );
+    if (!notification?.id) {
+      console.warn(`No notification found for requestRefId: ${requestRefId}`);
+      return null;
+    }
+    return notification.id;
+  };
 export default notificationsSlice.reducer;
