@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Modal } from "../../../components";
 import { ModalContext } from "../../../context/ModalContext";
 import { useModalActions } from "../../../features/library/hooks/useModalActions";
-import { getMenuItems, ModalContent } from "../config/modals/menuModalOptions";
+import { BookModalContent } from "../config/modals/menuModalOptions";
 import { MODAL_TYPES } from "../config/modals/modalTypes";
+import { getMenuItems } from "../config/modals/menuItems";
 
 export const useModalMenu = () => {
   const [modal, setModal] = useState({
@@ -33,10 +34,11 @@ export const useModalMenu = () => {
   const menuItems = getMenuItems(modalActions, activeCardId);
 
   const renderModal = () => {
+    console.log("modal in renderModal", modal);
     return (
       <ModalContext.Provider value={{ openModal: modalActions.openModal }}>
         <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>
-          <ModalContent modal={modal} onClose={closeModal} />
+          <BookModalContent modal={modal} onClose={closeModal} />
         </Modal>
       </ModalContext.Provider>
     );

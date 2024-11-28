@@ -5,6 +5,8 @@ import styles from "./BookModalForm.module.scss";
 import { Loading } from "../../../../../components";
 import { useModal } from "../../../../../context/ModalContext";
 import { MODAL_TYPES } from "../../../config/modals";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const ReadingProgressView = ({ userBook, onClose }) => {
   const { book, currentPage } = userBook;
@@ -34,7 +36,7 @@ const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
   if (!userBook) return null;
 
   const handleSubmit = () => {
-    onUpdateProgress(request.request_id, value, userBook_id);
+    onUpdateProgress(request.id, value, userBook_id);
     onClose();
   };
 
@@ -59,146 +61,8 @@ const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
   );
 };
 
-const CompleteBookForm = ({
-  userBook,
-  onClose,
-  onComplete,
-  isSubmitting,
-  error,
-}) => {
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const success = await onComplete(
-      userBook.request.request_id,
-      userBook._id,
-      userBook.book.pageCount
-    );
-    if (success) {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <p className={styles.confirmation}>
-        This will update your progress to {userBook.book.pageCount} pages,
-        marking the book as complete.
-      </p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleSubmit}
-        >
-          {isSubmitting ? "Updating Progress..." : "Mark Complete"}
-        </button>
-      </div>
-    </>
-  );
-};
-
-const DeleteBookForm = ({
-  userBook,
-  onClose,
-  onDelete,
-  isSubmitting,
-  error,
-}) => {
-  const handleRemove = async () => {
-    const success = await onDelete(userBook._id);
-    if (success) {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <p className={styles.confirmation}>
-        Are you sure you want to remove "{userBook.book.title}" from your
-        library?
-      </p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleRemove}
-        >
-          {isSubmitting ? "Removing..." : "Remove Book"}
-        </button>
-      </div>
-    </>
-  );
-};
-
-const ReturnBookForm = ({
-  userBook,
-  onClose,
-  onReturn,
-  isSubmitting,
-  error,
-}) => {
-  const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
-
-  if (!userBook) return null;
-  if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
-
-  const handleReturnBook = async () => {
-    const success = await onReturn(userBook.request.request_id);
-    if (success) {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <p className={styles.confirmation}>
-        Do you want to return {userBook.book.title} to {userBook.owner.username}
-        ?
-      </p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleReturnBook}
-        >
-          {isSubmitting ? "Returning Book..." : "Return Book"}
-        </button>
-      </div>
-    </>
-  );
-};
-
 const BookDetailsView = ({ userBook, onClose }) => {
+  console.log("userBook in BookDetailsView", userBook);
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
@@ -269,61 +133,18 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   );
 };
 
-const ConfirmBorrowRequestForm = ({
+export const BaseForm = ({
   userBook,
-  requestData,
+  confirmationMsg,
+  buttonText,
+  loadingText,
   onClose,
-  onConfirmRequest,
-  isSubmitting,
-  error,
-}) => {
-  if (!userBook || !requestData) return null;
-
-  const handleConfirm = async () => {
-    const success = await onConfirmRequest(requestData._id);
-    if (success) {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <p className={styles.confirmation}>
-        Do you want to lend "{userBook.book.title}" to{" "}
-        {requestData.sender.username}?
-      </p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleConfirm}
-        >
-          {isSubmitting ? "Confirming..." : "Confirm Request"}
-        </button>
-      </div>
-    </>
-  );
-};
-
-const CreateBorrowRequestForm = ({
-  userBook,
-  onClose,
-  onSubmit,
+  onConfirm,
   isSubmitting,
   error,
 }) => {
   const handleSubmit = async () => {
-    const success = await onSubmit(userBook._id);
+    const success = await onConfirm();
     if (success) {
       onClose();
     }
@@ -331,10 +152,7 @@ const CreateBorrowRequestForm = ({
 
   return (
     <>
-      <p className={styles.confirmation}>
-        Would you like to request to borrow "{userBook.book.title}" from{" "}
-        {userBook.owner.username}?
-      </p>
+      <p className={styles.confirmation}>{confirmationMsg}</p>
       {error && <p className={styles.errorMessage}>{error}</p>}
       <div className={styles.buttonContainer}>
         <button
@@ -351,93 +169,7 @@ const CreateBorrowRequestForm = ({
           disabled={isSubmitting}
           onClick={handleSubmit}
         >
-          {isSubmitting ? "Sending Request..." : "Send Borrow Request"}
-        </button>
-      </div>
-    </>
-  );
-};
-
-const CancelBorrowRequestForm = ({
-  userBook,
-  onClose,
-  onCancel,
-  isSubmitting,
-  error,
-}) => {
-  const handleRemove = async () => {
-    const success = await onCancel(userBook.request.request_id);
-    if (success) {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <p className={styles.confirmation}>
-        Are you sure you want to cancel your request for "{userBook.book.title}
-        "?
-      </p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleRemove}
-        >
-          {isSubmitting ? "Canceling Request..." : "Cancel Request"}
-        </button>
-      </div>
-    </>
-  );
-};
-
-const ExtendBorrowForm = ({
-  userBook,
-  onClose,
-  onExtend,
-  isSubmitting,
-  error,
-}) => {
-  const handleExtend = async () => {
-    const success = await onExtend(userBook.request.request_id);
-    if (success) {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <p className={styles.confirmation}>
-        Would you like to request a loan extension for "{userBook.book.title}"
-        from {userBook.owner.username}?
-      </p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleExtend}
-        >
-          {isSubmitting ? "Requesting Extension..." : "Request Extension"}
+          {isSubmitting ? loadingText : buttonText}
         </button>
       </div>
     </>
@@ -447,15 +179,8 @@ const ExtendBorrowForm = ({
 const BookModalForm = {
   ReadingProgressView,
   UpdatePageForm,
-  CompleteBookForm,
-  DeleteBookForm,
-  ReturnBookForm,
   BookDetailsView,
   BorrowRequestsList,
-  CreateBorrowRequestForm,
-  ConfirmBorrowRequestForm,
-  CancelBorrowRequestForm,
-  ExtendBorrowForm,
 };
 
 export default BookModalForm;

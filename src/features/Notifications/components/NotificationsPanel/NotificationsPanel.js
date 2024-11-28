@@ -15,85 +15,14 @@ import { addNotification, markAsRead } from "../../notificationsSlice";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createBookFromRequestFinder } from "../../../library/userBooksSlice";
-
-const BookRequestModal = ({ refData, onClose, onAccept, isLoading }) => {
-  const dispatch = useDispatch();
-  const {
-    _id: request_id,
-    notification_id,
-    confirmationMsg,
-    userBook: {
-      book: { coverImg, title, authors, _id: userBook_id },
-    },
-    status,
-  } = refData;
-
-  const acceptClickHandler = async () => {
-    // await dispatch(nextBookRequestStatus(request_id)).unwrap();
-    await dispatch(markAsRead({ _id: notification_id })).unwrap();
-  };
-
-  return (
-    <div className={styles.modalContent}>
-      <div className={styles.bookInfo}>
-        <img src={coverImg} alt={title} className={styles.bookCover} />
-        <div className={styles.bookDetails}>
-          <h3 className={styles.bookTitle}>{title}</h3>
-          <p className={styles.bookAuthor}>{authors[0]}</p>
-          <p className={styles.confirmationMsg}>{confirmationMsg}</p>
-        </div>
-      </div>
-      <div className={styles.actionButtons}>
-        <Button
-          disabled={isLoading}
-          circle
-          icon={faCheck}
-          onClick={acceptClickHandler}
-          className={styles.acceptButton}
-        />
-        <Button
-          circle
-          icon={faX}
-          onClick={onClose}
-          className={styles.declineButton}
-        />
-      </div>
-    </div>
-  );
-};
-
-const MarkAsReadModal = ({ onConfirm, onCancel, isLoading }) => {
-  return (
-    <div className={styles.modalContent}>
-      <div className={styles.modalText}>Mark as read?</div>
-      <div className={styles.actionButtons}>
-        <Button
-          disabled={isLoading}
-          circle
-          icon={faCheck}
-          onClick={onConfirm}
-          className={styles.acceptButton}
-        />
-        <Button
-          circle
-          icon={faX}
-          onClick={onCancel}
-          className={styles.declineButton}
-        />
-      </div>
-    </div>
-  );
-};
+import useNotificationModal from "../NotificationModal/NotificationModal";
 
 const NotificationsPanel = () => {
-  const [modalState, setModalState] = useState(0);
-  const [refData, setRefData] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const { list: notifications, status } = useSelector(
     (state) => state.notifications
   );
-  const findBookFromRequest = useSelector(createBookFromRequestFinder);
+  const { openNotificationModal, renderModal } =
+    useNotificationModal(notifications);
   const [showReadNotifications, setShowReadNotifications] = useState(false);
 
   const processNotifications = (notifications) => {
@@ -120,74 +49,57 @@ const NotificationsPanel = () => {
       <NoContent icon={faBell} text="You currently don't have notifications" />
     );
 
-  const renderNotifications = () => {
-    const unreadNotifications = _notifications.unread.map((notification, i) => {
-      console.log("notification", notification);
-      const { requestRef, requestType, _id, __v, ...remaining } = notification;
-      const notificationProps = { ...remaining, _id };
+  const renderUnreadNotifications = (notification, i) => {
+    console.log("notification", notification);
+    const { requestRef, requestType, _id, __v, ...remaining } = notification;
+    const notificationProps = { ...remaining, _id };
 
-      const book = findBookFromRequest(requestRef);
-
-      console.log("book from request", book);
-
-      const getAcceptAndDeclineHandlers = () => {
-        let data = {
-          requestRef,
-          requestType,
-          notification_id: _id,
-          confirmationMsg: notification.confirmation,
-        };
-
-        const acceptHandler = !notification?.confirmation
-          ? null
-          : async () => {
-              setModalState(1);
-              if (requestType === requestTypes.BookRequest) {
-                const result = await fetchBookRequest(
-                  requestRef,
-                  requestType,
-                  _id
-                );
-                data = { ...data, ...result };
-              }
-              setRefData(data);
-            };
-        const declineHandler = () => {
-          setModalState(-1);
-          setRefData(data);
-        };
-        return {
-          accept: acceptHandler,
-          decline: declineHandler,
-        };
+    const getAcceptAndDeclineHandlers = () => {
+      let data = {
+        requestRef,
+        requestType,
+        notification_id: _id,
+        confirmationMsg: notification.confirmation,
       };
 
-      return (
-        <NotificationsCard
-          key={`${_id}-${i}`}
-          {...notificationProps}
-          clickHandlers={getAcceptAndDeclineHandlers()}
-          isLoading={status === asyncStatus.LOADING}
-        />
-      );
-    });
-
-    const readNotifications = _notifications.read.map((notification, i) => {
-      const { requestRef, requestType, _id, __v, ...remaining } = notification;
-      const notificationProps = { ...remaining, _id };
-
-      return (
-        <NotificationsCard
-          key={`${_id}`}
-          {...notificationProps}
-          isLoading={status === asyncStatus.LOADING}
-        />
-      );
-    });
+      const acceptHandler = !notification?.confirmation
+        ? null
+        : async () => {
+            openNotificationModal(_id);
+          };
+      const declineHandler = () => {};
+      return {
+        accept: acceptHandler,
+        decline: declineHandler,
+      };
+    };
 
     return (
+      <NotificationsCard
+        key={`${_id}-${i}`}
+        {...notificationProps}
+        clickHandlers={getAcceptAndDeclineHandlers()}
+        isLoading={status === asyncStatus.LOADING}
+      />
+    );
+  };
+
+  const renderReadNotifications = (notification, i) => {
+    const { requestRef, requestType, _id, __v, ...remaining } = notification;
+    const notificationProps = { ...remaining, _id };
+
+    return (
+      <NotificationsCard
+        key={`${_id}`}
+        {...notificationProps}
+        isLoading={status === asyncStatus.LOADING}
+      />
+    );
+  };
+
+  const renderReadNotificationsDropdown = () => {
+    return (
       <>
-        {unreadNotifications}
         {_notifications.read.length > 0 && (
           <div className={styles.readNotificationsDropdown}>
             <button
@@ -202,7 +114,7 @@ const NotificationsPanel = () => {
             </button>
             {showReadNotifications && (
               <div className={styles.readNotifications}>
-                {readNotifications}
+                {_notifications.read.map(renderReadNotifications)}
               </div>
             )}
           </div>
@@ -211,50 +123,15 @@ const NotificationsPanel = () => {
     );
   };
 
-  const modalCard = () => {
-    if (refData) {
-      if (modalState === 1) {
-        if (refData.requestType === requestTypes.BookRequest) {
-          return (
-            <BookRequestModal
-              refData={refData}
-              onClose={() => setModalState(0)}
-              onAccept={() => setModalState(0)}
-              isLoading={isLoading}
-            />
-          );
-        } else if (refData.requestType === requestTypes.FriendRequest) {
-          // return <FriendRequestModal refData={refData} />;
-        }
-      } else if (modalState === -1) {
-        return (
-          <MarkAsReadModal
-            onConfirm={() => setModalState(0)}
-            onCancel={() => setModalState(0)}
-            isLoading={isLoading}
-          />
-        );
-      }
-    }
-
-    return null;
-  };
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.notifications}>{renderNotifications()}</div>
+        <div className={styles.notifications}>
+          {_notifications.unread.map(renderUnreadNotifications)}
+        </div>
+        {renderReadNotificationsDropdown()}
       </div>
-      <Modal
-        setIsOpen={(bool) => {
-          if (!bool) {
-            setModalState(0);
-          }
-        }}
-        isOpen={modalState !== 0}
-        title="Confirm Request"
-      >
-        <div className={styles.modalContainer}>{modalCard()}</div>
-      </Modal>
+      {renderModal()}
     </>
   );
 };

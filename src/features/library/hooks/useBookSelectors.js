@@ -27,6 +27,7 @@ export const useBookSelectors = (userBooks) => {
   const borrowedBookCategories = userBooks?.books?.borrowed
     ? categorizeBorrowedBooksByStatus(userBooks.books.borrowed)
     : [];
+  console.log("borrowedBookCategories", borrowedBookCategories);
 
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];

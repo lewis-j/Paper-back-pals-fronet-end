@@ -42,6 +42,12 @@ export const useModalActions = (openModal) => {
       openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, data),
     cancelBorrowRequest: (userBook) =>
       openModal(MODAL_TYPES.CANCEL_BORROW_REQUEST, { userBook }),
+    lenderConfirmDropOff: (userBook) => {
+      console.log("ownerConfirmDropOff", userBook);
+      openModal(MODAL_TYPES.LENDER_CONFIRM_DROP_OFF, { userBook });
+    },
+    borrowerConfirmPickup: (userBook) =>
+      openModal(MODAL_TYPES.BORROWER_CONFIRM_PICKUP, { userBook }),
 
     // Library Management
     removeFromLibrary: (userBook) =>

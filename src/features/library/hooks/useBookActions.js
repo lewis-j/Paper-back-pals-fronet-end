@@ -4,6 +4,7 @@ import {
   cancelBorrowRequest,
   createBookRequest,
   deleteUserBook,
+  updateCurrentRead,
   removeBookRequest,
   updateBorrowRequestStatus,
   updateLendRequestStatus,
@@ -24,20 +25,16 @@ export const useBookActions = () => {
     }
   };
 
-  const updateReadingProgress = (request_id, currentPage, userBook_id) =>
-    dispatchAction(updateCurrentPage({ request_id, currentPage, userBook_id }));
-
+  // Library Management
   const deleteBookFromLibrary = (userBookId) =>
     dispatchAction(deleteUserBook(userBookId));
 
-  const createBorrowRequest = (userBookId) =>
-    dispatchAction(createBookRequest(userBookId));
+  const setCurrentRead = (userBookId) =>
+    dispatchAction(updateCurrentRead(userBookId));
 
-  const acceptBorrowRequest = (request_id) =>
-    dispatchAction(
-      updateLendRequestStatus(request_id),
-      "error in acceptBorrowRequest"
-    );
+  // Reading Progress Actions
+  const updateReadingProgress = (request_id, currentPage, userBook_id) =>
+    dispatchAction(updateCurrentPage({ request_id, currentPage, userBook_id }));
 
   const completeBook = (request_id, userBook_id, pageCount) =>
     dispatchAction(
@@ -48,10 +45,44 @@ export const useBookActions = () => {
       })
     );
 
+  // Borrowing/Lending Actions
+  const createBorrowRequest = (userBookId) =>
+    dispatchAction(createBookRequest(userBookId));
+
+  const acceptBorrowRequest = (request_id) =>
+    dispatchAction(
+      updateLendRequestStatus(request_id),
+      "error in acceptBorrowRequest"
+    );
+
+  const confirmLenderDropOff = (request_id) =>
+    dispatchAction(
+      updateLendRequestStatus(request_id),
+      "error in confirmLenderDropOff"
+    );
+
+  const confirmBorrowerPickup = (request_id) =>
+    dispatchAction(
+      updateBorrowRequestStatus(request_id),
+      "error in confirmBorrowerPickup"
+    );
+
   const returnBorrowedBook = (request_id) =>
     dispatchAction(
       updateBorrowRequestStatus(request_id),
       "error in returnBorrowedBook"
+    );
+
+  const confirmBorrowerDropOff = (request_id) =>
+    dispatchAction(
+      updateBorrowRequestStatus(request_id),
+      "error in confirmBorrowerDropOff"
+    );
+
+  const confirmLenderPickup = (request_id) =>
+    dispatchAction(
+      updateLendRequestStatus(request_id),
+      "error in confirmLenderPickup"
     );
 
   const cancelPendingBorrowRequest = (request_id) =>
@@ -61,12 +92,20 @@ export const useBookActions = () => {
     );
 
   return {
-    updateReadingProgress,
+    // Library Management
     deleteBookFromLibrary,
-    createBorrowRequest,
+    setCurrentRead,
+    // Reading Progress
+    updateReadingProgress,
     completeBook,
-    returnBorrowedBook,
+    // Borrowing/Lending
+    createBorrowRequest,
     acceptBorrowRequest,
+    confirmLenderDropOff,
+    confirmBorrowerPickup,
+    returnBorrowedBook,
+    confirmBorrowerDropOff,
+    confirmLenderPickup,
     cancelPendingBorrowRequest,
   };
 };

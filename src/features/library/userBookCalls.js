@@ -66,7 +66,8 @@ export const removeBookRequest = async (request_id) => {
   }
 };
 
-export const updateCurrentRead = async ({ userBook_id }) => {
+export const updateCurrentRead = async (userBook_id) => {
+  console.log("userBook_id in updateCurrentRead", userBook_id);
   try {
     const res = await API.put(`/user/setCurrentRead/${userBook_id}`);
     if (!res.data.currentRead) {

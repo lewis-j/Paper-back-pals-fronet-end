@@ -44,6 +44,14 @@ export const MODAL_TYPES = {
     "CANCEL_BORROW_REQUEST",
     "Cancel Borrow Request"
   ),
+  LENDER_CONFIRM_DROP_OFF: new ModalType(
+    "LENDER_CONFIRM_DROP_OFF",
+    "Lender Confirm Drop Off"
+  ),
+  BORROWER_CONFIRM_PICKUP: new ModalType(
+    "BORROWER_CONFIRM_PICKUP",
+    "Borrower Confirm Pickup"
+  ),
 
   // Library Management
   REMOVE_FROM_LIBRARY: new ModalType(

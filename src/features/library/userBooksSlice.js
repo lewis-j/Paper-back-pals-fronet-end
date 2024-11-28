@@ -182,14 +182,38 @@ export const userBooksSlice = createSlice({
   },
 });
 export const createBookFromRequestFinder = (state) => (request_id) => {
-  console.log("state in createBookFromRequestFinder", state);
+  console.log("request_id", request_id, state);
   const bookFromOwned = state.userBooks.books.owned.find((book) =>
     book.requests?.some((request) => request._id === request_id)
   );
   const bookFromBorrowed = state.userBooks.books.borrowed.find(
-    (book) => book.request.request_id === request_id
+    (book) => book.request.id === request_id
   );
-  return bookFromOwned || bookFromBorrowed;
+
+  if (bookFromOwned) {
+    const request = bookFromOwned.requests.find(
+      (req) => req._id === request_id
+    );
+
+    return {
+      ...bookFromOwned,
+      isOwned: true,
+      sender: request.sender,
+      request: { status: request.status, id: request.id },
+    };
+  }
+  if (bookFromBorrowed) {
+    console.log("bookFromBorrowed", bookFromBorrowed);
+    return {
+      ...bookFromBorrowed,
+      isOwned: false,
+      sender: bookFromBorrowed.request.sender,
+      request: {
+        status: bookFromBorrowed.request.status,
+        id: bookFromBorrowed.request.id,
+      },
+    };
+  }
 };
 
 export const { setBooks, setCurrentRead } = userBooksSlice.actions;
