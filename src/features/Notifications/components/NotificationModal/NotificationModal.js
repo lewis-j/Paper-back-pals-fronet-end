@@ -7,6 +7,7 @@ import { useModalActions } from "../../../library/hooks/useModalActions";
 import { createBookFromRequestFinder } from "../../../library/userBooksSlice";
 import { useSelector } from "react-redux";
 import { useBookSelectors } from "../../../library/hooks/useBookSelectors";
+import { getBookRequest } from "../../../library/userBookCalls";
 
 const useNotificationModal = (notifications) => {
   const [modal, setModal] = useState({
@@ -35,11 +36,13 @@ const useNotificationModal = (notifications) => {
 
   const modalActions = useModalActions(openModal);
 
-  const openNotificationModal = (notification_id) => {
+  const openNotificationModal = async (notification_id) => {
     const notification = notifications.find(
       (notification) => notification.id === notification_id
     );
     if (notification.requestType === "BookRequest") {
+      const requestObj = await getBookRequest(notification.requestRef);
+      console.log("request object in open notification", requestObj);
       setRequestType("BookRequest");
       const userBook = findBookFromRequest(notification.requestRef);
       console.log("userBook from findBookFromRequest", userBook);

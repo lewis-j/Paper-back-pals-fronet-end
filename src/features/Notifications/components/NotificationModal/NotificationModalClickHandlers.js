@@ -5,6 +5,10 @@ export const runBookRequestAction = (modalActions, userBook) => {
 
   if (userBook.isOwned) {
     switch (userBook.request.status) {
+      case requestStatus.CHECKED_IN:
+        console.log("opening checked in modal");
+        modalActions.confirmBorrowRequest(userBook);
+        break;
       case requestStatus.ACCEPTED:
         console.log("opening accept modal");
         modalActions.lenderConfirmDropOff(userBook);

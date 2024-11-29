@@ -145,6 +145,7 @@ export const BaseForm = ({
 }) => {
   const handleSubmit = async () => {
     const success = await onConfirm();
+    console.log("Base Form was result", success);
     if (success) {
       onClose();
     }

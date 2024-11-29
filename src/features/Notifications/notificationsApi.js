@@ -26,9 +26,9 @@ export const fetchNotifications = async () => {
   }
 };
 
-export const markAsRead = async ({ _id }) => {
+export const markAsRead = async (notification_id) => {
   try {
-    const res = await API.put(`notifications/isRead/${_id}`);
+    const res = await API.put(`notifications/isRead/${notification_id}`);
 
     const { notification } = res.data;
     return { notification };

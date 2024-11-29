@@ -19,11 +19,6 @@ export const createBookRequest = createAsyncThunk(
   userBookApi.createBookRequest
 );
 
-export const removeBookRequest = createAsyncThunk(
-  "userBooks/removeRequest",
-  userBookApi.removeBookRequest
-);
-
 export const updateCurrentRead = createAsyncThunk(
   "useBooks/updateCurrentRead",
   userBookApi.updateCurrentRead
@@ -127,21 +122,6 @@ const denyLendRequestFulfilled = (state, action) => {
   });
 };
 
-const removeBookRequestFulfilled = (state, action) => {
-  const request_id = action.payload.request_id;
-  // Remove request from owned books
-  state.books.owned = state.books.owned.map((book) => ({
-    ...book,
-    requests: book.requests?.filter(
-      (request) => request.request_id !== request_id
-    ),
-  }));
-  // Remove from borrowed books
-  state.books.borrowed = state.books.borrowed.filter(
-    (book) => book.request.request_id !== request_id
-  );
-};
-
 export const userBooksSlice = createSlice({
   name: "userBooks",
 
@@ -176,7 +156,6 @@ export const userBooksSlice = createSlice({
       updateBorrowRequestStatus,
       updateBorrowRequestStatusFulfilled
     ),
-    ...setExtraReducer(removeBookRequest, removeBookRequestFulfilled),
     ...setExtraReducer(cancelBorrowRequest, cancelBorrowRequestFulfilled),
     ...setExtraReducer(denyLendRequest, denyLendRequestFulfilled),
   },
@@ -194,12 +173,12 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
     const request = bookFromOwned.requests.find(
       (req) => req._id === request_id
     );
-
+    console.log("bookFromOwned request", request);
     return {
       ...bookFromOwned,
       isOwned: true,
       sender: request.sender,
-      request: { status: request.status, id: request.id },
+      request: { status: request.status, id: request._id },
     };
   }
   if (bookFromBorrowed) {

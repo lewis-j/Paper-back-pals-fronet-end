@@ -50,7 +50,6 @@ const NotificationsPanel = () => {
     );
 
   const renderUnreadNotifications = (notification, i) => {
-    console.log("notification", notification);
     const { requestRef, requestType, _id, __v, ...remaining } = notification;
     const notificationProps = { ...remaining, _id };
 

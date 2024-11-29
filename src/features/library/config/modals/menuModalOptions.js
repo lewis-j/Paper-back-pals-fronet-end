@@ -100,10 +100,10 @@ const getModalConfig = (
     case MODAL_TYPES.CONFIRM_BORROW_REQUEST.value:
       return createFormModal("Confirm Borrow Request", BaseForm, {
         ...commonProps,
-        confirmationMsg: `Do you want to lend "${userBook.book.title}" to ${modalData.request.sender.username}?`,
+        confirmationMsg: `Do you want to lend "${userBook.book.title}" to ${userBook.sender.username}?`,
         buttonText: "Confirm Request",
         loadingText: "Confirming...",
-        onConfirm: () => actions.confirmBorrowRequest(modalData.id),
+        onConfirm: () => actions.confirmBorrowRequest(userBook.request.id),
       });
 
     case MODAL_TYPES.CANCEL_BORROW_REQUEST.value:

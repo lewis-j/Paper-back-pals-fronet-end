@@ -80,9 +80,14 @@ export const updateCurrentRead = async (userBook_id) => {
   }
 };
 
-export const nextBookRequestStatus = async (request_id, { dispatch }) => {
+export const nextBookRequestStatus = async (
+  { request_id, status },
+  { dispatch }
+) => {
   try {
-    const res = await API.put(`/user-books/request/${request_id}/status/next`);
+    const res = await API.put(`/user-books/request/${request_id}/status/next`, {
+      status,
+    });
     const { notification, bookRequest } = res.data;
     dispatch(addNotification({ notification }));
     return { notification, bookRequest };

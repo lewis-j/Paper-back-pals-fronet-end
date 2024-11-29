@@ -38,8 +38,8 @@ export const useModalActions = (openModal) => {
       openModal(MODAL_TYPES.CREATE_BORROW_REQUEST, { userBook }),
     viewBorrowRequests: (userBook) =>
       openModal(MODAL_TYPES.VIEW_BORROW_REQUESTS, { userBook }),
-    confirmBorrowRequest: (data) =>
-      openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, data),
+    confirmBorrowRequest: (userBook) =>
+      openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, { userBook }),
     cancelBorrowRequest: (userBook) =>
       openModal(MODAL_TYPES.CANCEL_BORROW_REQUEST, { userBook }),
     lenderConfirmDropOff: (userBook) => {
