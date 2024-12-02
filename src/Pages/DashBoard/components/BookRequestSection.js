@@ -50,7 +50,7 @@ const BookRequestsSection = ({
 
   return (
     <section className={styles.container}>
-      <h3 className={styles.title}>Books Requested</h3>
+      <h3 className={styles.title}>Requests from Friends</h3>
       {renderContent()}
     </section>
   );

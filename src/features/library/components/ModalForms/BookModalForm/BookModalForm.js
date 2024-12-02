@@ -36,7 +36,7 @@ const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
   if (!userBook) return null;
 
   const handleSubmit = () => {
-    onUpdateProgress(request.id, value, userBook_id);
+    onUpdateProgress(request._id, value, userBook_id);
     onClose();
   };
 
@@ -84,6 +84,8 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   const { openModal } = useModal();
   const requests = userBook.requests;
 
+  console.log("requests in BorrowRequestsList", requests);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -96,7 +98,7 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   const handleRequestClick = (request) => {
     onClose();
     openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, {
-      userBook,
+      ...userBook,
       request,
     });
   };

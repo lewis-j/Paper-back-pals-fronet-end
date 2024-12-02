@@ -41,12 +41,12 @@ export const updateBorrowRequestStatus = createAsyncThunk(
 
 export const cancelBorrowRequest = createAsyncThunk(
   "userBooks/cancelBorrowRequest",
-  userBookApi.removeBookRequest
+  userBookApi.cancelBorrowRequest
 );
 
-export const denyLendRequest = createAsyncThunk(
-  "userBooks/denyLendRequest",
-  userBookApi.removeBookRequest
+export const declineLendingRequest = createAsyncThunk(
+  "userBooks/declineLendingRequest",
+  userBookApi.declineLendingRequest
 );
 
 const updateLendRequestStatusFulfilled = (state, action) => {
@@ -87,12 +87,6 @@ const updateCurrentPageFulfilled = (state, action) => {
 };
 
 const createBookRequestFullfilled = (state, action) => {
-  // state.bookRequests.push({
-  //   userBook: {
-  //     _id: action.payload.userBook_id,
-  //   },
-  //   status: bookRequestStatus.CHECKED_IN,
-  // });
   state.books.borrowed.push(action.payload.bookRequest);
 };
 
@@ -107,17 +101,17 @@ const deleteUserBookFulfilled = (state, action) => {
 };
 
 const cancelBorrowRequestFulfilled = (state, action) => {
-  state.books.borrowed = state.books.borrowed.filter(
-    ({ request }) => request.request_id !== action.payload.request_id
+  state.books.borrowed = state.books.borrowed.map(({ request, ...rest }) =>
+    request._id !== action.payload.request._id
+      ? { request, ...rest }
+      : { action }
   );
 };
 
-const denyLendRequestFulfilled = (state, action) => {
-  // Update the owned books' requests array
-  // Implementation depends on how requests are stored in your owned books
+const declineLendingRequestFulfilled = (state, action) => {
   state.books.owned.forEach((book) => {
     book.requests = book.requests.filter(
-      (request) => request.request_id !== action.payload.request_id
+      (request) => request._id !== action.payload.request._id
     );
   });
 };
@@ -157,16 +151,15 @@ export const userBooksSlice = createSlice({
       updateBorrowRequestStatusFulfilled
     ),
     ...setExtraReducer(cancelBorrowRequest, cancelBorrowRequestFulfilled),
-    ...setExtraReducer(denyLendRequest, denyLendRequestFulfilled),
+    ...setExtraReducer(declineLendingRequest, declineLendingRequestFulfilled),
   },
 });
 export const createBookFromRequestFinder = (state) => (request_id) => {
-  console.log("request_id", request_id, state);
   const bookFromOwned = state.userBooks.books.owned.find((book) =>
     book.requests?.some((request) => request._id === request_id)
   );
   const bookFromBorrowed = state.userBooks.books.borrowed.find(
-    (book) => book.request.id === request_id
+    (book) => book.request._id === request_id
   );
 
   if (bookFromOwned) {
@@ -189,7 +182,7 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
       sender: bookFromBorrowed.request.sender,
       request: {
         status: bookFromBorrowed.request.status,
-        id: bookFromBorrowed.request.id,
+        id: bookFromBorrowed.request._id,
       },
     };
   }

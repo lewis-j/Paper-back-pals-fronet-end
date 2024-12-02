@@ -20,7 +20,7 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
         requests: userBook.requests,
         request: {
           status: activeRequest.status,
-          id: activeRequest._id,
+          _id: activeRequest._id,
         },
       };
 

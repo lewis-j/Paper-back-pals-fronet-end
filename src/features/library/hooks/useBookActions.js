@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentPage } from "../../../features/library";
 import {
-  cancelBorrowRequest,
+  cancelBorrowRequest as cancelBorrowRequestAction,
+  declineLendingRequest as declineLendingRequestAction,
   createBookRequest,
   deleteUserBook,
   updateCurrentRead,
@@ -152,11 +153,20 @@ export const useBookActions = () => {
       "error in markBookAsDue"
     );
 
-  const cancelPendingBorrowRequest = (request_id) =>
+  const cancelBorrowRequest = (request_id) =>
     dispatchAction(
-      cancelBorrowRequest(request_id),
+      cancelBorrowRequestAction(request_id),
       "error in cancelPendingBorrowRequest"
     );
+
+  const declineLendingRequest = (request_id) =>
+    dispatchAction(
+      declineLendingRequestAction(request_id),
+      "error in declineLendingRequest"
+    );
+
+  const extendBorrow = (request_id) => alert("feature on the way");
+  // dispatchAction(extendBorrowRequest(request_id), "error in extendBorrow");
 
   return {
     // Library Management
@@ -173,6 +183,9 @@ export const useBookActions = () => {
     confirmBorrowerDropOff,
     confirmLenderPickup,
     markBookAsDue,
-    cancelPendingBorrowRequest,
+    extendBorrow,
+    //remove request Borrower/Lender
+    cancelBorrowRequest,
+    declineLendingRequest,
   };
 };

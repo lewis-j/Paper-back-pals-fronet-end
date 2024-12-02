@@ -44,7 +44,7 @@ const getModalConfig = (
         loadingText: "Updating Progress...",
         onConfirm: () =>
           actions.completeBook(
-            userBook.request.request_id,
+            userBook.request._id,
             userBook._id,
             userBook.book.pageCount
           ),
@@ -103,7 +103,7 @@ const getModalConfig = (
         confirmationMsg: `Do you want to lend "${userBook.book.title}" to ${userBook.sender.username}?`,
         buttonText: "Confirm Request",
         loadingText: "Confirming...",
-        onConfirm: () => actions.confirmBorrowRequest(userBook.request.id),
+        onConfirm: () => actions.confirmBorrowRequest(userBook.request._id),
       });
 
     case MODAL_TYPES.CANCEL_BORROW_REQUEST.value:
@@ -112,7 +112,7 @@ const getModalConfig = (
         confirmationMsg: `Are you sure you want to cancel your request for "${userBook.book.title}"?`,
         buttonText: "Cancel Request",
         loadingText: "Canceling Request...",
-        onConfirm: () => actions.cancelBorrowRequest(userBook.request.id),
+        onConfirm: () => actions.cancelBorrowRequest(userBook.request._id),
       });
 
     case MODAL_TYPES.RETURN_BORROWED_BOOK.value:
@@ -121,7 +121,7 @@ const getModalConfig = (
         confirmationMsg: `Do you want to return ${userBook.book.title} to ${userBook.owner.username}?`,
         buttonText: "Return Book",
         loadingText: "Returning Book...",
-        onConfirm: () => actions.returnBook(userBook.request.id),
+        onConfirm: () => actions.markBookAsDue(userBook.request._id),
       });
 
     case MODAL_TYPES.REQUEST_BORROW_EXTENSION.value:
@@ -130,7 +130,7 @@ const getModalConfig = (
         confirmationMsg: `Would you like to request a loan extension for "${userBook.book.title}" from ${userBook.owner.username}?`,
         buttonText: "Request Extension",
         loadingText: "Requesting Extension...",
-        onConfirm: () => actions.extendBorrow(userBook.request.id),
+        onConfirm: () => actions.extendBorrow(userBook.request._id),
       });
     case MODAL_TYPES.LENDER_CONFIRM_DROP_OFF.value:
       return createFormModal("Lender Confirm Drop Off", BaseForm, {
@@ -138,7 +138,7 @@ const getModalConfig = (
         confirmationMsg: `Confirm drop off of "${userBook.book.title}" to ${userBook.sender.username}?`,
         buttonText: "Confirm Drop Off",
         loadingText: "Confirming Drop Off...",
-        onConfirm: () => actions.confirmLenderDropOff(userBook.request.id),
+        onConfirm: () => actions.confirmLenderDropOff(userBook.request._id),
       });
     case MODAL_TYPES.BORROWER_CONFIRM_PICKUP.value:
       return createFormModal("Borrower Confirm Pickup", BaseForm, {
@@ -146,7 +146,7 @@ const getModalConfig = (
         confirmationMsg: `Confirm pickup of "${userBook.book.title}" from ${userBook.owner.username}?`,
         buttonText: "Confirm Pickup",
         loadingText: "Confirming Pickup...",
-        onConfirm: () => actions.confirmBorrowerPickup(userBook.request.id),
+        onConfirm: () => actions.confirmBorrowerPickup(userBook.request._id),
       });
 
     default:

@@ -56,12 +56,26 @@ export const createBookRequest = async (userBook_id, { dispatch }) => {
   }
 };
 
-export const removeBookRequest = async (request_id) => {
+export const declineLendingRequest = async (request_id, { dispatch }) => {
   try {
-    await API.delete(`/user-books/request/${request_id}`);
-    return { request_id };
+    const res = await API.put(`/user-books/request/${request_id}/decline`);
+    const { notification, bookRequest } = res.data;
+    dispatch(addNotification({ notification }));
+    return { notification, bookRequest };
   } catch (error) {
     console.error("Failed to remove book request:", error);
+    return Promise.reject(error);
+  }
+};
+
+export const cancelBorrowRequest = async (request_id, { dispatch }) => {
+  try {
+    const res = await API.put(`/user-books/request/${request_id}/cancel`);
+    const { notification, bookRequest } = res.data;
+    dispatch(addNotification({ notification }));
+    return { notification, bookRequest };
+  } catch (error) {
+    console.error("Failed to cancel borrow request:", error);
     return Promise.reject(error);
   }
 };
