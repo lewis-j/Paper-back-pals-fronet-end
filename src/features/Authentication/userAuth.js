@@ -1,53 +1,18 @@
 import * as firebaseApi from "./firebase";
 import { getNewDefaultUserImg } from "../../utilities/getDefaultUserImg";
 import * as authApi from "./authApi";
-import {
-  setFriendRequestInbox,
-  setFriendRequestOutbox,
-  setFriends,
-} from "../Friends";
-import { setBooks, setCurrentRead } from "../library";
-
-const mergeFriendsIntoRequest = (friends, owndedBooks) => {
-  return owndedBooks.map((book) => {
-    const requests = book.requests.map((request) => {
-      const friend = friends.find(
-        (friend) => friend._id === request.sender._id
-      );
-      return { ...request, sender: friend };
-    });
-    return { ...book, requests };
-  });
-};
+import { parseAndDispatchUserData } from "./userDataMapper";
 
 const parseSlice = (dispatch, _user) => {
-  const {
-    friends,
-    friendRequestInbox,
-    friendRequestOutbox,
-    ownedBooks: owned,
-    borrowedBooks: borrowed,
-    currentRead,
-    ...user
-  } = _user;
-  dispatch(
-    setFriendRequestInbox({ friendRequestInbox: friendRequestInbox ?? [] })
-  );
-  dispatch(
-    setFriendRequestOutbox({ friendRequestOutbox: friendRequestOutbox ?? [] })
-  );
-  dispatch(setCurrentRead({ currentRead }));
-  dispatch(setFriends({ friends }));
-  const mergedfriendIntoBooks = mergeFriendsIntoRequest(friends, owned);
-  dispatch(setBooks({ borrowed, owned: mergedfriendIntoBooks }));
-  return { user };
+  const user = parseAndDispatchUserData(dispatch, _user);
+  return user;
 };
 
 const fetchUser = async (_, { dispatch }) => {
   try {
     // await authApi.enableCsrfProtection();
-    const user = await authApi.authUserFetch();
-    return parseSlice(dispatch, user);
+    const authUser = await authApi.authUserFetch();
+    return parseSlice(dispatch, authUser);
   } catch (error) {
     return Promise.reject(error);
   }
