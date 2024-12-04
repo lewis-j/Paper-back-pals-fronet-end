@@ -103,6 +103,7 @@ export const nextBookRequestStatus = async (
       status,
     });
     const { notification, bookRequest } = res.data;
+    console.log("bookRequest in nextBookRequestStatus", bookRequest);
     dispatch(addNotification({ notification }));
     return { notification, bookRequest };
   } catch (error) {

@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Modal } from "../../../../components";
 import { BookModalContent } from "../../../library/config/modals/menuModalOptions";
 import { MODAL_TYPES } from "../../../library/config/modals";
-import { runBookRequestAction } from "./NotificationModalClickHandlers";
 import { useModalActions } from "../../../library/hooks/useModalActions";
 import { createBookFromRequestFinder } from "../../../library/userBooksSlice";
 import { useSelector } from "react-redux";
-import { useBookSelectors } from "../../../library/hooks/useBookSelectors";
 import { getBookRequest } from "../../../library/userBookCalls";
+import { runBookRequestAction } from "../../../library/utilities/bookRequestAction";
 
 const useNotificationModal = (notifications) => {
   const [modal, setModal] = useState({
@@ -42,10 +41,8 @@ const useNotificationModal = (notifications) => {
     );
     if (notification.requestType === "BookRequest") {
       const requestObj = await getBookRequest(notification.requestRef);
-      console.log("request object in open notification", requestObj);
       setRequestType("BookRequest");
       const userBook = findBookFromRequest(notification.requestRef);
-      console.log("userBook from findBookFromRequest", userBook);
       return runBookRequestAction(modalActions, userBook);
     } else if (notification.requestType === "BookReturn") {
       //implement friend request action
@@ -53,7 +50,6 @@ const useNotificationModal = (notifications) => {
   };
 
   const getModalContent = (modal) => {
-    console.log("modal in getModalContent", modal, "Request Type", requestType);
     if (!modal?.data) return null;
     if (requestType === "BookRequest") {
       return <BookModalContent modal={modal} onClose={closeModal} />;

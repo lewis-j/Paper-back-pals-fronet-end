@@ -50,14 +50,14 @@ export const declineLendingRequest = createAsyncThunk(
 );
 
 const updateLendRequestStatusFulfilled = (state, action) => {
-  const request_id = action.payload.bookRequest.request_id;
+  const request_id = action.payload.bookRequest._id;
   // Update the request status in the owned books array
   const bookIdx = state.books.owned.findIndex((book) =>
-    book.requests?.some((request) => request.request_id === request_id)
+    book.requests?.some((request) => request._id === request_id)
   );
   if (bookIdx !== -1) {
     const requestIdx = state.books.owned[bookIdx].requests.findIndex(
-      (request) => request.request_id === request_id
+      (request) => request._id === request_id
     );
     state.books.owned[bookIdx].requests[requestIdx].status =
       action.payload.bookRequest.status;
@@ -65,10 +65,11 @@ const updateLendRequestStatusFulfilled = (state, action) => {
 };
 
 const updateBorrowRequestStatusFulfilled = (state, action) => {
-  const request_id = action.payload.bookRequest.request_id;
+  console.log("action in updateBorrowRequestStatusFulfilled", action);
+  const request_id = action.payload.bookRequest._id;
   // Update the request status in the borrowed books array
   const bookIdx = state.books.borrowed.findIndex(
-    ({ request }) => request.request_id === request_id
+    ({ request }) => request._id === request_id
   );
   if (bookIdx !== -1) {
     state.books.borrowed[bookIdx].status = action.payload.bookRequest.status;
@@ -171,7 +172,7 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
       ...bookFromOwned,
       isOwned: true,
       sender: request.sender,
-      request: { status: request.status, id: request._id },
+      request: { status: request.status, _id: request._id },
     };
   }
   if (bookFromBorrowed) {
@@ -182,7 +183,7 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
       sender: bookFromBorrowed.request.sender,
       request: {
         status: bookFromBorrowed.request.status,
-        id: bookFromBorrowed.request._id,
+        _id: bookFromBorrowed.request._id,
       },
     };
   }

@@ -1,17 +1,9 @@
-import { useSelector } from "react-redux";
-
 import {
   categorizeBorrowedBooksByStatus,
   categorizeOwnedBooksByStatus,
 } from "../../../features/library/utilities/bookFilterUtil";
 
 export const useBookSelectors = (userBooks) => {
-  console.log("userBooks", userBooks);
-  // const {
-  //   books: { borrowed, owned },
-  //   currentRead,
-  // } = userBooks
-
   // Process book categories
   if (
     !userBooks?.books?.owned &&
@@ -34,13 +26,24 @@ export const useBookSelectors = (userBooks) => {
   const booksInLibrary = ownedBookCategories.CHECKED_IN || [];
   const borrowedBookRequests = borrowedBookCategories.CHECKED_IN || [];
 
-  // const booksInTransition = borrowedBookCategories.filter((book) =>
-  //   ["SENDING", "RETURNING", "ACCEPTED", "IS_DUE"].includes(
-  //     book.request?.status
-  //   )
-  // );
-  const booksInTransition = [];
+  const getBooksInTransition = (bookCategories) => {
+    const TRANSITION_STATUSES = ["SENDING", "RETURNING", "ACCEPTED", "IS_DUE"];
 
+    const booksInTransition = TRANSITION_STATUSES.map(
+      (status) => bookCategories[status]
+    )
+      .filter(Boolean)
+      .flat();
+    return booksInTransition;
+  };
+
+  const ownedbooksInTransition = getBooksInTransition(ownedBookCategories);
+  const borrowedbooksInTransition = getBooksInTransition(
+    borrowedBookCategories
+  );
+
+  console.log("booksInTransition", ownedbooksInTransition);
+  // ... existing code ...
   // Get owned book requests
   const ownedBookRequests =
     ownedBookCategories.CHECKED_IN?.filter(
@@ -64,7 +67,8 @@ export const useBookSelectors = (userBooks) => {
     allBooksFromFriends: booksFromFriends,
     booksToFriends,
     booksInLibrary,
-    booksInTransition,
+    ownedbooksInTransition,
+    borrowedbooksInTransition,
     ownedBookRequests,
     borrowedBookRequests,
   };

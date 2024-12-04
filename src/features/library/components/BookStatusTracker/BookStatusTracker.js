@@ -11,84 +11,51 @@ import styles from "./BookStatusTracker.module.scss";
 import requestStatus from "../../../../data/requestStatus";
 
 const statusConfig = {
-  CHECKED_IN: {
+  [requestStatus.CHECKED_IN]: {
     index: 0,
     label: "Available",
     icon: IconBook,
   },
-  ACCEPTED: {
+  [requestStatus.ACCEPTED]: {
     index: 1,
     label: "Accepted",
     icon: IconCheck,
     ownerAction: "Confirm Drop-off",
   },
-  SENDING: {
+  [requestStatus.SENDING]: {
     index: 2,
     label: "Owner Drop-off",
     icon: IconTruck,
     borrowerAction: "Confirm Pickup",
   },
-  CHECKED_OUT: {
+  [requestStatus.CHECKED_OUT]: {
     index: 3,
     label: "With Borrower",
     icon: IconBook,
   },
-  IS_DUE: {
+  [requestStatus.IS_DUE]: {
     index: 4,
     label: "Due Soon",
     icon: IconAlertCircle,
     borrowerAction: "Confirm Drop-off",
   },
-  RETURNING: {
+  [requestStatus.RETURNING]: {
     index: 5,
     label: "Returning",
     icon: IconTruck,
     ownerAction: "Confirm Return Pickup",
   },
-  RETURNED: {
+  [requestStatus.RETURNED]: {
     index: 6,
     label: "Returned",
     icon: IconRotateClockwise,
   },
 };
 
-const BookStatusTracker = ({
-  book,
-  isBorrower = true,
-  onConfirmPickup,
-  onConfirmDropoff,
-}) => {
-  const currentStatus = book.request?.status;
+const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
+  console.log("userBook", userBook);
+  const currentStatus = userBook.request?.status;
   const currentStatusConfig = statusConfig[currentStatus];
-  const requestId = book.request?.request_id;
-
-  const handleAction = () => {
-    if (!book._id) return;
-
-    if (isBorrower) {
-      switch (currentStatus) {
-        case requestStatus.SENDING:
-          onConfirmPickup?.(requestId);
-          break;
-        case requestStatus.IS_DUE:
-          onConfirmDropoff?.(requestId);
-          break;
-        default:
-          break;
-      }
-    } else {
-      switch (currentStatus) {
-        case requestStatus.ACCEPTED:
-          onConfirmDropoff?.(requestId);
-          break;
-        case requestStatus.RETURNING:
-          onConfirmPickup?.(requestId);
-          break;
-        default:
-          break;
-      }
-    }
-  };
 
   const getActionButton = () => {
     const action = isBorrower
@@ -101,7 +68,7 @@ const BookStatusTracker = ({
       <Button
         color="primary"
         className={styles.actionButton}
-        onClick={handleAction}
+        onClick={() => onAction(userBook)}
       >
         {action}
       </Button>
@@ -127,20 +94,20 @@ const BookStatusTracker = ({
     <Card className={styles.tracker}>
       <div className={styles.bookInfo}>
         <img
-          src={book.book.coverImg}
-          alt={book.book.title}
+          src={userBook.book.coverImg}
+          alt={userBook.book.title}
           className={styles.coverImg}
         />
         <div className={styles.details}>
-          <h5>{book.book.title}</h5>
+          <h5>{userBook.book.title}</h5>
           <p>
             {isBorrower
-              ? `Owner: ${book.owner.username}`
-              : `Borrower: ${book.sender.username}`}
+              ? `Owner: ${userBook.owner.username}`
+              : `Borrower: ${userBook.sender.username}`}
           </p>
-          {book.dueDate && currentStatus === "IS_DUE" && (
+          {userBook.dueDate && currentStatus === "IS_DUE" && (
             <p className={styles.dueDate}>
-              Due: {new Date(book.dueDate).toLocaleDateString()}
+              Due: {new Date(userBook.dueDate).toLocaleDateString()}
             </p>
           )}
         </div>

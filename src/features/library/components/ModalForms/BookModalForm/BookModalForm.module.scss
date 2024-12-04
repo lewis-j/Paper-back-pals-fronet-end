@@ -103,49 +103,52 @@
 .buttonContainer {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
-.cancelButton {
+.cancelButton,
+.secondaryButton,
+.submitButton,
+.closeButton {
   min-width: 100px;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   font-family: $paragraph-font;
-  background-color: $grey-2;
-  color: $secondary-color;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  &:hover {
-    background-color: darken($grey-2, 5%);
-  }
-
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
   }
 }
 
-.submitButton {
-  align-self: flex-end;
-  min-width: 100px;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-family: $paragraph-font;
-  background-color: $accepted-color;
-  color: $dark-background-font-color;
-  border: none;
-  cursor: pointer;
+.cancelButton {
+  background-color: $grey-2;
+  color: $secondary-color;
 
-  &:hover {
+  &:hover:not(:disabled) {
+    background-color: darken($grey-2, 5%);
+  }
+}
+
+.secondaryButton {
+  background-color: $decline-color;
+  color: $dark-background-font-color;
+
+  &:hover:not(:disabled) {
     @include hover-link;
   }
+}
 
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+.submitButton {
+  background-color: $accepted-color;
+  color: $dark-background-font-color;
+
+  &:hover:not(:disabled) {
+    @include hover-link;
   }
 }
 

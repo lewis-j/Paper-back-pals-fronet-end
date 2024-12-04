@@ -129,28 +129,28 @@ export const useBookActions = () => {
       "error in confirmBorrowerPickup"
     );
 
-  const confirmBorrowerDropOff = (request_id) =>
+  const confirmBorrowerReturn = (request_id) =>
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.BORROWER,
       REQUEST_STATUS.RETURNING,
-      "error in confirmBorrowerDropOff"
+      "error in confirmBorrowerReturn"
     );
 
-  const confirmLenderPickup = (request_id) =>
+  const confirmLenderReturn = (request_id) =>
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.LENDER,
       REQUEST_STATUS.RETURNED,
-      "error in confirmLenderPickup"
+      "error in confirmLenderReturn"
     );
 
-  const markBookAsDue = (request_id) =>
+  const initiateBookReturn = (request_id) =>
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.LENDER,
       REQUEST_STATUS.IS_DUE,
-      "error in markBookAsDue"
+      "error in initiateBookReturn"
     );
 
   const cancelBorrowRequest = (request_id) =>
@@ -180,9 +180,9 @@ export const useBookActions = () => {
     createBorrowRequest,
     confirmLenderDropOff,
     confirmBorrowerPickup,
-    confirmBorrowerDropOff,
-    confirmLenderPickup,
-    markBookAsDue,
+    initiateBookReturn,
+    confirmBorrowerReturn,
+    confirmLenderReturn,
     extendBorrow,
     //remove request Borrower/Lender
     cancelBorrowRequest,

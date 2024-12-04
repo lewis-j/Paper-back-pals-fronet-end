@@ -2,16 +2,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Modal, NoContent } from "../../../../components";
 import {
   faBell,
-  faCheck,
-  faX,
   faChevronDown,
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
-import requestTypes from "../../../../data/requestTypes";
 import { useState } from "react";
 import { getBookRequest } from "../../../library/userBookCalls";
 import styles from "./NotificationsPanel.module.scss";
-import { addNotification, markAsRead } from "../../notificationsSlice";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -6,6 +6,7 @@ export {
   RequestCard,
   RequestBadge,
   BookStatusTracker,
+  BookTransferTracker,
 } from "./components";
 export { bookRequestStatus } from "./data";
 export {

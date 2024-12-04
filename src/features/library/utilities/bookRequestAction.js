@@ -1,5 +1,5 @@
-import { MODAL_TYPES } from "../../../library/config/modals";
-import requestStatus from "../../../../data/requestStatus";
+import requestStatus from "../../../data/requestStatus";
+
 export const runBookRequestAction = (modalActions, userBook) => {
   console.log("userBook", userBook);
 
@@ -13,8 +13,12 @@ export const runBookRequestAction = (modalActions, userBook) => {
         console.log("opening accept modal");
         modalActions.lenderConfirmDropOff(userBook);
         break;
+      case requestStatus.RETURNING:
+        console.log("opening returning modal");
+        modalActions.lenderConfirmReturn(userBook);
+        break;
       default:
-        return;
+        return null;
     }
   } else {
     switch (userBook.request.status) {
@@ -22,8 +26,12 @@ export const runBookRequestAction = (modalActions, userBook) => {
         console.log("opening sending modal");
         modalActions.borrowerConfirmPickup(userBook);
         break;
+      case requestStatus.IS_DUE:
+        console.log("opening is due modal");
+        modalActions.borrowerConfirmReturn(userBook);
+        break;
       default:
-        return;
+        return null;
     }
   }
 };

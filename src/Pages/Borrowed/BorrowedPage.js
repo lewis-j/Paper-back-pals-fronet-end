@@ -1,17 +1,15 @@
 import { Col, Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { IconBookOff } from "@tabler/icons";
-import {
-  UserBookCardSm,
-  BookContainer,
-  BookStatusTracker,
-} from "../../features/library";
+import { UserBookCardSm, BookContainer } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { nextBookRequestStatus } from "../../features/library/userBookCalls";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
+import { useState } from "react";
+import BookTransferTracker from "../../features/library/components/BookTransferTracker/BookTransferTracker";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
@@ -22,7 +20,7 @@ const BorrowedPage = () => {
   const {
     borrowedBookRequests: pendingBooks,
     allBooksFromFriends: checkedOutBooks,
-    booksInTransition,
+    borrowedbooksInTransition,
   } = useBookSelectors(useSelector((state) => state.userBooks));
 
   const removeMenuItems = (menuItems, textToRemove) =>
@@ -76,25 +74,11 @@ const BorrowedPage = () => {
     <>
       {renderModal()}
       <Container>
-        {booksInTransition.length > 0 && (
-          <>
-            <div>
-              <h4 className={styles.subtitle}>In Progress</h4>
-            </div>
-            <Row>
-              {booksInTransition.map((book) => (
-                <Col xs="12" key={`tracker-${book._id}`}>
-                  <BookStatusTracker
-                    book={book}
-                    isBorrower={true}
-                    onConfirmPickup={handleConfirmPickup}
-                    onConfirmDropoff={handleConfirmDropoff}
-                  />
-                </Col>
-              ))}
-            </Row>
-          </>
-        )}
+        <BookTransferTracker
+          booksInTransition={borrowedbooksInTransition}
+          onConfirmPickup={handleConfirmPickup}
+          onConfirmDropoff={handleConfirmDropoff}
+        />
         <div className={styles.title}>
           <h1>Borrowed Library</h1>
         </div>

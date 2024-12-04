@@ -42,7 +42,7 @@ export const getMenuItems = (modalActions, book_id) => {
         },
         {
           text: "Return Book",
-          clickHandler: () => modalActions.returnBorrowedBook(userBook),
+          clickHandler: () => modalActions.initiateBookReturn(userBook),
         },
       ];
     },
@@ -62,7 +62,7 @@ export const getMenuItems = (modalActions, book_id) => {
       },
       {
         text: "Return Book",
-        clickHandler: () => modalActions.returnBorrowedBook(currentRead),
+        clickHandler: () => modalActions.initiateBookReturn(currentRead),
       },
     ],
 

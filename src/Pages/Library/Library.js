@@ -3,6 +3,7 @@ import {
   BookCard,
   UserBookCardSm,
   BookContainer,
+  BookTransferTracker,
 } from "../../features/library";
 import styles from "./Library.module.scss";
 import { useState } from "react";
@@ -14,9 +15,10 @@ const Library = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
 
-  const { booksInLibrary, booksToFriends } = useBookSelectors(
-    useSelector((state) => state.userBooks)
-  );
+  const { booksInLibrary, booksToFriends, ownedbooksInTransition } =
+    useBookSelectors(useSelector((state) => state.userBooks));
+  // TODO: Add books in transition
+  const booksInTransition = [];
 
   const toFriendsMenuItems = menuItems.booksToFriends(booksToFriends);
   const inLibraryMenuItems = menuItems.booksInLibrary(booksInLibrary);
@@ -82,6 +84,18 @@ const Library = () => {
             {booksInLibrary.map(renderCheckedInBookCard)}
           </BookContainer>
         </Row>
+
+        <BookTransferTracker
+          booksInTransition={ownedbooksInTransition}
+          isBorrower={false}
+          onConfirmPickup={(bookId) => {
+            // Add your pickup handler
+          }}
+          onConfirmDropoff={(bookId) => {
+            // Add your dropoff handler
+          }}
+        />
+
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>

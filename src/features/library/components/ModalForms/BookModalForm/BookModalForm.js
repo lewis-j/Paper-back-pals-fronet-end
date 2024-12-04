@@ -96,10 +96,14 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   };
 
   const handleRequestClick = (request) => {
-    onClose();
-    openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, {
+    console.log("userBook in handleRequestClick", {
       ...userBook,
       request,
+      sender: request.sender,
+    });
+    onClose();
+    openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, {
+      userBook: { ...userBook, request, sender: request.sender },
     });
   };
 
@@ -136,46 +140,108 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
 };
 
 export const BaseForm = ({
-  userBook,
   confirmationMsg,
   buttonText,
   loadingText,
-  onClose,
+  secondaryButtonText,
+  onSecondaryAction,
+  secondaryLoadingText,
   onConfirm,
+  onClose,
   isSubmitting,
   error,
+  successMessage = "Request accepted successfully!",
+  secondarySuccessMessage = "Request declined successfully!",
 }) => {
+  const [status, setStatus] = useState({
+    message: "",
+    type: "",
+  });
+
   const handleSubmit = async () => {
-    const success = await onConfirm();
-    console.log("Base Form was result", success);
-    if (success) {
-      onClose();
+    try {
+      const success = await onConfirm();
+      if (success) {
+        setStatus({
+          message: successMessage,
+          type: "success",
+        });
+      }
+    } catch (err) {
+      setStatus({
+        message: err.message || "Failed to accept request",
+        type: "error",
+      });
+    }
+  };
+
+  const handleSecondaryAction = async () => {
+    try {
+      const success = await onSecondaryAction();
+      if (success) {
+        setStatus({
+          message: secondarySuccessMessage,
+          type: "success",
+        });
+      }
+    } catch (err) {
+      setStatus({
+        message: err.message || "Failed to decline request",
+        type: "error",
+      });
     }
   };
 
   return (
-    <>
-      <p className={styles.confirmation}>{confirmationMsg}</p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.buttonContainer}>
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.cancelButton}
-          disabled={isSubmitting}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-          onClick={handleSubmit}
-        >
-          {isSubmitting ? loadingText : buttonText}
-        </button>
-      </div>
-    </>
+    <div className={styles.formContainer}>
+      {!status.message ? (
+        <>
+          <p className={styles.confirmation}>{confirmationMsg}</p>
+          {error && <p className={styles.errorMessage}>{error}</p>}
+          <div className={styles.buttonContainer}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={styles.cancelButton}
+              disabled={isSubmitting}
+            >
+              Close
+            </button>
+            {secondaryButtonText && onSecondaryAction && (
+              <button
+                type="button"
+                onClick={handleSecondaryAction}
+                className={styles.secondaryButton}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? secondaryLoadingText : secondaryButtonText}
+              </button>
+            )}
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? loadingText : buttonText}
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className={styles.resultContainer}>
+          <p className={`${styles.statusMessage} ${styles[status.type]}`}>
+            {status.message}
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className={styles.closeButton}
+          >
+            Close
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 

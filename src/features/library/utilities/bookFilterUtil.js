@@ -3,11 +3,11 @@ import requestStatus from "../../../data/requestStatus";
 export const categorizeOwnedBooksByStatus = (ownedBooks) => {
   console.log("ownedBooks in categorizeOwnedBooksByStatus", ownedBooks);
   let categorizedBooks = {};
-  console.log("request slice", Object.keys(requestStatus).slice(1));
+  console.log("request slice", Object.keys(requestStatus).slice(1, -1));
   ownedBooks.forEach((userBook) => {
     // Find the first active request (if any)
     const activeRequest = userBook.requests.find((request) =>
-      Object.keys(requestStatus).slice(1).includes(request.status)
+      Object.keys(requestStatus).slice(1, -1).includes(request.status)
     );
 
     if (activeRequest) {
