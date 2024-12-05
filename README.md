@@ -132,6 +132,4 @@ Contributions are welcome! Please fork the repository, make your changes, and su
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
----
 
-This version incorporates the brief explanation of closures within the transaction workflow while keeping the **README** concise and clear.
