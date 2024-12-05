@@ -104,6 +104,9 @@ function App() {
               />
             </Route>
           </Route>
+          {/* <Route path="/privacy" element={<PrivacyPolicy />} />
+  <Route path="/terms" element={<TermsOfService />} />
+  <Route path="/cookies" element={<CookiePolicy />} /> */}
         </Routes>
 
         <ChatModal />
