@@ -9,11 +9,29 @@
 ## Features
 
 - **Add Books**: Seamlessly add books to your library using the Google Books API with search and pagination.
-- **Friend Management**: Search for and add friends to expand your borrowing network.
-- **Notifications**: Stay updated on friend actions and book transaction statuses.
+- **Friend Management**: Search for and add friends using their usernames to expand your borrowing network. The same search bar is used for both friends and books.
+- **Notifications**: Stay updated on request statuses for both friend requests and book transactions. Notifications are delivered in-app only.
 - **Book Status Tracker**: Monitor the status of each book, from requested to returned.
-- **Messaging**: Communicate with friends directly within the app.
-- **Library Browsing**: Explore books available in your friends' libraries.
+- **Messaging**: Communicate with friends directly within the app through peer-to-peer conversations.
+- **Library Browsing**: Explore books available in your friends' libraries through intuitive dashboard pages.
+
+## Library Browsing Structure
+
+- **Dashboard Page**:
+  - Current Read Section
+  - Books From Friends Section
+  - Books To Friends Section
+  - Pending Requests Section
+
+- **Borrowing Page**:
+  - Borrowed Books Section
+  - Status Tracker for Books in Active Transit
+  - Pending Requests Section
+
+- **Library Page**:
+  - Checked-In Books Section
+  - Status Tracker for Owned Books in Transaction
+  - Checked-Out Books Section
 
 ## How It Works
 
