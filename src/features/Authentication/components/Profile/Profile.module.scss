@@ -1,7 +1,7 @@
 @use "../../../../style/variables.scss";
 
 .container {
-  background-color: #0a0a0abf;
+  background-color: variables.$dark-background;
   color: variables.$dark-background-font-color;
   position: relative;
   display: flex;
@@ -10,36 +10,99 @@
   max-width: 35em;
   min-height: 30rem;
   margin: 0 auto;
-  padding: 1em;
+  padding: 2.5em;
+  border-radius: 1rem;
+  box-shadow: variables.$standard-box-shadow;
+  transition: transform 0.2s ease;
+
+  @media (max-width: 768px) {
+    padding: 1.5em;
+    margin: 0 1rem;
+  }
+}
+
+.profileSection {
+  width: 100%;
+  margin-bottom: 2rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+  }
+}
+
+.label {
+  font-size: 0.9rem;
+  color: variables.$dark-background-font-color;
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.name {
+  font-size: 1.2rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
+  transition: all 0.2s ease;
 }
 
-.name:hover {
-  cursor: pointer;
-  @include variables.active-link;
-}
+.input {
+  width: 100%;
 
-.nameInput {
-  position: relative;
-  display: flex;
-  flex-flow: row nowrap;
-}
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: variables.$dark-background-font-color;
+    font-size: 1rem;
+    transition: all 0.2s ease;
 
-.closeBtn {
-  color: variables.$decline-color;
-}
-
-.acceptBtn {
-  color: variables.$accepted-color;
-}
-
-.avatar {
-  width: 2rem;
+    &:focus {
+      outline: none;
+      border-color: variables.$secondary-color;
+      box-shadow: 0 0 0 2px rgba(variables.$secondary-color, 0.2);
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.1);
+      @include variables.active-link;
+    }
+  }
 }
 
 .profilePic {
   cursor: pointer;
+  position: relative;
+  width: 10em;
+  height: 10em;
+  margin: 1em auto 2em;
+
   &:hover {
     transform: scale(0.98);
+
+    &::after {
+      content: "Change Photo";
+      position: absolute;
+      bottom: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  }
+}
+
+.editBtns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  button {
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }

@@ -13,6 +13,7 @@ import { fetchNotifications } from "./features/Notifications";
 import Chat from "./features/Chat/components/Chat/Chat";
 import ChatModal from "./features/Chat/components/ChatModal/ChatModal";
 import { setChatOpen } from "./features/Chat/chatSlice";
+import PrivacyPolicy from "./Pages/legal/PrivacyPolicy";
 
 const Library = lazy(() =>
   import("./Pages").then((module) => ({ default: module.Library }))
@@ -104,8 +105,8 @@ function App() {
               />
             </Route>
           </Route>
-          {/* <Route path="/privacy" element={<PrivacyPolicy />} />
-  <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          {/* <Route path="/terms" element={<TermsOfService />} />
   <Route path="/cookies" element={<CookiePolicy />} /> */}
         </Routes>
 

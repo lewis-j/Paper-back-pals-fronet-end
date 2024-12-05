@@ -15,21 +15,23 @@ const EditButtons = ({ onSubmit, onClose }) => {
   return (
     <div className={styles.editBtns}>
       <Button
-        circle
         icon={faCheck}
         iconStyle={styles.acceptBtn}
         onClick={() => {
           onSubmit();
         }}
-      />
+      >
+        Accept
+      </Button>
       <Button
-        circle
         icon={faX}
         iconStyle={styles.closeBtn}
         onClick={() => {
           onClose();
         }}
-      />
+      >
+        Cancel
+      </Button>
     </div>
   );
 };
@@ -144,22 +146,29 @@ const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <div
-        className={styles.profilePic}
-        onClick={() => {
-          fileInputRef.current.click();
-        }}
-      >
-        <Avatar imgSrc={imageUrl} username={username} size="xl" />
+      <div className={styles.profileSection}>
+        <div
+          className={styles.profilePic}
+          onClick={() => {
+            fileInputRef.current.click();
+          }}
+          role="button"
+          aria-label="Change profile picture"
+        >
+          <Avatar imgSrc={imageUrl} username={username} size="xl" />
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={onFileChange}
+          hidden
+          aria-hidden="true"
+        />
       </div>
-      <input
-        type="file"
-        accept=""
-        ref={fileInputRef}
-        onChange={onFileChange}
-        hidden
-      />
-      <div className={styles.email}>
+
+      <div className={styles.profileSection}>
+        <div className={styles.label}>Email</div>
         <EditInput
           isEdit={!isEditMode.email}
           name={email}
@@ -167,24 +176,22 @@ const Profile = () => {
           handleClick={() => setIsEditMode({ ...isEditMode, email: true })}
           set={(value) => setMenu({ ...menu, email: value })}
         />
-        <div className={styles.name}>
-          <EditInput
-            isEdit={!isEditMode.name}
-            name={username}
-            value={menu.name}
-            handleClick={() => setIsEditMode({ ...isEditMode, name: true })}
-            set={(value) => setMenu({ ...menu, name: value })}
-          />
-        </div>
       </div>
+
+      <div className={styles.profileSection}>
+        <div className={styles.label}>Username</div>
+        <EditInput
+          isEdit={!isEditMode.name}
+          name={username}
+          value={menu.name}
+          handleClick={() => setIsEditMode({ ...isEditMode, name: true })}
+          set={(value) => setMenu({ ...menu, name: value })}
+        />
+      </div>
+
       <div className={styles.editBtns}>
         {inEditMode && (
-          <EditButtons
-            onSubmit={handleSubmit}
-            onClose={() => {
-              onCancel();
-            }}
-          />
+          <EditButtons onSubmit={handleSubmit} onClose={onCancel} />
         )}
       </div>
     </div>

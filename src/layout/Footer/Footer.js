@@ -18,6 +18,7 @@ import {
 } from "reactstrap";
 import "./Footer.scss";
 import styles from "./Footer.module.scss";
+import { Link } from "react-router-dom";
 const Footer = () => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -29,16 +30,16 @@ const Footer = () => {
             <h5>Quick Links</h5>
             <ul>
               <li>
-                <a href="/about">About Us</a>
+                <Link to="/about">About Us</Link>
               </li>
               <li>
-                <a href="/books">Browse Books</a>
+                <Link to="/books">Browse Books</Link>
               </li>
               <li>
-                <a href="/contact">Contact</a>
+                <Link to="/contact">Contact</Link>
               </li>
               <li>
-                <a href="/faq">FAQ</a>
+                <Link to="/faq">FAQ</Link>
               </li>
             </ul>
           </div>
@@ -125,11 +126,11 @@ const Footer = () => {
         </Row>
 
         <div className={styles.legalLinks}>
-          <a href="/privacy">Privacy Policy</a>
+          <Link to="/privacy">Privacy Policy</Link>
           <span className={styles.divider}>|</span>
-          <a href="/terms">Terms of Service</a>
+          <Link to="/terms">Terms of Service</Link>
           <span className={styles.divider}>|</span>
-          <a href="/cookies">Cookie Policy</a>
+          <Link to="/cookies">Cookie Policy</Link>
         </div>
 
         <div className={styles.copyright}>
