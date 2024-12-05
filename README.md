@@ -29,12 +29,12 @@ Certainly! Here's the full **README** with the brief description of closures add
 
 - **Borrowing Page**:
   - Borrowed Books Section
-  - Status Tracker for Books in Active Transit
+  - Status Tracker for requested Books in active transit
   - Pending Requests Section
 
 - **Library Page**:
   - Checked-In Books Section
-  - Status Tracker for Owned Books in Transaction
+  - Status Tracker for Owned Books in active transit
   - Checked-Out Books Section
 
 ## How It Works
