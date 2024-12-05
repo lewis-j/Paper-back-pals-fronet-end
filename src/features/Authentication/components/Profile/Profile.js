@@ -6,61 +6,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Avatar, Button } from "../../../../components";
+import { Avatar, Button, EditButtons, EditInput } from "../../../../components";
 import styles from "./Profile.module.scss";
 import { setUserName } from "../../firebase";
 import API from "../../../../lib/authAxios";
-
-const EditButtons = ({ onSubmit, onClose }) => {
-  return (
-    <div className={styles.editBtns}>
-      <Button
-        icon={faCheck}
-        iconStyle={styles.acceptBtn}
-        onClick={() => {
-          onSubmit();
-        }}
-      >
-        Accept
-      </Button>
-      <Button
-        icon={faX}
-        iconStyle={styles.closeBtn}
-        onClick={() => {
-          onClose();
-        }}
-      >
-        Cancel
-      </Button>
-    </div>
-  );
-};
-
-const EditInput = ({ isEdit, name, value, handleClick, set }) => {
-  return (
-    <div className={styles.name}>
-      {isEdit ? (
-        <div
-          className={styles.name}
-          onClick={() => {
-            handleClick();
-            set(name);
-          }}
-        >
-          {name}
-        </div>
-      ) : (
-        <div className={styles.input}>
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => set(e.target.value)}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
 
 const Profile = () => {
   const [avatar, setAvatar] = useState(null);

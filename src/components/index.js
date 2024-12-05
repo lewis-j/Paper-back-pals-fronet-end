@@ -12,3 +12,5 @@ export { FadeIn } from "./Animation";
 export { Avatar } from "./Avatar";
 export { PageLoading } from "./PageLoading";
 export { ProgressBar } from "./ProgressBar";
+export { EditButtons } from "./EditButtons";
+export { EditInput } from "./EditInputs";
