@@ -22,15 +22,15 @@ const Footer = () => {
         <Row className={styles.row}>
           <div className={styles.icons}>
             <a
-              className="text-dark me-2"
               target="_blank"
               rel="noreferrer"
               href="https://github.com/lewis-j/paperbackpals"
+              aria-label="GitHub"
             >
               <FontAwesomeIcon icon={faGithub} />
             </a>
-            <a className="text-dark me-2" href="mailto:desmotion27@gmail.com">
-              <FontAwesomeIcon icon={faAt}></FontAwesomeIcon>
+            <a href="mailto:desmotion27@gmail.com" aria-label="Email">
+              <FontAwesomeIcon icon={faAt} />
             </a>
           </div>
           <div className={styles.acknowledgements}>
