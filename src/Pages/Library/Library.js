@@ -88,12 +88,6 @@ const Library = () => {
         <BookTransferTracker
           booksInTransition={ownedbooksInTransition}
           isBorrower={false}
-          onConfirmPickup={(bookId) => {
-            // Add your pickup handler
-          }}
-          onConfirmDropoff={(bookId) => {
-            // Add your dropoff handler
-          }}
         />
 
         <div>

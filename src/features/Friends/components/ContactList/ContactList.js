@@ -27,12 +27,7 @@ const ContactList = ({ activeId = null, setUser }) => {
     ));
   };
 
-  return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Friends</h2>
-      {renderFriends(friendsList)}
-    </div>
-  );
+  return <div className={styles.container}>{renderFriends(friendsList)}</div>;
 };
 
 export default ContactList;

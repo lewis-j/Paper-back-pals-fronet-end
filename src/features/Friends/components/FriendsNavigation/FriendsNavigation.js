@@ -14,11 +14,11 @@ const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    //fetch user data with user_id
-    const name = pathname.split("/")[2];
-    set(name);
-  }, [pathname]);
+  // useEffect(() => {
+  //   //fetch user data with user_id
+  //   const name = pathname.split("/")[2];
+  //   set(name);
+  // }, [pathname]);
 
   const handleClick = (name) => {
     navigate(name);

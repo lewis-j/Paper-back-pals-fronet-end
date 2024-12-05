@@ -1,4 +1,4 @@
-export { ContactList, FriendsNavigation } from "./components";
+export { ContactList, FriendsNavigation, RequestList } from "./components";
 
 export {
   sendFriendRequest,

@@ -5,6 +5,7 @@ import {
   ContactList,
   FriendsNavigation,
   getUserData,
+  RequestList,
 } from "../../features/Friends";
 import styles from "./FriendsPage.module.scss";
 import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
@@ -13,6 +14,7 @@ import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 
 const FriendsPage = () => {
   const [activeId, setActiveId] = useState("");
+  const [activeTab, setActiveTab] = useState("friends");
   const { currentFriend } = useSelector((state) => state.friends);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +39,26 @@ const FriendsPage = () => {
         className={styles.contactList}
         style={isLrgScreen ? {} : { width: "100%" }}
       >
-        <ContactList activeId={activeId} setUser={enterUser} />
+        <div className={styles.tabs}>
+          <button
+            className={activeTab === "friends" ? styles.activeTab : ""}
+            onClick={() => setActiveTab("friends")}
+          >
+            Friends
+          </button>
+          <button
+            className={activeTab === "requests" ? styles.activeTab : ""}
+            onClick={() => setActiveTab("requests")}
+          >
+            Requests
+          </button>
+        </div>
+
+        {activeTab === "friends" ? (
+          <ContactList activeId={activeId} setUser={enterUser} />
+        ) : (
+          <RequestList />
+        )}
       </div>
       <div
         style={
