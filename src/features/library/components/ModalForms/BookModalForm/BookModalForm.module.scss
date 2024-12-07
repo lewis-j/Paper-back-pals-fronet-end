@@ -185,3 +185,78 @@
   text-align: center;
   color: $title-color;
 }
+
+.formContainer {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: white;
+  max-width: 500px;
+  width: 100%;
+}
+
+.resultContainer {
+  text-align: center;
+  padding: 1rem;
+}
+
+.statusMessage {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  &.success {
+    background-color: rgba($accepted-color, 0.1);
+    color: $accepted-color;
+  }
+
+  &.error {
+    background-color: rgba($decline-color, 0.1);
+    color: $decline-color;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.cancelButton,
+.secondaryButton,
+.submitButton {
+  min-width: 120px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  &:hover {
+    transform: scale(0.98);
+  }
+}
+
+.confirmation {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: $dark-accent;
+}
+
+.errorMessage {
+  background-color: rgba($decline-color, 0.1);
+  color: $decline-color;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}

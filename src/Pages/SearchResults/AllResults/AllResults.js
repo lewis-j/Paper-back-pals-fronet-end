@@ -12,6 +12,7 @@ import { useState } from "react";
 import SearchPagination from "../SearchPagination";
 import { useRef } from "react";
 import { shortenString } from "../../../utilities/stringUtil";
+import { useAddBookModal } from "../../../features/search/hooks/useAddBookModal";
 
 const AllResults = () => {
   const {
@@ -32,13 +33,13 @@ const AllResults = () => {
 
   const [currentPage, setPage] = useState(0);
   const [isHidden, setHidden] = useState({ users: false, books: false });
-  const dispatch = useDispatch();
   const titleRef = useRef(null);
 
   const isLoading = addBookStatus === asyncStatus.LOADING;
 
-  const addBookToLibrary = (bookDto) => () => {
-    dispatch(addBook({ id: user._id, bookDto }));
+  const { openModal, renderModal } = useAddBookModal(user._id);
+  const handleOpenModal = (bookDto) => () => {
+    openModal(bookDto);
   };
 
   const scrollToTop = () => {
@@ -91,9 +92,9 @@ const AllResults = () => {
               <Col xs="12" sm="6" md="4" xl="3" key={`${id}-${i}`}>
                 <SearchCard
                   isLoading={isLoading}
-                  inLibrary={inLibrary}
+                  isInLibrary={inLibrary}
                   cardData={cardData}
-                  addBook={addBookToLibrary(bookDto)}
+                  onClick={handleOpenModal(bookDto)}
                 />
               </Col>
             );
@@ -159,6 +160,7 @@ const AllResults = () => {
           )}
         </Row>
       </Container>
+      {renderModal()}
     </StatusHandler>
   );
 };

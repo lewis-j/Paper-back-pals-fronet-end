@@ -8,6 +8,22 @@
   border-radius: 0.15em;
   box-shadow: variables.$standard-box-shadow;
   background-color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: variables.$standard-box-shadow-hover;
+  }
+
+  @media (max-width: 768px) {
+    height: 18em;
+    max-width: 16em;
+  }
+
+  @media (max-width: 480px) {
+    height: 16em;
+    max-width: 14em;
+  }
 }
 
 .container {
@@ -42,6 +58,12 @@
   height: 50%;
   margin-top: 2%;
   box-shadow: 2px 2px 5px variables.$shadow-color;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 .button {
   margin-bottom: 2%;
@@ -50,7 +72,12 @@
 }
 
 .isLoading {
-  animation: spin 4s infinite linear;
+  animation: spin 1.5s infinite linear;
+}
+
+.wrapper.isLoadingState {
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 .inLibrary {
@@ -65,4 +92,25 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.inLibraryWrapper {
+  cursor: default;
+  opacity: 0.8;
+
+  &:hover {
+    transform: none;
+    box-shadow: variables.$standard-box-shadow;
+  }
+}
+
+.libraryBadge {
+  position: absolute;
+  bottom: 2em;
+  background-color: variables.$accepted-color;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
 }

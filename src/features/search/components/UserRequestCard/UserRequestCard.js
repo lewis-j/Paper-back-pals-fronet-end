@@ -12,14 +12,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { sendFriendRequest, acceptFriendRequest } from "../../../Friends";
+import { useFriendRequestModal } from "../../../Friends/hooks/useFriendRequestModal";
 
 const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
+  const { renderModal, friendModalActions } = useFriendRequestModal();
   const dispatch = useDispatch();
   const handleRequestFriend = () => {
-    dispatch(sendFriendRequest({ person_id }));
+    // dispatch(sendFriendRequest({ person_id }));
+    friendModalActions.makeFriendRequest(person_id);
   };
   const handleAcceptFriend = (request_id) => {
-    dispatch(acceptFriendRequest({ request_id }));
+    // dispatch(acceptFriendRequest({ request_id }));
+    friendModalActions.acceptFriendRequest(request_id);
   };
 
   const { friendsList, friendRequestInbox, friendRequestOutbox } = useSelector(
@@ -32,75 +36,83 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
   };
   const getBtn = () => {
     const userInList = createFilteredUserIdSelector(person_id);
-    return [
-      {
-        list: [{ _id: user_id }],
-        jsx: () => (
+
+    // Define all possible button states
+    const buttonStates = {
+      isCurrentUser: {
+        condition: [{ _id: user_id }],
+        render: () => (
           <div className={styles.userIcon}>
             <FontAwesomeIcon icon={faCircleUser} size="xl" />
           </div>
         ),
       },
-      {
-        list: friendsList,
-        jsx: () => (
+      isFriend: {
+        condition: friendsList,
+        render: () => (
           <div className={styles.friendIcon}>
             <FontAwesomeIcon icon={faUserGroup} size="sm" />
             <FontAwesomeIcon icon={faCheck} size="sm" />
           </div>
         ),
       },
-      {
-        list:
-          friendRequestOutbox?.map((p) => ({
-            _id: p.recipient.id,
-            request_id: p._id,
+      hasOutgoingRequest: {
+        condition:
+          friendRequestOutbox?.map((request) => ({
+            _id: request.recipient.id,
+            request_id: request._id,
           })) ?? [],
-        jsx: ({ request_id }) => (
+        render: () => (
           <div className={styles.pendingIcon}>
             <FontAwesomeIcon icon={faCheckCircle} /> Requested
           </div>
         ),
       },
-      {
-        list:
-          friendRequestInbox?.map((p) => ({
-            _id: p.sender.id,
-            request_id: p._id,
+      hasIncomingRequest: {
+        condition:
+          friendRequestInbox?.map((request) => ({
+            _id: request.sender.id,
+            request_id: request._id,
           })) ?? [],
-        jsx: ({ request_id }) => {
-          return (
-            <Button
-              varient="accept"
-              icon={faUserCheck}
-              onClick={() => handleAcceptFriend(request_id)}
-            >
-              Accept
-            </Button>
-          );
-        },
+        render: ({ request_id }) => (
+          <Button
+            varient="accept"
+            icon={faUserCheck}
+            onClick={() => handleAcceptFriend(request_id)}
+          >
+            Accept
+          </Button>
+        ),
       },
-    ].reduce(
-      (result, { list, jsx }) => {
-        const userFoundInList = userInList(list);
-        if (userFoundInList) {
-          return jsx(userFoundInList);
-        }
-        return result;
-      },
-      /*need request id if persoon in list matches*/
+    };
+
+    // Default button state (Send friend request)
+    const defaultButton = (
       <Button icon={faUserPlus} onClick={handleRequestFriend} varient="add">
         Request
       </Button>
     );
+
+    // Find the first matching state and render its button
+    for (const { condition, render } of Object.values(buttonStates)) {
+      const matchingUser = userInList(condition);
+      if (matchingUser) {
+        return render(matchingUser);
+      }
+    }
+
+    return defaultButton;
   };
 
   return (
-    <div className={styles.container} key={person_id}>
-      <Avatar imgSrc={profilePic} username={username} />
-      <span className={styles.username}>{username}</span>
-      {getBtn()}
-    </div>
+    <>
+      {renderModal()}
+      <div className={styles.container} key={person_id}>
+        <Avatar imgSrc={profilePic} username={username} />
+        <span className={styles.username}>{username}</span>
+        {getBtn()}
+      </div>
+    </>
   );
 };
 

@@ -197,7 +197,15 @@ export const BaseForm = ({
       {!status.message ? (
         <>
           <p className={styles.confirmation}>{confirmationMsg}</p>
-          {error && <p className={styles.errorMessage}>{error}</p>}
+          {error && (
+            <p className={styles.errorMessage}>
+              <FontAwesomeIcon
+                icon="exclamation-circle"
+                className={styles.icon}
+              />{" "}
+              {error}
+            </p>
+          )}
           <div className={styles.buttonContainer}>
             <button
               type="button"
@@ -214,7 +222,14 @@ export const BaseForm = ({
                 className={styles.secondaryButton}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? secondaryLoadingText : secondaryButtonText}
+                {isSubmitting ? (
+                  <>
+                    <FontAwesomeIcon icon={faSpinner} spin />{" "}
+                    {secondaryLoadingText}
+                  </>
+                ) : (
+                  secondaryButtonText
+                )}
               </button>
             )}
             <button
@@ -223,13 +238,27 @@ export const BaseForm = ({
               disabled={isSubmitting}
               onClick={handleSubmit}
             >
-              {isSubmitting ? loadingText : buttonText}
+              {isSubmitting ? (
+                <>
+                  <FontAwesomeIcon icon={faSpinner} spin /> {loadingText}
+                </>
+              ) : (
+                buttonText
+              )}
             </button>
           </div>
         </>
       ) : (
         <div className={styles.resultContainer}>
           <p className={`${styles.statusMessage} ${styles[status.type]}`}>
+            <FontAwesomeIcon
+              icon={
+                status.type === "success"
+                  ? "check-circle"
+                  : "exclamation-circle"
+              }
+              className={styles.icon}
+            />{" "}
             {status.message}
           </p>
           <button

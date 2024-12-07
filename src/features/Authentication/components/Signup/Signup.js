@@ -20,6 +20,8 @@ export default function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log("Signup");
+
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",

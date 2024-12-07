@@ -115,11 +115,11 @@ export default function Login() {
             </Button>
           </Form>
           <div className="w-100 text-center mt-2">
-            <Link to="../reset-password">Forgot Password?</Link>
+            <Link to="./reset-password">Forgot Password?</Link>
           </div>
         </CardBody>
         <div className="w-100 text-center mt-2">
-          Need an account? <Link to="../signup">Sign Up</Link>
+          Need an account? <Link to="./signup">Sign Up</Link>
         </div>
       </Card>
     </div>
