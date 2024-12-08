@@ -13,6 +13,7 @@ import SearchPagination from "../SearchPagination";
 import { useRef } from "react";
 import { shortenString } from "../../../utilities/stringUtil";
 import { useAddBookModal } from "../../../features/search/hooks/useAddBookModal";
+import { useLocation } from "react-router-dom";
 
 const AllResults = () => {
   const {
@@ -33,21 +34,12 @@ const AllResults = () => {
 
   const [currentPage, setPage] = useState(0);
   const [isHidden, setHidden] = useState({ users: false, books: false });
-  const titleRef = useRef(null);
 
   const isLoading = addBookStatus === asyncStatus.LOADING;
 
   const { openModal, renderModal } = useAddBookModal(user._id);
   const handleOpenModal = (bookDto) => () => {
     openModal(bookDto);
-  };
-
-  const scrollToTop = () => {
-    titleRef.current.scrollIntoView({
-      behavior: "auto",
-      block: "end",
-      inline: "nearest",
-    });
   };
 
   const renderUserCards = () => {
@@ -122,19 +114,32 @@ const AllResults = () => {
     );
   };
 
-  const showUserResults = userResults.total > 0 && !isHidden.users;
-  const showBookResults = bookResults.total > 0 && !isHidden.books;
-  const isOneTypeResult = showUserResults ^ showBookResults;
+  const location = useLocation();
+  const searchType = location.state?.searchType || "all";
+
+  const showUserResults =
+    userResults.total > 0 &&
+    (searchType === "all" || searchType === "users") &&
+    !isHidden.users;
+  const showBookResults =
+    bookResults.total > 0 &&
+    (searchType === "all" || searchType === "books") &&
+    !isHidden.books;
+  const isOneTypeResult =
+    showUserResults ^ showBookResults || searchType !== "all";
+  const showPagination =
+    isOneTypeResult &&
+    ((showUserResults && userResults.total > 12) ||
+      (showBookResults && bookResults.total > 12));
 
   return (
     <StatusHandler results={[...bookResults.results, ...userResults.results]}>
       <Container fluid="md" className="main-container">
-        <div ref={titleRef} />
         {showUserResults && (
           <Result
             type="user"
             queryTitle={queryTitle}
-            navOption={!isOneTypeResult}
+            navOption={!isOneTypeResult && searchType === "all"}
             navHandler={() => setHidden({ ...isHidden, books: true })}
           >
             {renderUserCards()}
@@ -144,18 +149,17 @@ const AllResults = () => {
           <Result
             type="book"
             queryTitle={queryTitle}
-            navOption={!isOneTypeResult}
+            navOption={!isOneTypeResult && searchType === "all"}
             navHandler={() => setHidden({ ...isHidden, users: true })}
           >
             {renderBookCards()}
           </Result>
         )}
         <Row>
-          {isOneTypeResult && (
+          {isOneTypeResult && showPagination && (
             <SearchPagination
               setCurrentPage={setPage}
               currentPage={currentPage}
-              scroll={scrollToTop}
             />
           )}
         </Row>

@@ -10,19 +10,12 @@ import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
 import { fetchNotifications } from "./features/Notifications";
-import Chat from "./features/Chat/components/Chat/Chat";
 import ChatModal from "./features/Chat/components/ChatModal/ChatModal";
 import { setChatOpen } from "./features/Chat/chatSlice";
 import PrivacyPolicy from "./Pages/legal/PrivacyPolicy";
 
 const Library = lazy(() =>
   import("./Pages").then((module) => ({ default: module.Library }))
-);
-const BookResults = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.BookResults }))
-);
-const UserResults = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.UserResults }))
 );
 const BorrowedPage = lazy(() =>
   import("./Pages").then((module) => ({ default: module.BorrowedPage }))
@@ -87,8 +80,6 @@ function App() {
           >
             <Route index element={<DashboardPage />} />
             <Route path="results" element={<AllResults />} />
-            <Route path="book-results" element={<BookResults />} />
-            <Route path="user-results" element={<UserResults />} />
             <Route path="library" element={<Library />} />
             <Route path="borrowed" element={<BorrowedPage />} />
             <Route path="profile" element={<ProfilePage />} />

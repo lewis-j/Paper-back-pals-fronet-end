@@ -49,7 +49,7 @@ const SearchBar = ({ expandSize }) => {
     dispatch(setQuery(query));
     await dispatch(searchBooks({ query: query })).unwrap();
     setSearchInput("");
-    navigate("/book-results");
+    navigate("/results", { state: { searchType: "books" } });
   };
 
   const dispatchUserSearch = async (query) => {
@@ -57,7 +57,7 @@ const SearchBar = ({ expandSize }) => {
     try {
       await dispatch(searchUsers({ query: query })).unwrap();
       setSearchInput("");
-      navigate("/user-results");
+      navigate("/results", { state: { searchType: "users" } });
     } catch (error) {
       console.error("Error in SearchBar", { ...error });
     }
@@ -71,7 +71,7 @@ const SearchBar = ({ expandSize }) => {
       await dispatch(searchBooks({ query: searchInput })).unwrap();
       await dispatch(searchUsers({ query: searchInput })).unwrap();
       setSearchInput("");
-      navigate("/results");
+      navigate("/results", { state: { searchType: "all" } });
     } catch (error) {
       console.error("Error in SearchBar", { error });
     }
