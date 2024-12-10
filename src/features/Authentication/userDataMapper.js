@@ -1,5 +1,9 @@
 import { batch } from "react-redux";
-import { setFriendRequestInbox, setFriends } from "../Friends";
+import {
+  setFriendRequestInbox,
+  setFriendRequestOutbox,
+  setFriends,
+} from "../Friends";
 import { setBooks, setCurrentRead } from "../library";
 
 const mergeFriendsIntoRequest = (friends, owndedBooks) => {
@@ -15,6 +19,7 @@ const mergeFriendsIntoRequest = (friends, owndedBooks) => {
 };
 
 export const parseAndDispatchUserData = (dispatch, userData) => {
+  console.log("userData", userData);
   const {
     friends = [],
     friendRequestInbox,
@@ -30,7 +35,7 @@ export const parseAndDispatchUserData = (dispatch, userData) => {
       setFriendRequestInbox({ friendRequestInbox: friendRequestInbox ?? [] })
     );
     dispatch(
-      setFriendRequestInbox({ friendRequestOutbox: friendRequestOutbox ?? [] })
+      setFriendRequestOutbox({ friendRequestOutbox: friendRequestOutbox ?? [] })
     );
     dispatch(setCurrentRead({ currentRead }));
     dispatch(setFriends({ friends }));

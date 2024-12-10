@@ -18,9 +18,10 @@ export const enterChatRoom = async (user2Id) => {
   }
 };
 
-export const getChatRooms = async (userId) => {
+export const getChatRooms = async () => {
   try {
-    const res = await API.get(`http://localhost:3000/chat/rooms/${userId}`);
+    const res = await API.get(`chat/rooms`);
+    console.log("response from getChatRooms", res);
     return res.data;
   } catch (error) {
     console.error(error);

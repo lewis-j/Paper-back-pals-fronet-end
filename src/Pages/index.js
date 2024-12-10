@@ -1,7 +1,6 @@
 export { DashboardPage } from "./Dashboard";
 export { LandingPage } from "./Landing";
 export { Library } from "./Library";
-export { BookResults, UserResults } from "./SearchResults";
 export { BorrowedPage } from "./Borrowed";
 export {
   FriendsPage,

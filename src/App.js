@@ -9,10 +9,15 @@ import { Navbar, Footer } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./Pages/SearchResults/AllResults";
-import { fetchNotifications } from "./features/Notifications";
+import {
+  fetchNotifications,
+  NotificationsPanel,
+} from "./features/Notifications";
 import ChatModal from "./features/Chat/components/ChatModal/ChatModal";
 import { setChatOpen } from "./features/Chat/chatSlice";
 import PrivacyPolicy from "./Pages/legal/PrivacyPolicy";
+import SlidePanel from "./components/SlidePanel/SlidePanel";
+import { setNotificationsIsOpen } from "./features/Notifications/notificationsSlice";
 
 const Library = lazy(() =>
   import("./Pages").then((module) => ({ default: module.Library }))
@@ -37,6 +42,13 @@ function App() {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authUser.status);
   const currentUser = useSelector((state) => state.authUser.currentUser);
+  const isNotificationsOpen = useSelector(
+    (state) => state.notifications.isOpen
+  );
+
+  const setIsNotifOpen = (isOpen) => {
+    dispatch(setNotificationsIsOpen(isOpen));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,6 +114,15 @@ function App() {
         </Routes>
 
         <ChatModal />
+        <SlidePanel
+          header="Notifications"
+          open={isNotificationsOpen}
+          onClose={() => {
+            setIsNotifOpen(false);
+          }}
+        >
+          <NotificationsPanel />
+        </SlidePanel>
 
         <Footer />
       </Suspense>

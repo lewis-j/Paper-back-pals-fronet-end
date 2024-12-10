@@ -37,7 +37,7 @@ const DropDownSearch = ({ searchInput, bookSearch, userSearch }) => {
   );
 };
 
-const SearchBar = ({ expandSize }) => {
+const SearchBar = ({ expandSize, customStyles, onClose, mobileView }) => {
   const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,36 +72,40 @@ const SearchBar = ({ expandSize }) => {
       await dispatch(searchUsers({ query: searchInput })).unwrap();
       setSearchInput("");
       navigate("/results", { state: { searchType: "all" } });
+      if (onClose) onClose();
     } catch (error) {
       console.error("Error in SearchBar", { error });
     }
   };
 
   return (
-    <div className={`d-none d-${expandSize}-block`}>
+    <div className={`${!mobileView ? `d-none d-${expandSize}-block` : ""}`}>
       <Form
         onSubmit={onSubmitForm}
-        className={`d-flex bg-white ${styles.rounded} ${
+        className={`d-flex bg-white ${customStyles || styles.rounded} ${
           isMenuOpen ? styles.bottomFlat : ""
         }`}
       >
         <Input
           name="search"
           autoComplete="off"
+          autoFocus={mobileView}
           placeholder="Search Books or Users"
           type="search"
-          className={`${styles.rounded} ${styles.input}`}
+          className={`${customStyles || styles.rounded} ${styles.input}`}
           value={searchInput}
           onChange={(e) => {
             setSearchInput(e.target.value);
           }}
         />
-        <button
-          className={`${styles.magnigyingGlassBtn} ${styles.rounded}`}
-          disabled={isLoading}
-        >
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
-        </button>
+        {!mobileView && (
+          <button
+            className={`${styles.magnigyingGlassBtn} ${styles.rounded}`}
+            disabled={isLoading}
+          >
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
+          </button>
+        )}
       </Form>
       {isMenuOpen && (
         <DropDownSearch

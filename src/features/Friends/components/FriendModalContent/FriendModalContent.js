@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./FriendModalContent.module.scss";
+import { useDispatch } from "react-redux";
+import { acceptFriendRequest, sendFriendRequest } from "../../friendsSlice";
+import { openChatWithFriend } from "../../../Chat/chatSlice";
 
 const FriendModalContent = ({ user, children: actionButtons }) => {
-  const joinDate = new Date(user.createdAt).toLocaleDateString();
-
   // dispatch(sendFriendRequest({ person_id }));
 
   return (
@@ -17,44 +18,46 @@ const FriendModalContent = ({ user, children: actionButtons }) => {
         <h2 className={styles.username}>{user.username}</h2>
       </div>
 
-      <div className={styles.infoSection}>
-        <div className={styles.infoItem}>
-          <span className={styles.label}>Email:</span>
-          <span className={styles.value}>{user.email}</span>
-        </div>
-        <div className={styles.infoItem}>
-          <span className={styles.label}>Member since:</span>
-          <span className={styles.value}>{joinDate}</span>
-        </div>
-        <div className={styles.infoItem}>
-          <span className={styles.label}>Email verified:</span>
-          <span className={styles.value}>
-            {user.email_verified ? "Yes" : "No"}
-          </span>
-        </div>
-      </div>
-
       {actionButtons}
     </div>
   );
 };
 
 const MakeFriendRequest = ({ user }) => {
+  const { person_id } = user;
+  const dispatch = useDispatch();
   return (
     <FriendModalContent user={user}>
       <div className={styles.actionButtons}>
-        <button className={styles.addFriend}>Add Friend</button>
-        <button className={styles.message}>Message</button>
+        <button
+          onClick={() => dispatch(sendFriendRequest(person_id))}
+          className={styles.addFriend}
+        >
+          Add Friend
+        </button>
+        <button
+          onClick={() => dispatch(openChatWithFriend(person_id))}
+          className={styles.message}
+        >
+          Message
+        </button>
       </div>
     </FriendModalContent>
   );
 };
 
 const AcceptFriendRequest = ({ user }) => {
+  const { request_id } = user;
+  const dispatch = useDispatch();
   return (
     <FriendModalContent user={user}>
       <div className={styles.actionButtons}>
-        <button className={styles.accept}>Accept</button>
+        <button
+          onClick={() => dispatch(acceptFriendRequest({ request_id }))}
+          className={styles.accept}
+        >
+          Accept
+        </button>
         <button className={styles.decline}>Decline</button>
       </div>
     </FriendModalContent>

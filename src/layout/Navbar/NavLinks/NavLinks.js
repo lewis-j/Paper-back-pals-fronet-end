@@ -68,15 +68,14 @@ export const Friends = ({ className, closeOnClick }) => (
     Friends
   </NavLink>
 );
-export const Messages = ({ className, closeOnClick }) => (
-  <NavLink
-    className={generateClass(className)}
-    onClick={closeOnClick}
-    to="settings"
-  >
-    Messages
-  </NavLink>
-);
+export const Messages = ({ className, onClick }) => {
+  const baseClass = generateClass(className)({ isActive: false });
+  return (
+    <button className={`${baseClass} ${styles.messages}`} onClick={onClick}>
+      Messages
+    </button>
+  );
+};
 export const Settings = ({ className, closeOnClick }) => (
   <NavLink
     className={generateClass(className)}

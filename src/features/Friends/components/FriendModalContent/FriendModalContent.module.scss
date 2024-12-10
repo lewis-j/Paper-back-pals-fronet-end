@@ -1,3 +1,5 @@
+@import "../../../../style/variables.scss";
+
 .container {
   padding: 20px;
   max-width: 500px;
@@ -31,7 +33,7 @@
 .infoItem {
   display: flex;
   padding: 12px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $grey-2;
 
   &:last-child {
     border-bottom: none;
@@ -41,11 +43,11 @@
 .label {
   font-weight: 600;
   min-width: 120px;
-  color: #666;
+  color: $secondary-color;
 }
 
 .value {
-  color: #333;
+  color: $dark-accent;
 }
 
 .actionButtons {
@@ -68,11 +70,11 @@
 }
 
 .addFriend {
-  background-color: #4caf50;
-  color: white;
+  background-color: $accepted-color;
+  color: $dark-background-font-color;
 }
 
 .message {
-  background-color: #2196f3;
-  color: white;
+  background-color: $dark-accent;
+  color: $dark-background-font-color;
 }

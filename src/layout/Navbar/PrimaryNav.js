@@ -28,18 +28,6 @@ const PrimaryNav = ({ mainViewStyle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const offClickClose = useCallback(() => {
-    setIsSearching(false);
-  }, []);
-
-  useEffect(() => {
-    if (isSearching) {
-      window.addEventListener("click", offClickClose);
-    } else {
-      window.removeEventListener("click", offClickClose);
-    }
-  }, [isSearching, offClickClose]);
-
   // const isSmScreen = useBSSizeFromWidth() === "md";
 
   const expandSize = "md";
@@ -50,8 +38,29 @@ const PrimaryNav = ({ mainViewStyle }) => {
     dispatch(searchBooks({ query: searchInput }));
     setIsSearching(false);
     setSearchInput("");
-    navigate("/book-results");
+    navigate("/results");
   };
+
+  const handleClickOutside = useCallback((e) => {
+    // Don't close if clicking the search button or search container
+    if (
+      e.target.closest(`.${styles.searchInput}`) ||
+      e.target.closest("button")
+    )
+      return;
+
+    setIsSearching(false);
+  }, []);
+
+  useEffect(() => {
+    if (isSearching) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSearching, handleClickOutside]);
 
   return (
     <div>
@@ -62,19 +71,14 @@ const PrimaryNav = ({ mainViewStyle }) => {
           }}
         />
         {isSearching ? (
-          <Form onSubmit={submitSearch}>
-            <Input
-              autoFocus
-              name="search"
-              type="search"
-              placeholder="Search Book"
-              className={styles.searchInput}
-              value={searchInput}
-              onChange={(e) => {
-                setSearchInput(e.target.value);
-              }}
+          <div className={styles.searchInput}>
+            <SearchBar
+              expandSize="xs"
+              customStyles={styles.searchInput}
+              onClose={() => setIsSearching(false)}
+              mobileView
             />
-          </Form>
+          </div>
         ) : (
           <img
             src={logo}
@@ -89,13 +93,7 @@ const PrimaryNav = ({ mainViewStyle }) => {
           color="dark"
           style={{ border: "none" }}
           className={`d-block d-${expandSize}-none`}
-          onClick={(e) => {
-            if (isSearching) {
-              submitSearch(e);
-            } else {
-              setIsSearching(true);
-            }
-          }}
+          onClick={() => setIsSearching(!isSearching)}
         >
           <FontAwesomeIcon icon={faMagnifyingGlass} color="white" size="lg" />
         </Button>

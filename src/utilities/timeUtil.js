@@ -34,3 +34,33 @@ export const dayMonthFormat = (date) => {
     day: "numeric",
   }).format(_date);
 };
+
+export const formatTimestamp = (timestamp) => {
+  if (!timestamp) return "";
+
+  try {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+
+    if (diffInHours < 24) {
+      // Today - show time
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } else if (diffInHours < 48) {
+      // Yesterday
+      return "Yesterday";
+    } else {
+      // Show date
+      return date.toLocaleDateString([], {
+        month: "short",
+        day: "numeric",
+      });
+    }
+  } catch (error) {
+    console.error("Error formatting timestamp:", error);
+    return "";
+  }
+};

@@ -3,7 +3,7 @@ export { ContactList, FriendsNavigation, RequestList } from "./components";
 export {
   sendFriendRequest,
   acceptFriendRequest,
-  getUserData,
+  getFriendsUserData,
   setCurrentFriend,
   setFriends,
   setFriendRequestInbox,

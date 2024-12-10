@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import {
   ContactList,
   FriendsNavigation,
-  getUserData,
+  getFriendsUserData,
   RequestList,
 } from "../../features/Friends";
 import styles from "./FriendsPage.module.scss";
@@ -25,7 +25,7 @@ const FriendsPage = () => {
   const enterUser = async (_id) => {
     setActiveId(_id);
     if (!isLrgScreen) setIsOpen(false);
-    await dispatch(getUserData({ user_id: _id })).unwrap();
+    await dispatch(getFriendsUserData({ user_id: _id })).unwrap();
     navigate(`library`);
   };
 

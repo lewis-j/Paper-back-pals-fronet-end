@@ -1,17 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Modal, NoContent } from "../../../../components";
+import { NoContent } from "../../../../components";
 import {
   faBell,
   faChevronDown,
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { getBookRequest } from "../../../library/userBookCalls";
 import styles from "./NotificationsPanel.module.scss";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useNotificationModal from "../NotificationModal/NotificationModal";
+import { markAsRead } from "../../notificationsSlice";
 
 const NotificationsPanel = () => {
   const { list: notifications, status } = useSelector(
@@ -20,6 +20,7 @@ const NotificationsPanel = () => {
   const { openNotificationModal, renderModal } =
     useNotificationModal(notifications);
   const [showReadNotifications, setShowReadNotifications] = useState(false);
+  const dispatch = useDispatch();
 
   const processNotifications = (notifications) => {
     return notifications.reduce(
@@ -36,10 +37,6 @@ const NotificationsPanel = () => {
 
   const _notifications = processNotifications(notifications);
 
-  const fetchBookRequest = async (requestRef) => {
-    return await getBookRequest(requestRef);
-  };
-
   if (notifications.length === 0)
     return (
       <NoContent icon={faBell} text="You currently don't have notifications" />
@@ -50,19 +47,14 @@ const NotificationsPanel = () => {
     const notificationProps = { ...remaining, _id };
 
     const getAcceptAndDeclineHandlers = () => {
-      let data = {
-        requestRef,
-        requestType,
-        notification_id: _id,
-        confirmationMsg: notification.confirmation,
-      };
-
       const acceptHandler = !notification?.confirmation
         ? null
         : async () => {
             openNotificationModal(_id);
           };
-      const declineHandler = () => {};
+      const declineHandler = () => {
+        dispatch(markAsRead(_id));
+      };
       return {
         accept: acceptHandler,
         decline: declineHandler,

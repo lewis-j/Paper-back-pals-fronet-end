@@ -1,6 +1,6 @@
 import API from "../../lib/authAxios";
 
-export const requestFriend = async ({ person_id }) => {
+export const requestFriend = async (person_id) => {
   try {
     await API.post(`friends/request/${person_id}`);
     return { reciever_id: person_id };

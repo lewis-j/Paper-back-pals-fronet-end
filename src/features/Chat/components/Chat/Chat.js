@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from "socket.io-client";
-import { setMessages, addMessage, setCurrentRoomId } from "../../chatSlice";
-import { getMessages, enterChatRoom } from "../../chatApi";
+import { addMessage, getMessages } from "../../chatSlice";
 import chatStyles from "./Chat.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { get } from "jquery";
 
 const nestURL = process.env.REACT_APP_NEST_URI;
 
@@ -23,12 +23,7 @@ const Chat = ({ participantId }) => {
     setSocket(newSocket);
 
     newSocket.emit("joinRoom", roomId);
-    const fetchMessages = async () => {
-      const messages = await getMessages(roomId);
-      dispatch(setMessages(messages));
-    };
-
-    fetchMessages();
+    dispatch(getMessages(roomId));
 
     newSocket.on("newMessage", (message) => {
       dispatch(addMessage(message));

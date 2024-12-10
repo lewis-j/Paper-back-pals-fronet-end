@@ -18,8 +18,6 @@ import * as NavLinks from "../NavLinks";
 import styles from "./OffCanvasMenu.module.scss";
 import { useSelector } from "react-redux";
 import { Avatar } from "../../../components";
-import { SideMenu } from "../../SideMenu";
-import { NotificationsPanel } from "../../../features/Notifications";
 import { useDispatch } from "react-redux";
 import { setNotificationsIsOpen } from "../../../features/Notifications/notificationsSlice";
 import { setChatOpen } from "../../../features/Chat/chatSlice";
@@ -28,10 +26,6 @@ const OffCanvasMenu = ({ expandSize }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { username, profilePic } = useSelector(
     (state) => state.authUser.currentUser
-  );
-
-  const { isOpen: isNotificationsOpen } = useSelector(
-    (state) => state.notifications
   );
 
   const { isChatOpen } = useSelector((state) => state.chat);
@@ -140,8 +134,11 @@ const OffCanvasMenu = ({ expandSize }) => {
             </NavItem>
             <NavItem>
               <NavLinks.Messages
-                onClick={toggleChat}
-                closeOnClick={clickedLink}
+                className={styles.messages}
+                onClick={() => {
+                  toggleChat();
+                  clickedLink();
+                }}
               />
             </NavItem>
             <NavItem>
@@ -153,15 +150,6 @@ const OffCanvasMenu = ({ expandSize }) => {
           </Nav>
         </OffcanvasBody>
       </Offcanvas>
-      <SideMenu
-        header="Notifications"
-        open={isNotificationsOpen}
-        close={() => {
-          setIsNotifOpen(false);
-        }}
-      >
-        <NotificationsPanel />
-      </SideMenu>
     </div>
   );
 };

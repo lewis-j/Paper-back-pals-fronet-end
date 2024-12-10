@@ -10,19 +10,15 @@ import {
   faCheck,
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { sendFriendRequest, acceptFriendRequest } from "../../../Friends";
+import { useSelector } from "react-redux";
 import { useFriendRequestModal } from "../../../Friends/hooks/useFriendRequestModal";
 
 const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
   const { renderModal, friendModalActions } = useFriendRequestModal();
-  const dispatch = useDispatch();
   const handleRequestFriend = () => {
-    // dispatch(sendFriendRequest({ person_id }));
-    friendModalActions.makeFriendRequest(person_id);
+    friendModalActions.makeFriendRequest({ username, profilePic, person_id });
   };
   const handleAcceptFriend = (request_id) => {
-    // dispatch(acceptFriendRequest({ request_id }));
     friendModalActions.acceptFriendRequest(request_id);
   };
 
@@ -38,7 +34,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
     const userInList = createFilteredUserIdSelector(person_id);
 
     // Define all possible button states
-    const buttonStates = {
+    const userCardStates = {
       isCurrentUser: {
         condition: [{ _id: user_id }],
         render: () => (
@@ -94,7 +90,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
     );
 
     // Find the first matching state and render its button
-    for (const { condition, render } of Object.values(buttonStates)) {
+    for (const { condition, render } of Object.values(userCardStates)) {
       const matchingUser = userInList(condition);
       if (matchingUser) {
         return render(matchingUser);

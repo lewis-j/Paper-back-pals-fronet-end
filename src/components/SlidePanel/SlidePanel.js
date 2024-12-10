@@ -1,58 +1,60 @@
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { useEffect } from "react";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import styles from "./SlidePanel.module.scss";
 import { _s } from "../../style";
-import styles from "./SideMenu.module.scss";
 
-const SideMenu = ({ open = false, close, children, header }) => {
+const SlidePanel = ({ open = false, onClose, children, header }) => {
   const [isClosing, setIsClosing] = useState(false);
+
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "inherit";
     }
-
     return () => (document.body.style.overflow = "inherit");
   }, [open]);
+
   useEffect(() => {
     if (!open) return;
-    const closeModal = () => {
+    const closePanel = (e) => {
+      if (e.target.closest(`.${styles.container}`)) return;
       setIsClosing(true);
     };
-    window.addEventListener("click", closeModal);
+    window.addEventListener("click", closePanel);
+    return () => window.removeEventListener("click", closePanel);
+  }, [open]);
 
-    return () => {
-      window.removeEventListener("click", closeModal);
-    };
-  }, [open, setIsClosing]);
   if (!open) return null;
+
   const animStyle = isClosing ? styles.slideOut : styles.slideIn;
-  return (
+
+  return createPortal(
     <div className={styles.wrapper}>
       <div
         className={_s(styles.container, animStyle)}
         onAnimationEnd={() => {
           if (open && isClosing) {
-            close();
+            onClose();
             setIsClosing(false);
           }
         }}
-        onClick={(e) => e.stopPropagation()}
       >
         <h3 className={styles.header}>{header}</h3>
-        <div
+        <button
           className={styles.close}
-          onClick={() => {
-            setIsClosing(true);
-          }}
+          onClick={() => setIsClosing(true)}
+          aria-label="Close panel"
         >
           <FontAwesomeIcon icon={faX} />
-        </div>
+        </button>
         <div className={styles.content}>{children}</div>
       </div>
-    </div>
+    </div>,
+    document.getElementById("slide-panel")
   );
 };
-export default SideMenu;
+
+export default SlidePanel;

@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  fetchEnterChatRoom,
+  getParticipant,
   setChatOpen,
   setCurrentRoomId,
   setParticipantId,
@@ -10,31 +12,31 @@ import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Chat from "../Chat/Chat";
 import styles from "./ChatModal.module.scss";
 import { ContactList } from "../../../Friends";
-import { enterChatRoom } from "../../chatApi";
 import { UserCard } from "../../../Friends/components/UserCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ChatRoomsList from "../ChatRoomsList/ChatRoomsList";
 
 const ChatModal = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.chat.isChatOpen);
   const participantId = useSelector((state) => state.chat.paticipantId);
   const friends = useSelector((state) => state.friends.friendsList);
-  const selectedUser = friends.find((friend) => friend._id === participantId);
+
+  const selectedUser =
+    useSelector(getParticipant(participantId)) ||
+    friends.find((friend) => friend._id === participantId);
+  console.log("selectedUser", selectedUser);
+
+  const [activeTab, setActiveTab] = useState("contacts");
 
   useEffect(() => {
     if (participantId) {
-      const fetch = async () => {
-        const data = await enterChatRoom(participantId);
-        dispatch(setCurrentRoomId(data.roomId));
-      };
-      fetch();
+      dispatch(fetchEnterChatRoom(participantId));
     }
-  }, [participantId, dispatch]);
+  }, [participantId, selectedUser, dispatch]);
 
-  const selectUserForChat = async (userId) => {
+  const selectUserForChat = (userId) => {
     dispatch(setParticipantId(userId));
-    // const data = await enterChatRoom(userId);
-    // dispatch(setCurrentRoomId(data.roomId));
   };
 
   const handleBack = () => {
@@ -47,7 +49,7 @@ const ChatModal = () => {
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
-          {participantId && (
+          {participantId ? (
             <>
               <button
                 className={styles.backButton}
@@ -56,11 +58,32 @@ const ChatModal = () => {
               >
                 <FontAwesomeIcon icon={faArrowLeft} />
               </button>
-              <UserCard
-                username={selectedUser?.username}
-                profilePic={selectedUser?.profilePic}
-              />
+              {selectedUser && (
+                <UserCard
+                  username={selectedUser.username}
+                  profilePic={selectedUser.profilePic}
+                />
+              )}
             </>
+          ) : (
+            <div className={styles.tabs}>
+              <button
+                className={`${styles.tab} ${
+                  activeTab === "contacts" ? styles.active : ""
+                }`}
+                onClick={() => setActiveTab("contacts")}
+              >
+                Contacts
+              </button>
+              <button
+                className={`${styles.tab} ${
+                  activeTab === "rooms" ? styles.active : ""
+                }`}
+                onClick={() => setActiveTab("rooms")}
+              >
+                Chat Rooms
+              </button>
+            </div>
           )}
           <button
             className={styles.closeButton}
@@ -72,7 +95,13 @@ const ChatModal = () => {
         {participantId ? (
           <Chat participantId={participantId} />
         ) : (
-          <ContactList setUser={selectUserForChat} />
+          <div className={styles.tabContent}>
+            {activeTab === "contacts" ? (
+              <ContactList setUser={selectUserForChat} />
+            ) : (
+              <ChatRoomsList setUser={selectUserForChat} />
+            )}
+          </div>
         )}
       </div>
     </div>,

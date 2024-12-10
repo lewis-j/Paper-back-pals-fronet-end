@@ -31,12 +31,12 @@ const acceptFriendRequestFullfilled = (
     ({ _id }) => _id !== request_id
   );
 };
-const getUserData = createAsyncThunk(
+const getFriendsUserData = createAsyncThunk(
   "friends/getUserData",
   friendsApi.getUserData
 );
 
-const getUserDataFullfilled = (state, { payload }) => {
+const getFriendsUserDataFullfilled = (state, { payload }) => {
   state.currentFriend = payload;
 };
 
@@ -76,6 +76,7 @@ const friendsSlice = createSlice({
       state.friendRequestInbox = action.payload.friendRequestInbox;
     },
     setFriendRequestOutbox: (state, action) => {
+      console.log("setFriendRequestOutbox", action.payload);
       state.friendRequestOutbox = action.payload.friendRequestOutbox;
     },
     updateFriendsBookRequests: (state, { payload }) => {
@@ -106,7 +107,7 @@ const friendsSlice = createSlice({
   extraReducers: {
     ...setExtraReducer(sendFriendRequest, sendFriendRequestFullfilled),
     ...setExtraReducer(acceptFriendRequest, acceptFriendRequestFullfilled),
-    ...setExtraReducer(getUserData, getUserDataFullfilled),
+    ...setExtraReducer(getFriendsUserData, getFriendsUserDataFullfilled),
   },
 });
 
@@ -122,6 +123,6 @@ export const {
   updateFriendsBookRequests,
 } = friendsSlice.actions;
 
-export { sendFriendRequest, acceptFriendRequest, getUserData };
+export { sendFriendRequest, acceptFriendRequest, getFriendsUserData };
 
 export default friendsSlice.reducer;

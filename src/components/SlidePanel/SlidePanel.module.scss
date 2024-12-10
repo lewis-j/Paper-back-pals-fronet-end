@@ -1,26 +1,34 @@
 @use "../../style/variables.scss";
 
-$navbarOffset: 3rem;
 .wrapper {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100vh;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.507);
-  z-index: 200;
+  z-index: 1000;
 }
 
 .container {
-  position: absolute;
-  height: calc(100vh - 3rem);
+  position: fixed;
+  height: 100vh;
   width: 50%;
   max-width: 40em;
   min-width: 20rem;
-  right: 0px;
-  top: $navbarOffset;
+  right: 0;
+  top: 0;
   background-image: linear-gradient(#545454, #ffffff);
+  z-index: 1001;
+
+  @media (max-width: 768px) {
+    // Add this media query
+    width: 100%;
+    max-width: none;
+    min-width: auto;
+  }
 }
+
 .header {
   height: 2rem;
   color: variables.$grey-3;
@@ -29,7 +37,7 @@ $navbarOffset: 3rem;
 
 .content {
   height: calc(96% - 2rem);
-  overflow-y: scroll;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     @include variables.webkit-scrollbar;
   }
@@ -37,36 +45,43 @@ $navbarOffset: 3rem;
     @include variables.webkit-scrollbar-thumb;
   }
 }
+
 .close {
   position: absolute;
   right: 1rem;
   top: 1rem;
   color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+
   &:hover {
     @include variables.hover-link;
   }
 }
+
 .slideIn {
   animation: slideIn 0.25s ease forwards;
 }
+
 .slideOut {
   animation: slideOut 0.25s ease forwards;
 }
 
 @keyframes slideIn {
   from {
-    transform: translateX(150%);
+    transform: translateX(100%);
   }
   to {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
 }
 
 @keyframes slideOut {
   from {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
   to {
-    transform: translateX(150%);
+    transform: translateX(100%);
   }
 }

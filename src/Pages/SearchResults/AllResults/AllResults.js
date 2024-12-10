@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AllResults.module.scss";
 import * as asyncStatus from "../../../data/asyncStatus";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchPagination from "../SearchPagination";
 import { useRef } from "react";
 import { shortenString } from "../../../utilities/stringUtil";
@@ -131,6 +131,11 @@ const AllResults = () => {
     isOneTypeResult &&
     ((showUserResults && userResults.total > 12) ||
       (showBookResults && bookResults.total > 12));
+
+  useEffect(() => {
+    setPage(0);
+    window.scrollTo(0, 0);
+  }, [queryTitle]);
 
   return (
     <StatusHandler results={[...bookResults.results, ...userResults.results]}>
