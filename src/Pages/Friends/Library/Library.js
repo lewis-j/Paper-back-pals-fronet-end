@@ -6,10 +6,8 @@ import {
   UserBookCardSm,
   BookCard,
   BookContainer,
-  RequestCard,
   bookRequestStatus,
 } from "../../../features/library";
-import { getFriendsOwnedBookById } from "../../../features/Friends";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
@@ -54,19 +52,19 @@ const Library = () => {
     switch (foundRequest?.status) {
       case bookRequestStatus.CHECKED_IN:
         return {
-          menu: [...borrowedBookRequestsMenuItems],
+          menu: borrowedBookRequestsMenuItems,
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
         };
       case bookRequestStatus.CHECKED_OUT:
         return {
-          menu: [...booksFromFriendsMenuItems],
+          menu: booksFromFriendsMenuItems,
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
         };
       default:
         return {
-          menu: [...friendsBooksMenuItems],
+          menu: friendsBooksMenuItems,
           icon: null,
         };
     }
@@ -82,7 +80,7 @@ const Library = () => {
     const { _id, book, dueDate, currentPage, sender } = userBook;
     console.log("userBook in renderCheckedOutUserBookCard", userBook);
 
-    // const { menu } = filterRequest(bookData._id);
+    const { menu } = filterRequest(userBook.requests);
     return (
       <BookCol key={`UserBookCardSm:${_id}`}>
         <UserBookCardSm
@@ -90,7 +88,7 @@ const Library = () => {
           book={book}
           user={sender}
           dueDate={dueDate}
-          // menuItems={menu}
+          menuItems={menu}
           currentPage={currentPage}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}

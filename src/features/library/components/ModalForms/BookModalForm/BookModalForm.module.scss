@@ -260,3 +260,18 @@
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
 }
+
+.checkboxContainer {
+  margin: 1rem 0;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+  }
+}

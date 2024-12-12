@@ -33,7 +33,10 @@ const Button = ({
     <button
       disabled={disabled}
       className={`${styles.btn} ${styles[varient]} ${styles[size]} ${className} ${circle} ${outline}`}
-      onClick={onClick}
+      onClick={(e) => {
+        console.log("2. In Button component, received onClick with args:", e);
+        onClick && onClick(e);
+      }}
     >
       <span>{children}</span> {getIcon(icon)}
     </button>

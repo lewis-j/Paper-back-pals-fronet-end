@@ -95,19 +95,23 @@ const getModalConfig = (
       });
 
     case MODAL_TYPES.CONFIRM_BORROW_REQUEST.value:
-      return createFormModal("Confirm Borrow Request", BaseForm, {
-        ...commonProps,
-        confirmationMsg: `Do you want to lend "${userBook.book.title}" to ${userBook.sender.username}?`,
-        buttonText: "Accept Request",
-        secondaryButtonText: "Decline Request",
-        loadingText: "Accepting...",
-        secondaryLoadingText: "Declining...",
-        successMessage: `You've accepted the request to lend "${userBook.book.title}" to ${userBook.sender.username}!`,
-        secondarySuccessMessage: `You've declined the request to lend "${userBook.book.title}" to ${userBook.sender.username}`,
-        onConfirm: () => actions.confirmBorrowRequest(userBook.request._id),
-        onSecondaryAction: () =>
-          actions.declineLendingRequest(userBook.request._id),
-      });
+      return createFormModal(
+        "Confirm Borrow Request",
+        BookModalForm.ConfirmBorrowRequestForm,
+        {
+          ...commonProps,
+          confirmationMsg: `Do you want to lend "${userBook.book.title}" to ${userBook.sender.username}?`,
+          buttonText: "Accept",
+          secondaryButtonText: "Decline",
+          loadingText: "Accepting...",
+          secondaryLoadingText: "Declining...",
+          successMessage: `You've accepted the request to lend "${userBook.book.title}" to ${userBook.sender.username}!`,
+          secondarySuccessMessage: `You've declined the request to lend "${userBook.book.title}" to ${userBook.sender.username}`,
+          onConfirm: (isPictureRequired) => actions.confirmBorrowRequest(userBook.request._id, isPictureRequired),
+          onSecondaryAction: () =>
+            actions.declineLendingRequest(userBook.request._id),
+        }
+      );
     case MODAL_TYPES.DECLINE_LENDING_REQUEST.value:
       return createFormModal("Decline Lending Request", BaseForm, {
         ...commonProps,

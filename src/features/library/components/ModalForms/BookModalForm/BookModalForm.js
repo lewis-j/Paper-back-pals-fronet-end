@@ -139,7 +139,7 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   );
 };
 
-export const BaseForm = ({
+const ConfirmBorrowRequestForm = ({
   confirmationMsg,
   buttonText,
   loadingText,
@@ -158,9 +158,11 @@ export const BaseForm = ({
     type: "",
   });
 
+  const [checked, setChecked] = useState(true);
+
   const handleSubmit = async () => {
     try {
-      const success = await onConfirm();
+      const success = await onConfirm(checked);
       if (success) {
         setStatus({
           message: successMessage,
@@ -206,6 +208,16 @@ export const BaseForm = ({
               {error}
             </p>
           )}
+          <div className={styles.checkboxContainer}>
+            <label>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+              />
+              Require picture proof of transaction
+            </label>
+          </div>
           <div className={styles.buttonContainer}>
             <button
               type="button"
@@ -274,11 +286,108 @@ export const BaseForm = ({
   );
 };
 
+export const BaseForm = ({
+  confirmationMsg,
+  buttonText,
+  loadingText,
+  onConfirm,
+  onClose,
+  isSubmitting,
+  error,
+  successMessage = "Request accepted successfully!",
+}) => {
+  const [status, setStatus] = useState({
+    message: "",
+    type: "",
+  });
+
+  const handleSubmit = async () => {
+    try {
+      const success = await onConfirm();
+      if (success) {
+        setStatus({
+          message: successMessage,
+          type: "success",
+        });
+      }
+    } catch (err) {
+      setStatus({
+        message: err.message || "Failed to accept request",
+        type: "error",
+      });
+    }
+  };
+  return (
+    <div className={styles.formContainer}>
+      {!status.message ? (
+        <>
+          <p className={styles.confirmation}>{confirmationMsg}</p>
+          {error && (
+            <p className={styles.errorMessage}>
+              <FontAwesomeIcon
+                icon="exclamation-circle"
+                className={styles.icon}
+              />{" "}
+              {error}
+            </p>
+          )}
+          <div className={styles.buttonContainer}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={styles.cancelButton}
+              disabled={isSubmitting}
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? (
+                <>
+                  <FontAwesomeIcon icon={faSpinner} spin /> {loadingText}
+                </>
+              ) : (
+                buttonText
+              )}
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className={styles.resultContainer}>
+          <p className={`${styles.statusMessage} ${styles[status.type]}`}>
+            <FontAwesomeIcon
+              icon={
+                status.type === "success"
+                  ? "check-circle"
+                  : "exclamation-circle"
+              }
+              className={styles.icon}
+            />{" "}
+            {status.message}
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className={styles.closeButton}
+          >
+            Close
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const BookModalForm = {
   ReadingProgressView,
   UpdatePageForm,
   BookDetailsView,
   BorrowRequestsList,
+  ConfirmBorrowRequestForm,
 };
 
 export default BookModalForm;

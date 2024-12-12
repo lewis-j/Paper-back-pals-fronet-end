@@ -38,6 +38,22 @@ export const useBookActions = () => {
       return false;
     }
   };
+  const confirmBorrowRequestAndMarkNotificationAsRead = async(request_id, isPictureRequired) => { 
+
+    if(isPictureRequired) {
+      //mark
+    } else {
+      requestActionAndMarkNotificationAsRead(
+           request_id ,
+        REQUEST_OWNER.BORROWER,
+        REQUEST_STATUS.ACCEPTED,
+        "error in confirmBorrowRequest"
+      );
+      
+    }
+
+
+  }
 
   // Main request handling function
   const requestActionAndMarkNotificationAsRead = async (
@@ -105,9 +121,9 @@ export const useBookActions = () => {
   const createBorrowRequest = (userBookId) =>
     dispatchAction(createBookRequest(userBookId));
 
-  const confirmBorrowRequest = (request_id) =>
+  const confirmBorrowRequest = (request_id, isPictureRequired) =>
     requestActionAndMarkNotificationAsRead(
-      request_id,
+      { request_id, isPictureRequired },
       REQUEST_OWNER.BORROWER,
       REQUEST_STATUS.ACCEPTED,
       "error in confirmBorrowRequest"
