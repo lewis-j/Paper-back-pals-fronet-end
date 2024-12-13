@@ -6,7 +6,11 @@ import { Loading } from "../../../../../components";
 import { useModal } from "../../../../../context/ModalContext";
 import { MODAL_TYPES } from "../../../config/modals";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSpinner,
+  faCheckCircle,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ReadingProgressView = ({ userBook, onClose }) => {
   const { book, currentPage } = userBook;
@@ -202,7 +206,7 @@ const ConfirmBorrowRequestForm = ({
           {error && (
             <p className={styles.errorMessage}>
               <FontAwesomeIcon
-                icon="exclamation-circle"
+                icon={faExclamationCircle}
                 className={styles.icon}
               />{" "}
               {error}
@@ -265,9 +269,7 @@ const ConfirmBorrowRequestForm = ({
           <p className={`${styles.statusMessage} ${styles[status.type]}`}>
             <FontAwesomeIcon
               icon={
-                status.type === "success"
-                  ? "check-circle"
-                  : "exclamation-circle"
+                status.type === "success" ? faCheckCircle : faExclamationCircle
               }
               className={styles.icon}
             />{" "}
@@ -325,7 +327,7 @@ export const BaseForm = ({
           {error && (
             <p className={styles.errorMessage}>
               <FontAwesomeIcon
-                icon="exclamation-circle"
+                icon={faExclamationCircle}
                 className={styles.icon}
               />{" "}
               {error}
@@ -361,9 +363,7 @@ export const BaseForm = ({
           <p className={`${styles.statusMessage} ${styles[status.type]}`}>
             <FontAwesomeIcon
               icon={
-                status.type === "success"
-                  ? "check-circle"
-                  : "exclamation-circle"
+                status.type === "success" ? faCheckCircle : faExclamationCircle
               }
               className={styles.icon}
             />{" "}

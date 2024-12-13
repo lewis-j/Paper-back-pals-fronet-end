@@ -37,34 +37,32 @@ const Library = () => {
   console.log("checkedInBooks", checkedInBooks);
   console.log("checkedOutBooks", checkedOutBooks);
 
-  const friendsBooksMenuItems = menuItems.friendsBooks(checkedInBooks);
-  const borrowedBookRequestsMenuItems =
-    menuItems.borrowedBookRequests(checkedInBooks);
-  const booksFromFriendsMenuItems = menuItems.booksFromFriends(checkedInBooks);
   // const checkedOutMenuItems = menuItems.booksToFriends(checkedOutBooks);
 
-  const filterRequest = (requests) => {
+  const filterRequest = (userBook) => {
+    const { requests } = userBook;
     console.log("request in filterRequest", requests);
     const foundRequest = requests.find(
       (req) => req.sender._id === currentUser._id
     );
-    console.log("foundRequest", foundRequest);
+    const _userBook = { ...userBook, request: foundRequest };
+
     switch (foundRequest?.status) {
       case bookRequestStatus.CHECKED_IN:
         return {
-          menu: borrowedBookRequestsMenuItems,
+          menu: menuItems.borrowedBookRequests(_userBook),
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
         };
       case bookRequestStatus.CHECKED_OUT:
         return {
-          menu: booksFromFriendsMenuItems,
+          menu: menuItems.booksFromFriends(_userBook),
           icon: faCheckCircle,
           iconStyle: styles.requestSentIcon,
         };
       default:
         return {
-          menu: friendsBooksMenuItems,
+          menu: menuItems.friendsBooks(_userBook),
           icon: null,
         };
     }
@@ -80,7 +78,8 @@ const Library = () => {
     const { _id, book, dueDate, currentPage, sender } = userBook;
     console.log("userBook in renderCheckedOutUserBookCard", userBook);
 
-    const { menu } = filterRequest(userBook.requests);
+    const { menu } = filterRequest(userBook);
+    console.log("menu", menu);
     return (
       <BookCol key={`UserBookCardSm:${_id}`}>
         <UserBookCardSm
@@ -97,25 +96,26 @@ const Library = () => {
     );
   };
 
-  const renderCheckedInBookCard = (userBook) => {
-    console.log("userBook", userBook);
-    const { _id, book, requests } = userBook;
-    const { menu, icon, iconStyle } = filterRequest(requests);
-    const { coverImg, title } = book;
+  const renderCheckedInBookCards = (userBooks) => {
+    return userBooks.map((userBook) => {
+      const { _id, book } = userBook;
+      const { menu, icon, iconStyle } = filterRequest(userBook);
+      const { coverImg, title } = book;
 
-    return (
-      <BookCol key={`BookCards:${_id}`}>
-        <BookCard
-          menuItems={menu}
-          book={{ coverImg, title }}
-          _id={_id}
-          setActive={setActiveCardId}
-          isActive={activeCardId === _id}
-          icon={icon}
-          iconStyle={iconStyle}
-        />
-      </BookCol>
-    );
+      return (
+        <BookCol key={`BookCards:${_id}`}>
+          <BookCard
+            menuItems={menu}
+            book={{ coverImg, title }}
+            _id={_id}
+            setActive={setActiveCardId}
+            isActive={activeCardId === _id}
+            icon={icon}
+            iconStyle={iconStyle}
+          />
+        </BookCol>
+      );
+    });
   };
 
   return (
@@ -133,7 +133,7 @@ const Library = () => {
         </div>
         <Row className={styles.section}>
           <BookContainer>
-            {checkedInBooks.map(renderCheckedInBookCard)}
+            {renderCheckedInBookCards(checkedInBooks)}
           </BookContainer>
         </Row>
         <div>

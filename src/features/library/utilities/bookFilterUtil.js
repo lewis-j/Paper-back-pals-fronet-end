@@ -44,6 +44,10 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
 };
 
 export const categorizeBorrowedBooksByStatus = (borrowedBooks) => {
+  console.log(
+    "borrowedBooks in categorizeBorrowedBooksByStatus",
+    borrowedBooks
+  );
   const categorizedBooks = {};
   borrowedBooks.forEach((userBook) => {
     const status = userBook.request.status;

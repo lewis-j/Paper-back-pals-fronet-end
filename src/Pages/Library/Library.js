@@ -17,11 +17,9 @@ const Library = () => {
 
   const { booksInLibrary, booksToFriends, ownedbooksInTransition } =
     useBookSelectors(useSelector((state) => state.userBooks));
-  // TODO: Add books in transition
-  const booksInTransition = [];
 
-  const toFriendsMenuItems = menuItems.booksToFriends(booksToFriends);
-  const inLibraryMenuItems = menuItems.booksInLibrary(booksInLibrary);
+  const toFriendsMenuItems = menuItems.booksToFriends;
+  const inLibraryMenuItems = menuItems.booksInLibrary;
 
   const BookCol = ({ children, key }) => (
     <Col sm="4" md="3" xl="2" className="mb-3" key={key}>
@@ -36,7 +34,7 @@ const Library = () => {
         <UserBookCardSm
           _id={_id}
           book={book}
-          menuItems={toFriendsMenuItems}
+          menuItems={toFriendsMenuItems(userBook)}
           user={sender}
           dueDate={dueDate}
           currentPage={currentPage}
@@ -47,7 +45,8 @@ const Library = () => {
     );
   };
 
-  const renderCheckedInBookCard = ({ _id, book, status }, i) => {
+  const renderCheckedInBookCard = (userBook, i) => {
+    const { _id, book, status } = userBook;
     const { coverImg, title } = book;
     const cardInfo = { coverImg, title, status };
 
@@ -56,7 +55,7 @@ const Library = () => {
         <BookCard
           _id={_id}
           book={cardInfo}
-          menuItems={inLibraryMenuItems}
+          menuItems={inLibraryMenuItems(userBook)}
           isActive={activeCardId === _id}
           setActive={setActiveCardId}
         />

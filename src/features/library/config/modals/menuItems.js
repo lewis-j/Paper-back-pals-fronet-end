@@ -1,13 +1,13 @@
-const createBookFinder = (book_id) => (userBooks) => {
-  return userBooks.find((book) => book._id === book_id);
-};
+// const createBookFinder = (book_id) => (userBooks) => {
+//   return userBooks.find((book) => book._id === book_id);
+// };
 
 // Menu configurations for different sections
 export const getMenuItems = (modalActions, book_id) => {
-  const getUserBookById = createBookFinder(book_id);
+  // const getUserBookById = createBookFinder(book_id);
   return {
-    booksInLibrary: (userBooks) => {
-      const userBook = getUserBookById(userBooks);
+    booksInLibrary: (userBook) => {
+      // const userBook = getUserBookById(userBooks);
 
       return [
         {
@@ -20,8 +20,8 @@ export const getMenuItems = (modalActions, book_id) => {
         },
       ];
     },
-    booksFromFriends: (userBooks) => {
-      const userBook = getUserBookById(userBooks);
+    booksFromFriends: (userBook) => {
+      // const userBook = getUserBookById(userBooks);
 
       return [
         {
@@ -66,8 +66,8 @@ export const getMenuItems = (modalActions, book_id) => {
       },
     ],
 
-    booksToFriends: (userBooks) => {
-      const userBook = getUserBookById(userBooks);
+    booksToFriends: (userBook) => {
+      // const userBook = getUserBookById(userBooks);
       return [
         {
           text: "View Progress",
@@ -89,8 +89,8 @@ export const getMenuItems = (modalActions, book_id) => {
         },
       ];
     },
-    borrowedBookRequests: (userBooks) => {
-      const userBook = getUserBookById(userBooks);
+    borrowedBookRequests: (userBook) => {
+      // const userBook = getUserBookById(userBooks);
       return [
         {
           text: "Book Details",
@@ -102,12 +102,14 @@ export const getMenuItems = (modalActions, book_id) => {
         },
         {
           text: "Remove Request",
-          clickHandler: () => modalActions.cancelBorrowRequest(userBook),
+          clickHandler: () => {
+            modalActions.cancelBorrowRequest(userBook);
+          },
         },
       ];
     },
-    friendsBooks: (userBooks) => {
-      const userBook = getUserBookById(userBooks);
+    friendsBooks: (userBook) => {
+      // const userBook = getUserBookById(userBooks);
       console.log("userBook", userBook);
       return [
         {
@@ -125,8 +127,8 @@ export const getMenuItems = (modalActions, book_id) => {
       ];
     },
 
-    bookRequests: (userBooks) => {
-      const userBook = getUserBookById(userBooks);
+    bookRequests: (userBook) => {
+      // const userBook = getUserBookById(userBooks);
 
       return [
         {

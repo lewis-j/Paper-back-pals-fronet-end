@@ -25,7 +25,7 @@ const BooksFromFriendsSection = ({
         currentPage={currentPage}
         setActive={setActiveCard}
         isActive={activeCard === _id}
-        menuItems={menuItems}
+        menuItems={menuItems(userBook)}
       />
     );
   };

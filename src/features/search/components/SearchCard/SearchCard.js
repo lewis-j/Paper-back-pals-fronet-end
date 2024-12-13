@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import styles from "./SearchCard.module.scss";
+import { Badge } from "../../../../components";
 
 const SearchCard = ({ cardData, onClick, isInLibrary }) => {
   const { title, author, thumbnail } = cardData;
@@ -23,7 +24,11 @@ const SearchCard = ({ cardData, onClick, isInLibrary }) => {
         ) : (
           <FontAwesomeIcon icon={faImage} size="6x" />
         )}
-        {isInLibrary && <div className={styles.libraryBadge}>In Library</div>}
+        {isInLibrary && (
+          <div className={styles.badgeWrapper}>
+            <Badge.LibraryBadge />
+          </div>
+        )}
       </div>
     </div>
   );

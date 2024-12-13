@@ -14,9 +14,9 @@ const DashboardPage = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
 
-  const fromFriendsMenuItems = menuItems.booksFromFriends(booksFromFriends);
-  const toFriendsMenuItems = menuItems.booksToFriends(booksToFriends);
-  const requestMenuItems = menuItems.bookRequests(ownedBookRequests);
+  const fromFriendsMenuItems = menuItems.booksFromFriends;
+  const toFriendsMenuItems = menuItems.booksToFriends;
+  const requestMenuItems = menuItems.bookRequests;
 
   return (
     <div className={`container ${styles.container}`}>

@@ -102,11 +102,16 @@ const deleteUserBookFulfilled = (state, action) => {
 };
 
 const cancelBorrowRequestFulfilled = (state, action) => {
-  state.books.borrowed = state.books.borrowed.map(({ request, ...rest }) =>
-    request._id !== action.payload.request._id
-      ? { request, ...rest }
-      : { action }
-  );
+  state.books.borrowed = state.books.borrowed.map((book) => {
+    if (book.request._id === action.payload.bookRequest._id) {
+      // Return the book with the updated request
+      return {
+        ...book,
+        request: action.payload.bookRequest,
+      };
+    }
+    return book; // Return unchanged book if it's not the one being updated
+  });
 };
 
 const declineLendingRequestFulfilled = (state, action) => {

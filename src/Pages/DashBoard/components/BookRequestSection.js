@@ -26,7 +26,7 @@ const BookRequestsSection = ({
           book={{ coverImg, title }}
           setActive={setActiveCard}
           isActive={activeCard === _id}
-          menuItems={menuItems}
+          menuItems={menuItems(userBook)}
         />
       </RequestBadge>
     );

@@ -73,7 +73,7 @@ export const cancelBorrowRequest = async (request_id, { dispatch }) => {
     const res = await API.put(`/user-books/request/${request_id}/cancel`);
     const { notification, bookRequest } = res.data;
     dispatch(addNotification({ notification }));
-    return { notification, bookRequest };
+    return { bookRequest };
   } catch (error) {
     console.error("Failed to cancel borrow request:", error);
     return Promise.reject(error);

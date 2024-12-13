@@ -23,14 +23,8 @@ const BorrowedPage = () => {
     borrowedbooksInTransition,
   } = useBookSelectors(useSelector((state) => state.userBooks));
 
-  const removeMenuItems = (menuItems, textToRemove) =>
-    menuItems.filter((item) => item.text !== textToRemove);
-
-  const checkedOutBookMenuitems = removeMenuItems(
-    menuItems.booksFromFriends(checkedOutBooks),
-    "Set as Current Read"
-  );
-  const pendingBookMenuitems = menuItems.borrowedBookRequests(pendingBooks);
+  const checkedOutBookMenuitems = menuItems.booksFromFriends;
+  const pendingBookMenuitems = menuItems.borrowedBookRequests;
   const createRenderBooksWithMenuItems = (menuItems) => (userBook) => {
     const { _id, book, owner, dueDate, currentPage } = userBook;
 
@@ -44,7 +38,7 @@ const BorrowedPage = () => {
           currentPage={currentPage}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
-          menuItems={menuItems}
+          menuItems={menuItems(userBook)}
         />
       </Col>
     );

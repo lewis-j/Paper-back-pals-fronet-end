@@ -53,7 +53,7 @@ const BookCard = ({
             {menuItems.map(({ text, clickHandler }, i) => (
               <Button
                 key={`menu-list${i}`}
-                onClick={clickHandler}
+                onClick={() => clickHandler("test")}
                 varient="white-outline"
               >
                 {text}
