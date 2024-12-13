@@ -98,14 +98,6 @@ function App() {
             <Route path="friends" element={<FriendsPage />}>
               <Route path="library" element={<FriendsLibrary />} />
               <Route path="profile" element={<FriendsProfile />} />
-              <Route
-                path="message"
-                element={
-                  <div onClick={() => dispatch(setChatOpen(true))}>
-                    Open Chat
-                  </div>
-                }
-              />
             </Route>
           </Route>
           <Route path="/privacy" element={<PrivacyPolicy />} />

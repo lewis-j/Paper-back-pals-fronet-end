@@ -10,9 +10,10 @@ import {
 } from "../../../features/library";
 import { upperFirst } from "../../../utilities/stringUtil";
 import styles from "./Library.module.scss";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useBookSelectors } from "../../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../../features/library/hooks/useModalMenu";
+import { Badge } from "../../../components";
+import BookCardBadge from "../../../features/library/components/BookCards/BookCardBadge/BookCardBadge";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
@@ -34,14 +35,11 @@ const Library = () => {
     useBookSelectors({
       books: { owned: books },
     });
-  console.log("checkedInBooks", checkedInBooks);
-  console.log("checkedOutBooks", checkedOutBooks);
 
   // const checkedOutMenuItems = menuItems.booksToFriends(checkedOutBooks);
 
   const filterRequest = (userBook) => {
     const { requests } = userBook;
-    console.log("request in filterRequest", requests);
     const foundRequest = requests.find(
       (req) => req.sender._id === currentUser._id
     );
@@ -51,19 +49,17 @@ const Library = () => {
       case bookRequestStatus.CHECKED_IN:
         return {
           menu: menuItems.borrowedBookRequests(_userBook),
-          icon: faCheckCircle,
-          iconStyle: styles.requestSentIcon,
+          badge: <Badge.RequestBadge />,
         };
       case bookRequestStatus.CHECKED_OUT:
         return {
           menu: menuItems.booksFromFriends(_userBook),
-          icon: faCheckCircle,
-          iconStyle: styles.requestSentIcon,
+          badge: <Badge.LibraryBadge />,
         };
       default:
         return {
           menu: menuItems.friendsBooks(_userBook),
-          icon: null,
+          badge: null,
         };
     }
   };
@@ -76,22 +72,22 @@ const Library = () => {
 
   const renderCheckedOutUserBookCard = (userBook, i) => {
     const { _id, book, dueDate, currentPage, sender } = userBook;
-    console.log("userBook in renderCheckedOutUserBookCard", userBook);
 
-    const { menu } = filterRequest(userBook);
-    console.log("menu", menu);
+    const { menu, badge } = filterRequest(userBook);
     return (
       <BookCol key={`UserBookCardSm:${_id}`}>
-        <UserBookCardSm
-          _id={_id}
-          book={book}
-          user={sender}
-          dueDate={dueDate}
-          menuItems={menu}
-          currentPage={currentPage}
-          setActive={setActiveCardId}
-          isActive={activeCardId === _id}
-        />
+        <BookCardBadge badge={badge}>
+          <UserBookCardSm
+            _id={_id}
+            book={book}
+            user={sender}
+            dueDate={dueDate}
+            menuItems={menu}
+            currentPage={currentPage}
+            setActive={setActiveCardId}
+            isActive={activeCardId === _id}
+          />
+        </BookCardBadge>
       </BookCol>
     );
   };
@@ -99,7 +95,7 @@ const Library = () => {
   const renderCheckedInBookCards = (userBooks) => {
     return userBooks.map((userBook) => {
       const { _id, book } = userBook;
-      const { menu, icon, iconStyle } = filterRequest(userBook);
+      const { menu, badge } = filterRequest(userBook);
       const { coverImg, title } = book;
 
       return (
@@ -110,8 +106,7 @@ const Library = () => {
             _id={_id}
             setActive={setActiveCardId}
             isActive={activeCardId === _id}
-            icon={icon}
-            iconStyle={iconStyle}
+            badge={badge}
           />
         </BookCol>
       );

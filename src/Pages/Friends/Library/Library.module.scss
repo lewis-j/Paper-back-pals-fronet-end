@@ -2,6 +2,13 @@
 
 .container {
 }
+
+.badgeWrapper {
+  position: absolute;
+  top: -0.5em;
+  right: 1em;
+}
+
 .title {
   border-bottom: 1px solid variables.$box-border-colors;
   color: variables.$title-color;

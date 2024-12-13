@@ -12,8 +12,7 @@ const BookCard = ({
   menuItems = [],
   isActive = false,
   setActive,
-  icon = null,
-  iconStyle = {},
+  badge = null,
 }) => {
   const { coverImg, title } = book;
 
@@ -38,11 +37,8 @@ const BookCard = ({
   return (
     <div className={styles.container}>
       <div className={`${styles.book} ${isActive ? styles.isActive : ""}`}>
-        {icon && !isActive && (
-          <FontAwesomeIcon
-            className={_s(styles.badge, iconStyle)}
-            icon={icon}
-          />
+        {badge && !isActive && (
+          <div className={styles.badgeWrapper}>{badge}</div>
         )}
         <img className={styles.img} src={coverImg} alt={title} />
         <div className={cardFilter.className} onClick={cardFilter.menuBtnClick}>
