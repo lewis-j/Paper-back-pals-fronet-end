@@ -22,6 +22,9 @@ const ContactList = ({ activeId = null, setUser }) => {
           profilePic={profilePic}
           isActive={activeId === _id}
           _id={_id}
+          menuItems={[
+            { label: "Remove Friend", onClick: () => alert("clicked") },
+          ]}
         />
       </div>
     ));

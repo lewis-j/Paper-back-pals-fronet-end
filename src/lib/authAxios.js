@@ -36,25 +36,23 @@ const AxiosInterceptor = ({ children }) => {
 
     const handleStatusCode = async (error) => {
       if (error.response?.status === 401) {
-        console.error(
-          "Unauthorized - redirecting to landing page",
-          error.response
-        );
         await dispatch(removeAuthUser());
         navigate("/landing-page");
-        return Promise.reject(error);
+        return Promise.resolve();
       }
       return Promise.reject(error);
     };
 
     const errInterceptor = async (error) => {
-      console.error("ERROR IN INTERCEPTOR:", error);
-
-      if (error.response) {
-        return handleStatusCode(error);
+      try {
+        if (error.response) {
+          return await handleStatusCode(error);
+        }
+        return Promise.reject(error);
+      } catch (interceptorError) {
+        console.error("Error in interceptor:", interceptorError);
+        return Promise.reject(interceptorError);
       }
-
-      return Promise.reject(error);
     };
 
     const interceptor = API.interceptors.response.use(

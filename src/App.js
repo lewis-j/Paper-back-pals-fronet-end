@@ -97,7 +97,6 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
             <Route path="friends" element={<FriendsPage />}>
               <Route path="library" element={<FriendsLibrary />} />
-              <Route path="profile" element={<FriendsProfile />} />
             </Route>
           </Route>
           <Route path="/privacy" element={<PrivacyPolicy />} />
@@ -107,7 +106,6 @@ function App() {
 
         <ChatModal />
         <SlidePanel
-          header="Notifications"
           open={isNotificationsOpen}
           onClose={() => {
             setIsNotifOpen(false);

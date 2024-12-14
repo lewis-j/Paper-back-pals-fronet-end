@@ -46,6 +46,12 @@ export const notificationsSlice = createSlice({
     addNotification: (state, action) => {
       state.list.unshift(action.payload.notification);
     },
+    markAllAsRead: (state) => {
+      state.list = state.list.map((notification) => ({
+        ...notification,
+        isRead: true,
+      }));
+    },
   },
   extraReducers: {
     ...setExtraReducer(fetchNotifications, fetchNotificationsSuccess),
@@ -55,8 +61,12 @@ export const notificationsSlice = createSlice({
 
 export { fetchNotifications, markAsRead };
 
-export const { setNotifications, addNotification, setNotificationsIsOpen } =
-  notificationsSlice.actions;
+export const {
+  setNotifications,
+  addNotification,
+  setNotificationsIsOpen,
+  markAllAsRead,
+} = notificationsSlice.actions;
 
 export const selectNotificationByRequestRefIdCreator =
   (state) => (requestRefId) => {

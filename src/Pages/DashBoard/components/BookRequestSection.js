@@ -19,14 +19,24 @@ const BookRequestsSection = ({
 
     const requestCount = requests.length;
 
+    const bookRequestMenuItems = menuItems(userBook);
+
+    const viewRequests = bookRequestMenuItems[0].clickHandler;
+
     return (
-      <RequestBadge key={_id} count={requestCount} clickHandler={() => {}}>
+      <RequestBadge
+        key={_id}
+        count={requestCount}
+        clickHandler={() => {
+          viewRequests();
+        }}
+      >
         <BookCard
           _id={_id}
           book={{ coverImg, title }}
           setActive={setActiveCard}
           isActive={activeCard === _id}
-          menuItems={menuItems(userBook)}
+          menuItems={bookRequestMenuItems}
         />
       </RequestBadge>
     );

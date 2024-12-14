@@ -5,7 +5,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import styles from "./SlidePanel.module.scss";
 import { _s } from "../../style";
 
-const SlidePanel = ({ open = false, onClose, children, header }) => {
+const SlidePanel = ({ open = false, onClose, children }) => {
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
@@ -42,14 +42,6 @@ const SlidePanel = ({ open = false, onClose, children, header }) => {
           }
         }}
       >
-        <h3 className={styles.header}>{header}</h3>
-        <button
-          className={styles.close}
-          onClick={() => setIsClosing(true)}
-          aria-label="Close panel"
-        >
-          <FontAwesomeIcon icon={faX} />
-        </button>
         <div className={styles.content}>{children}</div>
       </div>
     </div>,

@@ -4,6 +4,7 @@ import {
   UserBookCardSm,
   BookContainer,
   BookTransferTracker,
+  RequestBadge,
 } from "../../features/library";
 import styles from "./Library.module.scss";
 import { useState } from "react";
@@ -20,6 +21,7 @@ const Library = () => {
 
   const toFriendsMenuItems = menuItems.booksToFriends;
   const inLibraryMenuItems = menuItems.booksInLibrary;
+  const bookRequestMenuItems = menuItems.bookRequests;
 
   const BookCol = ({ children, key }) => (
     <Col sm="4" md="3" xl="2" className="mb-3" key={key}>
@@ -49,16 +51,33 @@ const Library = () => {
     const { _id, book, status } = userBook;
     const { coverImg, title } = book;
     const cardInfo = { coverImg, title, status };
+    console.log("bookcard in library", userBook);
+    const checkedInMenuItems = (userBook) => {
+      if (userBook.requests.length > 0) {
+        return bookRequestMenuItems(userBook);
+      } else {
+        return inLibraryMenuItems(userBook);
+      }
+    };
+    const badgeOnClick = bookRequestMenuItems(userBook)[0].clickHandler;
 
     return (
       <BookCol key={`LibraryBookCard${_id}`}>
-        <BookCard
-          _id={_id}
-          book={cardInfo}
-          menuItems={inLibraryMenuItems(userBook)}
-          isActive={activeCardId === _id}
-          setActive={setActiveCardId}
-        />
+        <RequestBadge
+          count={userBook.requests.length}
+          clickHandler={() => {
+            console.log("badge clicked");
+            badgeOnClick();
+          }}
+        >
+          <BookCard
+            _id={_id}
+            book={cardInfo}
+            menuItems={checkedInMenuItems(userBook)}
+            isActive={activeCardId === _id}
+            setActive={setActiveCardId}
+          />
+        </RequestBadge>
       </BookCol>
     );
   };

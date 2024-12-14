@@ -1,17 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { NoContent } from "../../../../components";
-import {
-  faBell,
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { faBell, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef, useState } from "react";
 import styles from "./NotificationsPanel.module.scss";
 import { NotificationsCard } from "../NotificationsCard";
 import * as asyncStatus from "../../../../data/asyncStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useNotificationModal from "../NotificationModal/NotificationModal";
-import { markAsRead } from "../../notificationsSlice";
+import { markAsRead, markAllAsRead } from "../../notificationsSlice";
 
 const NotificationsPanel = () => {
   const { list: notifications, status } = useSelector(
@@ -20,7 +16,22 @@ const NotificationsPanel = () => {
   const { openNotificationModal, renderModal } =
     useNotificationModal(notifications);
   const [showReadNotifications, setShowReadNotifications] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const processNotifications = (notifications) => {
     return notifications.reduce(
@@ -84,39 +95,39 @@ const NotificationsPanel = () => {
     );
   };
 
-  const renderReadNotificationsDropdown = () => {
-    return (
-      <>
-        {_notifications.read.length > 0 && (
-          <div className={styles.readNotificationsDropdown}>
-            <button
-              className={styles.dropdownToggle}
-              onClick={() => setShowReadNotifications(!showReadNotifications)}
-            >
-              {showReadNotifications ? "Hide" : "Show"} Read Notifications
-              <FontAwesomeIcon
-                icon={showReadNotifications ? faChevronUp : faChevronDown}
-                className={styles.dropdownIcon}
-              />
-            </button>
-            {showReadNotifications && (
-              <div className={styles.readNotifications}>
-                {_notifications.read.map(renderReadNotifications)}
-              </div>
-            )}
-          </div>
-        )}
-      </>
-    );
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleMarkAllAsRead = () => {
+    dispatch(markAllAsRead());
+    setMenuOpen(false);
   };
 
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.notifications}>
-          {_notifications.unread.map(renderUnreadNotifications)}
+        <div className={styles.headerContainer}>
+          <h3 className={styles.header}>Notifications</h3>
+          <button className={styles.menuButton} onClick={toggleMenu}>
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </button>
+          {menuOpen && (
+            <div className={styles.menuDropdown} ref={dropdownRef}>
+              <button onClick={handleMarkAllAsRead}>Mark All as Read</button>
+              <button
+                onClick={() => setShowReadNotifications(!showReadNotifications)}
+              >
+                {showReadNotifications ? "Hide" : "Show"} Read Notifications
+              </button>
+            </div>
+          )}
         </div>
-        {renderReadNotificationsDropdown()}
+        <div className={styles.notifications}>
+          {showReadNotifications
+            ? _notifications.read.map(renderReadNotifications)
+            : _notifications.unread.map(renderUnreadNotifications)}
+        </div>
       </div>
       {renderModal()}
     </>

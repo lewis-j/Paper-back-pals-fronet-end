@@ -36,7 +36,7 @@
 }
 
 .content {
-  height: calc(96% - 2rem);
+  height: 100%;
   overflow-y: auto;
   &::-webkit-scrollbar {
     @include variables.webkit-scrollbar;

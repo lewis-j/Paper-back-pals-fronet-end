@@ -9,7 +9,7 @@ import { openChatWithFriend, setChatOpen } from "../../../Chat/chatSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-const navItems = ["library", "profile", "message"];
+const navItems = ["library", "message"];
 
 const FriendsNavigation = ({ isOpen, toggleList, _style }) => {
   const dispatch = useDispatch();

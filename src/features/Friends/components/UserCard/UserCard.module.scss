@@ -35,3 +35,29 @@
 .username {
   margin-left: 0.5em;
 }
+
+.menuDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid $grey-3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 150px;
+}
+
+.menuDropdown button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: $grey-1;
+  }
+}
