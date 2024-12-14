@@ -35,7 +35,7 @@ $borderStyle: 1px solid $grey-3;
 }
 
 .isActive {
-  background-color: #c0b8b8;
+  background-color: $menu-highlight;
   border-radius: 12px;
   box-shadow: 1px 1px 3px $grey-10;
   color: $grey-2;

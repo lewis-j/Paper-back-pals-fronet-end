@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styles from "./UserBookCardSm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX } from "@fortawesome/free-solid-svg-icons";

@@ -1,4 +1,4 @@
-@use "../../style/variables.scss";
+@import "../../style/variables.scss";
 
 .container {
   max-width: 1200px;
@@ -17,14 +17,14 @@
 }
 
 .titleContent {
-  color: variables.$title-color;
+  color: $title-color;
   margin-right: 1rem;
   font-size: 2.5rem;
   font-weight: 600;
 }
 
 .titleIcon {
-  color: variables.$title-color;
+  color: $title-color;
   opacity: 0.8;
 }
 

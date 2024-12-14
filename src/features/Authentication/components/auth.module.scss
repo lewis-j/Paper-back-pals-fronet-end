@@ -1,8 +1,8 @@
-@use "../../../style/variables";
+@import "../../../style/variables";
 
 .container {
   background-color: #0a0a0abf;
-  color: variables.$dark-background-font-color;
+  color: $dark-background-font-color;
   width: 100%;
   margin-top: 10px;
   max-width: 24rem;

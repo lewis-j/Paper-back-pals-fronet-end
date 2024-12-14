@@ -1,10 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faX, faUserFriends } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import styles from "./BookCard.module.scss";
-import { useState } from "react";
 import { Button } from "../../../../../components";
-import { _s } from "../../../../../style";
 
 const BookCard = ({
   _id,

@@ -1,4 +1,4 @@
-@use "../../../style/variables.scss";
+@import "../../../style/variables.scss";
 
 .container {
 }
@@ -10,8 +10,8 @@
 }
 
 .title {
-  border-bottom: 1px solid variables.$box-border-colors;
-  color: variables.$title-color;
+  border-bottom: 1px solid $box-border-colors;
+  color: $title-color;
   h1 {
     padding: 1em 0;
   }
@@ -23,14 +23,14 @@
 
 .subtitle {
   padding: 1em 0;
-  color: variables.$title-color;
+  color: $title-color;
 }
 
 .section {
   position: relative;
   margin: 0 0.25em 1em;
   min-height: 520px;
-  background-color: variables.$grey-1;
+  background-color: $grey-1;
   padding: 1em;
   border-radius: 10px;
   box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 40%);
@@ -44,7 +44,7 @@
   border-radius: 100%;
   box-shadow: 2px 2px 15px black;
   padding: 0;
-  border: 1px solid variables.$title-color;
+  border: 1px solid $title-color;
   font-size: 1.5em;
   // font-size: 1.5em;
 }

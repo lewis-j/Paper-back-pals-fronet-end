@@ -1,18 +1,18 @@
-@use "../../../../style/variables.scss";
+@import "../../../../style/variables.scss";
 .wrapper {
   height: 20em;
   max-width: 18em;
   position: relative;
   margin: 0.5em auto;
-  border: solid 1px variables.$box-border-colors;
+  border: solid 1px $box-border-colors;
   border-radius: 0.15em;
-  box-shadow: variables.$standard-box-shadow;
+  box-shadow: $standard-box-shadow;
   background-color: white;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: variables.$standard-box-shadow-hover;
+    box-shadow: $standard-box-shadow-hover;
   }
 
   @media (max-width: 768px) {
@@ -39,7 +39,7 @@
 .title {
   text-align: left;
   margin: 5% 15%;
-  font-family: variables.$heading-font;
+  font-family: $heading-font;
 
   h6 {
     font-size: 0.9em;
@@ -57,7 +57,7 @@
 .img {
   height: 50%;
   margin-top: 2%;
-  box-shadow: 2px 2px 5px variables.$shadow-color;
+  box-shadow: 2px 2px 5px $shadow-color;
   object-fit: cover;
   transition: transform 0.2s ease;
 
@@ -81,13 +81,13 @@
 }
 
 .inLibrary {
-  color: variables.$accepted-color;
-  border-color: variables.$accepted-color;
+  color: $accepted-color;
+  border-color: $accepted-color;
 }
 
 @keyframes spin {
   from {
-    transform: rotate(0def);
+    transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
@@ -100,7 +100,7 @@
 
   &:hover {
     transform: none;
-    box-shadow: variables.$standard-box-shadow;
+    box-shadow: $standard-box-shadow;
   }
 }
 

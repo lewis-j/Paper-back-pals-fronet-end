@@ -1,13 +1,13 @@
-@use "../../../../../style/variables.scss";
+@import "../../../../../style/variables.scss";
 
 .container {
   position: relative;
-  border: 1px solid variables.$box-border-colors;
+  border: 1px solid $box-border-colors;
   border-radius: 5px;
   width: 10em;
   height: 15.25em;
   margin: 0px auto;
-  box-shadow: variables.$standard-box-shadow;
+  box-shadow: $standard-box-shadow;
   background-color: #f5f5f5;
 }
 $transitionSpeed: 0.1s;
@@ -43,7 +43,7 @@ $transitionSpeed: 0.1s;
   width: 100%;
   height: 2.4em;
   bottom: 0;
-  background-color: variables.$grey-2;
+  background-color: $grey-2;
 }
 
 .infoOpen {
@@ -60,7 +60,7 @@ $transitionSpeed: 0.1s;
 }
 .progress {
   height: 18%;
-  background-color: variables.$grey-4;
+  background-color: $grey-4;
 }
 .menuBtn {
   font-size: 0.8em;
@@ -80,7 +80,7 @@ $transitionSpeed: 0.1s;
   padding: 0.8em;
   height: 103%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: $menu-background;
   backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;

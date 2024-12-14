@@ -63,7 +63,7 @@
   padding: 1em;
   height: 100%;
   width: 100%;
-  background-color: #00000075;
+  background-color: $menu-background;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;

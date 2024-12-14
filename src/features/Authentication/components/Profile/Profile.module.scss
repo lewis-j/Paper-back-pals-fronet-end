@@ -1,8 +1,8 @@
-@use "../../../../style/variables.scss";
+@import "../../../../style/variables.scss";
 
 .container {
-  background-color: variables.$dark-background;
-  color: variables.$dark-background-font-color;
+  background-color: $dark-background;
+  color: $dark-background-font-color;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   margin: 0 auto;
   padding: 2.5em;
   border-radius: 1rem;
-  box-shadow: variables.$standard-box-shadow;
+  box-shadow: $standard-box-shadow;
   transition: transform 0.2s ease;
 
   @media (max-width: 768px) {
@@ -33,7 +33,7 @@
 
 .label {
   font-size: 0.9rem;
-  color: variables.$dark-background-font-color;
+  color: $dark-background-font-color;
   opacity: 0.7;
   margin-bottom: 0.5rem;
 }

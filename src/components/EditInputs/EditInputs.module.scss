@@ -1,4 +1,4 @@
-@use "../../style/variables.scss";
+@import "../../style/variables.scss";
 
 .name {
   cursor: pointer;
@@ -18,18 +18,18 @@
     border-radius: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.05);
-    color: variables.$dark-background-font-color;
+    color: $dark-background-font-color;
     font-size: 1rem;
     transition: all 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: variables.$secondary-color;
-      box-shadow: 0 0 0 2px rgba(variables.$secondary-color, 0.2);
+      border-color: $secondary-color;
+      box-shadow: 0 0 0 2px rgba($secondary-color, 0.2);
     }
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
-      @include variables.active-link;
+      @include active-link;
     }
   }
 }

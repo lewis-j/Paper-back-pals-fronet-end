@@ -64,9 +64,20 @@ const AcceptFriendRequest = ({ user }) => {
   );
 };
 
+const RemoveFriend = ({ user }) => {
+  return (
+    <FriendModalContent user={user}>
+      <button onClick={() => alert("remove friend")} className={styles.accept}>
+        Remove Friend
+      </button>
+    </FriendModalContent>
+  );
+};
+
 const FriendModal = {
   MakeFriendRequest,
   AcceptFriendRequest,
+  RemoveFriend,
 };
 
 export default FriendModal;

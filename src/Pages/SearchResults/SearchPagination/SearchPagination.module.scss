@@ -1,6 +1,6 @@
-@use "../../pages" as var;
+@import "../../pages";
 
-$border: 1px solid var.$dark-accent;
+$border: 1px solid $dark-accent;
 
 .container {
   display: flex;
@@ -8,14 +8,14 @@ $border: 1px solid var.$dark-accent;
 }
 
 .paginationLink {
-  color: var.$dark-accent;
+  color: $dark-accent;
   border: $border;
 }
 
 .paginationLink:hover,
 .paginationLink:active {
   cursor: pointer;
-  color: var.$grey-1;
-  background-color: var.$secondary-color;
+  color: $grey-1;
+  background-color: $secondary-color;
   border: $border;
 }

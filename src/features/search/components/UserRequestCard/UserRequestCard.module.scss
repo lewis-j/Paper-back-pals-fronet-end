@@ -1,4 +1,4 @@
-@use "../../../../style/variables.scss" as global;
+@import "../../../../style/variables.scss";
 
 .container {
   display: flex;
@@ -9,7 +9,7 @@
   height: 4rem;
   padding: 0 0.5em;
   position: relative;
-  box-shadow: global.$standard-box-shadow;
+  box-shadow: $standard-box-shadow;
 }
 
 .username {
@@ -21,10 +21,10 @@
   font-size: 0.98em;
 }
 .pendingIcon {
-  color: global.$grey-5;
+  color: $grey-5;
   @include icon;
 }
 .friendIcon {
-  color: global.$add-color;
+  color: $add-color;
   @include icon;
 }

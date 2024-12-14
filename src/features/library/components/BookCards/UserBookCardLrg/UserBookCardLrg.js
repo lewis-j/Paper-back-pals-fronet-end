@@ -73,15 +73,18 @@ const UserBookCardLrg = ({
           >
             <FontAwesomeIcon icon={faClose} />
           </div>
-          {menuItems.map(({ text, clickHandler }, i) => (
-            <Button
-              key={`menu-list${i}`}
-              onClick={() => clickHandler(userCard_id)}
-              varient="white-outline"
-            >
-              {text}
-            </Button>
-          ))}
+          <div className={styles.menuItems}>
+            {menuItems.map(({ text, clickHandler }, i) => (
+              <Button
+                key={`menu-list${i}`}
+                className={styles.menuItem}
+                onClick={() => clickHandler(userCard_id)}
+                varient="white-outline"
+              >
+                {text}
+              </Button>
+            ))}
+          </div>
         </div>
       )}
     </div>

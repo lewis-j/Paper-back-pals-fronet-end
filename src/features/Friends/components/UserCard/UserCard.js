@@ -19,15 +19,23 @@ const UserCard = ({ _id, username, profilePic, menuItems = [] }) => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const toggleMenu = () => {
+  const toggleMenu = (event) => {
+    event.stopPropagation();
     setMenuOpen(!menuOpen);
   };
 
   const renderMenuItems = () => {
     return menuItems.map((item) => (
-      <button key={item.label} onClick={item.onClick}>
-        {item.label}
-      </button>
+      <div className={styles.menuItem} key={item.label}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            item.onClick();
+          }}
+        >
+          {item.label}
+        </button>
+      </div>
     ));
   };
   return (
@@ -42,7 +50,10 @@ const UserCard = ({ _id, username, profilePic, menuItems = [] }) => {
         </button>
       )}
       {menuOpen && (
-        <div className={styles.menuDropdown} ref={dropdownRef}>
+        <div
+          className={`${styles.menuDropdown} ${menuOpen ? styles.open : ""}`}
+          ref={dropdownRef}
+        >
           {renderMenuItems()}
         </div>
       )}

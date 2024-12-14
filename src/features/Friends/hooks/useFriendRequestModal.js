@@ -43,6 +43,10 @@ export const useFriendRequestModal = () => {
             onClose={closeModal}
           />
         );
+      case MODAL_TYPES.REMOVE_FRIEND.value:
+        return (
+          <FriendModalContent.RemoveFriend user={data} onClose={closeModal} />
+        );
       default:
         return null;
     }

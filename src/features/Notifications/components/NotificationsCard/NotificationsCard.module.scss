@@ -1,6 +1,6 @@
-@use "../../../../style/variables.scss";
+@import "../../../../style/variables.scss";
 
-$border: 1px solid variables.$box-border-colors;
+$border: 1px solid $box-border-colors;
 
 .container {
   width: 100%;
@@ -29,7 +29,7 @@ $border: 1px solid variables.$box-border-colors;
   align-items: center;
   justify-content: space-between;
   margin-top: 0.5rem;
-  color: variables.$secondary-color;
+  color: $secondary-color;
   font-size: 0.9rem;
 }
 
@@ -53,7 +53,7 @@ $border: 1px solid variables.$box-border-colors;
   background-color: #c0b8b8;
 }
 .btn {
-  border: 1px solid variables.$box-border-colors;
+  border: 1px solid $box-border-colors;
   border-radius: 3px;
   margin-left: 0.5em;
 }

@@ -10,18 +10,20 @@ class ModalType {
 
 export const MODAL_TYPES = {
   // Book Reading Progress
-  MAKE_FRIEND_REQUEST: new ModalType("MAKE_FRIEND_REQUEST", "friend request"),
+  MAKE_FRIEND_REQUEST: new ModalType("MAKE_FRIEND_REQUEST", "Friend request"),
   ACCEPT_FRIEND_REQUEST: new ModalType(
     "ACCEPT_FRIEND_REQUEST",
-    "accept friend request"
+    "Accept friend request"
   ),
+  REMOVE_FRIEND: new ModalType("REMOVE_FRIEND", "Remove friend"),
 };
 
 export const useFriendModalActions = (openModal) => {
   return {
-    makeFriendRequest: (userId) =>
-      openModal(MODAL_TYPES.MAKE_FRIEND_REQUEST, userId),
-    acceptFriendRequest: (userId) =>
-      openModal(MODAL_TYPES.ACCEPT_FRIEND_REQUEST, userId),
+    makeFriendRequest: (user) =>
+      openModal(MODAL_TYPES.MAKE_FRIEND_REQUEST, user),
+    acceptFriendRequest: (user) =>
+      openModal(MODAL_TYPES.ACCEPT_FRIEND_REQUEST, user),
+    removeFriend: (user) => openModal(MODAL_TYPES.REMOVE_FRIEND, user),
   };
 };
