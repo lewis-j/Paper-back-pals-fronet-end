@@ -141,9 +141,9 @@ const OffCanvasMenu = ({ expandSize }) => {
                 }}
               />
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <NavLinks.Settings closeOnClick={clickedLink} />
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <NavLinks.Logout closeOnClick={clickedLink} />
             </NavItem>
