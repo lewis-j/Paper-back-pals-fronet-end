@@ -3,6 +3,7 @@ export {
   UserBookCardSm,
   UserBookCardLrg,
   RequestBadge,
+  BookCardBadge,
 } from "./BookCards";
 export { BookTransferTracker } from "./BookTransferTracker";
 export { BookModalForm } from "./ModalForms";

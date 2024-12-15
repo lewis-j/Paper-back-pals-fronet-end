@@ -49,6 +49,8 @@ export const useModalActions = (openModal) => {
       openModal(MODAL_TYPES.REQUEST_BORROW_EXTENSION, { userBook }),
     requestBookReturn: (userBook) =>
       openModal(MODAL_TYPES.REQUEST_BOOK_RETURN, { userBook }),
+    cancelBookReturn: (userBook) =>
+      openModal(MODAL_TYPES.CANCEL_BOOK_RETURN, { userBook }),
     initiateBookReturn: (userBook) =>
       openModal(MODAL_TYPES.INITIATE_BOOK_RETURN, { userBook }),
     borrowerConfirmReturn: (userBook) =>

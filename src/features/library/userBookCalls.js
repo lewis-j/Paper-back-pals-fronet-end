@@ -134,6 +134,18 @@ export const initiateBookReturnRequest = async (
   }
 };
 
+export const cancelBookReturnRequest = async (request_id) => {
+  try {
+    const res = await API.put(
+      `/user-books/request/${request_id}/status/return/cancel`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Failed to cancel book return:", error);
+    return Promise.reject(error);
+  }
+};
+
 export const updateCurrentPage = async ({
   request_id,
   currentPage,

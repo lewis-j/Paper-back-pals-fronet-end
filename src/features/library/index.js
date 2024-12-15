@@ -7,6 +7,7 @@ export {
   RequestBadge,
   BookStatusTracker,
   BookTransferTracker,
+  BookCardBadge,
 } from "./components";
 export { bookRequestStatus } from "./data";
 export {

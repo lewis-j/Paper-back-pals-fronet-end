@@ -2,6 +2,8 @@
 //   return userBooks.find((book) => book._id === book_id);
 // };
 
+import requestStatus from "../../../../data/requestStatus";
+
 // Menu configurations for different sections
 export const getMenuItems = (modalActions, book_id) => {
   // const getUserBookById = createBookFinder(book_id);
@@ -67,7 +69,19 @@ export const getMenuItems = (modalActions, book_id) => {
     ],
 
     booksToFriends: (userBook) => {
-      // const userBook = getUserBookById(userBooks);
+      const getReturnRequestMenuItem = (userBook, modalActions) => {
+        const { request } = userBook;
+        if (request.status === requestStatus.RETURN_REQUESTED) {
+          return {
+            text: "Cancel Return Request",
+            clickHandler: () => modalActions.cancelBookReturn(userBook),
+          };
+        }
+        return {
+          text: "Request Return",
+          clickHandler: () => modalActions.requestBookReturn(userBook),
+        };
+      };
       return [
         {
           text: "View Progress",
@@ -79,10 +93,7 @@ export const getMenuItems = (modalActions, book_id) => {
           text: "Message Borrower",
           clickHandler: () => modalActions.openChat(userBook.sender._id),
         },
-        {
-          text: "Request Return",
-          clickHandler: () => modalActions.requestBookReturn(userBook),
-        },
+        getReturnRequestMenuItem(userBook, modalActions),
         {
           text: "Book Details",
           clickHandler: () => modalActions.viewUserBookDetails(userBook),

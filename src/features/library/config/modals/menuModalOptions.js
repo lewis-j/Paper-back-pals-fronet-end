@@ -174,6 +174,14 @@ const getModalConfig = (
         loadingText: "Requesting Return...",
         onConfirm: () => actions.requestBookReturn(userBook.request._id),
       });
+    case MODAL_TYPES.CANCEL_BOOK_RETURN.value:
+      return createFormModal("Cancel Book Return", BaseForm, {
+        ...commonProps,
+        confirmationMsg: `Are you sure you want to cancel your return request for ${userBook.book.title}?`,
+        buttonText: "Cancel Return",
+        loadingText: "Canceling Return...",
+        onConfirm: () => actions.cancelBookReturn(userBook.request._id),
+      });
 
     case MODAL_TYPES.INITIATE_BOOK_RETURN.value:
       return createFormModal("Return Book", BaseForm, {

@@ -1,4 +1,8 @@
-import { faBook, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBook,
+  faCheck,
+  faRotateLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styles from "./Badge.module.scss";
@@ -18,9 +22,14 @@ const LibraryBadge = () => (
   <BaseBadge text="In library" icon={faBook} type="library" />
 );
 
+const ReturnRequestedBadge = () => (
+  <BaseBadge text="Return" icon={faRotateLeft} type="returnRequested" />
+);
+
 const Badge = {
   LibraryBadge,
   RequestBadge,
+  ReturnRequestedBadge,
 };
 
 export default Badge;

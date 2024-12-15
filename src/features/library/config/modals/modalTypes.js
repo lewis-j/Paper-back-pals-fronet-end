@@ -57,6 +57,7 @@ export const MODAL_TYPES = {
     "Request Extension"
   ),
   REQUEST_BOOK_RETURN: new ModalType("REQUEST_BOOK_RETURN", "Request Return"),
+  CANCEL_BOOK_RETURN: new ModalType("CANCEL_BOOK_RETURN", "Cancel Return"),
   INITIATE_BOOK_RETURN: new ModalType(
     "INITIATE_BOOK_RETURN",
     "Initiate Book Return"

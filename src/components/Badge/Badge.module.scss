@@ -14,4 +14,8 @@
     background-color: $pending-color;
     color: white;
   }
+  &-returnRequested {
+    background-color: $return-requested-color;
+    color: white;
+  }
 }

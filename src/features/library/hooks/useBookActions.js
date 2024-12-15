@@ -10,6 +10,7 @@ import {
   updateLendRequestStatus,
   selectRequestById,
   initiateBookReturnRequest,
+  cancelBookReturnRequest,
 } from "../userBooksSlice";
 import {
   markAsRead,
@@ -62,6 +63,13 @@ export const useBookActions = () => {
         status: REQUEST_STATUS.CHECKED_OUT,
       }),
       "error in requestBookReturn"
+    );
+  };
+
+  const cancelBookReturn = async (request_id) => {
+    return await dispatchAction(
+      cancelBookReturnRequest(request_id),
+      "error in cancelBookReturn"
     );
   };
 
@@ -211,6 +219,7 @@ export const useBookActions = () => {
     confirmLenderReturn,
     extendBorrow,
     requestBookReturn,
+    cancelBookReturn,
     //remove request Borrower/Lender
     cancelBorrowRequest,
     declineLendingRequest,
