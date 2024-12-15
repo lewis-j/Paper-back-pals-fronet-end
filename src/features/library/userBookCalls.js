@@ -112,6 +112,28 @@ export const nextBookRequestStatus = async (
   }
 };
 
+export const initiateBookReturnRequest = async (
+  { request_id, status },
+  { dispatch }
+) => {
+  try {
+    console.log("request_id in initiateBookReturnRequest", request_id);
+    const res = await API.put(
+      `/user-books/request/${request_id}/status/return`,
+      {
+        status,
+      }
+    );
+    const { notification, bookRequest } = res.data;
+    console.log("bookRequest in nextBookRequestStatus", bookRequest);
+    dispatch(addNotification({ notification }));
+    return { notification, bookRequest };
+  } catch (error) {
+    console.error("Failed to request book return:", error);
+    return Promise.reject(error);
+  }
+};
+
 export const updateCurrentPage = async ({
   request_id,
   currentPage,

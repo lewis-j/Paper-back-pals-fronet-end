@@ -39,6 +39,11 @@ export const updateBorrowRequestStatus = createAsyncThunk(
   userBookApi.nextBookRequestStatus
 );
 
+export const initiateBookReturnRequest = createAsyncThunk(
+  "userBooks/initiateBookReturnRequest ",
+  userBookApi.initiateBookReturnRequest
+);
+
 export const cancelBorrowRequest = createAsyncThunk(
   "userBooks/cancelBorrowRequest",
   userBookApi.cancelBorrowRequest
@@ -155,6 +160,10 @@ export const userBooksSlice = createSlice({
     ...setExtraReducer(
       updateBorrowRequestStatus,
       updateBorrowRequestStatusFulfilled
+    ),
+    ...setExtraReducer(
+      initiateBookReturnRequest,
+      updateLendRequestStatusFulfilled
     ),
     ...setExtraReducer(cancelBorrowRequest, cancelBorrowRequestFulfilled),
     ...setExtraReducer(declineLendingRequest, declineLendingRequestFulfilled),

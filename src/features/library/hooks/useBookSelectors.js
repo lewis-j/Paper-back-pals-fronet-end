@@ -22,7 +22,9 @@ export const useBookSelectors = (userBooks) => {
   console.log("borrowedBookCategories", borrowedBookCategories);
 
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
+  booksToFriends.push(...(ownedBookCategories.RETURN_REQUESTED || []));
   const booksFromFriends = borrowedBookCategories.CHECKED_OUT || [];
+  booksFromFriends.push(...(borrowedBookCategories.RETURN_REQUESTED || []));
   const booksInLibrary = ownedBookCategories.CHECKED_IN || [];
   const borrowedBookRequests = borrowedBookCategories.CHECKED_IN || [];
 

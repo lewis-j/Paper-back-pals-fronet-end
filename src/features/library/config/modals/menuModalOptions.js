@@ -107,7 +107,11 @@ const getModalConfig = (
           secondaryLoadingText: "Declining...",
           successMessage: `You've accepted the request to lend "${userBook.book.title}" to ${userBook.sender.username}!`,
           secondarySuccessMessage: `You've declined the request to lend "${userBook.book.title}" to ${userBook.sender.username}`,
-          onConfirm: (isPictureRequired) => actions.confirmBorrowRequest(userBook.request._id, isPictureRequired),
+          onConfirm: (isPictureRequired) =>
+            actions.confirmBorrowRequest(
+              userBook.request._id,
+              isPictureRequired
+            ),
           onSecondaryAction: () =>
             actions.declineLendingRequest(userBook.request._id),
         }
@@ -159,6 +163,16 @@ const getModalConfig = (
         buttonText: "Request Extension",
         loadingText: "Requesting Extension...",
         onConfirm: () => actions.extendBorrow(userBook.request._id),
+      });
+
+    case MODAL_TYPES.REQUEST_BOOK_RETURN.value:
+      console.log("userBook in REQUEST_BOOK_RETURN", userBook);
+      return createFormModal("Request Book Return", BaseForm, {
+        ...commonProps,
+        confirmationMsg: `Do you want to request a return for ${userBook.book.title} from ${userBook.sender.username}?`,
+        buttonText: "Request Return",
+        loadingText: "Requesting Return...",
+        onConfirm: () => actions.requestBookReturn(userBook.request._id),
       });
 
     case MODAL_TYPES.INITIATE_BOOK_RETURN.value:
