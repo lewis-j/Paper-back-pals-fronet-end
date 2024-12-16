@@ -1,0 +1,201 @@
+@import "../../style/variables.scss";
+
+$app-disc-start-xs: 53em;
+$app-disc-start-md: 41em;
+$app-disc-start-lg: 46em;
+
+.container {
+  position: relative;
+  height: calc(84em - 33vw);
+  width: 100%;
+  background-image: linear-gradient(244deg, #000000, #444444);
+  box-shadow: inset 2px 1px 10px black;
+
+  @media (min-width: 768px) {
+    height: calc(58em - 4vw);
+  }
+
+  @media (min-width: 1200px) {
+    height: 100vh;
+  }
+}
+
+.imgWrapper {
+  //Photo by <a href="https://unsplash.com/@ninjason?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jason Leung</a> on <a href="https://unsplash.com/s/photos/books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  //https://ishadeed.com/article/clip-path/#multiple-angled-effects
+  $clip-angle: 5em;
+  $clip-height: 1.5em;
+  $div-height: calc(#{$clip-angle} + #{$clip-height});
+  background: url("../../Assets/imgs/home_background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: $app-disc-start-xs;
+  position: absolute;
+  top: 0;
+  background-attachment: fixed;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - #{$clip-angle}), 0 100%);
+
+  @media (min-width: 768px) {
+    height: $app-disc-start-md;
+  }
+  @media (min-width: 1400px) {
+    height: 78vh;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0%;
+    z-index: 1;
+    width: 100%;
+    height: $div-height;
+    background-color: #0606069e;
+    clip-path: polygon(
+      0 $clip-angle,
+      100% 0,
+      100% calc(100% - #{$clip-angle}),
+      0 100%
+    );
+  }
+}
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  width: 100%;
+  position: relative;
+  max-width: 38em;
+  height: 100%;
+  margin: 0 auto;
+  padding: 5px;
+  right: 0;
+  left: 0;
+
+  @media (min-width: 768px) {
+    position: absolute;
+  }
+
+  img {
+    width: 100%;
+    filter: drop-shadow(2px 4px 13px black);
+  }
+}
+.btnWrapper {
+  width: 100%;
+  display: flex;
+  margin: 1em auto;
+  justify-content: center;
+}
+.learnMoreLink {
+  text-decoration: none;
+  color: $grey-2;
+  &:hover {
+    color: white;
+  }
+}
+.toTopBtnContianer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 5em;
+  @media (min-width: 768px) {
+    justify-content: end;
+  }
+}
+.toTopBtn {
+  @media (min-width: 768px) {
+    margin-right: 75px;
+  }
+}
+.appDiscription {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 2em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: $grey-2;
+
+  @media (min-width: 576px) {
+    bottom: 2.5em;
+  }
+
+  @media (min-width: 768px) {
+    bottom: 3em;
+  }
+  @media (min-width: 1200px) {
+    bottom: 5vh;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    width: 70%;
+    max-width: 50em;
+    margin: 1.5em auto;
+  }
+}
+
+.thumbnail {
+  padding: 0.25rem;
+  background-color: #6c6159;
+  border: 1px solid $grey-3;
+  border-radius: 0.25rem;
+  max-width: 100%;
+  height: auto;
+  justify-content: center;
+  box-shadow: $standard-box-shadow;
+}
+
+.filter::after {
+  background-color: rgba(0, 0, 0, 0.4);
+  content: " ";
+  display: block;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tint {
+  position: relative;
+}
+
+.tint::before {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.37);
+  top: 0;
+  left: 0;
+  display: block;
+  content: "";
+}
+
+.tutorialSection {
+  margin-bottom: 3em;
+}
+
+.circle {
+  border: 1px solid $grey-5;
+  width: 2em;
+  height: 2em;
+
+  text-align: center;
+  line-height: 2;
+  filter: drop-shadow(1px 1px 1px black);
+}
