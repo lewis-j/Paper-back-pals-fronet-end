@@ -5,12 +5,15 @@ import {
   BookContainer,
   BookTransferTracker,
   RequestBadge,
+  BookCardBadge,
 } from "../../features/library";
 import styles from "./Library.module.scss";
 import { useState } from "react";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import { useSelector } from "react-redux";
+import { Badge } from "../../components";
+import requestStatus from "../../data/requestStatus";
 
 const Library = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
@@ -31,18 +34,33 @@ const Library = () => {
 
   const mapCheckedOutBooks = (userBook, i) => {
     const { _id, book, sender, dueDate, currentPage } = userBook;
+    const { request } = userBook;
+    const bookCardBadge = { badge: null, clickHandler: () => {} };
+    const toFriendsmenuItems = toFriendsMenuItems(userBook);
+    const cancelReturnRequest = toFriendsmenuItems[2].clickHandler;
+    if (request.status === requestStatus.RETURN_REQUESTED) {
+      bookCardBadge.badge = <Badge.ReturnRequestedBadge />;
+      bookCardBadge.clickHandler = () => {
+        cancelReturnRequest();
+      };
+    }
     return (
       <BookCol key={`LibraryCard:${userBook._id}`}>
-        <UserBookCardSm
-          _id={_id}
-          book={book}
-          menuItems={toFriendsMenuItems(userBook)}
-          user={sender}
-          dueDate={dueDate}
-          currentPage={currentPage}
-          setActive={setActiveCardId}
-          isActive={activeCardId === _id}
-        />
+        <BookCardBadge
+          badge={bookCardBadge.badge}
+          clickHandler={bookCardBadge.clickHandler}
+        >
+          <UserBookCardSm
+            _id={_id}
+            book={book}
+            menuItems={toFriendsmenuItems}
+            user={sender}
+            dueDate={dueDate}
+            currentPage={currentPage}
+            setActive={setActiveCardId}
+            isActive={activeCardId === _id}
+          />
+        </BookCardBadge>
       </BookCol>
     );
   };

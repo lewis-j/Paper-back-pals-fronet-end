@@ -23,10 +23,15 @@ const FriendsPage = () => {
   const isLrgScreen = windowSize === "lg";
 
   const enterUser = async (_id) => {
-    setActiveId(_id);
-    if (!isLrgScreen) setIsOpen(false);
-    await dispatch(getFriendsUserData({ user_id: _id })).unwrap();
-    navigate(`library`);
+    try {
+      setActiveId(_id);
+      if (!isLrgScreen) setIsOpen(false);
+      await dispatch(getFriendsUserData({ user_id: _id })).unwrap();
+      navigate(`library`);
+    } catch (error) {
+      console.error("Error fetching friend data:", error);
+      // Optionally add error handling UI feedback here
+    }
   };
 
   const switchToListView = () => {
