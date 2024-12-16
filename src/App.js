@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
 import * as condition from "./data/asyncStatus";
 import { LandingPage } from "./Pages";
-import { DashboardPage } from "./Pages/Dashboard/DashboardPage";
+import { DashboardPage } from "Pages/Dashboard/DashboardPage";
 import { Loading, PrivateRoute } from "./components";
 import { Navbar, Footer } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
