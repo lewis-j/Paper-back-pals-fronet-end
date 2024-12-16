@@ -31,9 +31,6 @@ const FriendsPage = lazy(() =>
 const FriendsLibrary = lazy(() =>
   import("./Pages").then((module) => ({ default: module.FriendsLibrary }))
 );
-const FriendsProfile = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.FriendsProfile }))
-);
 const ProfilePage = lazy(() =>
   import("./Pages").then((module) => ({ default: module.ProfilePage }))
 );

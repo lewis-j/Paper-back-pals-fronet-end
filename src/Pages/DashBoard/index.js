@@ -1,1 +1,2 @@
-export { default as DashboardPage } from "./DashboardPage";
+import DashboardPageComponent from "./DashboardPage";
+export const DashboardPage = DashboardPageComponent;
