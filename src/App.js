@@ -3,37 +3,37 @@ import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
 import * as condition from "./data/asyncStatus";
-import { LandingPage } from "./Pages";
-import { DashboardPage } from "./Pages/Dashboard/DashboardPage";
+import { LandingPage } from "./pages";
+import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { Loading, PrivateRoute } from "./components";
 import { Navbar, Footer } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
-import { AllResults } from "./Pages/SearchResults/AllResults";
+import { AllResults } from "./pages/SearchResults/AllResults";
 import {
   fetchNotifications,
   NotificationsPanel,
 } from "./features/Notifications";
 import ChatModal from "./features/Chat/components/ChatModal/ChatModal";
 import { setChatOpen } from "./features/Chat/chatSlice";
-import PrivacyPolicy from "./Pages/legal/PrivacyPolicy";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import SlidePanel from "./components/SlidePanel/SlidePanel";
 import { setNotificationsIsOpen } from "./features/Notifications/notificationsSlice";
 
 const Library = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.Library }))
+  import("./pages").then((module) => ({ default: module.Library }))
 );
 const BorrowedPage = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.BorrowedPage }))
+  import("./pages").then((module) => ({ default: module.BorrowedPage }))
 );
 const FriendsPage = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.FriendsPage }))
+  import("./pages").then((module) => ({ default: module.FriendsPage }))
 );
 const FriendsLibrary = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.FriendsLibrary }))
+  import("./pages").then((module) => ({ default: module.FriendsLibrary }))
 );
 const ProfilePage = lazy(() =>
-  import("./Pages").then((module) => ({ default: module.ProfilePage }))
+  import("./pages").then((module) => ({ default: module.ProfilePage }))
 );
 
 function App() {
