@@ -1,4 +1,4 @@
-export { DashboardPage } from "./Dashboard";
+export { DashboardPage } from "./Dashboard/DashboardPage";
 export { LandingPage } from "./Landing";
 export { Library } from "./Library";
 export { BorrowedPage } from "./Borrowed";
