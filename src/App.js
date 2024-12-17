@@ -10,15 +10,8 @@ import { Navbar, Footer } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./pages/SearchResults/AllResults";
-import {
-  fetchNotifications,
-  NotificationsPanel,
-} from "./features/Notifications";
-import ChatModal from "./features/Chat/components/ChatModal/ChatModal";
-import { setChatOpen } from "./features/Chat/chatSlice";
+import { fetchNotifications } from "./features/Notifications";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
-import SlidePanel from "./components/SlidePanel/SlidePanel";
-import { setNotificationsIsOpen } from "./features/Notifications/notificationsSlice";
 
 const Library = lazy(() =>
   import("./pages").then((module) => ({ default: module.Library }))
@@ -40,13 +33,6 @@ function App() {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authUser.status);
   const currentUser = useSelector((state) => state.authUser.currentUser);
-  const isNotificationsOpen = useSelector(
-    (state) => state.notifications.isOpen
-  );
-
-  const setIsNotifOpen = (isOpen) => {
-    dispatch(setNotificationsIsOpen(isOpen));
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,16 +87,6 @@ function App() {
           {/* <Route path="/terms" element={<TermsOfService />} />
   <Route path="/cookies" element={<CookiePolicy />} /> */}
         </Routes>
-
-        <ChatModal />
-        <SlidePanel
-          open={isNotificationsOpen}
-          onClose={() => {
-            setIsNotifOpen(false);
-          }}
-        >
-          <NotificationsPanel />
-        </SlidePanel>
 
         <Footer />
       </Suspense>

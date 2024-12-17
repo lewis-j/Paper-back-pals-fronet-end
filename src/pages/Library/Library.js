@@ -80,7 +80,7 @@ const Library = () => {
     const badgeOnClick = bookRequestMenuItems(userBook)[0].clickHandler;
 
     return (
-      <BookCol key={`LibraryBookCard${_id}`}>
+      <Col sm="4" md="3" xl="2" className="mb-3" key={_id}>
         <RequestBadge
           count={userBook.requests.length}
           clickHandler={() => {
@@ -96,7 +96,7 @@ const Library = () => {
             setActive={setActiveCardId}
           />
         </RequestBadge>
-      </BookCol>
+      </Col>
     );
   };
 

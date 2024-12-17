@@ -7,18 +7,28 @@ const FadeIn = ({ children, delay = 1000, duration = "1s" }) => {
     animationDuration: duration,
   });
 
+  const addFadeInProps = (element, index) => {
+    // If the element is null or not a valid React element, return it as is
+    if (!React.isValidElement(element)) return element;
+
+    const newProps = {
+      style: { ...(element.props.style || {}), ..._style(index) },
+      className: `${element.props.className || ""} ${styles.fadeIn}`,
+    };
+
+    // If the element has children, recursively apply the fade-in to them
+    if (element.props.children) {
+      return React.cloneElement(element, newProps);
+    }
+
+    return React.cloneElement(element, newProps);
+  };
+
   if (Array.isArray(children)) {
-    return children.map((child, i) => {
-      return React.cloneElement(child, {
-        style: _style(i),
-        className: `${child.props.className} ${styles.fadeIn}`,
-      });
-    });
+    return children.map((child, i) => addFadeInProps(child, i));
   }
-  return React.cloneElement(children, {
-    style: _style(1),
-    className: `${children.props.className} ${styles.fadeIn}`,
-  });
+
+  return addFadeInProps(children, 1);
 };
 
 export default FadeIn;

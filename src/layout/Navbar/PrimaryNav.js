@@ -20,6 +20,10 @@ import { searchBooks, setQuery, SearchBar } from "../../features/search";
 import * as NavLinks from "./NavLinks";
 import styles from "./PrimaryNav.module.scss";
 import { setNotificationsIsOpen } from "../../features/Notifications/notificationsSlice";
+import SlidePanel from "../../components/SlidePanel/SlidePanel";
+import ChatModal from "../../features/Chat/components/ChatModal/ChatModal";
+import { NotificationsPanel } from "../../features/Notifications";
+import { useSelector } from "react-redux";
 
 const PrimaryNav = ({ mainViewStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +31,14 @@ const PrimaryNav = ({ mainViewStyle }) => {
   const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isNotificationsOpen = useSelector(
+    (state) => state.notifications.isOpen
+  );
+
+  const setIsNotifOpen = (isOpen) => {
+    dispatch(setNotificationsIsOpen(isOpen));
+  };
 
   // const isSmScreen = useBSSizeFromWidth() === "md";
 
@@ -142,6 +154,15 @@ const PrimaryNav = ({ mainViewStyle }) => {
       </Navbar>
       <div className={mainViewStyle}>
         <Outlet />
+        <ChatModal />
+        <SlidePanel
+          open={isNotificationsOpen}
+          onClose={() => {
+            setIsNotifOpen(false);
+          }}
+        >
+          <NotificationsPanel onClose={() => setIsNotifOpen(false)} />
+        </SlidePanel>
       </div>
     </div>
   );

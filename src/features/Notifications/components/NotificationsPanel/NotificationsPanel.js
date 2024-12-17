@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { NoContent } from "../../../../components";
-import { faBell, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEllipsisV, faX } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import styles from "./NotificationsPanel.module.scss";
 import { NotificationsCard } from "../NotificationsCard";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useNotificationModal from "../NotificationModal/NotificationModal";
 import { markAsRead, markAllAsRead } from "../../notificationsSlice";
 
-const NotificationsPanel = () => {
+const NotificationsPanel = ({ onClose }) => {
   const { list: notifications, status } = useSelector(
     (state) => state.notifications
   );
@@ -109,9 +109,15 @@ const NotificationsPanel = () => {
       <div className={styles.container}>
         <div className={styles.headerContainer}>
           <h3 className={styles.header}>Notifications</h3>
-          <button className={styles.menuButton} onClick={toggleMenu}>
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </button>
+          <div className={styles.menuContainer}>
+            <button className={styles.menuButton} onClick={toggleMenu}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </button>
+            <button className={styles.menuButton} onClick={() => onClose()}>
+              <FontAwesomeIcon icon={faX} />
+            </button>
+          </div>
+
           {menuOpen && (
             <div className={styles.menuDropdown} ref={dropdownRef}>
               <button onClick={handleMarkAllAsRead}>Mark All as Read</button>
