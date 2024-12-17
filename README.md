@@ -10,6 +10,8 @@ Certainly! Here's the full **README** with the brief description of closures add
 
 **Paperback Pals** is a unique platform that enables friends to share and borrow books from their personal libraries. By providing a structured and accountable process, it ensures a seamless borrowing experience while keeping track of book statuses and transactions.
 
+**Note**: This is a portfolio demonstration project and includes basic security measures. In a production environment, additional privacy and security features would be implemented to comply with GDPR, CCPA, and other regulations.
+
 ## Features
 
 - **Add Books**: Seamlessly add books to your library using the Google Books API with search and pagination.
@@ -72,6 +74,8 @@ The book transaction process ensures data consistency and reliability through at
 - **Firebase Authentication** is used for secure login and account management.
 - **JWT** tokens secure backend interactions.
 - Sensitive data is encrypted and stored safely.
+- Basic user privacy features implemented for demonstration purposes.
+- For production deployment, additional privacy compliance features would be required.
 
 ## Real-Time Features
 
