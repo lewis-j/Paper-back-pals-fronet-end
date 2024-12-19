@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
 import * as condition from "./data/asyncStatus";
-import { LandingPage } from "./pages";
+import { LandingPage, SettingsPage, SettingsPages } from "./pages";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { Loading, PrivateRoute } from "./components";
 import { Navbar, Footer } from "./layout";
@@ -79,6 +79,7 @@ function App() {
             <Route path="library" element={<Library />} />
             <Route path="borrowed" element={<BorrowedPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="settings" element={<SettingsPage />} />
             <Route path="friends" element={<FriendsPage />}>
               <Route path="library" element={<FriendsLibrary />} />
             </Route>

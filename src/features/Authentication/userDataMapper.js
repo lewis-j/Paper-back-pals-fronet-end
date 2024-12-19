@@ -19,7 +19,6 @@ const mergeFriendsIntoRequest = (friends, owndedBooks) => {
 };
 
 export const parseAndDispatchUserData = (dispatch, userData) => {
-  console.log("userData", userData);
   const {
     friends = [],
     friendRequestInbox,

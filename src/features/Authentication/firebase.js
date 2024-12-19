@@ -38,10 +38,9 @@ const firebaseParseErrorMsg = (err, defualtMsg) => {
 const loginGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
-    console.log("response in google", res);
     return res;
   } catch (err) {
-    console.log("error in google", err);
+    console.error("error in google", err);
     return Promise.reject(
       firebaseParseErrorMsg(err, "Could not log in to google")
     );

@@ -8,8 +8,6 @@ import {
   Nav,
   NavItem,
   Button,
-  Input,
-  Form,
 } from "reactstrap";
 import { OffCanvasMenu } from "./OffCanvasMenu";
 import { SecondaryNav } from "./SecondaryNav";
@@ -43,15 +41,6 @@ const PrimaryNav = ({ mainViewStyle }) => {
   // const isSmScreen = useBSSizeFromWidth() === "md";
 
   const expandSize = "md";
-
-  const submitSearch = (e) => {
-    e.preventDefault();
-    dispatch(setQuery(searchInput));
-    dispatch(searchBooks({ query: searchInput }));
-    setIsSearching(false);
-    setSearchInput("");
-    navigate("/results");
-  };
 
   const handleClickOutside = useCallback((e) => {
     // Don't close if clicking the search button or search container

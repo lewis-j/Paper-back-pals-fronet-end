@@ -4,3 +4,4 @@ export { Library } from "./Library";
 export { BorrowedPage } from "./Borrowed";
 export { FriendsPage, Library as FriendsLibrary } from "./Friends";
 export { ProfilePage } from "./Profile";
+export { SettingsPage } from "./Settings";
