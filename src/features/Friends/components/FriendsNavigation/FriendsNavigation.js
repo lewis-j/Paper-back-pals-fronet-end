@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { _s } from "../../../../style";
 import { upperFirst } from "../../../../utilities/stringUtil";
 import styles from "./FriendsNavigation.module.scss";
-import { openChatWithFriend, setChatOpen } from "../../../Chat/chatSlice";
+import { openChatWithFriend } from "../../../Chat/chatSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 

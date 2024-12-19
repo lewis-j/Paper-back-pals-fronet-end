@@ -39,7 +39,7 @@ const useNotificationModal = (notifications) => {
       (notification) => notification.id === notification_id
     );
     if (notification.requestType === "BookRequest") {
-      const requestObj = await getBookRequest(notification.requestRef);
+      await getBookRequest(notification.requestRef);
       setRequestType("BookRequest");
       const userBook = findBookFromRequest(notification.requestRef);
       return runBookRequestAction(modalActions, userBook);

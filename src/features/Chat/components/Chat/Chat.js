@@ -5,7 +5,6 @@ import { addMessage, getMessages } from "../../chatSlice";
 import chatStyles from "./Chat.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { get } from "jquery";
 
 const nestURL = process.env.REACT_APP_NEST_URI;
 

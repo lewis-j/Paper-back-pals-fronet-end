@@ -8,7 +8,6 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Button, EditButtons, EditInput } from "../../../../components";
 import styles from "./Profile.module.scss";
-import { setUserName } from "../../firebase";
 import API from "../../../../lib/authAxios";
 
 const Profile = () => {

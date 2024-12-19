@@ -14,7 +14,7 @@ import { SecondaryNav } from "./SecondaryNav";
 import logo from "../../Assets/imgs/pppals_white.png";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { searchBooks, setQuery, SearchBar } from "../../features/search";
+import { SearchBar } from "../../features/search";
 import * as NavLinks from "./NavLinks";
 import styles from "./PrimaryNav.module.scss";
 import { setNotificationsIsOpen } from "../../features/Notifications/notificationsSlice";
@@ -26,7 +26,6 @@ import { useSelector } from "react-redux";
 const PrimaryNav = ({ mainViewStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

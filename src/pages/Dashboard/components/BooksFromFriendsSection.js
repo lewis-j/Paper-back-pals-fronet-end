@@ -1,7 +1,6 @@
 import React from "react";
 import { ResponsiveSlider } from "../../../components";
 import { UserBookCardSm } from "../../../features/library";
-import { getProgressInPercent } from "../../../utilities/bookUtilities";
 
 import styles from "../DashboardPage.module.scss";
 import EmptyStatePrompt from "./EmptyStatePrompt/EmptyStatePrompt";

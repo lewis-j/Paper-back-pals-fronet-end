@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchChatRooms } from "../../chatSlice";
 import styles from "./ChatRoomsList.module.scss";
-import { UserCard } from "../../../Friends/components/UserCard";
 import { Avatar } from "../../../../components";
 import { formatTimestamp } from "../../../../utilities/timeUtil";
 

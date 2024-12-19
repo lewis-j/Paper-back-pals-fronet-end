@@ -1,9 +1,9 @@
-import { useEffect, Suspense, lazy, useState } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
 import * as condition from "./data/asyncStatus";
-import { LandingPage, SettingsPage, SettingsPages } from "./pages";
+import { LandingPage, SettingsPage } from "./pages";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { Loading, PrivateRoute } from "./components";
 import { Navbar, Footer } from "./layout";

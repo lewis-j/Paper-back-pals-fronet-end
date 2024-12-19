@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Container, Row } from "reactstrap";
 import SearchPagination from "../../../../pages/SearchResults/SearchPagination";
 import { StatusHandler } from "../../../../pages/SearchResults/StatusHandler";
-import styles from "./SearchContainer.module.scss";
+// import styles from "./SearchContainer.module.scss";
 
 const SearchContainer = ({
   results,

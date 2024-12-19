@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./ProgressBar.module.scss";
 
 const ProgressBar = ({ value = 0 }) => {

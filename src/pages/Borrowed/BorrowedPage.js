@@ -1,6 +1,5 @@
 import { Col, Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { IconBookOff } from "@tabler/icons";
 import { UserBookCardSm, BookContainer } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { nextBookRequestStatus } from "../../features/library/userBookCalls";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
-import { useState } from "react";
 import BookTransferTracker from "../../features/library/components/BookTransferTracker/BookTransferTracker";
 
 const BorrowedPage = () => {

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styles from "./DashboardPage.module.scss";
 import CurrentReadSection from "./components/CurrentReadSection";
 import BooksFromFriendsSection from "./components/BooksFromFriendsSection";

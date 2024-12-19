@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import styles from "./SlidePanel.module.scss";
 import { _s } from "../../style";
 

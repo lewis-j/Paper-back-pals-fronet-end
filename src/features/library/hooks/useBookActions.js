@@ -8,7 +8,6 @@ import {
   updateCurrentRead,
   updateBorrowRequestStatus,
   updateLendRequestStatus,
-  selectRequestById,
   initiateBookReturnRequest,
   cancelBookReturnRequest,
 } from "../userBooksSlice";
@@ -39,21 +38,22 @@ export const useBookActions = () => {
       return false;
     }
   };
-  const confirmBorrowRequestAndMarkNotificationAsRead = async (
-    request_id,
-    isPictureRequired
-  ) => {
-    if (isPictureRequired) {
-      //mark
-    } else {
-      requestActionAndMarkNotificationAsRead(
-        request_id,
-        REQUEST_OWNER.BORROWER,
-        REQUEST_STATUS.ACCEPTED,
-        "error in confirmBorrowRequest"
-      );
-    }
-  };
+  //TODO: add this back in
+  // const confirmBorrowRequestAndMarkNotificationAsRead = async (
+  //   request_id,
+  //   isPictureRequired
+  // ) => {
+  //   if (isPictureRequired) {
+  //     //mark
+  //   } else {
+  //     requestActionAndMarkNotificationAsRead(
+  //       request_id,
+  //       REQUEST_OWNER.BORROWER,
+  //       REQUEST_STATUS.ACCEPTED,
+  //       "error in confirmBorrowRequest"
+  //     );
+  //   }
+  // };
 
   const requestBookReturn = async (request_id) => {
     return await dispatchAction(

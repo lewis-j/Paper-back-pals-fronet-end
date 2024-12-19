@@ -1,8 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
 import { UserRequestCard, SearchCard } from "../../../features/search";
 import { processBookResults } from "../../../utilities/bookUtilities";
-import { addBook } from "../../../features/library";
 import { StatusHandler } from "../StatusHandler";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +9,6 @@ import styles from "./AllResults.module.scss";
 import * as asyncStatus from "../../../data/asyncStatus";
 import { useState, useEffect } from "react";
 import SearchPagination from "../SearchPagination";
-import { useRef } from "react";
 import { shortenString } from "../../../utilities/stringUtil";
 import { useAddBookModal } from "../../../features/search/hooks/useAddBookModal";
 import { useLocation } from "react-router-dom";

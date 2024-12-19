@@ -1,8 +1,7 @@
 import styles from "./BookContainer.module.scss";
 import { IconBookOff } from "@tabler/icons";
-import { faArrowDown, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { NoContent, Placeholder, Button, FadeIn } from "../../../../components";
-import { useNavigate } from "react-router-dom";
 import { Col } from "reactstrap";
 import { useState } from "react";
 
@@ -18,7 +17,6 @@ const defaultNoContent = {
 const BookContainer = ({ children: cards, noContent = defaultNoContent }) => {
   const [renderBookCount, setRenderBookCount] = useState(12);
   const [loadingSection, setLoadingSection] = useState(false);
-  const navigate = useNavigate();
 
   const handleClick = () => {
     setLoadingSection(true);
