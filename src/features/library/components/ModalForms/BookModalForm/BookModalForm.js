@@ -66,7 +66,6 @@ const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
 };
 
 const BookDetailsView = ({ userBook, onClose }) => {
-  console.log("userBook in BookDetailsView", userBook);
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
@@ -88,8 +87,6 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   const { openModal } = useModal();
   const requests = userBook.requests;
 
-  console.log("requests in BorrowRequestsList", requests);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -100,11 +97,6 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
   };
 
   const handleRequestClick = (request) => {
-    console.log("userBook in handleRequestClick", {
-      ...userBook,
-      request,
-      sender: request.sender,
-    });
     onClose();
     openModal(MODAL_TYPES.CONFIRM_BORROW_REQUEST, {
       userBook: { ...userBook, request, sender: request.sender },

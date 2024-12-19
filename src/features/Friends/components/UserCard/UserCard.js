@@ -7,8 +7,6 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 const UserCard = ({ _id, username, profilePic, menuItems = [] }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
-  console.log(menuItems);
-  console.log("is menu open", menuOpen);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

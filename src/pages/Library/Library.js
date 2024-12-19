@@ -8,7 +8,6 @@ import {
   BookCardBadge,
 } from "../../features/library";
 import styles from "./Library.module.scss";
-import { useState } from "react";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import { useSelector } from "react-redux";
@@ -69,7 +68,6 @@ const Library = () => {
     const { _id, book, status } = userBook;
     const { coverImg, title } = book;
     const cardInfo = { coverImg, title, status };
-    console.log("bookcard in library", userBook);
     const checkedInMenuItems = (userBook) => {
       if (userBook.requests.length > 0) {
         return bookRequestMenuItems(userBook);
@@ -84,7 +82,6 @@ const Library = () => {
         <RequestBadge
           count={userBook.requests.length}
           clickHandler={() => {
-            console.log("badge clicked");
             badgeOnClick();
           }}
         >

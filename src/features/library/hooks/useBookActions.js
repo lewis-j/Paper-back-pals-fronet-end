@@ -32,7 +32,6 @@ export const useBookActions = () => {
   // Helper function to handle dispatch operations
   const dispatchAction = async (action, errorMessage = null) => {
     try {
-      console.log("dispatching action", action);
       await dispatch(action).unwrap();
       return true;
     } catch (error) {
@@ -101,7 +100,6 @@ export const useBookActions = () => {
       // Only mark notification as read if request update was successful
       if (requestUpdateSuccess) {
         const notification_id = selectNotificationByRequestRefId(request_id);
-        console.log("notification_id", notification_id);
         return await dispatchAction(
           markAsRead(notification_id),
           "error in mark notification as read"

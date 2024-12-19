@@ -53,7 +53,6 @@ const statusConfig = {
 };
 
 const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
-  console.log("userBook", userBook);
   const currentStatus = userBook.request?.status;
   const currentStatusConfig = statusConfig[currentStatus];
 

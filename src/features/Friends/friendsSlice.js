@@ -76,11 +76,9 @@ const friendsSlice = createSlice({
       state.friendRequestInbox = action.payload.friendRequestInbox;
     },
     setFriendRequestOutbox: (state, action) => {
-      console.log("setFriendRequestOutbox", action.payload);
       state.friendRequestOutbox = action.payload.friendRequestOutbox;
     },
     updateFriendsBookRequests: (state, { payload }) => {
-      console.log("updateFriendsBookRequests", payload);
       const {
         currentFriend: { ownedBooks },
       } = state;

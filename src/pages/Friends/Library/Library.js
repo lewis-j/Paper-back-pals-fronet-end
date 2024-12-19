@@ -19,7 +19,6 @@ const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
   const currentUser = useSelector((state) => state.authUser.currentUser);
   const { username, ownedBooks } = currentFriend;
-  console.log("ownedBooks", ownedBooks);
   const books = ownedBooks.map((book) => ({
     ...book,
     owner: {

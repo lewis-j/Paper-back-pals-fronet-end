@@ -75,7 +75,6 @@ const updateLendRequestStatusFulfilled = (state, action) => {
 };
 
 const updateBorrowRequestStatusFulfilled = (state, action) => {
-  console.log("action in updateBorrowRequestStatusFulfilled", action);
   const request_id = action.payload.bookRequest._id;
   // Update the request status in the borrowed books array
   const bookIdx = state.books.borrowed.findIndex(
@@ -190,7 +189,6 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
     const request = bookFromOwned.requests.find(
       (req) => req._id === request_id
     );
-    console.log("bookFromOwned request", request);
     return {
       ...bookFromOwned,
       isOwned: true,
@@ -199,7 +197,6 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
     };
   }
   if (bookFromBorrowed) {
-    console.log("bookFromBorrowed", bookFromBorrowed);
     return {
       ...bookFromBorrowed,
       isOwned: false,

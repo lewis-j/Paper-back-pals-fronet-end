@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import { logout } from "../../../features/Authentication";
 import styles from "./NavLinks.module.scss";
 import { useDispatch } from "react-redux";
-import { setNotificationsIsOpen } from "../../../features/Notifications/notificationsSlice";
 
 const generateClass = (className) => {
   const _className = className

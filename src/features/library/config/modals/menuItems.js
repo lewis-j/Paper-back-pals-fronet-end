@@ -121,7 +121,6 @@ export const getMenuItems = (modalActions, book_id) => {
     },
     friendsBooks: (userBook) => {
       // const userBook = getUserBookById(userBooks);
-      console.log("userBook", userBook);
       return [
         {
           text: "Book Details",

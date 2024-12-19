@@ -24,7 +24,6 @@ const useNotificationModal = (notifications) => {
   };
 
   const openModal = (type, data) => {
-    console.log("type", type, data);
     const config = MODAL_TYPES[type];
     if (!config) {
       console.warn(`No configuration found for modal type: ${type}`);

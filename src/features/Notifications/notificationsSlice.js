@@ -73,7 +73,6 @@ export const selectNotificationByRequestRefIdCreator =
     const notification = state.notifications.list.find(
       (notification) => notification.requestRef === requestRefId
     );
-    console.log("notification", notification);
     if (!notification?.id) {
       console.warn(`No notification found for requestRefId: ${requestRefId}`);
       return null;

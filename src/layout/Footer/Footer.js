@@ -5,7 +5,6 @@ import {
   faGithub,
   faLinkedin,
   faTwitter,
-  faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   ListGroup,

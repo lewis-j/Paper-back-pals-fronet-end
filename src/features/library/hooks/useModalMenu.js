@@ -34,7 +34,6 @@ export const useModalMenu = () => {
   const menuItems = getMenuItems(modalActions, activeCardId);
 
   const renderModal = () => {
-    console.log("modal in renderModal", modal);
     return (
       <ModalContext.Provider value={{ openModal: modalActions.openModal }}>
         <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>

@@ -25,7 +25,6 @@ const ChatModal = () => {
   const selectedUser =
     useSelector(getParticipant(participantId)) ||
     friends.find((friend) => friend._id === participantId);
-  console.log("selectedUser", selectedUser);
 
   const [activeTab, setActiveTab] = useState("contacts");
 

@@ -73,7 +73,8 @@ const Profile = () => {
     if (img) handleFileUpload();
 
     if (someTrue(remainingEdits)) {
-      console.log("submit form");
+      alert("submit form");
+      // TODO: update user data
     }
     onCancel();
   };

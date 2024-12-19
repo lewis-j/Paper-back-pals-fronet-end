@@ -32,8 +32,6 @@ const CurrentReadSection = ({
 
     const { _id, owner, book, dueDate, currentPage } = currentRead;
 
-    console.log("currentRead", currentRead);
-
     return (
       <UserBookCardLrg
         _id={_id}

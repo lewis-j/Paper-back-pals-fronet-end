@@ -1,9 +1,7 @@
 import requestStatus from "../../../data/requestStatus";
 
 export const categorizeOwnedBooksByStatus = (ownedBooks) => {
-  console.log("ownedBooks in categorizeOwnedBooksByStatus", ownedBooks);
   let categorizedBooks = {};
-  console.log("request slice", Object.keys(requestStatus).slice(1, -1));
   ownedBooks.forEach((userBook) => {
     // Find the first active request (if any)
     const activeRequest = userBook.requests.find((request) =>
@@ -44,10 +42,6 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
 };
 
 export const categorizeBorrowedBooksByStatus = (borrowedBooks) => {
-  console.log(
-    "borrowedBooks in categorizeBorrowedBooksByStatus",
-    borrowedBooks
-  );
   const categorizedBooks = {};
   borrowedBooks.forEach((userBook) => {
     const status = userBook.request.status;

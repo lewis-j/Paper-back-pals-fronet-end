@@ -42,13 +42,11 @@ export const getBookRequest = async (request_id) => {
 };
 
 export const createBookRequest = async (userBook_id, { dispatch }) => {
-  console.log("userBook_id", userBook_id);
   try {
     const res = await API.post(`/user-books/request`, { userBook_id });
     const { bookRequest, notification } = res.data;
     dispatch(addNotification({ notification }));
     dispatch(updateFriendsBookRequests({ bookRequest, userBook_id }));
-    console.log("BookRequest", bookRequest);
     return { bookRequest };
   } catch (error) {
     console.error("Failed to create book request:", error);
@@ -81,7 +79,6 @@ export const cancelBorrowRequest = async (request_id, { dispatch }) => {
 };
 
 export const updateCurrentRead = async (userBook_id) => {
-  console.log("userBook_id in updateCurrentRead", userBook_id);
   try {
     const res = await API.put(`/user/setCurrentRead/${userBook_id}`);
     if (!res.data.currentRead) {
@@ -103,7 +100,6 @@ export const nextBookRequestStatus = async (
       status,
     });
     const { notification, bookRequest } = res.data;
-    console.log("bookRequest in nextBookRequestStatus", bookRequest);
     dispatch(addNotification({ notification }));
     return { notification, bookRequest };
   } catch (error) {
@@ -117,7 +113,6 @@ export const initiateBookReturnRequest = async (
   { dispatch }
 ) => {
   try {
-    console.log("request_id in initiateBookReturnRequest", request_id);
     const res = await API.put(
       `/user-books/request/${request_id}/status/return`,
       {
@@ -125,7 +120,6 @@ export const initiateBookReturnRequest = async (
       }
     );
     const { notification, bookRequest } = res.data;
-    console.log("bookRequest in nextBookRequestStatus", bookRequest);
     dispatch(addNotification({ notification }));
     return { notification, bookRequest };
   } catch (error) {

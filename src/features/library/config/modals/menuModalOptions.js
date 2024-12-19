@@ -166,7 +166,6 @@ const getModalConfig = (
       });
 
     case MODAL_TYPES.REQUEST_BOOK_RETURN.value:
-      console.log("userBook in REQUEST_BOOK_RETURN", userBook);
       return createFormModal("Request Book Return", BaseForm, {
         ...commonProps,
         confirmationMsg: `Do you want to request a return for ${userBook.book.title} from ${userBook.sender.username}?`,
@@ -193,7 +192,6 @@ const getModalConfig = (
       });
 
     case MODAL_TYPES.BORROWER_CONFIRM_RETURN.value:
-      console.log("userBook in BORROWER_CONFIRM_RETURN", userBook);
       return createFormModal("Borrower Confirm Return", BaseForm, {
         ...commonProps,
         confirmationMsg: `Confirm return of "${userBook.book.title}" to ${userBook.owner.username}?`,

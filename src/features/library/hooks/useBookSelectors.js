@@ -15,11 +15,9 @@ export const useBookSelectors = (userBooks) => {
   const ownedBookCategories = userBooks?.books?.owned
     ? categorizeOwnedBooksByStatus(userBooks.books.owned)
     : [];
-  console.log("ownedBookCategories", ownedBookCategories);
   const borrowedBookCategories = userBooks?.books?.borrowed
     ? categorizeBorrowedBooksByStatus(userBooks.books.borrowed)
     : [];
-  console.log("borrowedBookCategories", borrowedBookCategories);
 
   const booksToFriends = ownedBookCategories.CHECKED_OUT || [];
   booksToFriends.push(...(ownedBookCategories.RETURN_REQUESTED || []));
@@ -43,8 +41,6 @@ export const useBookSelectors = (userBooks) => {
   const borrowedbooksInTransition = getBooksInTransition(
     borrowedBookCategories
   );
-
-  console.log("booksInTransition", ownedbooksInTransition);
   // ... existing code ...
   // Get owned book requests
   const ownedBookRequests =
