@@ -29,7 +29,7 @@ const Modal = ({ children, title, onClose, isOpen, style }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>
-          <h5>{title}</h5>
+          <h3>{title}</h3>
           <span className={styles.closeBtn} onClick={() => onClose()}>
             <FontAwesomeIcon icon={faXmark} />
           </span>

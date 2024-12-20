@@ -9,12 +9,14 @@
 
 .bookCard {
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   align-items: flex-start;
 }
 
 .imgContainer {
   flex-shrink: 0;
+  margin: 0 auto;
   width: 120px;
   height: 180px;
   border-radius: 4px;
@@ -41,6 +43,7 @@
 
 .title {
   font-family: $heading-font;
+  text-align: center;
   color: $title-color;
   font-size: 1.5rem;
   margin: 0;
@@ -48,6 +51,7 @@
 
 .authors {
   font-family: $paragraph-font;
+  text-align: center;
   color: $secondary-color;
   font-size: 0.9rem;
   margin: 0;
@@ -98,10 +102,19 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 1rem;
+  }
+
+  .bookHeader {
+    padding: 1rem;
   }
 
   .ownerInfo,
   .dueDateList {
     justify-content: center;
+  }
+
+  .title {
+    font-size: 1rem;
   }
 }

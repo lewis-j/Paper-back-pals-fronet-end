@@ -21,7 +21,15 @@
 
 .label {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: bold;
   color: $title-color;
   font-family: $heading-font;
+  margin-left: 1rem;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+    padding: 0rem;
+  }
 }
