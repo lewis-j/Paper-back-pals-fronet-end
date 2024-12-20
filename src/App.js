@@ -35,17 +35,19 @@ function App() {
   const currentUser = useSelector((state) => state.authUser.currentUser);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (userStatus === condition.IDLE) {
-        try {
-          await dispatch(fetchUser()).unwrap();
-        } catch (error) {
+    if (
+      !window.location.pathname.includes("landing-page") &&
+      userStatus === condition.IDLE
+    ) {
+      dispatch(fetchUser())
+        .unwrap()
+        .catch((error) => {
+          if (error.status === 401) {
+            window.location.href = "/landing-page";
+          }
           console.error("Failed to fetch user:", error);
-        }
-      }
-    };
-
-    fetchData();
+        });
+    }
   }, [dispatch, userStatus]);
 
   useEffect(() => {
@@ -56,41 +58,40 @@ function App() {
 
   return (
     <div className={styles.wrapper}>
-      <Suspense fallback={<Loading />}>
-        <Routes>
-          <Route path="landing-page" element={<LandingPage />}>
-            <Route index element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-          </Route>
+      <Routes>
+        <Route path="landing-page" element={<LandingPage />}>
+          <Route index element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
 
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Suspense fallback={<Loading />}>
                 <div className={styles.pageContent}>
                   <Navbar mainViewStyle={styles.mainView} />
                 </div>
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<DashboardPage />} />
-            <Route path="results" element={<AllResults />} />
-            <Route path="library" element={<Library />} />
-            <Route path="borrowed" element={<BorrowedPage />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="settings" element={<SettingsPage />} />
-            <Route path="friends" element={<FriendsPage />}>
-              <Route path="library" element={<FriendsLibrary />} />
-            </Route>
+              </Suspense>
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<DashboardPage />} />
+          <Route path="results" element={<AllResults />} />
+          <Route path="library" element={<Library />} />
+          <Route path="borrowed" element={<BorrowedPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="friends" element={<FriendsPage />}>
+            <Route path="library" element={<FriendsLibrary />} />
           </Route>
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          {/* <Route path="/terms" element={<TermsOfService />} />
-  <Route path="/cookies" element={<CookiePolicy />} /> */}
-        </Routes>
+        </Route>
 
-        <Footer />
-      </Suspense>
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+      </Routes>
+
+      <Footer />
     </div>
   );
 }
