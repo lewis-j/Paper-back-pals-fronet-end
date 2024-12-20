@@ -22,6 +22,10 @@
   border-radius: 4px;
   overflow: hidden;
   box-shadow: $standard-box-shadow;
+  @media (max-width: 480px) {
+    width: 94px;
+    height: 140px;
+  }
 
   &:hover {
     @include hover-link;
@@ -103,6 +107,10 @@
     align-items: center;
     text-align: center;
     gap: 1rem;
+  }
+
+  .details {
+    gap: 0px;
   }
 
   .bookHeader {

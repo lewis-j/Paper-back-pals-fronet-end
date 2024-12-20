@@ -7,6 +7,10 @@
   padding: 1rem;
   max-width: 540px;
   margin: 0 auto;
+  @media (max-width: 480px) {
+    gap: 0px;
+    justify-content: space-between;
+  }
 }
 
 .formContent {
