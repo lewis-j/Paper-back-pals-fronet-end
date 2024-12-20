@@ -44,12 +44,14 @@ const Hero = () => {
       </div>
 
       <div className={styles.appDiscription}>
-        <h2> A social book tracker</h2>
+        <h2>Track Your Book Journey</h2>
         <p>
-          Sometimes we all lend out books only to foget were they ended up. And
-          sometimes we don't realize we're holding onto books that we borrowed
-          from someone else. This is a web app that helps you to keep track of
-          the paperback books that you lent or borrowed between your friends.
+          Ever wondered where that favorite novel disappeared to? Or suddenly
+          remembered you still have your friend's book from last summer?
+          PaperPals helps you keep track of your borrowed and lent books, making
+          sure your literary treasures always find their way home. Simple,
+          social, and perfect for book lovers who love sharing their collections
+          with friends.
         </p>
       </div>
     </div>

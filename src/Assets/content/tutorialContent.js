@@ -4,9 +4,9 @@ const { assortment_books, front_composition_books, open_book } = images;
 
 const tutorialContent = [
   {
-    header: "Find Books you'd like to lend",
+    header: "Build Your Lending Library",
     paragraph:
-      "Add a list of books to your lending library and let friends request to borrow them!",
+      "Create your personal collection of books available for lending and let friends browse what you're willing to share!",
     img: {
       src: assortment_books,
       alt: "pile of books",
@@ -14,22 +14,22 @@ const tutorialContent = [
     imgRight: false,
   },
   {
-    header: "Give your friends your paperback book",
+    header: "Share Books With Friends",
     paragraph:
-      "Approve their book request, and once you've passed that book on to them confirm the pass was completed",
+      "Approve borrowing requests and track when books change hands. Keep your lending history organized and clear.",
     img: {
       src: front_composition_books,
-      alt: "passing a book",
+      alt: "sharing books between friends",
     },
     imgRight: true,
   },
   {
-    header: "Track Your friends reading progress",
+    header: "Track Reading Progress",
     paragraph:
-      "Check in to see your freinds remaining page counts. See how far they are from their projected due date.",
+      "Follow your friends' reading progress and see their page counts. Stay updated on projected return dates and keep your library organized.",
     img: {
       src: open_book,
-      alt: "passing a book",
+      alt: "open book showing progress",
     },
     imgRight: false,
   },
