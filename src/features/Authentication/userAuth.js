@@ -26,6 +26,7 @@ const loginWithGoogle = async (_, { dispatch }) => {
     const user = await authApi.googleAuth(token);
     return parseSlice(dispatch, user);
   } catch (err) {
+    console.error("error", err);
     return Promise.reject(err);
   }
 };

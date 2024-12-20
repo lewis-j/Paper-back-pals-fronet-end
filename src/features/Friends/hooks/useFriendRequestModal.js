@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { MODAL_TYPES, useFriendModalActions } from "./friendModalTyps";
+import {
+  MODAL_TYPES,
+  useFriendModalActions,
+} from "./friendModalTypesAndActions";
 import { Modal } from "../../../components";
 import FriendModalContent from "../components/FriendModalContent/FriendModalContent";
 
@@ -25,36 +28,10 @@ export const useFriendRequestModal = () => {
 
   const friendModalActions = useFriendModalActions(openModal);
 
-  const getModalContent = (type, data) => {
-    if (!data) return null;
-    switch (type) {
-      case MODAL_TYPES.MAKE_FRIEND_REQUEST.value:
-        return (
-          <FriendModalContent.MakeFriendRequest
-            user={data}
-            onClose={closeModal}
-          />
-        );
-      case MODAL_TYPES.ACCEPT_FRIEND_REQUEST.value:
-        return (
-          <FriendModalContent.AcceptFriendRequest
-            user={data}
-            onClose={closeModal}
-          />
-        );
-      case MODAL_TYPES.REMOVE_FRIEND.value:
-        return (
-          <FriendModalContent.RemoveFriend user={data} onClose={closeModal} />
-        );
-      default:
-        return null;
-    }
-  };
-
   const renderModal = () => {
     return (
       <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>
-        {getModalContent(modal.type, modal.data)}
+        <FriendModalContent modal={modal} onClose={closeModal} />
       </Modal>
     );
   };

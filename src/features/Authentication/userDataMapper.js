@@ -6,25 +6,28 @@ import {
 } from "../Friends";
 import { setBooks, setCurrentRead } from "../library";
 
-const mergeFriendsIntoRequest = (friends, owndedBooks) => {
-  return owndedBooks.map((book) => {
-    const requests = book.requests.map((request) => {
-      const friend = friends.find(
-        (friend) => friend._id === request.sender._id
-      );
-      return { ...request, sender: friend };
-    });
+const mergeFriendsIntoRequest = (friends, ownedBooks) => {
+  if (!ownedBooks) return [];
+  return ownedBooks.map((book) => {
+    const requests =
+      book.requests?.map((request) => {
+        const friend = friends.find(
+          (friend) => friend._id === request.sender._id
+        );
+        return { ...request, sender: friend };
+      }) ?? [];
     return { ...book, requests };
   });
 };
 
 export const parseAndDispatchUserData = (dispatch, userData) => {
+  console.log(userData);
   const {
     friends = [],
     friendRequestInbox,
     friendRequestOutbox,
-    ownedBooks: owned,
-    borrowedBooks: borrowed,
+    ownedBooks: owned = [],
+    borrowedBooks: borrowed = [],
     currentRead,
     ...user
   } = userData;
@@ -41,5 +44,6 @@ export const parseAndDispatchUserData = (dispatch, userData) => {
     const mergedfriendIntoBooks = mergeFriendsIntoRequest(friends, owned);
     dispatch(setBooks({ borrowed, owned: mergedfriendIntoBooks }));
   });
+  console.log("user after mapping", user);
   return { user };
 };
