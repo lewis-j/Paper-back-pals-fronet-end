@@ -1,4 +1,4 @@
-@import "../../style/variables.scss";
+@import "../../../../style/variables.scss";
 
 .navbar {
   background-image: linear-gradient($gradient-color-1, #ababab);
@@ -8,6 +8,8 @@
   position: fixed;
   width: 100%;
   top: 0;
+  display: flex;
+  align-items: center;
 
   @media (min-width: 768px) {
     height: 3rem;
@@ -20,6 +22,9 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 0 1rem;
 }
 
 .logo {
@@ -35,10 +40,12 @@
 
 .primaryNav {
   display: flex;
-  gap: 2rem;
-  margin-left: 2rem;
+  gap: 1rem;
+  margin-left: 1rem;
   flex-shrink: 0;
   text-align: center;
+  align-items: center;
+  height: 100%;
 
   @media (min-width: 992px) {
     margin-right: 1em;
@@ -53,7 +60,8 @@
   font-size: 1rem;
   cursor: pointer;
   transition: opacity 0.2s;
-  margin-right: 1em;
+  height: fit-content;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;
@@ -62,42 +70,71 @@
 
 .searchContainer {
   flex: 1;
-  width: 65vw;
-  max-width: 50vw;
-  margin: 0 2rem;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  min-width: 100px;
+  max-width: none;
+}
 
-  @media (min-width: 576px) {
-    width: 50vw;
-  }
+.searchInput {
+  width: 100%;
 }
 
 .secondaryNav {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-shrink: 0;
   justify-content: flex-end;
+  height: 100%;
 
   @media (min-width: 992px) {
     margin-right: 1em;
   }
 }
 
-.iconButton {
-  color: white;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+$iconSize: 1.5em;
 
-  &:hover {
-    opacity: 0.8;
+.iconButton {
+  position: relative;
+  width: $iconSize;
+  height: $iconSize;
+  margin-right: 0.5em;
+  background-color: inherit;
+  color: inherit;
+  padding: 0;
+  text-decoration: none;
+  border: 0;
+
+  svg {
+    border-radius: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    font-size: 1em;
+    background-color: $grey-1;
+    padding: 4px;
+    color: #7d7d7d;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 1px 1px 14px $grey-5;
+    }
   }
+}
+
+.friendsIcon {
+  font-size: 1em;
+  background-color: $grey-1;
+  padding: 4px;
+  color: #7d7d7d;
+}
+
+.iconButton:last-child svg {
+  background-color: transparent;
+  color: white;
+  padding: 0;
 }
 
 .profileMenu {

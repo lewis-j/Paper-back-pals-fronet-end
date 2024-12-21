@@ -1,0 +1,15 @@
+.searchInput {
+  width: 65vw;
+  @media (min-width: 576px) {
+    width: 50vw;
+  }
+}
+
+.logo {
+  width: 14rem;
+  filter: drop-shadow(1px 2px 8px $grey-10);
+  cursor: pointer;
+  &:hover {
+    transform: scale(0.98);
+  }
+}

@@ -12,6 +12,7 @@ import styles from "./style/App.module.scss";
 import { AllResults } from "./pages/SearchResults/AllResults";
 import { fetchNotifications } from "./features/Notifications";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import MainNav from "./layout/Navigation/components/MainNav/MainNav";
 
 const Library = lazy(() =>
   import("./pages").then((module) => ({ default: module.Library }))
@@ -72,6 +73,7 @@ function App() {
               <Suspense fallback={<Loading />}>
                 <div className={styles.pageContent}>
                   <Navbar mainViewStyle={styles.mainView} />
+                  {/* <MainNav /> */}
                 </div>
               </Suspense>
             </PrivateRoute>

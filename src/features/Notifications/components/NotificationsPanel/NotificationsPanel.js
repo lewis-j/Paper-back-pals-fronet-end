@@ -107,8 +107,14 @@ const NotificationsPanel = ({ onClose }) => {
           text="You currently don't have notifications"
         />
       );
-    return (
-      <>
+    return showReadNotifications
+      ? _notifications.read.map(renderReadNotifications)
+      : _notifications.unread.map(renderUnreadNotifications);
+  };
+
+  return (
+    <>
+      <div className={styles.container}>
         <div className={styles.headerContainer}>
           <h3 className={styles.header}>Notifications</h3>
           <div className={styles.menuContainer}>
@@ -131,18 +137,8 @@ const NotificationsPanel = ({ onClose }) => {
             </div>
           )}
         </div>
-        <div className={styles.notifications}>
-          {showReadNotifications
-            ? _notifications.read.map(renderReadNotifications)
-            : _notifications.unread.map(renderUnreadNotifications)}
-        </div>
-      </>
-    );
-  };
-
-  return (
-    <>
-      <div className={styles.container}>{renderNotifications()}</div>
+        <div className={styles.notifications}>{renderNotifications()}</div>
+      </div>
       {renderModal()}
     </>
   );
