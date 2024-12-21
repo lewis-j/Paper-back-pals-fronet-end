@@ -100,7 +100,7 @@ const Library = () => {
   return (
     <>
       {renderModal()}
-      <Container>
+      <Container className={styles.container}>
         <div className={styles.title}>
           <h1>Your Library</h1>
         </div>

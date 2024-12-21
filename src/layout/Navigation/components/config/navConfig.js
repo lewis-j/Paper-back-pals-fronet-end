@@ -35,9 +35,20 @@ export const navItems = {
       action: "toggleChat",
     },
     { id: "friends", label: "Friends", icon: faUsers, path: "/friends" },
-    { id: "profile", label: "Profile", icon: faCircleUser, path: "/profile" },
+    {
+      id: "profile",
+      label: "Profile",
+      icon: faCircleUser,
+      action: "openProfileMenu",
+    },
   ],
-  profile: [
+  accountMenu: [
+    {
+      id: "profile",
+      label: "Profile",
+      icon: faCircleUser,
+      path: "/profile",
+    },
     { id: "settings", label: "Settings", icon: faCog, path: "/settings" },
     { id: "logout", label: "Logout", icon: faSignOut, action: "logout" },
   ],

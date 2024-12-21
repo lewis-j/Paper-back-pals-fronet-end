@@ -79,7 +79,7 @@ const SearchBar = ({ expandSize, customStyles, onClose, mobileView }) => {
   };
 
   return (
-    <div className={`${!mobileView ? `d-none d-${expandSize}-block` : ""}`}>
+    <div className={styles.searchBar}>
       <Form
         onSubmit={onSubmitForm}
         className={`d-flex bg-white ${customStyles || styles.rounded} ${

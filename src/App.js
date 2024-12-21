@@ -72,8 +72,8 @@ function App() {
             <PrivateRoute>
               <Suspense fallback={<Loading />}>
                 <div className={styles.pageContent}>
-                  <Navbar mainViewStyle={styles.mainView} />
-                  {/* <MainNav /> */}
+                  {/* <Navbar mainViewStyle={styles.mainView} /> */}
+                  <MainNav />
                 </div>
               </Suspense>
             </PrivateRoute>

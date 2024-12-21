@@ -1,4 +1,8 @@
 @import "../../../../style/variables.scss";
+
+.searchBar {
+  display: block;
+}
 .dropdown {
   &__container {
     position: relative;

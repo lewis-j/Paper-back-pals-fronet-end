@@ -8,17 +8,21 @@ import { setNotificationsIsOpen } from "../../../../features/Notifications/notif
 import { setChatOpen } from "../../../../features/Chat/chatSlice";
 import { SearchBar } from "../../../../features/search";
 
-const DesktopNavigation = () => {
+const DesktopNavigation = ({ openProfileMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleAction = (action) => {
     switch (action) {
       case "toggleNotifications":
+        console.log("toggle notifications");
         dispatch(setNotificationsIsOpen(true));
         break;
       case "toggleChat":
         dispatch(setChatOpen(true));
+        break;
+      case "openProfileMenu":
+        openProfileMenu();
         break;
       case "logout":
         // Handle logout
@@ -54,7 +58,7 @@ const DesktopNavigation = () => {
 
         {/* Search Bar */}
         <div className={styles.searchContainer}>
-          <SearchBar expandSize="md" customStyles={styles.searchInput} />
+          <SearchBar expandSize="md" />
         </div>
 
         {/* Secondary Icons */}

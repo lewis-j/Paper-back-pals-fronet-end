@@ -65,7 +65,7 @@ const BorrowedPage = () => {
   return (
     <>
       {renderModal()}
-      <Container>
+      <Container className={styles.container}>
         <BookTransferTracker
           booksInTransition={borrowedbooksInTransition}
           onConfirmPickup={handleConfirmPickup}
