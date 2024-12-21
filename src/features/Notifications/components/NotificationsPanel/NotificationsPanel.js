@@ -48,11 +48,6 @@ const NotificationsPanel = ({ onClose }) => {
 
   const _notifications = processNotifications(notifications);
 
-  if (notifications.length === 0)
-    return (
-      <NoContent icon={faBell} text="You currently don't have notifications" />
-    );
-
   const renderUnreadNotifications = (notification, i) => {
     const { requestRef, requestType, _id, __v, ...remaining } = notification;
     const notificationProps = { ...remaining, _id };
@@ -104,9 +99,16 @@ const NotificationsPanel = ({ onClose }) => {
     setMenuOpen(false);
   };
 
-  return (
-    <>
-      <div className={styles.container}>
+  const renderNotifications = () => {
+    if (notifications.length === 0)
+      return (
+        <NoContent
+          icon={faBell}
+          text="You currently don't have notifications"
+        />
+      );
+    return (
+      <>
         <div className={styles.headerContainer}>
           <h3 className={styles.header}>Notifications</h3>
           <div className={styles.menuContainer}>
@@ -134,7 +136,13 @@ const NotificationsPanel = ({ onClose }) => {
             ? _notifications.read.map(renderReadNotifications)
             : _notifications.unread.map(renderUnreadNotifications)}
         </div>
-      </div>
+      </>
+    );
+  };
+
+  return (
+    <>
+      <div className={styles.container}>{renderNotifications()}</div>
       {renderModal()}
     </>
   );
