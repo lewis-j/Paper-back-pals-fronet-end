@@ -4,7 +4,7 @@ import {
   useFriendModalActions,
 } from "./friendModalTypesAndActions";
 import { Modal } from "../../../components";
-import FriendModalContent from "../components/FriendModalContent/FriendModalContent";
+import FriendModalWrapper from "../components/FriendModalContent/FriendModalContent";
 
 export const useFriendRequestModal = () => {
   const [modal, setModal] = useState({
@@ -29,9 +29,11 @@ export const useFriendRequestModal = () => {
   const friendModalActions = useFriendModalActions(openModal);
 
   const renderModal = () => {
+    if (!modal.isOpen) return null;
+    console.log(modal);
     return (
       <Modal isOpen={modal.isOpen} onClose={closeModal} title={modal.title}>
-        <FriendModalContent modal={modal} onClose={closeModal} />
+        <FriendModalWrapper modal={modal} onClose={closeModal} />
       </Modal>
     );
   };

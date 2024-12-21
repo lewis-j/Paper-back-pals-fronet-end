@@ -11,8 +11,9 @@ import { acceptFriendRequest, sendFriendRequest } from "../../friendsSlice";
 import { openChatWithFriend } from "../../../Chat/chatSlice";
 import { markAsRead } from "../../../Notifications/notificationsSlice";
 import * as status from "../../../../data/asyncStatus";
+import { MODAL_TYPES } from "../../hooks/friendModalTypesAndActions";
 
-const FriendModalContent = ({ user, children: actionButtons }) => {
+const FriendModalContainer = ({ user, children: actionButtons }) => {
   return (
     <div className={styles.container}>
       <div className={styles.profileSection}>
@@ -33,39 +34,14 @@ const FriendRequestForm = ({
   confirmationMsg,
   buttonText,
   loadingText,
-  secondaryButtonText,
-  secondaryLoadingText,
+  secondaryButtonText = null,
+  secondaryLoadingText = null,
+  onSecondaryConfirm = null,
   onConfirm,
-  onSecondaryConfirm,
   onClose,
+  resultMessage,
 }) => {
-  const status = useSelector((state) => state.friends.status);
-  const error = useSelector((state) => state.friends.error);
-  const [resultMessage, setResultMessage] = useState("");
-
-  const createSubmitHandler = async (onSubmit, successMessage) => {
-    setResultMessage("");
-
-    try {
-      await onSubmit();
-      setResultMessage(successMessage || "Request accepted successfully!");
-    } catch (err) {
-      setResultMessage(err.message || "Failed to process request");
-    }
-  };
-  const handleSubmit = createSubmitHandler(
-    onConfirm,
-    "Request accepted successfully!"
-  );
-  const handleSecondarySubmit = createSubmitHandler(
-    onSecondaryConfirm,
-    "Request declined successfully!"
-  );
-
-  const isSubmitting = status === status.LOADING;
-  const isSuccess = status === status.SUCCEEDED;
-  const isError = status === status.FAILED;
-
+  const { isSubmitting, isSuccess, isError, error } = useStatusHandlers();
   return (
     <div className={styles.formContainer}>
       {!resultMessage ? (
@@ -89,26 +65,28 @@ const FriendRequestForm = ({
             >
               Close
             </button>
-            <button
-              type="button"
-              className={styles.secondaryButton}
-              disabled={isSubmitting}
-              onClick={handleSecondarySubmit}
-            >
-              {isSubmitting ? (
-                <>
-                  <FontAwesomeIcon icon={faSpinner} spin />{" "}
-                  {secondaryLoadingText}
-                </>
-              ) : (
-                secondaryButtonText
-              )}
-            </button>
+            {secondaryButtonText && (
+              <button
+                type="button"
+                className={styles.secondaryButton}
+                disabled={isSubmitting}
+                onClick={onSecondaryConfirm}
+              >
+                {isSubmitting ? (
+                  <>
+                    <FontAwesomeIcon icon={faSpinner} spin />{" "}
+                    {secondaryLoadingText}
+                  </>
+                ) : (
+                  secondaryButtonText
+                )}
+              </button>
+            )}
             <button
               type="submit"
               className={styles.submitButton}
               disabled={isSubmitting}
-              onClick={handleSubmit}
+              onClick={onConfirm}
             >
               {isSubmitting ? (
                 <>
@@ -152,78 +130,120 @@ const FriendRequestForm = ({
   );
 };
 
-const MakeFriendRequest = ({ user }) => {
+const MakeFriendRequest = ({ user, onClose }) => {
   const { person_id } = user;
-  const dispatch = useDispatch();
-  const isLoading = useSelector(
-    (state) => state.friends.status === status.LOADING
-  );
-
-  const handleConfirm = () => dispatch(sendFriendRequest(person_id));
-  const handleSecondaryConfirm = () =>
-    dispatch(/*declineFriendRequest(person_id)*/);
-
+  const { actions, resultMessage } = useFriendModalActions(person_id);
   return (
-    <FriendModalContent user={user}>
+    <FriendModalContainer user={user}>
       <FriendRequestForm
         confirmationMsg="Are you sure you want to send a friend request?"
         buttonText="Add Friend"
         loadingText="Adding friend..."
-        secondaryButtonText="Decline"
-        secondaryLoadingText="Declining..."
-        onSecondaryConfirm={handleSecondaryConfirm}
-        onConfirm={handleConfirm}
-        onClose={() => {}}
+        onConfirm={actions.sendFriendRequest}
+        onClose={onClose}
+        resultMessage={resultMessage}
       />
-    </FriendModalContent>
+    </FriendModalContainer>
   );
 };
 
-const AcceptFriendRequest = ({ user }) => {
+const AcceptFriendRequest = ({ user, onClose }) => {
   console.log("AcceptFriendRequest in FriendModalContent", user);
   const { request_id } = user;
-  const dispatch = useDispatch();
-  const notificationList = useSelector((state) => state.notifications.list);
-
-  const handleConfirm = async () => {
-    await dispatch(acceptFriendRequest({ request_id })).unwrap();
-    const notification = notificationList.find(
-      (n) => n.requestRef === request_id
-    );
-    dispatch(
-      markAsRead({ notification: { _id: notification._id, read: true } })
-    );
-  };
+  const { actions, resultMessage } = useFriendModalActions(request_id);
 
   return (
-    <FriendModalContent user={user}>
+    <FriendModalContainer user={user}>
       <FriendRequestForm
         confirmationMsg="Are you sure you want to accept this friend request?"
         buttonText="Accept"
         loadingText="Accepting..."
         secondaryButtonText="Decline"
         secondaryLoadingText="Declining..."
-        onConfirm={handleConfirm}
-        onClose={() => {}}
+        onConfirm={actions.acceptFriendRequest}
+        onClose={onClose}
+        resultMessage={resultMessage}
       />
-    </FriendModalContent>
+    </FriendModalContainer>
   );
 };
 
-const RemoveFriend = ({ user }) => {
+const RemoveFriend = ({ user, onClose }) => {
+  const { actions, resultMessage } = useFriendModalActions(user.person_id);
   return (
-    <FriendModalContent user={user}>
-      <button onClick={() => alert("remove friend")} className={styles.accept}>
-        Remove Friend
-      </button>
-    </FriendModalContent>
+    <FriendModalContainer user={user}>
+      <FriendRequestForm
+        confirmationMsg="Are you sure you want to remove this friend?"
+        buttonText="Remove Friend"
+        loadingText="Removing..."
+        onConfirm={actions.removeFriend}
+        onClose={onClose}
+        resultMessage={resultMessage}
+      />
+    </FriendModalContainer>
   );
 };
 
-const FriendModal = {
-  MakeFriendRequest,
-  AcceptFriendRequest,
-  RemoveFriend,
+const useStatusHandlers = () => {
+  const status = useSelector((state) => state.friends.status);
+  const error = useSelector((state) => state.friends.error);
+
+  return {
+    isSubmitting: status === status.LOADING,
+    isSuccess: status === status.SUCCEEDED,
+    isError: status === status.FAILED,
+    error,
+  };
 };
 
-export default FriendModal;
+const useFriendModalActions = (_id) => {
+  const dispatch = useDispatch();
+
+  const [resultMessage, setResultMessage] = useState("");
+
+  const createSubmitHandler = (onSubmit, successMessage) => {
+    return async () => {
+      setResultMessage("");
+      try {
+        await onSubmit();
+        setResultMessage(successMessage || "Request processed successfully!");
+      } catch (err) {
+        setResultMessage(err.message || "Failed to process request");
+      }
+    };
+  };
+
+  const actions = {
+    sendFriendRequest: createSubmitHandler(async () => {
+      await dispatch(sendFriendRequest({ person_id: _id })).unwrap();
+    }, "Friend request sent successfully!"),
+    acceptFriendRequest: createSubmitHandler(async () => {
+      await dispatch(acceptFriendRequest({ request_id: _id })).unwrap();
+    }, "Friend request accepted successfully!"),
+    removeFriend: createSubmitHandler(async () => {
+      alert("remove friend");
+    }, "Friend removed successfully!"),
+  };
+
+  return {
+    actions,
+    resultMessage,
+  };
+};
+
+const FriendModalWrapper = ({ modal, onClose }) => {
+  console.log("FriendModal", modal);
+  switch (modal.type) {
+    case MODAL_TYPES.MAKE_FRIEND_REQUEST.value:
+      console.log("MakeFriendRequest", modal);
+      return <MakeFriendRequest user={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.ACCEPT_FRIEND_REQUEST.value:
+      return <AcceptFriendRequest user={modal.data} onClose={onClose} />;
+    case MODAL_TYPES.REMOVE_FRIEND.value:
+      return <RemoveFriend user={modal.data} onClose={onClose} />;
+    default:
+      return null;
+  }
+};
+
+export default FriendModalWrapper;
