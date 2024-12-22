@@ -26,44 +26,52 @@ const BookContainer = ({ children: cards, noContent = defaultNoContent }) => {
     }, 300);
   };
 
-  if (cards.length === 0) {
-    const { text, icon, description, buttonText, buttonIcon, onClick } = {
-      ...defaultNoContent,
-      ...noContent,
-    };
+  const renderBooks = () => {
+    if (cards.length === 0) {
+      const { text, icon, description, buttonText, buttonIcon, onClick } = {
+        ...defaultNoContent,
+        ...noContent,
+      };
+      return (
+        <NoContent text={text} icon={icon}>
+          {description && <div>{description}</div>}
+          {buttonText && (
+            <Button
+              variant="primary"
+              icon={buttonIcon}
+              onClick={onClick}
+              classNa
+            >
+              {buttonText}
+            </Button>
+          )}
+        </NoContent>
+      );
+    }
+    const books = cards.slice(0, renderBookCount);
+    const loadingCount = cards.slice(
+      renderBookCount,
+      renderBookCount + 12
+    ).length;
+
     return (
-      <NoContent text={text} icon={icon}>
-        {description && <div>{description}</div>}
-        {buttonText && (
-          <Button variant="primary" icon={buttonIcon} onClick={onClick} classNa>
-            {buttonText}
+      <>
+        <FadeIn delay={100}>{books}</FadeIn>
+        {loadingSection &&
+          [...Array(loadingCount).keys()].map((i) => (
+            <Col sm="4" md="3" xl="2" key={i} className={styles.cardWrapper}>
+              <Placeholder />
+            </Col>
+          ))}
+        {cards.length > renderBookCount && (
+          <Button icon={faArrowDown} variant="accept" onClick={handleClick}>
+            Show more
           </Button>
         )}
-      </NoContent>
+      </>
     );
-  }
-  const renderBooks = cards.slice(0, renderBookCount);
-  const loadingCount = cards.slice(
-    renderBookCount,
-    renderBookCount + 12
-  ).length;
-
-  return (
-    <>
-      <FadeIn delay={100}>{renderBooks}</FadeIn>
-      {loadingSection &&
-        [...Array(loadingCount).keys()].map((i) => (
-          <Col sm="4" md="3" xl="2" key={i} className={styles.cardWrapper}>
-            <Placeholder />
-          </Col>
-        ))}
-      {cards.length > renderBookCount && (
-        <Button icon={faArrowDown} variant="accept" onClick={handleClick}>
-          Show more
-        </Button>
-      )}
-    </>
-  );
+  };
+  return <div className={styles.container}>{renderBooks()}</div>;
 };
 
 export default BookContainer;

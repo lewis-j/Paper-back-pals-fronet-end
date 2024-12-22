@@ -30,14 +30,16 @@ const getModalConfig = (
   switch (type) {
     // Book Reading Progress
     case MODAL_TYPES.VIEW_BOOK_DETAILS.value:
-      return createFormModal(
-        "Book Description",
-        BookModalForm.BookDetailsView,
-        {
-          userBook,
-          onClose,
-        }
-      );
+      return {
+        label: "Book Description",
+        component: (
+          <BookModalForm.BookDetailsView
+            userBook={userBook}
+            onClose={onClose}
+          />
+        ),
+        standalone: true,
+      };
 
     case MODAL_TYPES.UPDATE_PAGE_COUNT.value:
       return createFormModal(
@@ -244,6 +246,11 @@ export const BookModalContent = ({ modal, onClose }) => {
   // Defensive rendering
   if (!config) {
     return null;
+  }
+
+  // If standalone component, render without FormContainer
+  if (config.standalone) {
+    return config.component;
   }
 
   const label = config.label || modal.title || "";

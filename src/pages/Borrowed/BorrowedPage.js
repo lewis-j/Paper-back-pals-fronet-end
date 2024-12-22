@@ -77,7 +77,7 @@ const BorrowedPage = () => {
         <div>
           <h4 className={styles.subtitle}>Borrowing</h4>
         </div>
-        <Row className={styles.section}>
+        <Row>
           <BookContainer noContent={borrowedBooksNoContent}>
             {checkedOutBooks.map(
               createRenderBooksWithMenuItems(checkedOutBookMenuitems)
@@ -87,7 +87,7 @@ const BorrowedPage = () => {
         <div>
           <h4 className={styles.subtitle}>Pending Books</h4>
         </div>
-        <Row className={styles.section}>
+        <Row>
           <BookContainer noContent={borrowedBooksNoContent}>
             {pendingBooks.map(
               createRenderBooksWithMenuItems(pendingBookMenuitems)

@@ -107,7 +107,7 @@ const Library = () => {
         <div>
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
-        <Row className={styles.section}>
+        <Row>
           <BookContainer
             noContent={{
               text: "No Books in Library",
@@ -126,7 +126,7 @@ const Library = () => {
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
-        <Row className={styles.section}>
+        <Row>
           <BookContainer
             noContent={{
               text: "No Checked Out Books",

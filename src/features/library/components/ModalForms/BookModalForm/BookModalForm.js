@@ -11,6 +11,7 @@ import {
   faCheckCircle,
   faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import BookDetailsView from "../BookDetailsView/BookDetailsView";
 
 const ReadingProgressView = ({ userBook, onClose, isSubmitting }) => {
   const { book, currentPage } = userBook;
@@ -73,23 +74,23 @@ const UpdatePageForm = ({
   );
 };
 
-const BookDetailsView = ({ userBook, onClose, isSubmitting }) => {
-  const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
+// const BookDetailsView = ({ userBook, onClose, isSubmitting }) => {
+//   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
-  if (!userBook) return null;
-  if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
+//   if (!userBook) return null;
+//   if (userBookAsyncStatus === asyncStatus.LOADING) return <Loading />;
 
-  return (
-    <>
-      <p className={styles.description}>{userBook.book.description}</p>
-      <div className={styles.buttonContainer}>
-        <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
-          Close
-        </Button>
-      </div>
-    </>
-  );
-};
+//   return (
+//     <>
+//       <p className={styles.description}>{userBook.book.description}</p>
+//       <div className={styles.buttonContainer}>
+//         <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
+//           Close
+//         </Button>
+//       </div>
+//     </>
+//   );
+// };
 
 const BorrowRequestsList = ({ userBook, onClose, isSubmitting }) => {
   const { openModal } = useModal();
