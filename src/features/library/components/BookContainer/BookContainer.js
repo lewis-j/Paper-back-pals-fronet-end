@@ -35,7 +35,7 @@ const BookContainer = ({ children: cards, noContent = defaultNoContent }) => {
       <NoContent text={text} icon={icon}>
         {description && <div>{description}</div>}
         {buttonText && (
-          <Button varient="add" icon={buttonIcon} onClick={onClick}>
+          <Button variant="primary" icon={buttonIcon} onClick={onClick} classNa>
             {buttonText}
           </Button>
         )}
@@ -58,7 +58,7 @@ const BookContainer = ({ children: cards, noContent = defaultNoContent }) => {
           </Col>
         ))}
       {cards.length > renderBookCount && (
-        <Button icon={faArrowDown} varient="accept" onClick={handleClick}>
+        <Button icon={faArrowDown} variant="accept" onClick={handleClick}>
           Show more
         </Button>
       )}

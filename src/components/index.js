@@ -6,7 +6,6 @@ export { NoContent } from "./NoContent";
 export { Placeholder } from "./Placeholders";
 export { PrivateRoute } from "./PrivateRoute";
 export { ResponsiveSlider } from "./ResponsiveSlider";
-export { UserInboxCard } from "./User";
 export { Modal } from "./Modal";
 export { FadeIn } from "./Animation";
 export { Avatar } from "./Avatar";

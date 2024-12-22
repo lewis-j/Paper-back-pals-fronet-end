@@ -30,12 +30,16 @@ const RequestCard = ({
       <div className={styles.button}>
         <Button
           disabled={isLoading}
-          varient="decline"
+          variant="decline"
           onClick={() => decline()}
         >
           Cancel
         </Button>
-        <Button disabled={isLoading} varient="add" onClick={handleBookRequest}>
+        <Button
+          disabled={isLoading}
+          variant="primary"
+          onClick={handleBookRequest}
+        >
           Make Request
         </Button>
       </div>

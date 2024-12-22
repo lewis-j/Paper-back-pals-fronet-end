@@ -9,7 +9,7 @@ const EmptyStatePrompt = ({ title, text, route }) => {
     <div className={styles.noContent}>
       <NoContent icon={faBook} iconSize="6em" text={text}>
         <Button
-          varient="accept"
+          variant="primary"
           onClick={() => {
             if (route) navigate(route);
           }}

@@ -59,7 +59,7 @@ const UserBookCardSm = ({
                 <Button
                   key={`menu-item-${i}`}
                   onClick={() => clickHandler(userCard_id)}
-                  varient="white-outline"
+                  variant="menu-white-outline"
                   role="menuitem"
                 >
                   {text}

@@ -6,7 +6,7 @@ import {
   faBookOpenReader,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
-
+import styles from "./StatusHandler.module.scss";
 const StatusHandler = ({ children, results }) => {
   const { status, error } = useSelector((state) => state.searchResults);
 
@@ -20,17 +20,21 @@ const StatusHandler = ({ children, results }) => {
   if (isError) {
     console.error(error);
     return (
-      <NoContent icon={faTriangleExclamation}>
-        Looks like something went wrong
-      </NoContent>
+      <div className={styles.noContentContainer}>
+        <NoContent icon={faTriangleExclamation}>
+          Looks like something went wrong
+        </NoContent>
+      </div>
     );
   }
 
   if (!results.length) {
     return (
-      <NoContent icon={faBookOpenReader}>
-        No results yet search again!
-      </NoContent>
+      <div className={styles.noContentContainer}>
+        <NoContent icon={faBookOpenReader}>
+          No results yet search again!
+        </NoContent>
+      </div>
     );
   }
   return children;

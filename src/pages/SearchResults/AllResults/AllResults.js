@@ -45,7 +45,7 @@ const AllResults = () => {
       ? userResults.results[currentPage].map((user, i) => {
           const { _id, username, profilePic } = user;
           return (
-            <Col xs="12" sm="6" md="4" xl="3" key={`${_id}-${i}`}>
+            <Col xs="12" sm="6" md="6" xl="3" key={`${_id}-${i}`}>
               <UserRequestCard
                 _id={_id}
                 username={username}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Input, Form } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -39,11 +39,28 @@ const DropDownSearch = ({ searchInput, bookSearch, userSearch }) => {
 
 const SearchBar = ({ expandSize, customStyles, onClose, mobileView }) => {
   const [searchInput, setSearchInput] = useState("");
+  const searchBarRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const status = useSelector((state) => state.searchResults.status);
   const isLoading = status === condition.LOADING;
   const isMenuOpen = searchInput !== "";
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchBarRef.current &&
+        !searchBarRef.current.contains(event.target)
+      ) {
+        setSearchInput("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const dispatchBookSearch = async (query) => {
     dispatch(setQuery(query));
@@ -79,7 +96,7 @@ const SearchBar = ({ expandSize, customStyles, onClose, mobileView }) => {
   };
 
   return (
-    <div className={styles.searchBar}>
+    <div className={styles.searchBar} ref={searchBarRef}>
       <Form
         onSubmit={onSubmitForm}
         className={`d-flex bg-white ${customStyles || styles.rounded} ${

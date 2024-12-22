@@ -79,7 +79,7 @@ const UserBookCardLrg = ({
                 key={`menu-list${i}`}
                 className={styles.menuItem}
                 onClick={() => clickHandler(userCard_id)}
-                varient="white-outline"
+                variant="menu-white-outline"
               >
                 {text}
               </Button>

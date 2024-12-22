@@ -12,6 +12,7 @@ import { openChatWithFriend } from "../../../Chat/chatSlice";
 import { markAsRead } from "../../../Notifications/notificationsSlice";
 import * as status from "../../../../data/asyncStatus";
 import { MODAL_TYPES } from "../../hooks/friendModalTypesAndActions";
+import { Button } from "../../../../components";
 
 const FriendModalContainer = ({ user, children: actionButtons }) => {
   return (
@@ -57,45 +58,27 @@ const FriendRequestForm = ({
             </p>
           )}
           <div className={styles.buttonContainer}>
-            <button
-              type="button"
-              onClick={onClose}
-              className={styles.cancelButton}
-              disabled={isSubmitting}
-            >
+            <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
               Close
-            </button>
+            </Button>
             {secondaryButtonText && (
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                disabled={isSubmitting}
+              <Button
+                variant="secondary"
                 onClick={onSecondaryConfirm}
+                disabled={isSubmitting}
+                icon={isSubmitting ? faSpinner : null}
               >
-                {isSubmitting ? (
-                  <>
-                    <FontAwesomeIcon icon={faSpinner} spin />{" "}
-                    {secondaryLoadingText}
-                  </>
-                ) : (
-                  secondaryButtonText
-                )}
-              </button>
+                {isSubmitting ? secondaryLoadingText : secondaryButtonText}
+              </Button>
             )}
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isSubmitting}
+            <Button
+              variant="primary"
               onClick={onConfirm}
+              disabled={isSubmitting}
+              icon={isSubmitting ? faSpinner : null}
             >
-              {isSubmitting ? (
-                <>
-                  <FontAwesomeIcon icon={faSpinner} spin /> {loadingText}
-                </>
-              ) : (
-                buttonText
-              )}
-            </button>
+              {isSubmitting ? loadingText : buttonText}
+            </Button>
           </div>
         </>
       ) : (
@@ -117,13 +100,13 @@ const FriendRequestForm = ({
               ? resultMessage
               : ""}
           </p>
-          <button
-            type="button"
+          <Button
+            variant="cancel"
             onClick={onClose}
             className={styles.closeButton}
           >
             Close
-          </button>
+          </Button>
         </div>
       )}
     </div>

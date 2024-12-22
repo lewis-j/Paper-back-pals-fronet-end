@@ -48,7 +48,7 @@ const BookCard = ({
               <Button
                 key={`menu-list${i}`}
                 onClick={() => clickHandler("test")}
-                varient="white-outline"
+                variant="menu-white-outline"
               >
                 {text}
               </Button>

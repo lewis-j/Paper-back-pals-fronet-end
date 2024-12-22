@@ -1,85 +1,90 @@
 @import "../../style/variables.scss";
 
 .btn {
-  color: $grey-2;
-  border: 1px solid $box-border-colors;
-  border-radius: 3px;
-  margin: 0.3em;
-  white-space: normal;
-  line-height: 1.2;
-  &:hover {
+  min-width: 120px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
     transform: scale(0.98);
   }
 }
 
-.lg {
-  font-size: 1.35em;
-}
-.default {
-  color: $secondary-color;
-}
+// Variants
+.primary {
+  background-color: $accepted-color;
+  color: $dark-background-font-color;
 
-.accept {
-  background-color: $add-color;
-}
-
-.decline {
-  background-color: $decline-color;
-}
-
-.add {
-  background-color: $pending-color;
-}
-
-.white-outline {
-  color: $grey-1;
-  border: 1px solid $grey-1;
-  background-color: transparent;
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
-  font-size: 0.8em;
-  padding: 0.4em 0.6em;
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: white;
-    color: white;
+  &:hover:not(:disabled) {
+    @include hover-link;
   }
-  &:active {
-    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.secondary {
+  background-color: $decline-color;
+  color: $dark-background-font-color;
+
+  &:hover:not(:disabled) {
+    @include hover-link;
+  }
+}
+
+.cancel {
+  background-color: $grey-2;
+  color: $secondary-color;
+
+  &:hover:not(:disabled) {
+    background-color: darken($grey-2, 5%);
+  }
+}
+
+// Sizes
+.sm {
+  min-width: 100px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.lg {
+  min-width: 140px;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+// Special variants
+.menu-white-outline {
+  padding: 0.25rem;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.829);
+    color: $dark-accent;
   }
 }
 
 .granite-outline {
   background-color: transparent;
-  filter: drop-shadow(2px 2px 4px $secondary-color);
-  color: $secondary-color;
-  border-color: $secondary-color;
-  height: 1.6em;
-  font-size: 1.6em;
+  border: 2px solid $dark-accent;
+  color: $dark-accent;
 
-  transition: transform 0.1s ease-in-out;
-  &:hover {
-    filter: drop-shadow(2px 2px 4px $dark-accent);
-    border-color: $dark-accent;
-    color: $dark-accent;
+  &:hover:not(:disabled) {
+    background-color: $dark-accent;
+    color: white;
   }
-  a {
-    text-decoration: none;
-    color: $secondary-color;
-  }
-}
-
-.outline {
-  color: $secondary-color;
-  background-color: transparent;
-  border-color: $secondary-color;
-  &:hover {
-    color: $grey-1;
-    background-color: $secondary-color;
-  }
-}
-
-.circle {
-  border-radius: 100%;
-  width: 2em;
-  height: 2em;
 }

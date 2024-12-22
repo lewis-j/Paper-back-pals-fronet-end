@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import * as asyncStatus from "../../../../../data/asyncStatus";
 import styles from "./BookModalForm.module.scss";
-import { Loading } from "../../../../../components";
+import { Button, Loading } from "../../../../../components";
 import { useModal } from "../../../../../context/ModalContext";
 import { MODAL_TYPES } from "../../../config/modals";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +12,7 @@ import {
   faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-const ReadingProgressView = ({ userBook, onClose }) => {
+const ReadingProgressView = ({ userBook, onClose, isSubmitting }) => {
   const { book, currentPage } = userBook;
   const pagesRemaining = book.pageCount - currentPage;
 
@@ -25,15 +25,20 @@ const ReadingProgressView = ({ userBook, onClose }) => {
         </div>
       </div>
       <div className={styles.buttonContainer}>
-        <button type="button" onClick={onClose} className={styles.cancelButton}>
+        <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
           Close
-        </button>
+        </Button>
       </div>
     </>
   );
 };
 
-const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
+const UpdatePageForm = ({
+  userBook,
+  onClose,
+  onUpdateProgress,
+  isSubmitting,
+}) => {
   const { _id: userBook_id, request, currentPage } = userBook;
   const [value, setValue] = useState(currentPage);
 
@@ -54,18 +59,21 @@ const UpdatePageForm = ({ userBook, onClose, onUpdateProgress }) => {
         min="0"
         max={userBook.book.pageCount}
       />
-      <button
-        className={styles.submitButton}
-        type="submit"
-        onClick={handleSubmit}
-      >
-        Update Progress
-      </button>
+      <div className={styles.buttonContainer}>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          icon={isSubmitting ? faSpinner : null}
+        >
+          Update Progress
+        </Button>
+      </div>
     </>
   );
 };
 
-const BookDetailsView = ({ userBook, onClose }) => {
+const BookDetailsView = ({ userBook, onClose, isSubmitting }) => {
   const userBookAsyncStatus = useSelector((state) => state.userBooks.status);
 
   if (!userBook) return null;
@@ -75,15 +83,15 @@ const BookDetailsView = ({ userBook, onClose }) => {
     <>
       <p className={styles.description}>{userBook.book.description}</p>
       <div className={styles.buttonContainer}>
-        <button type="button" onClick={onClose} className={styles.cancelButton}>
+        <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
           Close
-        </button>
+        </Button>
       </div>
     </>
   );
 };
 
-const BorrowRequestsList = ({ userBook, onClose }) => {
+const BorrowRequestsList = ({ userBook, onClose, isSubmitting }) => {
   const { openModal } = useModal();
   const requests = userBook.requests;
 
@@ -127,9 +135,9 @@ const BorrowRequestsList = ({ userBook, onClose }) => {
             </div>
           ))}
         </div>
-        <button onClick={onClose} className={styles.closeButton}>
+        <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
           Close
-        </button>
+        </Button>
       </div>
     </>
   );
@@ -215,45 +223,27 @@ const ConfirmBorrowRequestForm = ({
             </label>
           </div>
           <div className={styles.buttonContainer}>
-            <button
-              type="button"
-              onClick={onClose}
-              className={styles.cancelButton}
-              disabled={isSubmitting}
-            >
+            <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
               Close
-            </button>
+            </Button>
             {secondaryButtonText && onSecondaryAction && (
-              <button
-                type="button"
+              <Button
+                variant="secondary"
                 onClick={handleSecondaryAction}
-                className={styles.secondaryButton}
                 disabled={isSubmitting}
+                icon={isSubmitting ? faSpinner : null}
               >
-                {isSubmitting ? (
-                  <>
-                    <FontAwesomeIcon icon={faSpinner} spin />{" "}
-                    {secondaryLoadingText}
-                  </>
-                ) : (
-                  secondaryButtonText
-                )}
-              </button>
+                {isSubmitting ? secondaryLoadingText : secondaryButtonText}
+              </Button>
             )}
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isSubmitting}
+            <Button
+              variant="primary"
               onClick={handleSubmit}
+              disabled={isSubmitting}
+              icon={isSubmitting ? faSpinner : null}
             >
-              {isSubmitting ? (
-                <>
-                  <FontAwesomeIcon icon={faSpinner} spin /> {loadingText}
-                </>
-              ) : (
-                buttonText
-              )}
-            </button>
+              {isSubmitting ? loadingText : buttonText}
+            </Button>
           </div>
         </>
       ) : (
@@ -267,13 +257,9 @@ const ConfirmBorrowRequestForm = ({
             />{" "}
             {status.message}
           </p>
-          <button
-            type="button"
-            onClick={onClose}
-            className={styles.closeButton}
-          >
+          <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
             Close
-          </button>
+          </Button>
         </div>
       )}
     </div>
@@ -326,28 +312,17 @@ export const BaseForm = ({
             </p>
           )}
           <div className={styles.buttonContainer}>
-            <button
-              type="button"
-              onClick={onClose}
-              className={styles.cancelButton}
-              disabled={isSubmitting}
-            >
+            <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
               Close
-            </button>
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isSubmitting}
+            </Button>
+            <Button
+              variant="primary"
               onClick={handleSubmit}
+              disabled={isSubmitting}
+              icon={isSubmitting ? faSpinner : null}
             >
-              {isSubmitting ? (
-                <>
-                  <FontAwesomeIcon icon={faSpinner} spin /> {loadingText}
-                </>
-              ) : (
-                buttonText
-              )}
-            </button>
+              {isSubmitting ? loadingText : buttonText}
+            </Button>
           </div>
         </>
       ) : (
@@ -361,13 +336,9 @@ export const BaseForm = ({
             />{" "}
             {status.message}
           </p>
-          <button
-            type="button"
-            onClick={onClose}
-            className={styles.closeButton}
-          >
+          <Button variant="cancel" onClick={onClose} disabled={isSubmitting}>
             Close
-          </button>
+          </Button>
         </div>
       )}
     </div>

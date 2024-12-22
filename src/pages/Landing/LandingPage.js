@@ -24,12 +24,12 @@ const Hero = () => {
                   <img src={logo_white} alt="Paper back pals logo" />
                 </div>
                 <div className={styles.btnWrapper}>
-                  <Button icon={faArrowDown} varient="white-outline" size="lg">
-                    <Link
-                      className={styles.learnMoreLink}
-                      smooth
-                      to="../landing-page/#Demo"
-                    >
+                  <Button
+                    icon={faArrowDown}
+                    variant="menu-white-outline"
+                    size="lg"
+                  >
+                    <Link className={styles.learnMoreLink} smooth to="#Demo">
                       Learn more
                     </Link>
                   </Button>
@@ -105,7 +105,7 @@ const LandingPage = () => {
         <div className={styles.toTopBtnContianer}>
           <Button
             icon={faArrowUp}
-            varient="granite-outline"
+            variant="granite-outline"
             className={styles.toTopBtn}
           >
             <Link smooth to="../landing-page/signup#signup">

@@ -72,7 +72,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
           })) ?? [],
         render: ({ request_id }) => (
           <Button
-            varient="accept"
+            variant="primary"
             icon={faUserCheck}
             onClick={() => handleAcceptFriend(request_id)}
           >
@@ -84,7 +84,13 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
 
     // Default button state (Send friend request)
     const defaultButton = (
-      <Button icon={faUserPlus} onClick={handleRequestFriend} varient="add">
+      <Button
+        variant="primary"
+        icon={faUserPlus}
+        onClick={handleRequestFriend}
+        className={styles.requestButton}
+        size="sm"
+      >
         Request
       </Button>
     );
@@ -104,8 +110,10 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
     <>
       {renderModal()}
       <div className={styles.container} key={person_id}>
-        <Avatar imgSrc={profilePic} username={username} />
-        <span className={styles.username}>{username}</span>
+        <div className={styles.userInfo}>
+          <Avatar imgSrc={profilePic} username={username} />
+          <span className={styles.username}>{username}</span>
+        </div>
         {getBtn()}
       </div>
     </>
