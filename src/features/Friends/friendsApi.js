@@ -1,28 +1,38 @@
-import API from "../../lib/authAxios";
+import axios from "../../lib/authAxios";
 
 export const requestFriend = async (person_id) => {
   try {
-    await API.post(`friends/request/${person_id}`);
-    return { reciever_id: person_id };
+    const res = await axios.post(`friends/request/${person_id}`);
+    return res.data;
   } catch (error) {
-    return Promise.reject(error.message);
+    throw (
+      error.response?.data?.message ||
+      error.message ||
+      "Failed to send friend request"
+    );
   }
 };
 
-export const addFriendFromRequest = async ({ request_id }) => {
+export const addFriendFromRequest = async (request_id) => {
   try {
-    const res = await API.post(`friends/add/${request_id}`);
-    return { friend: res.data, request_id };
+    const res = await axios.post(`friends/add/${request_id}`);
+    return res.data;
   } catch (error) {
-    return Promise.reject(error.message);
+    throw (
+      error.response?.data?.message || error.message || "Failed to add friend"
+    );
   }
 };
 
 export const getUserData = async ({ user_id }) => {
   try {
-    const res = await API.get(`user/${user_id}`);
+    const res = await axios.get(`user/${user_id}`);
     return res.data;
   } catch (error) {
-    return Promise.reject(error);
+    throw (
+      error.response?.data?.message ||
+      error.message ||
+      "Failed to get user data"
+    );
   }
 };

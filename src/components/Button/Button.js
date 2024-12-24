@@ -4,7 +4,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Button = ({
-  icon,
+  icon = null,
   variant = "default",
   circle: _circle = false,
   outline: _outline = false,
@@ -15,7 +15,9 @@ const Button = ({
   iconStyle = "",
   disabled = false,
 }) => {
+  console.log("icon", icon);
   const getIcon = (icon) => {
+    if (!icon) return null;
     if (typeof icon === "function") {
       //if Tabler Icon
       const Icon = icon;

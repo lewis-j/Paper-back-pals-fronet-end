@@ -1,23 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as status from "../../data/asyncStatus";
-import * as friendsApi from "./friendsApi";
+import * as friendsThunks from "./friendsThunks";
 import { setExtraReducer } from "../../utilities/reduxUtil";
 
 const sendFriendRequest = createAsyncThunk(
   "friends/sendFriendRequest",
-  friendsApi.requestFriend
+  friendsThunks.requestFriend
 );
 
-const sendFriendRequestFullfilled = (state, { payload: { reciever_id } }) => {
-  state.friendRequestOutbox = [
-    ...state.friendRequestOutbox,
-    { recipient: { _id: reciever_id } },
-  ];
+const sendFriendRequestFullfilled = (
+  state,
+  { payload: { newFriendRequest } }
+) => {
+  console.log("sendFriendRequestFullfilled", newFriendRequest);
+  state.friendRequestOutbox = [...state.friendRequestOutbox, newFriendRequest];
 };
 
 const acceptFriendRequest = createAsyncThunk(
   "friends/acceptFriendRequest",
-  friendsApi.addFriendFromRequest
+  friendsThunks.addFriendFromRequest
 );
 
 const acceptFriendRequestFullfilled = (
@@ -33,7 +34,7 @@ const acceptFriendRequestFullfilled = (
 };
 const getFriendsUserData = createAsyncThunk(
   "friends/getUserData",
-  friendsApi.getUserData
+  friendsThunks.getUserData
 );
 
 const getFriendsUserDataFullfilled = (state, { payload }) => {

@@ -55,7 +55,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
       hasOutgoingRequest: {
         condition:
           friendRequestOutbox?.map((request) => ({
-            _id: request.recipient.id,
+            _id: request.recipient._id,
             request_id: request._id,
           })) ?? [],
         render: () => (
@@ -67,7 +67,7 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
       hasIncomingRequest: {
         condition:
           friendRequestInbox?.map((request) => ({
-            _id: request.sender.id,
+            _id: request.sender._id,
             request_id: request._id,
           })) ?? [],
         render: ({ request_id }) => (

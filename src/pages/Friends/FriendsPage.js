@@ -11,6 +11,7 @@ import styles from "./FriendsPage.module.scss";
 import { useBSSizeFromWidth } from "../../utilities/getBSSizeFromWidth";
 import { NoContent } from "../../components";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { useFriendRequestModal } from "../../features/Friends/hooks/useFriendRequestModal";
 
 const FriendsPage = () => {
   const [activeId, setActiveId] = useState("");
@@ -21,6 +22,11 @@ const FriendsPage = () => {
   const [isOpen, setIsOpen] = useState(true);
   const windowSize = useBSSizeFromWidth();
   const isLrgScreen = windowSize === "lg";
+  const { renderModal, friendModalActions } = useFriendRequestModal();
+
+  const handleAcceptRequest = async (user, request_id) => {
+    friendModalActions.acceptFriendRequest({ ...user, request_id });
+  };
 
   const enterUser = async (_id) => {
     try {
@@ -40,6 +46,7 @@ const FriendsPage = () => {
 
   return (
     <div className={styles.container}>
+      {renderModal()}
       <div
         className={styles.contactList}
         style={isLrgScreen ? {} : { width: "100%" }}
@@ -62,7 +69,7 @@ const FriendsPage = () => {
         {activeTab === "friends" ? (
           <ContactList activeId={activeId} setUser={enterUser} />
         ) : (
-          <RequestList />
+          <RequestList acceptRequest={handleAcceptRequest} />
         )}
       </div>
       <div

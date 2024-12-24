@@ -9,12 +9,17 @@ import styles from "./FriendModalContent.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { acceptFriendRequest, sendFriendRequest } from "../../friendsSlice";
 import { openChatWithFriend } from "../../../Chat/chatSlice";
-import { markAsRead } from "../../../Notifications/notificationsSlice";
+import {
+  markAsRead,
+  findPendingFriendRequestNotificationCreator,
+} from "../../../Notifications/notificationsSlice";
 import * as status from "../../../../data/asyncStatus";
 import { MODAL_TYPES } from "../../hooks/friendModalTypesAndActions";
 import { Button } from "../../../../components";
+import { FRIEND_REQUEST_STATUS } from "../../../../data/friendRequestStatus";
 
 const FriendModalContainer = ({ user, children: actionButtons }) => {
+  console.log("FriendModalContainer", user);
   return (
     <div className={styles.container}>
       <div className={styles.profileSection}>
@@ -88,17 +93,13 @@ const FriendRequestForm = ({
               isSuccess ? styles.success : isError ? styles.error : ""
             }`}
           >
-            <FontAwesomeIcon
-              icon={
-                isSuccess ? faCheckCircle : isError ? faExclamationCircle : null
-              }
-              className={styles.icon}
-            />{" "}
-            {isSuccess
-              ? "Request accepted successfully!"
-              : isError
-              ? resultMessage
-              : ""}
+            {(isSuccess || isError) && (
+              <FontAwesomeIcon
+                icon={isSuccess ? faCheckCircle : faExclamationCircle}
+                className={styles.icon}
+              />
+            )}{" "}
+            {resultMessage}
           </p>
           <Button
             variant="cancel"
@@ -181,7 +182,9 @@ const useStatusHandlers = () => {
 
 const useFriendModalActions = (_id) => {
   const dispatch = useDispatch();
-
+  const findPendingFriendRequestNotification = useSelector(
+    findPendingFriendRequestNotificationCreator
+  );
   const [resultMessage, setResultMessage] = useState("");
 
   const createSubmitHandler = (onSubmit, successMessage) => {
@@ -198,9 +201,11 @@ const useFriendModalActions = (_id) => {
 
   const actions = {
     sendFriendRequest: createSubmitHandler(async () => {
-      await dispatch(sendFriendRequest({ person_id: _id })).unwrap();
+      await dispatch(sendFriendRequest({ friend_id: _id })).unwrap();
     }, "Friend request sent successfully!"),
     acceptFriendRequest: createSubmitHandler(async () => {
+      const notificationId = findPendingFriendRequestNotification(_id);
+      await dispatch(markAsRead(notificationId)).unwrap();
       await dispatch(acceptFriendRequest({ request_id: _id })).unwrap();
     }, "Friend request accepted successfully!"),
     removeFriend: createSubmitHandler(async () => {
@@ -214,19 +219,10 @@ const useFriendModalActions = (_id) => {
   };
 };
 
-const FriendModalWrapper = ({ modal, onClose }) => {
-  console.log("FriendModal", modal);
-  switch (modal.type) {
-    case MODAL_TYPES.MAKE_FRIEND_REQUEST.value:
-      console.log("MakeFriendRequest", modal);
-      return <MakeFriendRequest user={modal.data} onClose={onClose} />;
-    case MODAL_TYPES.ACCEPT_FRIEND_REQUEST.value:
-      return <AcceptFriendRequest user={modal.data} onClose={onClose} />;
-    case MODAL_TYPES.REMOVE_FRIEND.value:
-      return <RemoveFriend user={modal.data} onClose={onClose} />;
-    default:
-      return null;
-  }
+const FriendModalWrapper = {
+  MakeFriendRequest,
+  AcceptFriendRequest,
+  RemoveFriend,
 };
 
 export default FriendModalWrapper;

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as status from "../../data/asyncStatus";
 import { setExtraReducer } from "../../utilities/reduxUtil";
 import * as notificationsApi from "./notificationsApi";
+import { FRIEND_REQUEST_STATUS } from "../../data/friendRequestStatus";
 
 const fetchNotifications = createAsyncThunk(
   "notifications/fetch",
@@ -78,5 +79,22 @@ export const selectNotificationByRequestRefIdCreator =
       return null;
     }
     return notification.id;
+  };
+
+export const findPendingFriendRequestNotificationCreator =
+  (state) => (requestRefId) => {
+    const notifications = state.notifications.list.filter(
+      (notification) => notification.requestRef === requestRefId
+    );
+
+    if (notifications.length === 0) {
+      console.warn(`No notifications found for requestRefId: ${requestRefId}`);
+      return null;
+    }
+    const pendingNotification = notifications.find(
+      (notification) =>
+        notification.requestRef.status === FRIEND_REQUEST_STATUS.PENDING
+    );
+    return pendingNotification.id;
   };
 export default notificationsSlice.reducer;
