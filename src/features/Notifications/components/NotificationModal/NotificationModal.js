@@ -41,14 +41,16 @@ const useNotificationModal = (notifications) => {
   const friendModalActions = useFriendModalActions(openModal);
 
   const openNotificationModal = async (notification_id) => {
+    console.log("openNotificationModal", notifications);
     const notification = notifications.find(
-      (notification) => notification.id === notification_id
+      (notification) => notification._id === notification_id
     );
+    if (!notification) return;
     console.log("openNotificationModal", notification);
     if (notification.requestType === "BookRequest") {
-      await getBookRequest(notification.requestRef);
       setRequestType("BookRequest");
-      const userBook = findBookFromRequest(notification.requestRef);
+      const userBook = findBookFromRequest(notification.requestRef._id);
+      console.log("userBook", userBook);
       return runBookRequestAction(notificationModalActions, userBook);
     } else if (notification.requestType === "FriendRequest") {
       setRequestType("FriendRequest");

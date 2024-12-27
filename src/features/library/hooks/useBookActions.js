@@ -77,12 +77,17 @@ export const useBookActions = () => {
     request_id,
     requestOwner,
     newStatus,
-    errorMessage
+    errorMessage,
+    isPictureRequired = false
   ) => {
     try {
       // Handle the request update
       let requestUpdateSuccess = false;
       if (requestOwner === REQUEST_OWNER.BORROWER) {
+        if (isPictureRequired) {
+          // Handle the logic when a picture is required
+          // For example, you might want to perform additional actions here
+        }
         requestUpdateSuccess = await dispatchAction(
           updateBorrowRequestStatus({ request_id, status: newStatus }),
           errorMessage
@@ -139,10 +144,11 @@ export const useBookActions = () => {
 
   const confirmBorrowRequest = (request_id, isPictureRequired) =>
     requestActionAndMarkNotificationAsRead(
-      { request_id, isPictureRequired },
+      request_id,
       REQUEST_OWNER.BORROWER,
       REQUEST_STATUS.ACCEPTED,
-      "error in confirmBorrowRequest"
+      "error in confirmBorrowRequest",
+      isPictureRequired
     );
 
   const confirmLenderDropOff = (request_id) =>

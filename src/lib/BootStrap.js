@@ -1,21 +1,33 @@
 import "./bootstrap-grid.css";
 
-const Row = ({ children }) => {
-  return <div className="row">{children}</div>;
+const Row = ({ children, className = "", style = {} }) => {
+  return (
+    <div className={`row ${className}`} style={style}>
+      {children}
+    </div>
+  );
 };
 
-const Col = ({ sm, md, xl, children }) => {
+const Col = ({ sm, md, xl, children, className = "", style = {} }) => {
   // Construct the className string based on the props
-  const className = `col-sm-${sm} col-md-${md} col-xl-${xl}`;
+  const bsClassName = `col-sm-${sm} col-md-${md} col-xl-${xl}`;
 
-  return <div className={className}>{children}</div>;
+  return (
+    <div className={`${bsClassName} ${className}`} style={style}>
+      {children}
+    </div>
+  );
 };
 
-const Container = ({ fluid, children }) => {
+const Container = ({ fluid, children, className = "", style = {} }) => {
   // Determine the className based on the fluid prop
-  const className = fluid ? `container-${fluid}` : `container`;
+  const bsClassName = fluid ? `container-${fluid}` : `container`;
 
-  return <div className={className}>{children}</div>;
+  return (
+    <div className={`${bsClassName} ${className}`} style={style}>
+      {children}
+    </div>
+  );
 };
 
 export { Row, Col, Container };

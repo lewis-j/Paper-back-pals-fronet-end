@@ -36,7 +36,7 @@ const Hero = () => {
                 </div>
               </div>
             </Col>
-            <Col md="6" style={{ zIndex: 2 }} id="signup">
+            <Col md="6" style={{ zIndex: 5 }} id="signup">
               <Outlet />
             </Col>
           </Row>
@@ -67,7 +67,7 @@ const MediaObject = ({ img, header, paragraph, imgRight = false }) => {
           <img src={img.src} className={styles.thumbnail} alt={img.alt} />
         </div>
       </Col>
-      <Col>
+      <Col sm="12" md="6">
         <div className="text-center mt-sm-4">
           <h3>{header}</h3>
           <p>{paragraph}</p>
