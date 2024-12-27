@@ -1,12 +1,12 @@
 import { useEffect, Suspense, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
-import * as condition from "./data/asyncStatus";
+import * as asyncStatus from "./data/asyncStatus";
 import { LandingPage, SettingsPage } from "./pages";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { Loading, PrivateRoute } from "./components";
-import { Navbar, Footer } from "./layout";
+import { Footer, Navigation } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./pages/SearchResults/AllResults";
@@ -32,27 +32,31 @@ const ProfilePage = lazy(() =>
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const userStatus = useSelector((state) => state.authUser.status);
   const currentUser = useSelector((state) => state.authUser.currentUser);
 
   useEffect(() => {
     if (
-      !window.location.pathname.includes("landing-page") &&
-      userStatus === condition.IDLE
+      userStatus === asyncStatus.IDLE &&
+      !location.pathname.includes("landing-page")
     ) {
+      console.log("fetching user");
       dispatch(fetchUser())
         .unwrap()
         .catch((error) => {
           if (error.status === 401) {
-            window.location.href = "/landing-page";
+            navigate("/landing-page");
           }
           console.error("Failed to fetch user:", error);
         });
     }
-  }, [dispatch, userStatus]);
+  }, [dispatch, userStatus, navigate, location.pathname]);
 
   useEffect(() => {
-    if (currentUser && userStatus === condition.SUCCEEDED) {
+    if (currentUser && userStatus === asyncStatus.SUCCEEDED) {
+      console.log("fetching notifications");
       dispatch(fetchNotifications());
     }
   }, [dispatch, currentUser, userStatus]);
@@ -72,8 +76,7 @@ function App() {
             <PrivateRoute>
               <Suspense fallback={<Loading />}>
                 <div className={styles.pageContent}>
-                  {/* <Navbar mainViewStyle={styles.mainView} /> */}
-                  <MainNav />
+                  <Navigation />
                 </div>
               </Suspense>
             </PrivateRoute>
