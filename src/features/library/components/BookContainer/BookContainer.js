@@ -2,8 +2,8 @@ import styles from "./BookContainer.module.scss";
 import { IconBookOff } from "@tabler/icons";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { NoContent, Placeholder, Button, FadeIn } from "../../../../components";
-import { Col, Row } from "reactstrap";
 import { useState } from "react";
+import { Row, Col } from "../../../../lib/BootStrap";
 
 const defaultNoContent = {
   text: "No Books Yet!",

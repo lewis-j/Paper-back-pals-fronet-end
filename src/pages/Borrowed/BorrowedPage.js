@@ -1,4 +1,3 @@
-import { Col, Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { UserBookCardSm, BookContainer } from "../../features/library";
 import styles from "./BorrowedPage.module.scss";
@@ -8,6 +7,7 @@ import { nextBookRequestStatus } from "../../features/library/userBookCalls";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import BookTransferTracker from "../../features/library/components/BookTransferTracker/BookTransferTracker";
+import { Col, Container } from "../../lib/BootStrap";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
@@ -77,23 +77,22 @@ const BorrowedPage = () => {
         <div>
           <h4 className={styles.subtitle}>Borrowing</h4>
         </div>
-        <Row>
-          <BookContainer noContent={borrowedBooksNoContent}>
-            {checkedOutBooks.map(
-              createRenderBooksWithMenuItems(checkedOutBookMenuitems)
-            )}
-          </BookContainer>
-        </Row>
+
+        <BookContainer noContent={borrowedBooksNoContent}>
+          {checkedOutBooks.map(
+            createRenderBooksWithMenuItems(checkedOutBookMenuitems)
+          )}
+        </BookContainer>
+
         <div>
           <h4 className={styles.subtitle}>Pending Books</h4>
         </div>
-        <Row>
-          <BookContainer noContent={borrowedBooksNoContent}>
-            {pendingBooks.map(
-              createRenderBooksWithMenuItems(pendingBookMenuitems)
-            )}
-          </BookContainer>
-        </Row>
+
+        <BookContainer noContent={borrowedBooksNoContent}>
+          {pendingBooks.map(
+            createRenderBooksWithMenuItems(pendingBookMenuitems)
+          )}
+        </BookContainer>
       </Container>
     </>
   );

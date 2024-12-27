@@ -1,6 +1,4 @@
 import React from "react";
-
-import { Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import {
   UserBookCardSm,
@@ -14,6 +12,7 @@ import { useBookSelectors } from "../../../features/library/hooks/useBookSelecto
 import { useModalMenu } from "../../../features/library/hooks/useModalMenu";
 import { Badge } from "../../../components";
 import BookCardBadge from "../../../features/library/components/BookCards/BookCardBadge/BookCardBadge";
+import { Col } from "../../../lib/BootStrap";
 
 const Library = () => {
   const currentFriend = useSelector((state) => state.friends.currentFriend);
@@ -125,19 +124,19 @@ const Library = () => {
         <div>
           <h4 className={styles.subtitle}>Checked in Books</h4>
         </div>
-        <Row className={styles.section}>
+        <div className={styles.section}>
           <BookContainer>
             {renderCheckedInBookCards(checkedInBooks)}
           </BookContainer>
-        </Row>
+        </div>
         <div>
           <h4 className={styles.subtitle}>Checked Out Books</h4>
         </div>
-        <Row className={styles.section}>
+        <div className={styles.section}>
           <BookContainer>
             {checkedOutBooks.map(renderCheckedOutUserBookCard)}
           </BookContainer>
-        </Row>
+        </div>
       </div>
     </>
   );

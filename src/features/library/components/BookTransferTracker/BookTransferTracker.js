@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Row, Col } from "reactstrap";
+
 import styles from "./BookTransferTracker.module.scss";
 import { BookStatusTracker } from "../BookStatusTracker";
 import { useBookTransferModal } from "./hooks/useBookTransferModal";
+import { Col, Row } from "../../../../lib/BootStrap";
 
 const BookTransferTracker = ({ booksInTransition, isBorrower = true }) => {
   const { runAction, renderModal } = useBookTransferModal(isBorrower);

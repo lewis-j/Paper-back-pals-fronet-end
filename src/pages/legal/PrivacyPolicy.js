@@ -1,6 +1,6 @@
 import React from "react";
-import { Container } from "reactstrap";
 import styles from "./PrivacyPolicy.module.scss";
+import { Container } from "../../lib/BootStrap";
 
 const PrivacyPolicy = () => {
   return (

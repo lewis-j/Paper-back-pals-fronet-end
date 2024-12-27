@@ -1,4 +1,3 @@
-import { Col, Container, Row } from "reactstrap";
 import {
   BookCard,
   UserBookCardSm,
@@ -13,6 +12,7 @@ import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import { useSelector } from "react-redux";
 import { Badge } from "../../components";
 import requestStatus from "../../data/requestStatus";
+import { Col, Container } from "../../lib/BootStrap";
 
 const Library = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =

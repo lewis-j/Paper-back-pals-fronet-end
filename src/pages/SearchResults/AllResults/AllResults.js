@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Container, Row } from "../../../lib/BootStrap";
 import { UserRequestCard, SearchCard } from "../../../features/search";
 import { processBookResults } from "../../../utilities/bookUtilities";
 import { StatusHandler } from "../StatusHandler";

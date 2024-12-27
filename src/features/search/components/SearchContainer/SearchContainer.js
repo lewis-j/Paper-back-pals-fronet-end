@@ -1,9 +1,9 @@
 import { Children, isValidElement } from "react";
 import { useState } from "react";
 import { useRef } from "react";
-import { Container, Row } from "reactstrap";
 import SearchPagination from "../../../../pages/SearchResults/SearchPagination";
 import { StatusHandler } from "../../../../pages/SearchResults/StatusHandler";
+import { Container, Row } from "../../../../lib/BootStrap";
 // import styles from "./SearchContainer.module.scss";
 
 const SearchContainer = ({
