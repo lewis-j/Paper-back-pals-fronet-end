@@ -16,7 +16,13 @@ const AccountMenu = ({ onClose }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <Avatar imgSrc={profilePic} username={username} /> {username}
-        <button className={styles.closeButton} onClick={onClose}>
+        <button
+          className={styles.closeButton}
+          onClick={() => {
+            console.log("cloding in account menu");
+            onClose();
+          }}
+        >
           <FontAwesomeIcon icon={faX} />
         </button>
       </div>

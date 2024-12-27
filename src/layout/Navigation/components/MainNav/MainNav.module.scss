@@ -1,3 +1,9 @@
+@import "../../../../style/variables.scss";
+
 .content {
-  margin-top: 3rem;
+  margin-top: $mobile-nav-height;
+
+  @media (min-width: 768px) {
+    margin-top: $desktop-nav-height;
+  }
 }

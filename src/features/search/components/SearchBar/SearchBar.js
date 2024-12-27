@@ -37,7 +37,7 @@ const DropDownSearch = ({ searchInput, bookSearch, userSearch }) => {
   );
 };
 
-const SearchBar = ({ expandSize, customStyles, onClose, mobileView }) => {
+const SearchBar = ({ customStyles, onClose, mobileView }) => {
   const [searchInput, setSearchInput] = useState("");
   const searchBarRef = useRef(null);
   const dispatch = useDispatch();
@@ -115,14 +115,12 @@ const SearchBar = ({ expandSize, customStyles, onClose, mobileView }) => {
             setSearchInput(e.target.value);
           }}
         />
-        {!mobileView && (
-          <button
-            className={`${styles.magnigyingGlassBtn} ${styles.rounded}`}
-            disabled={isLoading}
-          >
-            <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
-          </button>
-        )}
+        <button
+          className={`${styles.magnigyingGlassBtn} ${styles.rounded}`}
+          disabled={isLoading}
+        >
+          <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
+        </button>
       </Form>
       {isMenuOpen && (
         <DropDownSearch
