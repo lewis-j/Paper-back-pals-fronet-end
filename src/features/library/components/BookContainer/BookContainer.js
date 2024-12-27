@@ -2,7 +2,7 @@ import styles from "./BookContainer.module.scss";
 import { IconBookOff } from "@tabler/icons";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { NoContent, Placeholder, Button, FadeIn } from "../../../../components";
-import { Col } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { useState } from "react";
 
 const defaultNoContent = {
@@ -56,18 +56,20 @@ const BookContainer = ({ children: cards, noContent = defaultNoContent }) => {
 
     return (
       <>
-        <FadeIn delay={100}>{books}</FadeIn>
-        {loadingSection &&
-          [...Array(loadingCount).keys()].map((i) => (
-            <Col sm="4" md="3" xl="2" key={i} className={styles.cardWrapper}>
-              <Placeholder />
-            </Col>
-          ))}
-        {cards.length > renderBookCount && (
-          <Button icon={faArrowDown} variant="accept" onClick={handleClick}>
-            Show more
-          </Button>
-        )}
+        <Row>
+          <FadeIn delay={100}>{books}</FadeIn>
+          {loadingSection &&
+            [...Array(loadingCount).keys()].map((i) => (
+              <Col sm="4" md="3" xl="2" key={i} className={styles.cardWrapper}>
+                <Placeholder />
+              </Col>
+            ))}
+          {cards.length > renderBookCount && (
+            <Button icon={faArrowDown} variant="accept" onClick={handleClick}>
+              Show more
+            </Button>
+          )}
+        </Row>
       </>
     );
   };

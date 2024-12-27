@@ -48,7 +48,7 @@
   transition: color 0.3s ease;
 
   &:hover {
-    color: $add-color;
+    @include menu-hover-button;
   }
 }
 

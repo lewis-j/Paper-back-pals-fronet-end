@@ -4,23 +4,24 @@ import styles from "./UserCard.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-const UserCard = ({ _id, username, profilePic, menuItems = [] }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+const UserCard = ({
+  _id,
+  isMenuOpen = false,
+  username,
+  profilePic,
+  menuItems = [],
+  setMenuId,
+}) => {
   const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setMenuOpen(false);
+        setMenuId(-1);
       }
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
-  const toggleMenu = (event) => {
-    event.stopPropagation();
-    setMenuOpen(!menuOpen);
-  };
 
   const renderMenuItems = () => {
     return menuItems.map((item) => (
@@ -43,13 +44,20 @@ const UserCard = ({ _id, username, profilePic, menuItems = [] }) => {
       </div>
       <h4 className={styles.username}>{username}</h4>
       {menuItems.length > 0 && (
-        <button className={styles.menuButton} onClick={toggleMenu}>
+        <button
+          className={styles.menuButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log("setting menu id");
+            setMenuId(_id);
+          }}
+        >
           <FontAwesomeIcon icon={faEllipsisV} />
         </button>
       )}
-      {menuOpen && (
+      {isMenuOpen && (
         <div
-          className={`${styles.menuDropdown} ${menuOpen ? styles.open : ""}`}
+          className={`${styles.menuDropdown} ${isMenuOpen ? styles.open : ""}`}
           ref={dropdownRef}
         >
           {renderMenuItems()}

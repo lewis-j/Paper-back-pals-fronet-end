@@ -2,10 +2,13 @@ import styles from "./ContactList.module.scss";
 import { UserCard } from "../UserCard";
 import { useSelector } from "react-redux";
 import { useFriendRequestModal } from "../../hooks/useFriendRequestModal";
+import { useState } from "react";
 
 const ContactList = ({ activeId = null, setUser }) => {
   const { friendsList } = useSelector((state) => state.friends);
   const { renderModal, friendModalActions } = useFriendRequestModal();
+  const [menuId, setMenuId] = useState(-1);
+
   if (!friendsList || friendsList.length === 0)
     return <div>no friends yet</div>;
 
@@ -34,8 +37,10 @@ const ContactList = ({ activeId = null, setUser }) => {
             username={username}
             profilePic={profilePic}
             isActive={activeId === _id}
+            isMenuOpen={menuId === _id}
             _id={_id}
             menuItems={menuItems}
+            setMenuId={setMenuId}
           />
         </div>
       );
