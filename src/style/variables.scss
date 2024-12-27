@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nixie+One&family=Prompt:wght@200&display=swap");
+//spacing
+$mobile-nav-height: 7rem;
+$desktop-nav-height: 3rem;
 //colors
 $grey-1: #f4f4f4;
 $grey-2: #ececec;
@@ -11,15 +14,29 @@ $grey-8: #babcbb;
 $grey-9: #b2b4b3;
 $grey-10: #aaacaa;
 
-$menu-highlight: #c0b8b8;
 //accent colors
 $primary-color: #494949;
 $secondary-color: #717171;
 $dark-accent: #5a5e63;
-$heading-color: #acaba9;
+$heading-color: $grey-10;
 $dark-background: #343434;
 $navbar-gradient: linear-gradient(#2e2e2e, #ababab);
 $menu-background: #000000d2;
+
+//nav menus
+$menu-highlight: #ffffff;
+$menu-link-color: #717171;
+$menu-background-image: linear-gradient(#ffffff, #a5a5a5);
+@mixin menu-hover-button {
+  background-color: $grey-4;
+  transform: translateX(-5px);
+  box-shadow: 0 0 10px rgba(97, 97, 97, 0.5);
+  cursor: pointer;
+}
+@mixin nav-icon-hover-link {
+  transform: scale(1.1);
+  box-shadow: 1px 1px 14px $grey-5;
+}
 //status colors
 $add-color: #bb9f00;
 $decline-color: #d32f2f;
@@ -28,7 +45,6 @@ $accepted-color: #456891;
 $return-requested-color: #c17849;
 
 $box-border-colors: #d7d7d7;
-$box-color: #e7f3f5;
 $shadow-color: $grey-6;
 $standard-box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
 $box-shadow-sharp: #6e6e6e;
