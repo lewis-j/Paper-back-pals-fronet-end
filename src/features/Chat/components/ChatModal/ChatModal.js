@@ -104,7 +104,7 @@ const ChatModal = () => {
         )}
       </div>
     </div>,
-    document.getElementById("portal-root")
+    document.getElementById("chat-root")
   );
 };
 

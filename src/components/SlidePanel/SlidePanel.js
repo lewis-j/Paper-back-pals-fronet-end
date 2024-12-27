@@ -43,7 +43,7 @@ const SlidePanel = ({ open = false, onClose, children }) => {
         <div className={styles.content}>{children}</div>
       </div>
     </div>,
-    document.getElementById("slide-panel")
+    document.getElementById("slide-panel-root")
   );
 };
 

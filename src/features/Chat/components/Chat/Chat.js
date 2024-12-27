@@ -48,7 +48,7 @@ const Chat = ({ participantId }) => {
   return (
     <div className={chatStyles.chatContainer}>
       <div className={chatStyles.messagesContainer}>
-        {messages.map((msg, index) => (
+        {messages?.map((msg, index) => (
           <div
             key={index}
             className={`${chatStyles.message} ${
