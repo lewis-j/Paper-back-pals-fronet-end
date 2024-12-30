@@ -5,16 +5,22 @@ import styles from "./DesktopNavigation.module.scss";
 import logo from "../../../../Assets/imgs/pppals_white.png";
 import { SearchBar } from "../../../../features/search";
 import useHandleAction from "../../hooks/useNavigationActions";
+import { useLocation } from "react-router-dom";
 
 const DesktopNavigation = ({ openProfileMenu }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const handleAction = useHandleAction(openProfileMenu);
 
   const renderNavLinksWithLabels = (navLinks) => {
     return navLinks.map((item) => (
       <button
         key={item.id}
-        className={styles.navLink}
+        className={
+          location.pathname === item.path
+            ? styles.activeNavLink
+            : styles.navLink
+        }
         onClick={() => navigate(item.path)}
       >
         {item.label}

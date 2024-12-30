@@ -6,13 +6,10 @@ import { PageLoading } from "../PageLoading";
 const PrivateRoute = ({ children }) => {
   const { currentUser, status } = useSelector((state) => state.authUser);
   const isLoading = status === asyncStatus.LOADING;
+  const isIdle = status === asyncStatus.IDLE;
   const isSucceeded = status === asyncStatus.SUCCEEDED;
 
-  if (status === asyncStatus.IDLE) {
-    return <Navigate to="/landing-page" />;
-  }
-
-  if (isLoading) {
+  if (isLoading || isIdle) {
     return <PageLoading />;
   }
 

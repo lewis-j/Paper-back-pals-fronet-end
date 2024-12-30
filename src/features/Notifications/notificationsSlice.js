@@ -79,7 +79,7 @@ export const selectNotificationByRequestRefIdCreator =
     console.log("status", status);
     console.log("notifications", notifications);
     const notification = notifications.find(
-      (notification) => notification.requestRef.status === status
+      (notification) => notification.status === status
     );
     console.log("notification", notification);
     if (!notification?._id) {

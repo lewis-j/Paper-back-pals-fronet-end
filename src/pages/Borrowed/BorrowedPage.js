@@ -5,19 +5,18 @@ import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { nextBookRequestStatus } from "../../features/library/userBookCalls";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
-import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import BookTransferTracker from "../../features/library/components/BookTransferTracker/BookTransferTracker";
 import { Col, Container } from "../../lib/BootStrap";
-import { useBookTransferModal } from "../../features/library/components/BookTransferTracker/hooks/useBookTransferModal";
+import { useState } from "react";
+import { useLibraryModalManager } from "../../features/library/hooks/useLibraryModalManager";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { menuItems, renderModal, activeCardId, setActiveCardId } =
-    useModalMenu();
+  const [activeCardId, setActiveCardId] = useState("");
+  const { menuItems, runAction, renderModal } =
+    useLibraryModalManager(setActiveCardId);
   const isBorrower = true;
-  const { runAction, renderModal: renderBookTransferModal } =
-    useBookTransferModal(isBorrower);
 
   const {
     borrowedBookRequests: pendingBooks,
@@ -71,13 +70,12 @@ const BorrowedPage = () => {
   return (
     <>
       {renderModal()}
-      {renderBookTransferModal()}
       <Container className={styles.container}>
         <BookTransferTracker
           booksInTransition={borrowedbooksInTransition}
           onConfirmPickup={handleConfirmPickup}
           onConfirmDropoff={handleConfirmDropoff}
-          runAction={runAction}
+          runAction={runAction(isBorrower)}
           isBorrower={isBorrower}
         />
         <div className={styles.title}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   UserBookCardSm,
@@ -26,8 +26,8 @@ const Library = () => {
       profilePic: currentFriend.profilePic,
     },
   }));
-  const { menuItems, renderModal, activeCardId, setActiveCardId } =
-    useModalMenu();
+  const [activeCardId, setActiveCardId] = useState("");
+  const { menuItems, renderModal } = useModalMenu(setActiveCardId);
 
   const { booksInLibrary: checkedInBooks, booksToFriends: checkedOutBooks } =
     useBookSelectors({

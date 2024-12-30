@@ -3,15 +3,16 @@ import CurrentReadSection from "./components/CurrentReadSection";
 import BooksFromFriendsSection from "./components/BooksFromFriendsSection";
 import BooksToFriendsSection from "./components/BooksToFriendsSection";
 import BookRequestsSection from "./components/BookRequestSection";
-import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useLibraryModalManager } from "../../features/library/hooks/useLibraryModalManager";
 export const DashboardPage = () => {
   const { currentRead, booksToFriends, booksFromFriends, ownedBookRequests } =
     useBookSelectors(useSelector((state) => state.userBooks));
 
-  const { menuItems, renderModal, activeCardId, setActiveCardId } =
-    useModalMenu();
+  const [activeCardId, setActiveCardId] = useState("");
+  const { menuItems, renderModal } = useLibraryModalManager(setActiveCardId);
 
   const fromFriendsMenuItems = menuItems.booksFromFriends;
   const toFriendsMenuItems = menuItems.booksToFriends;

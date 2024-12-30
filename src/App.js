@@ -42,7 +42,6 @@ function App() {
       userStatus === asyncStatus.IDLE &&
       !location.pathname.includes("landing-page")
     ) {
-      console.log("fetching user");
       dispatch(fetchUser())
         .unwrap()
         .catch((error) => {
@@ -60,6 +59,8 @@ function App() {
       dispatch(fetchNotifications());
     }
   }, [dispatch, currentUser, userStatus]);
+
+  console.log("userStatus in app", userStatus);
 
   return (
     <div className={styles.wrapper}>

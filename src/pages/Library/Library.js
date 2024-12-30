@@ -14,13 +14,14 @@ import { Badge } from "../../components";
 import requestStatus from "../../data/requestStatus";
 import { Col, Container } from "../../lib/BootStrap";
 import { useBookTransferModal } from "../../features/library/components/BookTransferTracker/hooks/useBookTransferModal";
+import { useState } from "react";
+import { useLibraryModalManager } from "../../features/library/hooks/useLibraryModalManager";
 
 const Library = () => {
-  const { menuItems, renderModal, activeCardId, setActiveCardId } =
-    useModalMenu();
+  const [activeCardId, setActiveCardId] = useState("");
+  const { menuItems, runAction, renderModal } =
+    useLibraryModalManager(setActiveCardId);
   const isBorrower = false;
-  const { runAction, renderModal: renderBookTransferModal } =
-    useBookTransferModal(isBorrower);
 
   const { booksInLibrary, booksToFriends, ownedbooksInTransition } =
     useBookSelectors(useSelector((state) => state.userBooks));
@@ -111,7 +112,6 @@ const Library = () => {
   return (
     <>
       {renderModal()}
-      {renderBookTransferModal()}
       <Container className={styles.container}>
         <div className={styles.title}>
           <h1>Your Library</h1>
@@ -132,7 +132,7 @@ const Library = () => {
         <BookTransferTracker
           booksInTransition={ownedbooksInTransition}
           isBorrower={isBorrower}
-          runAction={runAction}
+          runAction={runAction(isBorrower)}
         />
 
         <div>

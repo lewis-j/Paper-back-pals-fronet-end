@@ -6,13 +6,12 @@ const rejectionReducer = (state, action) => {
   console.error(action.error.message);
 };
 
-const pendingReducer = (state) => {
+const pendingReducer = (state, action) => {
   state.status = status.LOADING;
   state.error = null;
 };
 
 const setSuccessState = (fulfilledReducer) => (state, action) => {
-  console.log("state in setSuccessState", state);
   fulfilledReducer(state, action);
   state.status = status.SUCCEEDED;
   state.error = null;

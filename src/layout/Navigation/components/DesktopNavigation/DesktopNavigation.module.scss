@@ -62,7 +62,8 @@
   }
 }
 
-.navLink {
+.navLink,
+.activeNavLink {
   color: white;
   background: none;
   border: none;
@@ -78,6 +79,12 @@
     color: $grey-1;
     transform: scale(1.02);
   }
+}
+
+.activeNavLink {
+  color: $grey-1;
+  text-decoration: underline;
+  text-underline-offset: 5px;
 }
 
 .searchContainer {
