@@ -255,6 +255,8 @@ export const BookModalContent = ({ modal, onClose }) => {
 
   const label = config.label || modal.title || "";
 
+  console.log("modal.data", modal.data);
+
   return (
     <FormContainer bookData={modal.data.userBook} label={label}>
       {config.component}

@@ -53,7 +53,8 @@ const statusConfig = {
 };
 
 const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
-  const currentStatus = userBook.request?.status;
+  const userBookSnapshot = { ...userBook };
+  const currentStatus = userBook?.request?.status;
   const currentStatusConfig = statusConfig[currentStatus];
 
   const getActionButton = () => {
@@ -67,7 +68,7 @@ const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
       <Button
         color="primary"
         className={styles.actionButton}
-        onClick={() => onAction(userBook)}
+        onClick={() => onAction(userBookSnapshot)}
       >
         {action}
       </Button>
@@ -88,6 +89,8 @@ const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
       </div>
     );
   };
+
+  console.log("userBook", userBook);
 
   return (
     <Card className={styles.tracker}>

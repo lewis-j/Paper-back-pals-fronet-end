@@ -28,6 +28,17 @@ const markAsReadSuccess = (state, action) => {
 
   state.list[idx] = notification;
 };
+const markAllAsRead = createAsyncThunk(
+  "notification/markAllAsRead",
+  notificationsApi.markAllAsRead
+);
+
+const markAllAsReadSuccess = (state, action) => {
+  state.list = state.list.map((notification) => ({
+    ...notification,
+    isRead: true,
+  }));
+};
 
 export const notificationsSlice = createSlice({
   name: "notifications",
@@ -47,38 +58,35 @@ export const notificationsSlice = createSlice({
     addNotification: (state, action) => {
       state.list.unshift(action.payload.notification);
     },
-    markAllAsRead: (state) => {
-      state.list = state.list.map((notification) => ({
-        ...notification,
-        isRead: true,
-      }));
-    },
   },
   extraReducers: {
     ...setExtraReducer(fetchNotifications, fetchNotificationsSuccess),
     ...setExtraReducer(markAsRead, markAsReadSuccess),
+    ...setExtraReducer(markAllAsRead, markAllAsReadSuccess),
   },
 });
 
-export { fetchNotifications, markAsRead };
+export { fetchNotifications, markAsRead, markAllAsRead };
 
-export const {
-  setNotifications,
-  addNotification,
-  setNotificationsIsOpen,
-  markAllAsRead,
-} = notificationsSlice.actions;
+export const { setNotifications, addNotification, setNotificationsIsOpen } =
+  notificationsSlice.actions;
 
 export const selectNotificationByRequestRefIdCreator =
-  (state) => (requestRefId) => {
-    const notification = state.notifications.list.find(
-      (notification) => notification.requestRef === requestRefId
+  (state) => (requestRefId, status) => {
+    const notifications = state.notifications.list.filter(
+      (notification) => notification.requestRef?._id === requestRefId
     );
-    if (!notification?.id) {
+    console.log("status", status);
+    console.log("notifications", notifications);
+    const notification = notifications.find(
+      (notification) => notification.requestRef.status === status
+    );
+    console.log("notification", notification);
+    if (!notification?._id) {
       console.warn(`No notification found for requestRefId: ${requestRefId}`);
       return null;
     }
-    return notification.id;
+    return notification;
   };
 
 export const findPendingFriendRequestNotificationCreator =

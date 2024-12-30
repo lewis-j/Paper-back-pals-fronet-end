@@ -15,7 +15,6 @@ const Button = ({
   iconStyle = "",
   disabled = false,
 }) => {
-  console.log("icon", icon);
   const getIcon = (icon) => {
     if (!icon) return null;
     if (typeof icon === "function") {

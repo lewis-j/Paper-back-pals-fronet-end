@@ -3,6 +3,7 @@ import { ResponsiveSlider } from "../../../components";
 import { BookCard, RequestBadge } from "../../../features/library";
 import styles from "../DashboardPage.module.scss";
 import EmptyStatePrompt from "./EmptyStatePrompt/EmptyStatePrompt";
+import requestStatus from "../../../data/requestStatus";
 
 const BookRequestsSection = ({
   requests,
@@ -17,9 +18,13 @@ const BookRequestsSection = ({
       requests,
     } = userBook;
 
-    const requestCount = requests.length;
+    const requestCount = userBook.requests.filter(
+      (request) => request.status !== requestStatus.RETURNED
+    ).length;
 
-    const bookRequestMenuItems = menuItems(userBook);
+    const userBookSnapshot = { ...userBook };
+
+    const bookRequestMenuItems = menuItems(userBookSnapshot);
 
     const viewRequests = bookRequestMenuItems[0].clickHandler;
 

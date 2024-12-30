@@ -61,9 +61,10 @@ export const declineLendingRequest = createAsyncThunk(
 const updateLendRequestStatusFulfilled = (state, action) => {
   const request_id = action.payload.bookRequest._id;
   // Update the request status in the owned books array
-  const bookIdx = state.books.owned.findIndex((book) =>
-    book.requests?.some((request) => request._id === request_id)
-  );
+  const bookIdx = state.books.owned.findIndex((book) => {
+    console.log("book.requests", book.requests);
+    return book.requests?.some((request) => request._id === request_id);
+  });
   if (bookIdx !== -1) {
     const requestIdx = state.books.owned[bookIdx].requests.findIndex(
       (request) => request._id === request_id
@@ -76,22 +77,30 @@ const updateLendRequestStatusFulfilled = (state, action) => {
 const updateBorrowRequestStatusFulfilled = (state, action) => {
   const request_id = action.payload.bookRequest._id;
   // Update the request status in the borrowed books array
-  const bookIdx = state.books.borrowed.findIndex(
-    ({ request }) => request._id === request_id
-  );
+  const bookIdx = state.books.borrowed.findIndex(({ request }) => {
+    return request._id === request_id;
+  });
   if (bookIdx !== -1) {
-    state.books.borrowed[bookIdx].status = action.payload.bookRequest.status;
+    state.books.borrowed[bookIdx].request.status =
+      action.payload.bookRequest.status;
   }
 };
 
 const updateCurrentReadFulfilled = (state, action) => {
+  console.log("state", state);
   const new_id = action.payload.userBook_id;
   state.currentRead = state.books.borrowed.find(({ _id }) => _id === new_id);
 };
 
 const updateCurrentPageFulfilled = (state, action) => {
+  console.log("state in updateCurrentPageFulfilled", state);
   const book_id = action.payload.userBook_id;
-  const bookIdx = state.books.borrowed.findIndex(({ _id }) => _id === book_id);
+  const bookIdx = state.books.borrowed.findIndex(({ _id }) => {
+    console.log("_id === book_id", _id === book_id, _id, book_id);
+    return _id === book_id;
+  });
+  console.log("state.books.borrowed", state.books.borrowed);
+  console.log("bookIdx", bookIdx);
   state.books.borrowed[bookIdx].currentPage = action.payload.currentPage;
 };
 
@@ -196,10 +205,10 @@ export const createBookFromRequestFinder = (state) => (request_id) => {
     };
   }
   if (bookFromBorrowed) {
+    console.log("bookFromBorrowed", bookFromBorrowed);
     return {
       ...bookFromBorrowed,
       isOwned: false,
-      sender: bookFromBorrowed.request.sender,
       request: {
         status: bookFromBorrowed.request.status,
         _id: bookFromBorrowed.request._id,

@@ -1,15 +1,15 @@
 @import "../../../../../../style/variables.scss";
 
 .bookHeader {
-  padding: 1.5rem;
   border-radius: 8px;
   background-color: $grey-1;
   max-width: 540px;
+  margin-bottom: 1rem;
 }
 
 .bookCard {
   display: flex;
-  flex-direction: column;
+
   gap: 1.5rem;
   align-items: flex-start;
 }

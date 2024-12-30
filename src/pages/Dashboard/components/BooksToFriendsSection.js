@@ -21,7 +21,8 @@ const BooksToFriendsSection = ({
     } = userBook;
     const { request } = userBook;
     const bookCardBadge = { badge: null, clickHandler: () => {} };
-    const toFriendsmenuItems = menuItems(userBook);
+    const userBookSnapshot = { ...userBook };
+    const toFriendsmenuItems = menuItems(userBookSnapshot);
     const cancelReturnRequest = toFriendsmenuItems[2].clickHandler;
     if (request.status === requestStatus.RETURN_REQUESTED) {
       bookCardBadge.badge = <Badge.ReturnRequestedBadge />;

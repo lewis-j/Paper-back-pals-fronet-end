@@ -76,7 +76,8 @@ export const useBookActions = () => {
   const requestActionAndMarkNotificationAsRead = async (
     request_id,
     requestOwner,
-    newStatus,
+    currentStatus,
+    nextStatus,
     errorMessage,
     isPictureRequired = false
   ) => {
@@ -89,12 +90,12 @@ export const useBookActions = () => {
           // For example, you might want to perform additional actions here
         }
         requestUpdateSuccess = await dispatchAction(
-          updateBorrowRequestStatus({ request_id, status: newStatus }),
+          updateBorrowRequestStatus({ request_id, status: nextStatus }),
           errorMessage
         );
       } else if (requestOwner === REQUEST_OWNER.LENDER) {
         requestUpdateSuccess = await dispatchAction(
-          updateLendRequestStatus({ request_id, status: newStatus }),
+          updateLendRequestStatus({ request_id, status: nextStatus }),
           errorMessage
         );
       } else {
@@ -104,13 +105,19 @@ export const useBookActions = () => {
 
       // Only mark notification as read if request update was successful
       if (requestUpdateSuccess) {
-        const notification_id = selectNotificationByRequestRefId(request_id);
-        return await dispatchAction(
-          markAsRead(notification_id),
-          "error in mark notification as read"
+        const notification = selectNotificationByRequestRefId(
+          request_id,
+          currentStatus
         );
+        if (notification && !notification.isRead) {
+          return await dispatchAction(
+            markAsRead(notification._id),
+            "error in mark notification as read"
+          );
+        }
+        console.warn("notification not found");
+        return true;
       }
-
       return false;
     } catch (error) {
       console.error(errorMessage, error);
@@ -145,7 +152,8 @@ export const useBookActions = () => {
   const confirmBorrowRequest = (request_id, isPictureRequired) =>
     requestActionAndMarkNotificationAsRead(
       request_id,
-      REQUEST_OWNER.BORROWER,
+      REQUEST_OWNER.LENDER,
+      REQUEST_STATUS.CHECKED_IN,
       REQUEST_STATUS.ACCEPTED,
       "error in confirmBorrowRequest",
       isPictureRequired
@@ -155,6 +163,7 @@ export const useBookActions = () => {
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.LENDER,
+      REQUEST_STATUS.ACCEPTED,
       REQUEST_STATUS.SENDING,
       "error in confirmLenderDropOff"
     );
@@ -163,6 +172,7 @@ export const useBookActions = () => {
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.BORROWER,
+      REQUEST_STATUS.SENDING,
       REQUEST_STATUS.CHECKED_OUT,
       "error in confirmBorrowerPickup"
     );
@@ -171,6 +181,7 @@ export const useBookActions = () => {
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.BORROWER,
+      REQUEST_STATUS.IS_DUE,
       REQUEST_STATUS.RETURNING,
       "error in confirmBorrowerReturn"
     );
@@ -179,6 +190,7 @@ export const useBookActions = () => {
     requestActionAndMarkNotificationAsRead(
       request_id,
       REQUEST_OWNER.LENDER,
+      REQUEST_STATUS.RETURNING,
       REQUEST_STATUS.RETURNED,
       "error in confirmLenderReturn"
     );
@@ -186,7 +198,8 @@ export const useBookActions = () => {
   const initiateBookReturn = (request_id) =>
     requestActionAndMarkNotificationAsRead(
       request_id,
-      REQUEST_OWNER.LENDER,
+      REQUEST_OWNER.BORROWER,
+      REQUEST_STATUS.CHECKED_OUT,
       REQUEST_STATUS.IS_DUE,
       "error in initiateBookReturn"
     );

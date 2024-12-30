@@ -8,12 +8,16 @@ import { useBookSelectors } from "../../features/library/hooks/useBookSelectors"
 import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import BookTransferTracker from "../../features/library/components/BookTransferTracker/BookTransferTracker";
 import { Col, Container } from "../../lib/BootStrap";
+import { useBookTransferModal } from "../../features/library/components/BookTransferTracker/hooks/useBookTransferModal";
 
 const BorrowedPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
+  const isBorrower = true;
+  const { runAction, renderModal: renderBookTransferModal } =
+    useBookTransferModal(isBorrower);
 
   const {
     borrowedBookRequests: pendingBooks,
@@ -26,6 +30,8 @@ const BorrowedPage = () => {
   const createRenderBooksWithMenuItems = (menuItems) => (userBook) => {
     const { _id, book, owner, dueDate, currentPage } = userBook;
 
+    const userBookSnapshot = { ...userBook };
+
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={`LibraryCard:${_id}`}>
         <UserBookCardSm
@@ -36,7 +42,7 @@ const BorrowedPage = () => {
           currentPage={currentPage}
           setActive={setActiveCardId}
           isActive={activeCardId === _id}
-          menuItems={menuItems(userBook)}
+          menuItems={menuItems(userBookSnapshot)}
         />
       </Col>
     );
@@ -65,11 +71,14 @@ const BorrowedPage = () => {
   return (
     <>
       {renderModal()}
+      {renderBookTransferModal()}
       <Container className={styles.container}>
         <BookTransferTracker
           booksInTransition={borrowedbooksInTransition}
           onConfirmPickup={handleConfirmPickup}
           onConfirmDropoff={handleConfirmDropoff}
+          runAction={runAction}
+          isBorrower={isBorrower}
         />
         <div className={styles.title}>
           <h1>Borrowed Library</h1>

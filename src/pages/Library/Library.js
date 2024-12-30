@@ -13,10 +13,14 @@ import { useSelector } from "react-redux";
 import { Badge } from "../../components";
 import requestStatus from "../../data/requestStatus";
 import { Col, Container } from "../../lib/BootStrap";
+import { useBookTransferModal } from "../../features/library/components/BookTransferTracker/hooks/useBookTransferModal";
 
 const Library = () => {
   const { menuItems, renderModal, activeCardId, setActiveCardId } =
     useModalMenu();
+  const isBorrower = false;
+  const { runAction, renderModal: renderBookTransferModal } =
+    useBookTransferModal(isBorrower);
 
   const { booksInLibrary, booksToFriends, ownedbooksInTransition } =
     useBookSelectors(useSelector((state) => state.userBooks));
@@ -35,7 +39,8 @@ const Library = () => {
     const { _id, book, sender, dueDate, currentPage } = userBook;
     const { request } = userBook;
     const bookCardBadge = { badge: null, clickHandler: () => {} };
-    const toFriendsmenuItems = toFriendsMenuItems(userBook);
+    const userBookSnapShot = { ...userBook };
+    const toFriendsmenuItems = toFriendsMenuItems(userBookSnapShot);
     const cancelReturnRequest = toFriendsmenuItems[2].clickHandler;
     if (request.status === requestStatus.RETURN_REQUESTED) {
       bookCardBadge.badge = <Badge.ReturnRequestedBadge />;
@@ -77,10 +82,16 @@ const Library = () => {
     };
     const badgeOnClick = bookRequestMenuItems(userBook)[0].clickHandler;
 
+    const requestCount = userBook.requests.filter(
+      (request) => request.status !== requestStatus.RETURNED
+    ).length;
+
+    const userBookSnapshot = { ...userBook };
+
     return (
       <Col sm="4" md="3" xl="2" className="mb-3" key={_id}>
         <RequestBadge
-          count={userBook.requests.length}
+          count={requestCount}
           clickHandler={() => {
             badgeOnClick();
           }}
@@ -88,7 +99,7 @@ const Library = () => {
           <BookCard
             _id={_id}
             book={cardInfo}
-            menuItems={checkedInMenuItems(userBook)}
+            menuItems={checkedInMenuItems(userBookSnapshot)}
             isActive={activeCardId === _id}
             setActive={setActiveCardId}
           />
@@ -100,6 +111,7 @@ const Library = () => {
   return (
     <>
       {renderModal()}
+      {renderBookTransferModal()}
       <Container className={styles.container}>
         <div className={styles.title}>
           <h1>Your Library</h1>
@@ -119,7 +131,8 @@ const Library = () => {
 
         <BookTransferTracker
           booksInTransition={ownedbooksInTransition}
-          isBorrower={false}
+          isBorrower={isBorrower}
+          runAction={runAction}
         />
 
         <div>

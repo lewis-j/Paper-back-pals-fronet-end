@@ -107,9 +107,18 @@ const NotificationsPanel = ({ onClose }) => {
           text="You currently don't have notifications"
         />
       );
-    return showReadNotifications
-      ? _notifications.read.map(renderReadNotifications)
-      : _notifications.unread.map(renderUnreadNotifications);
+    if (!showReadNotifications) {
+      if (_notifications.unread.length === 0) {
+        return (
+          <NoContent
+            icon={faBell}
+            text="You currently don't have unread notifications"
+          />
+        );
+      }
+      return _notifications.unread.map(renderUnreadNotifications);
+    }
+    return _notifications.read.map(renderReadNotifications);
   };
 
   return (

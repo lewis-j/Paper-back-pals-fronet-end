@@ -14,6 +14,8 @@ const BooksFromFriendsSection = ({
   const renderBook = (userBook, idx) => {
     const { _id, book, owner, dueDate, currentPage } = userBook;
 
+    const userBookSnapshot = { ...userBook };
+
     return (
       <UserBookCardSm
         key={`${_id}-${idx}`}
@@ -24,7 +26,7 @@ const BooksFromFriendsSection = ({
         currentPage={currentPage}
         setActive={setActiveCard}
         isActive={activeCard === _id}
-        menuItems={menuItems(userBook)}
+        menuItems={menuItems(userBookSnapshot)}
       />
     );
   };

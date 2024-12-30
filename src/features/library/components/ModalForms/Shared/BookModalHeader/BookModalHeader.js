@@ -15,6 +15,8 @@ const BookModalHeader = ({
   const { coverImg, title, authors, pageCount = 0 } = book;
   const progressPercent = getProgressInPercent(currentPage, pageCount);
 
+  console.log("sender", sender);
+
   return (
     <div className={styles.bookHeader}>
       <div className={styles.bookCard}>

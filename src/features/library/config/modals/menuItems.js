@@ -1,16 +1,8 @@
-// const createBookFinder = (book_id) => (userBooks) => {
-//   return userBooks.find((book) => book._id === book_id);
-// };
-
 import requestStatus from "../../../../data/requestStatus";
 
-// Menu configurations for different sections
-export const getMenuItems = (modalActions, book_id) => {
-  // const getUserBookById = createBookFinder(book_id);
+export const getMenuItems = (modalActions) => {
   return {
     booksInLibrary: (userBook) => {
-      // const userBook = getUserBookById(userBooks);
-
       return [
         {
           text: "Book Details",

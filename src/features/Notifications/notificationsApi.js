@@ -36,3 +36,13 @@ export const markAsRead = async (notification_id) => {
     return Promise.reject(error);
   }
 };
+
+export const markAllAsRead = async () => {
+  try {
+    const res = await API.put(`notifications/markAllAsRead`);
+    const { notification } = res.data;
+    return { notification };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

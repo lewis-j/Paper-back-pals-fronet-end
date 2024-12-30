@@ -12,6 +12,7 @@ const pendingReducer = (state) => {
 };
 
 const setSuccessState = (fulfilledReducer) => (state, action) => {
+  console.log("state in setSuccessState", state);
   fulfilledReducer(state, action);
   state.status = status.SUCCEEDED;
   state.error = null;
