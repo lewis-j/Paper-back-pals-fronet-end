@@ -13,7 +13,7 @@ const CurrentReadSection = ({
   const EmptyStatePrompt = ({ title, text, route }) => {
     return (
       <div className={styles.noContent}>
-        <NoContent icon={faBook} iconSize="6em" text={text}>
+        <NoContent icon={faBook} text={text}>
           {title}
         </NoContent>
       </div>

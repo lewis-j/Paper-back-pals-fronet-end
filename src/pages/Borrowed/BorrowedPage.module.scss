@@ -5,11 +5,7 @@
 }
 
 .title {
-  border-bottom: 1px solid $box-border-colors;
-  color: $title-color;
-  h1 {
-    padding: 1em 0;
-  }
+  @include title;
 }
 
 .subtitle {

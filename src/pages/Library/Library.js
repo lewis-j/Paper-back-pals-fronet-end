@@ -8,12 +8,10 @@ import {
 } from "../../features/library";
 import styles from "./Library.module.scss";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
-import { useModalMenu } from "../../features/library/hooks/useModalMenu";
 import { useSelector } from "react-redux";
 import { Badge } from "../../components";
 import requestStatus from "../../data/requestStatus";
 import { Col, Container } from "../../lib/BootStrap";
-import { useBookTransferModal } from "../../features/library/components/BookTransferTracker/hooks/useBookTransferModal";
 import { useState } from "react";
 import { useLibraryModalManager } from "../../features/library/hooks/useLibraryModalManager";
 

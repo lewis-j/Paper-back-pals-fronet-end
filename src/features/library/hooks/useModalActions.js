@@ -17,14 +17,14 @@ export const useModalActions = (openModal) => {
       openModal(MODAL_TYPES.VIEW_BOOK_DETAILS, bookInfo),
     viewUserBookDetails: (userBook) =>
       openModal(MODAL_TYPES.VIEW_BOOK_DETAILS, { userBook }),
-    viewReadingProgress: (userBook) =>
-      openModal(MODAL_TYPES.VIEW_READING_PROGRESS, { userBook }),
     updatePageCount: (userBook) =>
       openModal(MODAL_TYPES.UPDATE_PAGE_COUNT, { userBook }),
     setCurrentRead: (userBook) =>
       openModal(MODAL_TYPES.SET_CURRENT_READ, { userBook }),
     markBookComplete: (userBook) =>
       openModal(MODAL_TYPES.COMPLETE_BOOK, { userBook }),
+    viewTransferHistory: (userBook) =>
+      openModal(MODAL_TYPES.VIEW_TRANSFER_HISTORY, { userBook }),
 
     // Borrow Request Flow
     viewBorrowRequests: (userBook) =>

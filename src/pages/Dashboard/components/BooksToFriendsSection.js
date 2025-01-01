@@ -31,22 +31,24 @@ const BooksToFriendsSection = ({
       };
     }
     return (
-      <BookCardBadge
-        badge={bookCardBadge.badge}
-        clickHandler={bookCardBadge.clickHandler}
-      >
-        <UserBookCardSm
-          key={_id}
-          _id={_id}
-          book={book}
-          user={sender}
-          dueDate={dueDate}
-          currentPage={currentPage}
-          setActive={setActiveCard}
-          isActive={activeCard === _id}
-          menuItems={toFriendsmenuItems}
-        />
-      </BookCardBadge>
+      <div key={`${_id}-${request.status}-${dueDate}`}>
+        <BookCardBadge
+          badge={bookCardBadge.badge}
+          clickHandler={bookCardBadge.clickHandler}
+        >
+          <UserBookCardSm
+            key={_id}
+            _id={_id}
+            book={book}
+            user={sender}
+            dueDate={dueDate}
+            currentPage={currentPage}
+            setActive={setActiveCard}
+            isActive={activeCard === _id}
+            menuItems={toFriendsmenuItems}
+          />
+        </BookCardBadge>
+      </div>
     );
   };
 

@@ -96,10 +96,10 @@ const AllResults = () => {
   const Result = ({ type, queryTitle, navOption, children, navHandler }) => {
     return (
       <>
-        <h3 className="my-3">
-          Results in {type}s for: {queryTitle}
+        <h3 className={styles.resultTitle}>
+          Results in {type}s for {queryTitle}:
         </h3>
-        <Row className="row-margin">{children}</Row>
+        <Row className={styles.userResults}>{children}</Row>
         {navOption && (
           <div className={styles.nav_btn_wrapper}>
             <button className={styles.nav_btn} onClick={() => navHandler()}>

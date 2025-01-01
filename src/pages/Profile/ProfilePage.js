@@ -9,10 +9,29 @@ import {
 import styles from "./ProfilePage.module.scss";
 import { Avatar, Button } from "../../components";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchReturnedBooks } from "../../features/library/userBooksSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { currentUser } = useSelector((state) => state.authUser);
+  const { returnedBooks = null } = useSelector(
+    (state) => state.userBooks.books
+  );
   const { username, profilePic } = currentUser;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  console.log("currentUser", currentUser);
+  console.log("returnedBooks", returnedBooks);
+
+  const BorrowedBookCount = returnedBooks?.borrowedBooks.length || 0;
+  const LentBookCount = returnedBooks?.lentBooks.length || 0;
+
+  useEffect(() => {
+    dispatch(fetchReturnedBooks()).unwrap();
+  }, [dispatch]);
   return (
     <div className={styles.container}>
       {/* User Header Section */}
@@ -29,15 +48,25 @@ const ProfilePage = () => {
 
       {/* Stats Section */}
       <div className={styles.statsSection}>
-        <div className={styles.stat}>
+        <div
+          className={`${styles.stat} ${styles.clickable}`}
+          onClick={() => navigate("/borrowing-history")}
+          role="button"
+          tabIndex={0}
+        >
           <FontAwesomeIcon icon={faBook} className={styles.statIcon} />
-          <h3>Books Read</h3>
-          <span>42</span>
+          <h3>Books Borrowed</h3>
+          <span>{BorrowedBookCount}</span>
         </div>
-        <div className={styles.stat}>
-          <FontAwesomeIcon icon={faStar} className={styles.statIcon} />
-          <h3>Reviews</h3>
-          <span>15</span>
+        <div
+          className={`${styles.clickable} ${styles.stat}`}
+          onClick={() => navigate("/lending-history")}
+          role="button"
+          tabIndex={0}
+        >
+          <FontAwesomeIcon icon={faBook} className={styles.statIcon} />
+          <h3>Books Lent</h3>
+          <span>{LentBookCount}</span>
         </div>
         <div className={styles.stat}>
           <FontAwesomeIcon icon={faUsers} className={styles.statIcon} />

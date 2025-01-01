@@ -5,6 +5,7 @@ import FormContainer from "../../components/ModalForms/Shared/FormContainer/Form
 import { useBookActions } from "../../hooks/useBookActions";
 import { MODAL_TYPES } from "./modalTypes";
 import * as asyncStatus from "../../../../data/asyncStatus";
+import { BookStatusTracker } from "../../components";
 
 const createFormModal = (label, Component, props) => ({
   label,
@@ -36,6 +37,18 @@ const getModalConfig = (
           <BookModalForm.BookDetailsView
             userBook={userBook}
             onClose={onClose}
+          />
+        ),
+        standalone: true,
+      };
+    case MODAL_TYPES.VIEW_TRANSFER_HISTORY.value:
+      return {
+        label: "Transfer History",
+        component: (
+          <BookStatusTracker
+            userBook={userBook}
+            isColumn={true}
+            isBorrower={userBook.isBorrower}
           />
         ),
         standalone: true,

@@ -66,6 +66,14 @@ $standard-box-shadow: 1px 1px 5px $shadow-color;
 $sharp-box-shadow: 1px 1px 5px $box-shadow-sharp;
 
 //mixins
+
+@mixin title {
+  border-bottom: 1px solid $box-border-colors;
+  color: $title-color;
+  h1 {
+    padding: 1em 0;
+  }
+}
 @mixin active-link {
   border-bottom: solid 1px $grey-1;
   filter: drop-shadow(2px 3px 13px $grey-1);
@@ -96,3 +104,6 @@ $sharp-box-shadow: 1px 1px 5px $box-shadow-sharp;
   background-color: #474747;
   border-radius: 1rem;
 }
+
+//media queries
+$mobile-breakpoint: 917px;

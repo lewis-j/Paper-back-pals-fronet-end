@@ -76,9 +76,11 @@ const UserBookCardSm = ({
             <div className={styles.dueDate}>{formattedDueDate}</div>
             <Progress className={styles.progress} value={readingProgress} />
           </div>
-          <div className={styles.menuBtn} onClick={cardFilter.menuBtnClick}>
-            <FontAwesomeIcon size="lg" type="button" icon={cardFilter.icon} />
-          </div>
+          {menuItems.length > 0 && (
+            <div className={styles.menuBtn} onClick={cardFilter.menuBtnClick}>
+              <FontAwesomeIcon size="lg" type="button" icon={cardFilter.icon} />
+            </div>
+          )}
         </div>
       </div>
     </>

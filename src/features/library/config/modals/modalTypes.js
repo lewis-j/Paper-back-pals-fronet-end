@@ -11,13 +11,13 @@ class ModalType {
 export const MODAL_TYPES = {
   // Book Reading Progress
   VIEW_BOOK_DETAILS: new ModalType("VIEW_BOOK_DETAILS", "Book Details"),
-  VIEW_READING_PROGRESS: new ModalType(
-    "VIEW_READING_PROGRESS",
-    "Reading Progress"
-  ),
   UPDATE_PAGE_COUNT: new ModalType("UPDATE_PAGE_COUNT", "Update Page Count"),
   SET_CURRENT_READ: new ModalType("SET_CURRENT_READ", "Set Current Read"),
   COMPLETE_BOOK: new ModalType("COMPLETE_BOOK", "Complete Book"),
+  VIEW_TRANSFER_HISTORY: new ModalType(
+    "VIEW_TRANSFER_HISTORY",
+    "Transfer History"
+  ),
 
   // Borrow Request Flow
   VIEW_BORROW_REQUESTS: new ModalType(

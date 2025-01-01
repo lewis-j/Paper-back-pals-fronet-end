@@ -76,12 +76,6 @@ export const getMenuItems = (modalActions) => {
       };
       return [
         {
-          text: "View Progress",
-          clickHandler: () => {
-            modalActions.viewReadingProgress(userBook);
-          },
-        },
-        {
           text: "Message Borrower",
           clickHandler: () => modalActions.openChat(userBook.sender._id),
         },
@@ -140,6 +134,18 @@ export const getMenuItems = (modalActions) => {
         {
           text: "Remove from Library",
           clickHandler: () => modalActions.removeFromLibrary(userBook),
+        },
+      ];
+    },
+    bookHistory: (userBook) => {
+      return [
+        {
+          text: "Book Details",
+          clickHandler: () => modalActions.viewUserBookDetails(userBook),
+        },
+        {
+          text: "Transfer History",
+          clickHandler: () => modalActions.viewTransferHistory(userBook),
         },
       ];
     },

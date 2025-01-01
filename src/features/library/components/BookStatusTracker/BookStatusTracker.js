@@ -21,41 +21,61 @@ const statusConfig = {
     label: "Accepted",
     icon: IconCheck,
     ownerAction: "Confirm Drop-off",
+    timestamp: null,
   },
   [requestStatus.SENDING]: {
     index: 2,
     label: "Owner Drop-off",
     icon: IconTruck,
     borrowerAction: "Confirm Pickup",
+    timestamp: null,
   },
   [requestStatus.CHECKED_OUT]: {
     index: 3,
     label: "With Borrower",
     icon: IconBook,
+    timestamp: null,
   },
   [requestStatus.IS_DUE]: {
     index: 4,
     label: "Due Soon",
     icon: IconAlertCircle,
     borrowerAction: "Confirm Drop-off",
+    timestamp: null,
   },
   [requestStatus.RETURNING]: {
     index: 5,
-    label: "Returning",
+    label: "Lender-Drop-off",
     icon: IconTruck,
     ownerAction: "Confirm Return Pickup",
+    timestamp: null,
   },
   [requestStatus.RETURNED]: {
     index: 6,
     label: "Returned",
     icon: IconRotateClockwise,
+    timestamp: null,
   },
 };
 
-const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
+const BookStatusTracker = ({
+  userBook,
+  isBorrower = true,
+  onAction,
+  isColumn = false,
+}) => {
+  console.log("userBook in tracker", userBook);
   const userBookSnapshot = { ...userBook };
   const currentStatus = userBook?.request?.status;
   const currentStatusConfig = statusConfig[currentStatus];
+
+  if (userBook?.statusHistory) {
+    userBook.statusHistory.forEach(({ status, timestamp }) => {
+      if (statusConfig[status]) {
+        statusConfig[status].timestamp = timestamp;
+      }
+    });
+  }
 
   const getActionButton = () => {
     const action = isBorrower
@@ -79,13 +99,22 @@ const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
     const StatusIcon = status.icon;
     return (
       <div
-        className={`${styles.step} ${isActive ? styles.active : ""}`}
+        className={`${isColumn ? styles.stepCol : styles.step} ${
+          isActive ? styles.active : ""
+        } `}
         key={status.label}
       >
         <div className={styles.iconWrapper}>
           <StatusIcon size={24} />
         </div>
-        <div className={styles.label}>{status.label}</div>
+        <div className={styles.label}>
+          {status.label}
+          {status.timestamp && (
+            <div className={styles.timestamp}>
+              {new Date(status.timestamp).toLocaleDateString()}
+            </div>
+          )}
+        </div>
       </div>
     );
   };
@@ -115,7 +144,7 @@ const BookStatusTracker = ({ userBook, isBorrower = true, onAction }) => {
         </div>
         {getActionButton()}
       </div>
-      <div className={styles.statusSteps}>
+      <div className={isColumn ? styles.statusStepsCol : styles.statusSteps}>
         {Object.values(statusConfig).map((status) =>
           renderStatusStep(status, currentStatusConfig?.index >= status.index)
         )}

@@ -5,3 +5,5 @@ export { BorrowedPage } from "./Borrowed";
 export { FriendsPage, Library as FriendsLibrary } from "./Friends";
 export { ProfilePage } from "./Profile";
 export { SettingsPage } from "./Settings";
+export { LendingHistory } from "./LendingHistory";
+export { BorrowingHistory } from "./BorrowingHistory";

@@ -7,7 +7,7 @@ const EmptyStatePrompt = ({ title, text, route }) => {
   const navigate = useNavigate();
   return (
     <div className={styles.noContent}>
-      <NoContent icon={faBook} iconSize="6em" text={text}>
+      <NoContent icon={faBook} text={text}>
         <Button
           variant="primary"
           onClick={() => {

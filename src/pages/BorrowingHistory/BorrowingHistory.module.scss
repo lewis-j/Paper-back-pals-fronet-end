@@ -1,0 +1,10 @@
+@import "../../style/variables.scss";
+
+.title {
+  @include title;
+  padding: 1em 0;
+}
+
+.bookwrapper {
+  margin: 4em 0;
+}

@@ -159,3 +159,14 @@ export const updateCurrentPage = async ({
     return Promise.reject(error);
   }
 };
+
+export const fetchReturnedBooks = async () => {
+  try {
+    const res = await API.get("/user-books/request/returned-books");
+    console.log("res", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch books read:", error);
+    return Promise.reject(error);
+  }
+};

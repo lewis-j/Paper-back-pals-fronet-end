@@ -3,7 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { fetchUser } from "./features/Authentication";
 import * as asyncStatus from "./data/asyncStatus";
-import { LandingPage, SettingsPage } from "./pages";
+import {
+  BorrowingHistory,
+  LandingPage,
+  LendingHistory,
+  SettingsPage,
+} from "./pages";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { Loading, PrivateRoute } from "./components";
 import { Footer, Navigation } from "./layout";
@@ -12,7 +17,6 @@ import styles from "./style/App.module.scss";
 import { AllResults } from "./pages/SearchResults/AllResults";
 import { fetchNotifications } from "./features/Notifications";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
-import MainNav from "./layout/Navigation/components/MainNav/MainNav";
 
 const Library = lazy(() =>
   import("./pages").then((module) => ({ default: module.Library }))
@@ -92,6 +96,8 @@ function App() {
           <Route path="friends" element={<FriendsPage />}>
             <Route path="library" element={<FriendsLibrary />} />
           </Route>
+          <Route path="/borrowing-history" element={<BorrowingHistory />} />
+          <Route path="/lending-history" element={<LendingHistory />} />
         </Route>
 
         <Route path="/privacy" element={<PrivacyPolicy />} />

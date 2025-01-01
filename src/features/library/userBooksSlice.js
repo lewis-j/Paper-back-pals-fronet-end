@@ -8,6 +8,11 @@ export const addBook = createAsyncThunk(
   userBookApi.addBook
 );
 
+export const fetchReturnedBooks = createAsyncThunk(
+  "userBooks/fetchReturnedBooks",
+  userBookApi.fetchReturnedBooks
+);
+
 export const deleteUserBook = createAsyncThunk(
   "userBooks/deleteUserBook",
   userBookApi.deleteUserBook
@@ -134,9 +139,13 @@ const cancelBorrowRequestFulfilled = (state, action) => {
 const declineLendingRequestFulfilled = (state, action) => {
   state.books.owned.forEach((book) => {
     book.requests = book.requests.filter(
-      (request) => request._id !== action.payload.request._id
+      (request) => request._id !== action.payload.bookRequest._id
     );
   });
+};
+
+const fetchReturnedBooksFulfilled = (state, action) => {
+  state.books.returnedBooks = action.payload;
 };
 
 export const userBooksSlice = createSlice({
@@ -147,6 +156,7 @@ export const userBooksSlice = createSlice({
     books: {
       borrowed: [],
       owned: [],
+      returnedBooks: null,
     },
     status: status.IDLE,
     error: null,
@@ -160,6 +170,7 @@ export const userBooksSlice = createSlice({
     },
   },
   extraReducers: {
+    ...setExtraReducer(fetchReturnedBooks, fetchReturnedBooksFulfilled),
     ...setExtraReducer(addBook, addBookFullfilled),
     ...setExtraReducer(deleteUserBook, deleteUserBookFulfilled),
     ...setExtraReducer(createBookRequest, createBookRequestFullfilled),
