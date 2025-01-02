@@ -4,8 +4,14 @@
   margin-bottom: 4rem;
 }
 
-.title {
+.libraryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid $box-border-colors;
+}
+
+.title {
   color: $title-color;
   h1 {
     padding: 1em 0;

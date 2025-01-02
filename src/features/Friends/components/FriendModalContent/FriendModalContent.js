@@ -7,7 +7,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./FriendModalContent.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { acceptFriendRequest, sendFriendRequest } from "../../friendsSlice";
+import {
+  acceptFriendRequest,
+  removeFriend,
+  sendFriendRequest,
+} from "../../friendsSlice";
 import { openChatWithFriend } from "../../../Chat/chatSlice";
 import {
   markAsRead,
@@ -209,7 +213,7 @@ const useFriendModalActions = (_id) => {
       await dispatch(acceptFriendRequest({ request_id: _id })).unwrap();
     }, "Friend request accepted successfully!"),
     removeFriend: createSubmitHandler(async () => {
-      alert("remove friend");
+      await dispatch(removeFriend({ friend_id: _id })).unwrap();
     }, "Friend removed successfully!"),
   };
 

@@ -41,6 +41,17 @@ const getFriendsUserDataFullfilled = (state, { payload }) => {
   state.currentFriend = payload;
 };
 
+const removeFriend = createAsyncThunk(
+  "friends/removeFriend",
+  friendsThunks.removeFriend
+);
+
+const removeFriendFullfilled = (state, { payload }) => {
+  state.friendsList = state.friendsList.filter(
+    (friend) => friend._id !== payload
+  );
+};
+
 const initialState = {
   currentFriend: null,
   friendsList: [],
@@ -107,6 +118,7 @@ const friendsSlice = createSlice({
     ...setExtraReducer(sendFriendRequest, sendFriendRequestFullfilled),
     ...setExtraReducer(acceptFriendRequest, acceptFriendRequestFullfilled),
     ...setExtraReducer(getFriendsUserData, getFriendsUserDataFullfilled),
+    ...setExtraReducer(removeFriend, removeFriendFullfilled),
   },
 });
 
@@ -122,6 +134,11 @@ export const {
   updateFriendsBookRequests,
 } = friendsSlice.actions;
 
-export { sendFriendRequest, acceptFriendRequest, getFriendsUserData };
+export {
+  sendFriendRequest,
+  acceptFriendRequest,
+  getFriendsUserData,
+  removeFriend,
+};
 
 export default friendsSlice.reducer;

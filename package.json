@@ -40,6 +40,8 @@
     "sass": "^1.53.0",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.5",
+    "tesseract.js": "^4.1.1",
+    "tesseract.js-core": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -48,7 +50,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "clean": "rimraf build && rimraf node_modules/.cache"
+    "clean": "rimraf build && rimraf node_modules/.cache",
+    "setup-tesseract": "node setup-tesseract.js",
+    "setup-tesseract-lang": "node setup-tesseract-lang.js"
   },
   "eslintConfig": {
     "extends": [

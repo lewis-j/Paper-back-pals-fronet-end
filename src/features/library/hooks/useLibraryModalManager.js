@@ -56,5 +56,6 @@ export const useLibraryModalManager = (setActiveCardId = () => {}) => {
     menuItems,
     renderModal,
     runAction,
+    modalActions,
   };
 };

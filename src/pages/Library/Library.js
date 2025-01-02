@@ -9,16 +9,18 @@ import {
 import styles from "./Library.module.scss";
 import { useBookSelectors } from "../../features/library/hooks/useBookSelectors";
 import { useSelector } from "react-redux";
-import { Badge } from "../../components";
+import { Badge, Button } from "../../components";
 import requestStatus from "../../data/requestStatus";
 import { Col, Container } from "../../lib/BootStrap";
 import { useState } from "react";
 import { useLibraryModalManager } from "../../features/library/hooks/useLibraryModalManager";
+import { useSearchModal } from "../../features/search/hooks/useSearchModal";
 
 const Library = () => {
   const [activeCardId, setActiveCardId] = useState("");
   const { menuItems, runAction, renderModal } =
     useLibraryModalManager(setActiveCardId);
+  const { renderSearchModal, openSearchModal } = useSearchModal();
   const isBorrower = false;
 
   const { booksInLibrary, booksToFriends, ownedbooksInTransition } =
@@ -109,10 +111,16 @@ const Library = () => {
 
   return (
     <>
+      {renderSearchModal("books")}
       {renderModal()}
       <Container className={styles.container}>
-        <div className={styles.title}>
-          <h1>Your Library</h1>
+        <div className={styles.libraryHeader}>
+          <div className={styles.title}>
+            <h1>Your Library</h1>
+          </div>
+          <Button onClick={() => openSearchModal()} variant="primary" size="sm">
+            Add Book
+          </Button>
         </div>
         <div>
           <h4 className={styles.subtitle}>Checked in Books</h4>
@@ -122,6 +130,10 @@ const Library = () => {
           noContent={{
             text: "No Books in Library",
             description: "Add some books to get started!",
+            buttonText: "Add Book",
+            onClick: () => {
+              openSearchModal();
+            },
           }}
         >
           {booksInLibrary.map(renderCheckedInBookCard)}

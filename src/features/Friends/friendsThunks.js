@@ -33,3 +33,11 @@ export const getUserData = async ({ user_id }) => {
     return Promise.reject(error);
   }
 };
+
+export const removeFriend = async ({ friend_id }) => {
+  try {
+    return await API.removeFriend(friend_id);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
