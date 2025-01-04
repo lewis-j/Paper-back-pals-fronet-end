@@ -21,6 +21,7 @@ const getModalConfig = (
   onClose
 ) => {
   const { userBook } = modalData;
+  console.log("userBook", userBook);
   const commonProps = {
     userBook,
     onClose,
@@ -122,11 +123,8 @@ const getModalConfig = (
           secondaryLoadingText: "Declining...",
           successMessage: `You've accepted the request to lend "${userBook.book.title}" to ${userBook.sender.username}!`,
           secondarySuccessMessage: `You've declined the request to lend "${userBook.book.title}" to ${userBook.sender.username}`,
-          onConfirm: (isPictureRequired) =>
-            actions.confirmBorrowRequest(
-              userBook.request._id,
-              isPictureRequired
-            ),
+          onConfirm: (pictureRequired) =>
+            actions.confirmBorrowRequest(userBook.request._id, pictureRequired),
           onSecondaryAction: () =>
             actions.declineLendingRequest(userBook.request._id),
         }
@@ -158,7 +156,11 @@ const getModalConfig = (
         buttonText: "Confirm Drop Off",
         loadingText: "Confirming Drop Off...",
         successMessage: `Drop off of "${userBook.book.title}" has been confirmed!`,
-        onConfirm: () => actions.confirmLenderDropOff(userBook.request._id),
+        onConfirm: () =>
+          actions.confirmLenderDropOff(
+            userBook.request._id,
+            userBook.request.pictureRequired
+          ),
       });
 
     case MODAL_TYPES.BORROWER_CONFIRM_PICKUP.value:
@@ -167,7 +169,12 @@ const getModalConfig = (
         confirmationMsg: `Confirm pickup of "${userBook.book.title}" from ${userBook.owner.username}?`,
         buttonText: "Confirm Pickup",
         loadingText: "Confirming Pickup...",
-        onConfirm: () => actions.confirmBorrowerPickup(userBook.request._id),
+        successMessage: `Pickup of "${userBook.book.title}" has been confirmed!`,
+        onConfirm: () =>
+          actions.confirmBorrowerPickup(
+            userBook.request._id,
+            userBook.request.pictureRequired
+          ),
       });
 
     // Book Return Flow
@@ -212,7 +219,11 @@ const getModalConfig = (
         confirmationMsg: `Confirm return of "${userBook.book.title}" to ${userBook.owner.username}?`,
         buttonText: "Confirm Return",
         loadingText: "Confirming Return...",
-        onConfirm: () => actions.confirmBorrowerReturn(userBook.request._id),
+        onConfirm: () =>
+          actions.confirmBorrowerReturn(
+            userBook.request._id,
+            userBook.request.pictureRequired
+          ),
       });
 
     case MODAL_TYPES.LENDER_CONFIRM_RETURN.value:
@@ -221,7 +232,11 @@ const getModalConfig = (
         confirmationMsg: `Confirm return of "${userBook.book.title}" from ${userBook.sender.username}?`,
         buttonText: "Confirm Return",
         loadingText: "Confirming Return...",
-        onConfirm: () => actions.confirmLenderReturn(userBook.request._id),
+        onConfirm: () =>
+          actions.confirmLenderReturn(
+            userBook.request._id,
+            userBook.request.pictureRequired
+          ),
       });
 
     // Library Management

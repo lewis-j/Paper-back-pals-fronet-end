@@ -10,7 +10,7 @@ import {
   SettingsPage,
 } from "./pages";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
-import { Loading, PrivateRoute } from "./components";
+import { PageLoading, PrivateRoute } from "./components";
 import { Footer, Navigation } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
@@ -41,11 +41,12 @@ function App() {
   const userStatus = useSelector((state) => state.authUser.status);
   const currentUser = useSelector((state) => state.authUser.currentUser);
 
+  const isLoading = userStatus === asyncStatus.LOADING;
+  const isSucceeded = userStatus === asyncStatus.SUCCEEDED;
+  const isIdle = userStatus === asyncStatus.IDLE;
+
   useEffect(() => {
-    if (
-      userStatus === asyncStatus.IDLE &&
-      !location.pathname.includes("landing-page")
-    ) {
+    if (isIdle && !location.pathname.includes("landing-page")) {
       dispatch(fetchUser())
         .unwrap()
         .catch((error) => {
@@ -55,16 +56,20 @@ function App() {
           console.error("Failed to fetch user:", error);
         });
     }
-  }, [dispatch, userStatus, navigate, location.pathname]);
+  }, [dispatch, isIdle, navigate, location.pathname]);
 
   useEffect(() => {
-    if (currentUser && userStatus === asyncStatus.SUCCEEDED) {
+    if (currentUser && isSucceeded) {
       console.log("fetching notifications");
       dispatch(fetchNotifications());
     }
-  }, [dispatch, currentUser, userStatus]);
+  }, [dispatch, currentUser, isSucceeded]);
 
-  console.log("userStatus in app", userStatus);
+  console.log("userStatus in app", isLoading);
+
+  if (isLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -79,7 +84,7 @@ function App() {
           path="/"
           element={
             <PrivateRoute>
-              <Suspense fallback={<Loading />}>
+              <Suspense fallback={<PageLoading />}>
                 <div className={styles.pageContent}>
                   <Navigation />
                 </div>

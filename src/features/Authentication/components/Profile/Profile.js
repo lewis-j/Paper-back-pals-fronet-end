@@ -55,8 +55,8 @@ const Profile = () => {
       const formData = new FormData();
 
       formData.append("file", avatar.file);
-
-      const response = await API.post("/upload", formData, {
+      //TODO: convert into thunk in user slice
+      const response = await API.post("user/profile-image", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -108,6 +108,16 @@ $transitionSpeed: 0.1s;
       transform: translateY(0);
     }
   }
+
+  &:focus-within {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &[aria-expanded="true"] {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .menuVisible {
@@ -124,5 +134,10 @@ $transitionSpeed: 0.1s;
 
   &:hover {
     opacity: 0.8;
+  }
+
+  &:hover + .menu {
+    opacity: 0.3;
+    visibility: visible;
   }
 }

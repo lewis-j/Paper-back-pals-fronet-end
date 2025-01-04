@@ -63,6 +63,28 @@ export const declineLendingRequest = createAsyncThunk(
   userBookApi.declineLendingRequest
 );
 
+export const updateRequestPictureRequired = createAsyncThunk(
+  "userBooks/updateRequestPictureRequired",
+  userBookApi.updateRequestPictureRequired
+);
+
+const updateRequestPictureRequiredFulfilled = (state, action) => {
+  const request_id = action.payload.bookRequest._id;
+  let requestIdx;
+
+  const bookIdx = state.books.owned.findIndex((book) => {
+    requestIdx = book.requests?.findIndex(
+      (request) => request._id === request_id
+    );
+    return requestIdx !== -1;
+  });
+
+  if (bookIdx !== -1) {
+    state.books.owned[bookIdx].requests[requestIdx].pictureRequired =
+      action.payload.bookRequest.pictureRequired;
+  }
+};
+
 const updateLendRequestStatusFulfilled = (state, action) => {
   const request_id = action.payload.bookRequest._id;
   // Update the request status in the owned books array
@@ -74,8 +96,11 @@ const updateLendRequestStatusFulfilled = (state, action) => {
     const requestIdx = state.books.owned[bookIdx].requests.findIndex(
       (request) => request._id === request_id
     );
-    state.books.owned[bookIdx].requests[requestIdx].status =
-      action.payload.bookRequest.status;
+    state.books.owned[bookIdx].requests[requestIdx] = {
+      ...state.books.owned[bookIdx].requests[requestIdx],
+      status: action.payload.bookRequest.status,
+      statusHistory: action.payload.bookRequest.statusHistory,
+    };
   }
 };
 
@@ -86,8 +111,11 @@ const updateBorrowRequestStatusFulfilled = (state, action) => {
     return request._id === request_id;
   });
   if (bookIdx !== -1) {
-    state.books.borrowed[bookIdx].request.status =
-      action.payload.bookRequest.status;
+    state.books.borrowed[bookIdx].request = {
+      ...state.books.borrowed[bookIdx].request,
+      status: action.payload.bookRequest.status,
+      statusHistory: action.payload.bookRequest.statusHistory,
+    };
   }
 };
 
@@ -194,6 +222,10 @@ export const userBooksSlice = createSlice({
     ),
     ...setExtraReducer(cancelBorrowRequest, cancelBorrowRequestFulfilled),
     ...setExtraReducer(declineLendingRequest, declineLendingRequestFulfilled),
+    ...setExtraReducer(
+      updateRequestPictureRequired,
+      updateRequestPictureRequiredFulfilled
+    ),
   },
 });
 export const createBookFromRequestFinder = (state) => (request_id) => {

@@ -19,7 +19,6 @@ const AccountMenu = ({ onClose }) => {
         <button
           className={styles.closeButton}
           onClick={() => {
-            console.log("cloding in account menu");
             onClose();
           }}
         >
@@ -31,7 +30,10 @@ const AccountMenu = ({ onClose }) => {
           <button
             key={item.id}
             className={styles.navLink}
-            onClick={() => navigate(item.path)}
+            onClick={() => {
+              navigate(item.path);
+              onClose();
+            }}
           >
             <FontAwesomeIcon
               icon={item.icon}

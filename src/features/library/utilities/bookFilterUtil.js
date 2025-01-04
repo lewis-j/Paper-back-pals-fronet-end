@@ -7,7 +7,6 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
     const activeRequest = userBook.requests.find((request) =>
       Object.keys(requestStatus).slice(1, -1).includes(request.status)
     );
-
     if (activeRequest) {
       const status = activeRequest.status;
       const singleRequestBook = {
@@ -17,10 +16,14 @@ export const categorizeOwnedBooksByStatus = (ownedBooks) => {
         sender: activeRequest.sender,
         requests: userBook.requests,
         request: {
+          statusHistory: activeRequest.statusHistory,
           status: activeRequest.status,
           _id: activeRequest._id,
+          pictureRequired: activeRequest.pictureRequired,
         },
       };
+      console.log("activeRequest", activeRequest);
+      console.log("singleRequestBook", singleRequestBook);
 
       categorizedBooks[status] = categorizedBooks[status]
         ? [...categorizedBooks[status], singleRequestBook]

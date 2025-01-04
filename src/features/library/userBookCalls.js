@@ -92,13 +92,25 @@ export const updateCurrentRead = async (userBook_id) => {
 };
 
 export const nextBookRequestStatus = async (
-  { request_id, status },
+  { request_id, status, imageFile = null },
   { dispatch }
 ) => {
   try {
-    const res = await API.put(`/user-books/request/${request_id}/status/next`, {
-      status,
-    });
+    const formData = new FormData();
+    formData.append("status", status);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    const res = await API.put(
+      `/user-books/request/${request_id}/status/next`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     const { notification, bookRequest } = res.data;
     dispatch(addNotification({ notification }));
     return { notification, bookRequest };
@@ -167,6 +179,24 @@ export const fetchReturnedBooks = async () => {
     return res.data;
   } catch (error) {
     console.error("Failed to fetch books read:", error);
+    return Promise.reject(error);
+  }
+};
+
+export const updateRequestPictureRequired = async ({
+  request_id,
+  pictureRequired,
+}) => {
+  console.log("pictureRequired", pictureRequired);
+  console.log("request_id", request_id);
+  try {
+    const res = await API.put(
+      `/user-books/request/${request_id}/updatePictureRequired`,
+      { pictureRequired }
+    );
+    return { bookRequest: res.data };
+  } catch (error) {
+    console.error("Failed to update request picture required:", error);
     return Promise.reject(error);
   }
 };

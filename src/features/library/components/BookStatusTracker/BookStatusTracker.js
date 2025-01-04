@@ -9,13 +9,14 @@ import {
 } from "@tabler/icons";
 import styles from "./BookStatusTracker.module.scss";
 import requestStatus from "../../../../data/requestStatus";
+import { useStatusModal } from "./hooks/useStatusModal";
 
 const statusConfig = {
-  [requestStatus.CHECKED_IN]: {
-    index: 0,
-    label: "Available",
-    icon: IconBook,
-  },
+  // [requestStatus.CHECKED_IN]: {
+  //   index: 0,
+  //   label: "Available",
+  //   icon: IconBook,
+  // },
   [requestStatus.ACCEPTED]: {
     index: 1,
     label: "Accepted",
@@ -69,13 +70,19 @@ const BookStatusTracker = ({
   const currentStatus = userBook?.request?.status;
   const currentStatusConfig = statusConfig[currentStatus];
 
-  if (userBook?.statusHistory) {
-    userBook.statusHistory.forEach(({ status, timestamp }) => {
-      if (statusConfig[status]) {
-        statusConfig[status].timestamp = timestamp;
+  const { openModal, renderStatusModal } = useStatusModal();
+
+  if (userBook?.request?.statusHistory) {
+    userBook.request.statusHistory.forEach((statusObj) => {
+      if (statusConfig[statusObj.status]) {
+        statusConfig[statusObj.status].timestamp = statusObj.timestamp;
+        if (userBook.request.pictureRequired && statusObj.imageUrl) {
+          statusConfig[statusObj.status].img = statusObj.imageUrl;
+        }
       }
     });
   }
+  console.log("statusConfig", statusConfig);
 
   const getActionButton = () => {
     const action = isBorrower
@@ -106,6 +113,16 @@ const BookStatusTracker = ({
       >
         <div className={styles.iconWrapper}>
           <StatusIcon size={24} />
+          {status.img && (
+            <div className={styles.imageIndicator}>
+              <img
+                src={status.img}
+                alt={status.label}
+                onClick={() => openModal(status)}
+                className={styles.previewImage}
+              />
+            </div>
+          )}
         </div>
         <div className={styles.label}>
           {status.label}
@@ -122,34 +139,37 @@ const BookStatusTracker = ({
   console.log("userBook", userBook);
 
   return (
-    <Card className={styles.tracker}>
-      <div className={styles.bookInfo}>
-        <img
-          src={userBook.book.coverImg}
-          alt={userBook.book.title}
-          className={styles.coverImg}
-        />
-        <div className={styles.details}>
-          <h5>{userBook.book.title}</h5>
-          <p>
-            {isBorrower
-              ? `Owner: ${userBook.owner.username}`
-              : `Borrower: ${userBook.sender.username}`}
-          </p>
-          {userBook.dueDate && currentStatus === "IS_DUE" && (
-            <p className={styles.dueDate}>
-              Due: {new Date(userBook.dueDate).toLocaleDateString()}
+    <>
+      {renderStatusModal()}
+      <Card className={styles.tracker}>
+        <div className={styles.bookInfo}>
+          <img
+            src={userBook.book.coverImg}
+            alt={userBook.book.title}
+            className={styles.coverImg}
+          />
+          <div className={styles.details}>
+            <h5>{userBook.book.title}</h5>
+            <p>
+              {isBorrower
+                ? `Owner: ${userBook.owner.username}`
+                : `Borrower: ${userBook.sender.username}`}
             </p>
+            {userBook.dueDate && currentStatus === "IS_DUE" && (
+              <p className={styles.dueDate}>
+                Due: {new Date(userBook.dueDate).toLocaleDateString()}
+              </p>
+            )}
+          </div>
+          {getActionButton()}
+        </div>
+        <div className={isColumn ? styles.statusStepsCol : styles.statusSteps}>
+          {Object.values(statusConfig).map((status) =>
+            renderStatusStep(status, currentStatusConfig?.index >= status.index)
           )}
         </div>
-        {getActionButton()}
-      </div>
-      <div className={isColumn ? styles.statusStepsCol : styles.statusSteps}>
-        {Object.values(statusConfig).map((status) =>
-          renderStatusStep(status, currentStatusConfig?.index >= status.index)
-        )}
-      </div>
-    </Card>
+      </Card>
+    </>
   );
 };
 

@@ -10,12 +10,14 @@ import {
   updateLendRequestStatus,
   initiateBookReturnRequest,
   cancelBookReturnRequest,
+  updateRequestPictureRequired,
 } from "../userBooksSlice";
 import {
   markAsRead,
   selectNotificationByRequestRefIdCreator,
 } from "../../Notifications/notificationsSlice";
 import REQUEST_STATUS from "../../../data/requestStatus";
+import { useCamera } from "../../../components/CameraCapture/hooks/useCamera";
 // Constants
 const REQUEST_OWNER = {
   BORROWER: "borrower",
@@ -27,6 +29,7 @@ export const useBookActions = () => {
   const selectNotificationByRequestRefId = useSelector(
     selectNotificationByRequestRefIdCreator
   );
+  const { takePicture } = useCamera();
 
   // Helper function to handle dispatch operations
   const dispatchAction = async (action, errorMessage = null) => {
@@ -38,22 +41,6 @@ export const useBookActions = () => {
       return false;
     }
   };
-  //TODO: add this back in
-  // const confirmBorrowRequestAndMarkNotificationAsRead = async (
-  //   request_id,
-  //   isPictureRequired
-  // ) => {
-  //   if (isPictureRequired) {
-  //     //mark
-  //   } else {
-  //     requestActionAndMarkNotificationAsRead(
-  //       request_id,
-  //       REQUEST_OWNER.BORROWER,
-  //       REQUEST_STATUS.ACCEPTED,
-  //       "error in confirmBorrowRequest"
-  //     );
-  //   }
-  // };
 
   const requestBookReturn = async (request_id) => {
     return await dispatchAction(
@@ -73,29 +60,39 @@ export const useBookActions = () => {
   };
 
   // Main request handling function
-  const requestActionAndMarkNotificationAsRead = async (
+  const requestActionAndMarkNotificationAsRead = async ({
     request_id,
     requestOwner,
     currentStatus,
     nextStatus,
     errorMessage,
-    isPictureRequired = false
-  ) => {
+    needsPictureConfirmation = false,
+  }) => {
     try {
+      let imageFile = null;
+      if (needsPictureConfirmation) {
+        alert("picture required");
+        imageFile = await takePicture();
+        console.log("imageFile", imageFile);
+      }
       // Handle the request update
       let requestUpdateSuccess = false;
       if (requestOwner === REQUEST_OWNER.BORROWER) {
-        if (isPictureRequired) {
-          // Handle the logic when a picture is required
-          // For example, you might want to perform additional actions here
-        }
         requestUpdateSuccess = await dispatchAction(
-          updateBorrowRequestStatus({ request_id, status: nextStatus }),
+          updateBorrowRequestStatus({
+            request_id,
+            status: nextStatus,
+            imageFile,
+          }),
           errorMessage
         );
       } else if (requestOwner === REQUEST_OWNER.LENDER) {
         requestUpdateSuccess = await dispatchAction(
-          updateLendRequestStatus({ request_id, status: nextStatus }),
+          updateLendRequestStatus({
+            request_id,
+            status: nextStatus,
+            imageFile,
+          }),
           errorMessage
         );
       } else {
@@ -149,60 +146,85 @@ export const useBookActions = () => {
   const createBorrowRequest = (userBookId) =>
     dispatchAction(createBookRequest(userBookId));
 
-  const confirmBorrowRequest = (request_id, isPictureRequired) =>
-    requestActionAndMarkNotificationAsRead(
-      request_id,
-      REQUEST_OWNER.LENDER,
-      REQUEST_STATUS.CHECKED_IN,
-      REQUEST_STATUS.ACCEPTED,
-      "error in confirmBorrowRequest",
-      isPictureRequired
+  const updateBorrowRequestPictureRequired = async (
+    request_id,
+    pictureRequired
+  ) => {
+    return await dispatchAction(
+      updateRequestPictureRequired({ request_id, pictureRequired }),
+      "error updating picture requirement"
     );
+  };
 
-  const confirmLenderDropOff = (request_id) =>
-    requestActionAndMarkNotificationAsRead(
-      request_id,
-      REQUEST_OWNER.LENDER,
-      REQUEST_STATUS.ACCEPTED,
-      REQUEST_STATUS.SENDING,
-      "error in confirmLenderDropOff"
-    );
+  // Updated confirm borrow request
+  const confirmBorrowRequest = async (request_id, pictureRequired) => {
+    if (pictureRequired) {
+      const pictureUpdateSuccess = await updateBorrowRequestPictureRequired(
+        request_id,
+        pictureRequired
+      );
+      if (!pictureUpdateSuccess) {
+        return false;
+      }
+    }
 
-  const confirmBorrowerPickup = (request_id) =>
-    requestActionAndMarkNotificationAsRead(
+    return requestActionAndMarkNotificationAsRead({
       request_id,
-      REQUEST_OWNER.BORROWER,
-      REQUEST_STATUS.SENDING,
-      REQUEST_STATUS.CHECKED_OUT,
-      "error in confirmBorrowerPickup"
-    );
+      requestOwner: REQUEST_OWNER.LENDER,
+      currentStatus: REQUEST_STATUS.CHECKED_IN,
+      nextStatus: REQUEST_STATUS.ACCEPTED,
+      errorMessage: "error in confirmBorrowRequest",
+    });
+  };
 
-  const confirmBorrowerReturn = (request_id) =>
-    requestActionAndMarkNotificationAsRead(
+  const confirmLenderDropOff = (request_id, pictureRequired) =>
+    requestActionAndMarkNotificationAsRead({
       request_id,
-      REQUEST_OWNER.BORROWER,
-      REQUEST_STATUS.IS_DUE,
-      REQUEST_STATUS.RETURNING,
-      "error in confirmBorrowerReturn"
-    );
+      requestOwner: REQUEST_OWNER.LENDER,
+      currentStatus: REQUEST_STATUS.ACCEPTED,
+      nextStatus: REQUEST_STATUS.SENDING,
+      errorMessage: "error in confirmLenderDropOff",
+      needsPictureConfirmation: pictureRequired,
+    });
 
-  const confirmLenderReturn = (request_id) =>
-    requestActionAndMarkNotificationAsRead(
+  const confirmBorrowerPickup = (request_id, pictureRequired) =>
+    requestActionAndMarkNotificationAsRead({
       request_id,
-      REQUEST_OWNER.LENDER,
-      REQUEST_STATUS.RETURNING,
-      REQUEST_STATUS.RETURNED,
-      "error in confirmLenderReturn"
-    );
+      requestOwner: REQUEST_OWNER.BORROWER,
+      currentStatus: REQUEST_STATUS.SENDING,
+      nextStatus: REQUEST_STATUS.CHECKED_OUT,
+      errorMessage: "error in confirmBorrowerPickup",
+      needsPictureConfirmation: pictureRequired,
+    });
+
+  const confirmBorrowerReturn = (request_id, pictureRequired) =>
+    requestActionAndMarkNotificationAsRead({
+      request_id,
+      requestOwner: REQUEST_OWNER.BORROWER,
+      currentStatus: REQUEST_STATUS.IS_DUE,
+      nextStatus: REQUEST_STATUS.RETURNING,
+      errorMessage: "error in confirmBorrowerReturn",
+      needsPictureConfirmation: pictureRequired,
+    });
+
+  const confirmLenderReturn = (request_id, pictureRequired) =>
+    requestActionAndMarkNotificationAsRead({
+      request_id,
+      requestOwner: REQUEST_OWNER.LENDER,
+      currentStatus: REQUEST_STATUS.RETURNING,
+      nextStatus: REQUEST_STATUS.RETURNED,
+      errorMessage: "error in confirmLenderReturn",
+      needsPictureConfirmation: pictureRequired,
+    });
 
   const initiateBookReturn = (request_id) =>
-    requestActionAndMarkNotificationAsRead(
+    requestActionAndMarkNotificationAsRead({
       request_id,
-      REQUEST_OWNER.BORROWER,
-      REQUEST_STATUS.CHECKED_OUT,
-      REQUEST_STATUS.IS_DUE,
-      "error in initiateBookReturn"
-    );
+      requestOwner: REQUEST_OWNER.BORROWER,
+      currentStatus: REQUEST_STATUS.CHECKED_OUT,
+      nextStatus: REQUEST_STATUS.IS_DUE,
+      errorMessage: "error in initiateBookReturn",
+    });
 
   const cancelBorrowRequest = (request_id) =>
     dispatchAction(
@@ -240,5 +262,6 @@ export const useBookActions = () => {
     //remove request Borrower/Lender
     cancelBorrowRequest,
     declineLendingRequest,
+    updateBorrowRequestPictureRequired, // Optionally expose this if needed elsewhere
   };
 };
