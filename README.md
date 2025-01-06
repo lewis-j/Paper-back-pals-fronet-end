@@ -1,7 +1,3 @@
-Certainly! Here's the full **README** with the brief description of closures added back in:
-
----
-
 # Paperback Pals
 
 **Connecting Friends Through Books**
@@ -69,6 +65,23 @@ The book transaction process ensures data consistency and reliability through at
 4. **Error Handling**: If an operation fails, the session automatically rolls back. If successful, the session commits the changes permanently.
 5. **Session Cleanup**: After operations are complete, the session is ended to free resources.
 
+## Authentication Flow
+
+The authentication flow ensures secure login and communication between the client and server:
+
+```mermaid
+sequenceDiagram
+    Client->>Firebase: Login/Register
+    Firebase-->>Client: Firebase Token
+    Client->>Backend: Send Firebase Token
+    Backend->>Firebase: Verify Token
+    Backend->>MongoDB: Get/Create User
+    Backend-->>Client: Set HTTP-only JWT Cookie (with MongoDB ID)
+    Note right of Client: Future Requests
+    Client->>Backend: Request with JWT Cookie
+    Backend->>MongoDB: Lookup User by ID
+```
+
 ## Authentication & Security
 
 - **Firebase Authentication** is used for secure login and account management.
@@ -135,5 +148,4 @@ Contributions are welcome! Please fork the repository, make your changes, and su
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
 
