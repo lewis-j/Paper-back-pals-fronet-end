@@ -20,7 +20,9 @@ const BorrowingHistory = () => {
 
   useEffect(() => {
     if (!borrowedBooks) {
-      dispatch(fetchReturnedBooks()).unwrap();
+      dispatch(fetchReturnedBooks())
+        .unwrap()
+        .catch((error) => console.error(error));
     }
   }, [borrowedBooks, dispatch]);
 

@@ -11,11 +11,15 @@ import { Avatar, Button } from "../../components";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchReturnedBooks } from "../../features/library/userBooksSlice";
+import {
+  fetchReturnedBooks,
+  getAllBookRequests,
+} from "../../features/library/userBooksSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { currentUser } = useSelector((state) => state.authUser);
+  const { friendsList } = useSelector((state) => state.friends);
   const { returnedBooks = null } = useSelector(
     (state) => state.userBooks.books
   );
@@ -23,14 +27,16 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("currentUser", currentUser);
-  console.log("returnedBooks", returnedBooks);
-
   const BorrowedBookCount = returnedBooks?.borrowedBooks.length || 0;
   const LentBookCount = returnedBooks?.lentBooks.length || 0;
 
   useEffect(() => {
-    dispatch(fetchReturnedBooks()).unwrap();
+    Promise.all([
+      dispatch(fetchReturnedBooks()).unwrap(),
+      dispatch(getAllBookRequests()).unwrap(),
+    ]).catch((error) => {
+      console.error("One of the operations failed:", error);
+    });
   }, [dispatch]);
   return (
     <div className={styles.container}>
@@ -39,9 +45,13 @@ const ProfilePage = () => {
         <div className={styles.userInfo}>
           <Avatar imgSrc={profilePic} username={username} size="xl" />
           <h1>{username}</h1>
-          <p className={styles.bio}>User bio goes here...</p>
+          <p className={styles.bio}>
+            {currentUser.bio === ""
+              ? "User bio goes here... "
+              : currentUser.bio}
+          </p>
         </div>
-        <Button variant="secondary" to="/settings">
+        <Button variant="secondary" onClick={() => navigate("/settings")}>
           Edit Profile
         </Button>
       </div>
@@ -68,21 +78,17 @@ const ProfilePage = () => {
           <h3>Books Lent</h3>
           <span>{LentBookCount}</span>
         </div>
-        <div className={styles.stat}>
+        <div
+          className={`${styles.clickable} ${styles.stat}`}
+          onClick={() => navigate("/friends")}
+          role="button"
+          tabIndex={0}
+        >
           <FontAwesomeIcon icon={faUsers} className={styles.statIcon} />
-          <h3>Following</h3>
-          <span>120</span>
+          <h3>Friends</h3>
+          <span>{friendsList.length}</span>
         </div>
       </div>
-
-      {/* Bookshelves Section */}
-      <section className={styles.bookshelves}>
-        <h2>
-          <FontAwesomeIcon icon={faBookOpen} className={styles.sectionIcon} />
-          My Bookshelves
-        </h2>
-        {/* BookshelfGrid component */}
-      </section>
 
       {/* Recent Activity */}
       <section className={styles.activity}>

@@ -18,6 +18,30 @@ const fetchUser = async (_, { dispatch }) => {
   }
 };
 
+const updateUser = async ({ updates }, { dispatch }) => {
+  console.log("updates", updates);
+  try {
+    const updatedUser = await authApi.updateUser(updates);
+    return { user: updatedUser };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const updateUserProfileImg = async ({ file }, { dispatch }) => {
+  if (!file) {
+    throw new Error("No file provided");
+  }
+
+  try {
+    const userImgUrl = await authApi.updateUserProfileImg(file);
+    return { userImgUrl };
+  } catch (error) {
+    console.error("Error in updateUserProfileImg:", error);
+    return Promise.reject(error);
+  }
+};
+
 const loginWithGoogle = async (_, { dispatch }) => {
   try {
     // await authApi.enableCsrfProtection();
@@ -52,7 +76,52 @@ const registerUser = async ({ username, email, password }, { dispatch }) => {
 };
 
 const logout = async () => {
-  return await authApi.logout();
+  try {
+    // First logout from Firebase (though not strictly necessary
+    // since we're not using Firebase tokens)
+    await firebaseApi.logout();
+
+    // Invalidate the session on your backend
+    await authApi.logout();
+  } catch (err) {
+    console.error("Logout failed:", err);
+    throw err;
+  }
 };
 
-export { fetchUser, loginWithGoogle, loginWithForm, registerUser, logout };
+const updateUserProfile = async (updates) => {
+  try {
+    const filteredUpdates = Object.fromEntries(
+      Object.entries(updates).filter(([_, value]) => value != null)
+    );
+    // Handle non-security critical updates
+    const updatedUser = await authApi.updateUser(filteredUpdates);
+    return updatedUser;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const updateUserEmail = async (newEmail) => {
+  try {
+    // 1. Update Firebase email
+    await firebaseApi.setNewEmail(newEmail);
+    // 2. force logout
+    const updatedUser = await authApi.logout();
+    return updatedUser;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export {
+  fetchUser,
+  loginWithGoogle,
+  loginWithForm,
+  registerUser,
+  logout,
+  updateUser,
+  updateUserProfile,
+  updateUserProfileImg,
+  updateUserEmail,
+};

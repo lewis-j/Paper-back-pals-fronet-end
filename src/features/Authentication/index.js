@@ -7,4 +7,4 @@ export {
   removeAuthUser,
 } from "./authUserSlice";
 
-export { Login, Signup, ResetPassword, Profile } from "./components";
+export { Login, Signup, ResetPassword, Settings } from "./components";

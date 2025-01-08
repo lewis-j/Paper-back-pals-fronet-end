@@ -41,6 +41,16 @@ export const getBookRequest = async (request_id) => {
   }
 };
 
+export const getAllBookRequests = async () => {
+  try {
+    const res = await API.get("/user-books/request/all");
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch all book requests:", error);
+    return Promise.reject(error);
+  }
+};
+
 export const createBookRequest = async (userBook_id, { dispatch }) => {
   try {
     const res = await API.post(`/user-books/request`, { userBook_id });
@@ -175,11 +185,17 @@ export const updateCurrentPage = async ({
 export const fetchReturnedBooks = async () => {
   try {
     const res = await API.get("/user-books/request/returned-books");
-    console.log("res", res.data);
     return res.data;
   } catch (error) {
-    console.error("Failed to fetch books read:", error);
-    return Promise.reject(error);
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      "Failed to fetch books read";
+    return Promise.reject({
+      message: errorMessage,
+      status: error.response?.status,
+      originalError: error,
+    });
   }
 };
 

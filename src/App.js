@@ -46,7 +46,13 @@ function App() {
   const isIdle = userStatus === asyncStatus.IDLE;
 
   useEffect(() => {
-    if (isIdle && !location.pathname.includes("landing-page")) {
+    const excludedPaths = ["landing-page"];
+    const isExcludedPath = excludedPaths.some(
+      (path) => location.pathname === `/${path}`
+    );
+
+    if (isIdle && !isExcludedPath && !currentUser) {
+      console.log("fetching user in app.js");
       dispatch(fetchUser())
         .unwrap()
         .catch((error) => {
@@ -56,7 +62,7 @@ function App() {
           console.error("Failed to fetch user:", error);
         });
     }
-  }, [dispatch, isIdle, navigate, location.pathname]);
+  }, [dispatch, isIdle, navigate, location.pathname, currentUser]);
 
   useEffect(() => {
     if (currentUser && isSucceeded) {
@@ -64,8 +70,6 @@ function App() {
       dispatch(fetchNotifications());
     }
   }, [dispatch, currentUser, isSucceeded]);
-
-  console.log("userStatus in app", isLoading);
 
   if (isLoading) {
     return <PageLoading />;

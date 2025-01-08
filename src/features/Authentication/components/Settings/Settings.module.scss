@@ -1,3 +1,14 @@
+.labelIcon {
+  margin-right: 8px;
+  width: 16px;
+  color: #666;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+}
+
 @import "../../../../style/variables.scss";
 
 .container {
@@ -59,4 +70,28 @@
       opacity: 0.8;
     }
   }
+}
+
+.passwordForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem 0;
+
+  input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+}
+
+.successMessage {
+  border: 1px solid #210dd1;
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 0.2em;
+  margin: 0.3em 0;
+  color: #00076c;
+  background: #a5b2ff75;
 }

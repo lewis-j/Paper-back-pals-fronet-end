@@ -29,6 +29,14 @@ export default function Signup() {
     confirmPassword: "",
   });
   const [error, setError] = useState({});
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    minLength: false,
+    hasNumber: false,
+    hasUppercase: false,
+    hasLowercase: false,
+    hasSpecial: false,
+  });
+  const [passwordMatch, setPasswordMatch] = useState(false);
 
   const {
     currentUser: user,
@@ -44,6 +52,18 @@ export default function Signup() {
     }
   }, [status, user, navigate]);
 
+  const validatePassword = (password) => {
+    const requirements = {
+      minLength: password.length >= 8,
+      hasNumber: /\d/.test(password),
+      hasUppercase: /[A-Z]/.test(password),
+      hasLowercase: /[a-z]/.test(password),
+      hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    };
+    setPasswordRequirements(requirements);
+    return Object.values(requirements).every(Boolean);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(() => ({}));
@@ -57,7 +77,7 @@ export default function Signup() {
       return setError(error);
     }
     if (!formValues.password) {
-      error.password = error.message = "password is required!";
+      error.password = error.message = "Password is required!";
       return setError(error);
     }
     if (!formValues.confirmPassword) {
@@ -66,6 +86,11 @@ export default function Signup() {
     }
     if (password !== confirmPassword) {
       error.password = error.message = "Passwords must match";
+      return setError(error);
+    }
+
+    if (!validatePassword(formValues.password)) {
+      error.password = error.message = "Password does not meet requirements";
       return setError(error);
     }
 
@@ -78,6 +103,15 @@ export default function Signup() {
   const handleOnChange = (e) => {
     setError({});
     setFormValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+    if (e.target.name === "password") {
+      validatePassword(e.target.value);
+      setPasswordMatch(e.target.value === formValues.confirmPassword);
+    }
+
+    if (e.target.name === "confirmPassword") {
+      setPasswordMatch(formValues.password === e.target.value);
+    }
   };
 
   const { name, email, password, confirmPassword } = formValues;
@@ -127,6 +161,53 @@ export default function Signup() {
                   value={password}
                   onChange={handleOnChange}
                 />
+                <div className="password-requirements mt-2">
+                  <small
+                    className={`d-block ${
+                      passwordRequirements.minLength
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    ✓ At least 8 characters
+                  </small>
+                  <small
+                    className={`d-block ${
+                      passwordRequirements.hasNumber
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    ✓ At least one number
+                  </small>
+                  <small
+                    className={`d-block ${
+                      passwordRequirements.hasUppercase
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    ✓ At least one uppercase letter
+                  </small>
+                  <small
+                    className={`d-block ${
+                      passwordRequirements.hasLowercase
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    ✓ At least one lowercase letter
+                  </small>
+                  <small
+                    className={`d-block ${
+                      passwordRequirements.hasSpecial
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    ✓ At least one special character
+                  </small>
+                </div>
               </ErrorMsg>
             </FormGroup>
             <FormGroup id="password-confirm">
@@ -138,6 +219,17 @@ export default function Signup() {
                   value={confirmPassword}
                   onChange={handleOnChange}
                 />
+                {confirmPassword && (
+                  <small
+                    className={`d-block mt-2 ${
+                      passwordMatch ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    {passwordMatch
+                      ? "✓ Passwords match"
+                      : "✗ Passwords do not match"}
+                  </small>
+                )}
               </ErrorMsg>
             </FormGroup>
             {!error.message && (

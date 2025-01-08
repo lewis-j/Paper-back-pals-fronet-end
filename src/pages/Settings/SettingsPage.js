@@ -1,11 +1,12 @@
-import React from "react";
-import { Profile } from "../../features/Authentication";
+import { useState } from "react";
+import styles from "./SettingsPage.module..scss";
+import { Settings } from "../../features/Authentication";
 
 const SettingsPage = () => {
   return (
-    <div>
+    <div className={styles.settingsContainer}>
       <h1>Settings</h1>
-      <Profile />
+      <Settings />
     </div>
   );
 };

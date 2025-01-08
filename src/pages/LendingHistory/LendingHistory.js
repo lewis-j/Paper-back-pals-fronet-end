@@ -20,7 +20,9 @@ const LendingHistory = () => {
 
   useEffect(() => {
     if (!lentBooks) {
-      dispatch(fetchReturnedBooks()).unwrap();
+      dispatch(fetchReturnedBooks())
+        .unwrap()
+        .catch((error) => console.error(error));
     }
   }, [lentBooks, dispatch]);
 
