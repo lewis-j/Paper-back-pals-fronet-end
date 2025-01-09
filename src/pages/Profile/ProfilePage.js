@@ -4,7 +4,6 @@ import {
   faStar,
   faUsers,
   faClockRotateLeft,
-  faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./ProfilePage.module.scss";
 import { Avatar, Button } from "../../components";

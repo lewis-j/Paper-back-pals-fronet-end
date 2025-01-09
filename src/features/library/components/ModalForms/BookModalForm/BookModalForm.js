@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import * as asyncStatus from "../../../../../data/asyncStatus";
 import styles from "./BookModalForm.module.scss";
-import { Button, Loading } from "../../../../../components";
+import { Button } from "../../../../../components";
 import { useModal } from "../../../../../context/ModalContext";
 import { MODAL_TYPES } from "../../../config/modals";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

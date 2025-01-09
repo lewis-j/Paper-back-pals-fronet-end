@@ -6,7 +6,6 @@ import { MODAL_TYPES as FRIEND_MODAL_TYPES } from "../../../Friends/hooks/friend
 import { useModalActions as useNotificationModalActions } from "../../../library/hooks/useModalActions";
 import { createBookFromRequestFinder } from "../../../library/userBooksSlice";
 import { useSelector } from "react-redux";
-import { getBookRequest } from "../../../library/userBookCalls";
 import { runBookRequestAction } from "../../../library/utilities/bookRequestAction";
 import { FriendModalContent } from "../../../Friends/config/friendsMenuModalOptions";
 import { useFriendModalActions } from "../../../Friends/hooks/friendModalTypesAndActions";

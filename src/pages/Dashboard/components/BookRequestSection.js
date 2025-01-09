@@ -15,7 +15,6 @@ const BookRequestsSection = ({
     const {
       _id,
       book: { coverImg, title },
-      requests,
     } = userBook;
 
     const requestCount = userBook.requests.filter(

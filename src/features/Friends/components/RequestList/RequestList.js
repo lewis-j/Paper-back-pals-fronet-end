@@ -2,7 +2,6 @@ import styles from "./RequestList.module.scss";
 import { UserCard } from "../UserCard";
 import { useSelector } from "react-redux";
 import { NoContent } from "../../../../components";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 
 const RequestList = ({ acceptRequest }) => {

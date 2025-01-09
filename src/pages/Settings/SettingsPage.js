@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./SettingsPage.module..scss";
 import { Settings } from "../../features/Authentication";
 

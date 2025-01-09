@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "./SlidePanel.module.scss";
 import { _s } from "../../style";
 
 const SlidePanel = ({ open = false, onClose, children }) => {
   const [isClosing, setIsClosing] = useState(false);
+  const panelRef = useRef(null);
 
   useEffect(() => {
     if (open) {
@@ -17,12 +18,15 @@ const SlidePanel = ({ open = false, onClose, children }) => {
 
   useEffect(() => {
     if (!open) return;
+
     const closePanel = (e) => {
-      if (e.target.closest(`.${styles.container}`)) return;
-      setIsClosing(true);
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
+        setIsClosing(true);
+      }
     };
-    window.addEventListener("click", closePanel);
-    return () => window.removeEventListener("click", closePanel);
+
+    document.addEventListener("mousedown", closePanel);
+    return () => document.removeEventListener("mousedown", closePanel);
   }, [open]);
 
   if (!open) return null;
@@ -32,6 +36,7 @@ const SlidePanel = ({ open = false, onClose, children }) => {
   return createPortal(
     <div className={styles.wrapper}>
       <div
+        ref={panelRef}
         className={_s(styles.container, animStyle)}
         onAnimationEnd={() => {
           if (open && isClosing) {

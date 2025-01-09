@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import Tesseract from "tesseract.js";
@@ -8,15 +8,17 @@ import { CameraCapture } from "../CameraCapture/CameraCapture";
 const OCRButton = ({ onTextExtracted, disabled }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const workerRef = useRef(null);
 
   const handleImageUpload = async (photoBlob) => {
     if (!photoBlob) return;
 
     setIsProcessing(true);
+
     try {
-      const result = await Tesseract.recognize(photoBlob, "eng", {
+      // Create a new worker instance
+      workerRef.current = await Tesseract.createWorker({
         workerPath: "/tesseract-core/worker.min.js",
-        // Use CDN for language data
         langPath: "/tesseract-core",
         corePath: "/tesseract-core/tesseract-core.wasm.js",
         logger: (m) => {
@@ -26,26 +28,53 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
         },
       });
 
+      // Initialize worker
+      await workerRef.current.loadLanguage("eng");
+      await workerRef.current.initialize("eng");
+
+      // Recognize text
+      const result = await workerRef.current.recognize(photoBlob);
+
       // Clean up the extracted text
       const extractedText = result.data.text
         .trim()
-        // Remove special characters and extra whitespace
         .replace(/[^\w\s-]/g, "")
-        // Replace multiple spaces/newlines with single space
         .replace(/\s+/g, " ")
-        // Remove lone single characters (like 'N S' or 'E')
         .replace(/\b\w\b/g, "")
-        // Clean up multiple spaces again
         .replace(/\s+/g, " ")
         .trim();
+
       onTextExtracted(extractedText);
     } catch (error) {
       console.error("OCR Error:", error);
     } finally {
+      // Properly terminate the worker
+      if (workerRef.current) {
+        await workerRef.current.terminate();
+        workerRef.current = null;
+      }
       setIsProcessing(false);
       setProgress(0);
     }
   };
+
+  // Cleanup on unmount
+  React.useEffect(() => {
+    return () => {
+      // Ensure worker is terminated when component unmounts
+      const cleanup = async () => {
+        if (workerRef.current) {
+          try {
+            await workerRef.current.terminate();
+            workerRef.current = null;
+          } catch (error) {
+            console.error("Error cleaning up Tesseract worker:", error);
+          }
+        }
+      };
+      cleanup();
+    };
+  }, []);
 
   return (
     <>

@@ -12,15 +12,11 @@ import {
   removeFriend,
   sendFriendRequest,
 } from "../../friendsSlice";
-import { openChatWithFriend } from "../../../Chat/chatSlice";
 import {
   markAsRead,
   findPendingFriendRequestNotificationCreator,
 } from "../../../Notifications/notificationsSlice";
-import * as status from "../../../../data/asyncStatus";
-import { MODAL_TYPES } from "../../hooks/friendModalTypesAndActions";
 import { Button } from "../../../../components";
-import { FRIEND_REQUEST_STATUS } from "../../../../data/friendRequestStatus";
 
 const FriendModalContainer = ({ user, children: actionButtons }) => {
   console.log("FriendModalContainer", user);

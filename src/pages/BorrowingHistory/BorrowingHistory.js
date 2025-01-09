@@ -27,7 +27,7 @@ const BorrowingHistory = () => {
   }, [borrowedBooks, dispatch]);
 
   const mapCheckedOutBooks = (borrowedBook, i) => {
-    const { _id, book, owner, request } = borrowedBook;
+    const { book, owner, request } = borrowedBook;
     const borrowedBookSnapshot = { ...borrowedBook };
     const menuItems = bookHistoryMenuItems(borrowedBookSnapshot);
     const BookCol = ({ children, key }) => (
