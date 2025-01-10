@@ -1,20 +1,19 @@
 @import "../../style/variables.scss";
 
-$app-disc-start-xs: 53em;
+$app-disc-start-xs: 45em;
 $app-disc-start-md: 41em;
-$app-disc-start-lg: 72em;
+$app-disc-start-lg: 45em;
 
 .container {
   position: relative;
   width: 100%;
-  height: calc(300vw);
-  // max-height: 90vh;
+  height: calc(76em + 0.5vw);
   min-height: 400px;
   background-image: linear-gradient(244deg, #000000, #444444);
   box-shadow: inset 2px 1px 10px black;
 
   @media (min-width: 768px) {
-    height: 60vw;
+    height: 110vh;
   }
 
   @media (min-width: 1200px) {
@@ -33,7 +32,7 @@ $app-disc-start-lg: 72em;
   background-position: center;
   background-size: cover;
   width: 100vw;
-  height: $app-disc-start-xs;
+  height: calc($app-disc-start-xs + 20vw);
   position: absolute;
   top: 0;
   background-attachment: fixed;

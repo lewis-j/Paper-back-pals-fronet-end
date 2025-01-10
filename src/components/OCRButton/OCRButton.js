@@ -29,23 +29,26 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
       await workerRef.current.loadLanguage("eng");
       await workerRef.current.initialize("eng");
 
-      // Add improved configuration
+      // Updated parameters for better book text recognition
       await workerRef.current.setParameters({
         tessedit_char_whitelist:
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-., ",
-        tessedit_pageseg_mode: Tesseract.PSM.AUTO,
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.,!?\"' ",
+        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_BLOCK, // Changed to SINGLE_BLOCK for book pages
         preserve_interword_spaces: "1",
+        textord_heavy_nr: "1", // Helps with serif fonts
+        tessedit_do_invert: "0", // Don't invert colors
+        tessedit_ocr_engine_mode: "3", // Use Legacy + LSTM models
       });
 
       // Recognize text
       const result = await workerRef.current.recognize(photoBlob);
 
-      // Improved text cleaning
+      // Enhanced text cleaning for book content
       const extractedText = result.data.text
         .trim()
-        .replace(/[\r\n]+/g, " ") // Replace multiple newlines with space
-        .replace(/[^\w\s.,'-]/g, "") // Keep only alphanumeric, spaces, periods, commas, hyphens
-        .replace(/\s+/g, " ") // Replace multiple spaces with single space
+        .replace(/[\r\n]+/g, " ")
+        .replace(/[^\w\s.,!?'"-]/g, "") // Added more punctuation common in books
+        .replace(/\s+/g, " ")
         .trim();
 
       onTextExtracted(extractedText);
