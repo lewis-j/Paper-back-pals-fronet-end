@@ -10,13 +10,10 @@ import { Col, Container, Row } from "../../lib/BootStrap";
 
 const Hero = () => {
   return (
-    <div
-      className={styles.container}
-      style={{ paddingLeft: 0, paddingRight: 0 }}
-    >
+    <div className={styles.container}>
       <div className={styles.imgWrapper}>
         <div className={styles.filter}></div>
-        <Container style={{ height: "80%" }}>
+        <Container>
           <Row>
             <Col md="6" style={{ zIndex: 2 }}>
               <div className={styles.panel}>
