@@ -16,11 +16,8 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
     setIsProcessing(true);
 
     try {
-      // Create a new worker instance
+      // Create a new worker instance with updated configuration
       workerRef.current = await Tesseract.createWorker({
-        workerPath: "/tesseract-core/worker.min.js",
-        langPath: "/tesseract-core",
-        corePath: "/tesseract-core/tesseract-core.wasm.js",
         logger: (m) => {
           if (m.status === "recognizing text") {
             setProgress(parseInt(m.progress * 100));
@@ -28,7 +25,7 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
         },
       });
 
-      // Initialize worker
+      // Initialize worker with language
       await workerRef.current.loadLanguage("eng");
       await workerRef.current.initialize("eng");
 
