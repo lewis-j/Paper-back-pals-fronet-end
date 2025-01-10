@@ -49,10 +49,10 @@ const Hero = () => {
         <p>
           Ever wondered where that favorite novel disappeared to? Or suddenly
           remembered you still have your friend's book from last summer?
-          PaperPals helps you keep track of your borrowed and lent books, making
-          sure your literary treasures always find their way home. Simple,
-          social, and perfect for book lovers who love sharing their collections
-          with friends.
+          Paperback Pals helps you keep track of your borrowed and lent books,
+          making sure your literary treasures always find their way home.
+          Simple, social, and perfect for book lovers who love sharing their
+          collections with friends.
         </p>
       </div>
     </div>

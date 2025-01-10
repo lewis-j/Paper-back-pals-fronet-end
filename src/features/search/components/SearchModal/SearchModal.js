@@ -4,7 +4,7 @@ import TypeSearchBar from "../TypeSearchBar/TypeSearchBar";
 import styles from "./SearchModal.module.scss";
 import OCRButton from "../../../../components/OCRButton/OCRButton";
 import { useDispatch } from "react-redux";
-import { searchBooks } from "../../searchResultsSlice";
+import { searchBooks, setQuery } from "../../searchResultsSlice";
 import { useNavigate } from "react-router-dom";
 
 const SearchModal = ({ isOpen, onClose, searchType }) => {
@@ -13,9 +13,10 @@ const SearchModal = ({ isOpen, onClose, searchType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onTextExtracted = async (text) => {
-    console.log("text extracted", text);
+    console.log("text extracted", text, typeof text);
     try {
       const result = await dispatch(searchBooks({ query: text })).unwrap();
+      dispatch(setQuery(text));
       console.log("result", result);
       navigate("/results");
     } catch (error) {

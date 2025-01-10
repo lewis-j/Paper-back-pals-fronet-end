@@ -16,8 +16,11 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
     setIsProcessing(true);
 
     try {
-      // Create a new worker instance with updated configuration
+      // Create a new worker instance
       workerRef.current = await Tesseract.createWorker({
+        workerPath: "/tesseract-core/worker.min.js",
+        langPath: "/tesseract-core",
+        corePath: "/tesseract-core/tesseract-core.wasm.js",
         logger: (m) => {
           if (m.status === "recognizing text") {
             setProgress(parseInt(m.progress * 100));
@@ -25,29 +28,19 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
         },
       });
 
-      // Initialize worker with language
+      // Initialize worker
       await workerRef.current.loadLanguage("eng");
       await workerRef.current.initialize("eng");
-
-      // Updated parameters for better book text recognition
-      await workerRef.current.setParameters({
-        tessedit_char_whitelist:
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.,!?\"' ",
-        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_BLOCK, // Changed to SINGLE_BLOCK for book pages
-        preserve_interword_spaces: "1",
-        textord_heavy_nr: "1", // Helps with serif fonts
-        tessedit_do_invert: "0", // Don't invert colors
-        tessedit_ocr_engine_mode: "3", // Use Legacy + LSTM models
-      });
 
       // Recognize text
       const result = await workerRef.current.recognize(photoBlob);
 
-      // Enhanced text cleaning for book content
+      // Clean up the extracted text
       const extractedText = result.data.text
         .trim()
-        .replace(/[\r\n]+/g, " ")
-        .replace(/[^\w\s.,!?'"-]/g, "") // Added more punctuation common in books
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/\b\w\b/g, "")
         .replace(/\s+/g, " ")
         .trim();
 
