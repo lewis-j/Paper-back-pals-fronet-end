@@ -19,12 +19,12 @@ const Col = ({ sm, md, xl, children, className = "", style = {} }) => {
   );
 };
 
-const Container = ({ fluid, children, className = "", style = {} }) => {
+const Container = ({ fluid, children, className = "", style = {}, id }) => {
   // Determine the className based on the fluid prop
   const bsClassName = fluid ? `container-${fluid}` : `container`;
 
   return (
-    <div className={`${bsClassName} ${className}`} style={style}>
+    <div className={`${bsClassName} ${className}`} style={style} id={id}>
       {children}
     </div>
   );

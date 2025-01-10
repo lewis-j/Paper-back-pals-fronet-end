@@ -29,16 +29,23 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
       await workerRef.current.loadLanguage("eng");
       await workerRef.current.initialize("eng");
 
+      // Add improved configuration
+      await workerRef.current.setParameters({
+        tessedit_char_whitelist:
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-., ",
+        tessedit_pageseg_mode: Tesseract.PSM.AUTO,
+        preserve_interword_spaces: "1",
+      });
+
       // Recognize text
       const result = await workerRef.current.recognize(photoBlob);
 
-      // Clean up the extracted text
+      // Improved text cleaning
       const extractedText = result.data.text
         .trim()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, " ")
-        .replace(/\b\w\b/g, "")
-        .replace(/\s+/g, " ")
+        .replace(/[\r\n]+/g, " ") // Replace multiple newlines with space
+        .replace(/[^\w\s.,'-]/g, "") // Keep only alphanumeric, spaces, periods, commas, hyphens
+        .replace(/\s+/g, " ") // Replace multiple spaces with single space
         .trim();
 
       onTextExtracted(extractedText);

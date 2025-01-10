@@ -91,9 +91,11 @@ export const selectNotificationByRequestRefIdCreator =
 
 export const findPendingFriendRequestNotificationCreator =
   (state) => (requestRefId) => {
+    console.log("requestRefId", requestRefId);
     const notifications = state.notifications.list.filter(
-      (notification) => notification.requestRef === requestRefId
+      (notification) => notification.requestRef._id === requestRefId
     );
+    console.log("notifications", notifications);
 
     if (notifications.length === 0) {
       console.warn(`No notifications found for requestRefId: ${requestRefId}`);
@@ -103,6 +105,6 @@ export const findPendingFriendRequestNotificationCreator =
       (notification) =>
         notification.requestRef.status === FRIEND_REQUEST_STATUS.PENDING
     );
-    return pendingNotification.id;
+    return pendingNotification._id;
   };
 export default notificationsSlice.reducer;

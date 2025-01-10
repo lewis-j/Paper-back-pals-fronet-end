@@ -19,7 +19,12 @@ const UserRequestCard = ({ username, profilePic, _id: person_id }) => {
     friendModalActions.makeFriendRequest({ username, profilePic, person_id });
   };
   const handleAcceptFriend = (request_id) => {
-    friendModalActions.acceptFriendRequest(request_id);
+    friendModalActions.acceptFriendRequest({
+      username,
+      profilePic,
+      _id: person_id,
+      request_id,
+    });
   };
 
   const { friendsList, friendRequestInbox, friendRequestOutbox } = useSelector(

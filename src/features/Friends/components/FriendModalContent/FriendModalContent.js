@@ -19,7 +19,6 @@ import {
 import { Button } from "../../../../components";
 
 const FriendModalContainer = ({ user, children: actionButtons }) => {
-  console.log("FriendModalContainer", user);
   return (
     <div className={styles.container}>
       <div className={styles.profileSection}>
@@ -132,8 +131,8 @@ const MakeFriendRequest = ({ user, onClose }) => {
 };
 
 const AcceptFriendRequest = ({ user, onClose }) => {
-  console.log("AcceptFriendRequest in FriendModalContent", user);
   const { request_id } = user;
+  console.log("AcceptFriendRequest in FriendModalContent", user);
   const { actions, resultMessage } = useFriendModalActions(request_id);
 
   return (
@@ -181,6 +180,7 @@ const useStatusHandlers = () => {
 };
 
 const useFriendModalActions = (_id) => {
+  console.log("useFriendModalActions", _id);
   const dispatch = useDispatch();
   const findPendingFriendRequestNotification = useSelector(
     findPendingFriendRequestNotificationCreator
@@ -205,6 +205,7 @@ const useFriendModalActions = (_id) => {
     }, "Friend request sent successfully!"),
     acceptFriendRequest: createSubmitHandler(async () => {
       const notificationId = findPendingFriendRequestNotification(_id);
+      console.log("notificationId", notificationId);
       await dispatch(markAsRead(notificationId)).unwrap();
       await dispatch(acceptFriendRequest({ request_id: _id })).unwrap();
     }, "Friend request accepted successfully!"),

@@ -122,7 +122,7 @@ export default function Signup() {
   }
 
   return (
-    <div className={authStyle.wrapper}>
+    <div className={authStyle.wrapper} id="signup">
       <Card className={authStyle.container}>
         <CardBody>
           <h2 className="text-center mb-4">Sign Up</h2>
@@ -161,53 +161,55 @@ export default function Signup() {
                   value={password}
                   onChange={handleOnChange}
                 />
-                <div className="password-requirements mt-2">
-                  <small
-                    className={`d-block ${
-                      passwordRequirements.minLength
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
-                  >
-                    ✓ At least 8 characters
-                  </small>
-                  <small
-                    className={`d-block ${
-                      passwordRequirements.hasNumber
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
-                  >
-                    ✓ At least one number
-                  </small>
-                  <small
-                    className={`d-block ${
-                      passwordRequirements.hasUppercase
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
-                  >
-                    ✓ At least one uppercase letter
-                  </small>
-                  <small
-                    className={`d-block ${
-                      passwordRequirements.hasLowercase
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
-                  >
-                    ✓ At least one lowercase letter
-                  </small>
-                  <small
-                    className={`d-block ${
-                      passwordRequirements.hasSpecial
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
-                  >
-                    ✓ At least one special character
-                  </small>
-                </div>
+                {password !== "" && (
+                  <div className="password-requirements mt-2">
+                    <small
+                      className={`d-block ${
+                        passwordRequirements.minLength
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      ✓ At least 8 characters
+                    </small>
+                    <small
+                      className={`d-block ${
+                        passwordRequirements.hasNumber
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      ✓ At least one number
+                    </small>
+                    <small
+                      className={`d-block ${
+                        passwordRequirements.hasUppercase
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      ✓ At least one uppercase letter
+                    </small>
+                    <small
+                      className={`d-block ${
+                        passwordRequirements.hasLowercase
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      ✓ At least one lowercase letter
+                    </small>
+                    <small
+                      className={`d-block ${
+                        passwordRequirements.hasSpecial
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      ✓ At least one special character
+                    </small>
+                  </div>
+                )}
               </ErrorMsg>
             </FormGroup>
             <FormGroup id="password-confirm">

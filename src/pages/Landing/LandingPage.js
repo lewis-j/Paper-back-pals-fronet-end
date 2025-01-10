@@ -29,7 +29,11 @@ const Hero = () => {
                     variant="menu-white-outline"
                     size="lg"
                   >
-                    <Link className={styles.learnMoreLink} smooth to="#Demo">
+                    <Link
+                      className={styles.learnMoreLink}
+                      smooth
+                      to="/landing-page#Demo"
+                    >
                       Learn more
                     </Link>
                   </Button>
@@ -108,7 +112,13 @@ const LandingPage = () => {
             variant="granite-outline"
             className={styles.toTopBtn}
           >
-            <Link smooth to="../landing-page/signup#signup">
+            <Link
+              smooth
+              to="/landing-page/signup/#signup"
+              scroll={(el) =>
+                el.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+            >
               Sign Up
             </Link>
           </Button>

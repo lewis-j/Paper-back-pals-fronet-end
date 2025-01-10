@@ -3,6 +3,8 @@ import { UserCard } from "../UserCard";
 import { useSelector } from "react-redux";
 import { useFriendRequestModal } from "../../hooks/useFriendRequestModal";
 import { useState } from "react";
+import { NoContent } from "../../../../components";
+import { faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
 
 const ContactList = ({ activeId = null, setUser }) => {
   const { friendsList } = useSelector((state) => state.friends);
@@ -10,7 +12,7 @@ const ContactList = ({ activeId = null, setUser }) => {
   const [menuId, setMenuId] = useState(-1);
 
   if (!friendsList || friendsList.length === 0)
-    return <div>no friends yet</div>;
+    return <NoContent icon={faUserAltSlash} text="No friends yet" />;
 
   const renderFriends = (friendsList) => {
     return friendsList.map(({ _id, username, profilePic }) => {

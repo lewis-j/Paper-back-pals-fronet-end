@@ -53,8 +53,11 @@ const useNotificationModal = (notifications) => {
       return runBookRequestAction(notificationModalActions, userBook);
     } else if (notification.requestType === "FriendRequest") {
       setRequestType("FriendRequest");
-      console.log("acceptFriendRequest", notification.user);
-      friendModalActions.acceptFriendRequest(notification.user);
+      console.log("acceptFriendRequest", notification);
+      friendModalActions.acceptFriendRequest({
+        ...notification.user,
+        request_id: notification.requestRef._id,
+      });
     }
   };
 

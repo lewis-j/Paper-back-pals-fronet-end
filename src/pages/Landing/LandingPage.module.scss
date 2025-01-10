@@ -2,17 +2,19 @@
 
 $app-disc-start-xs: 53em;
 $app-disc-start-md: 41em;
-$app-disc-start-lg: 46em;
+$app-disc-start-lg: 72em;
 
 .container {
   position: relative;
-  height: calc(90em - 33vw);
   width: 100%;
+  height: calc(300vw);
+  // max-height: 90vh;
+  min-height: 400px;
   background-image: linear-gradient(244deg, #000000, #444444);
   box-shadow: inset 2px 1px 10px black;
 
   @media (min-width: 768px) {
-    height: calc(58em - 4vw);
+    height: 60vw;
   }
 
   @media (min-width: 1200px) {
@@ -41,7 +43,7 @@ $app-disc-start-lg: 46em;
     height: $app-disc-start-md;
   }
   @media (min-width: 1400px) {
-    height: 78vh;
+    height: $app-disc-start-lg;
   }
 
   &::after {
