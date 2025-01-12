@@ -37,7 +37,7 @@ const AxiosInterceptor = ({ children }) => {
     const handleStatusCode = async (error) => {
       if (error.response?.status === 401) {
         await dispatch(removeAuthUser());
-        navigate("/landing-page");
+        navigate("/");
         return Promise.resolve();
       }
       return Promise.reject(error);

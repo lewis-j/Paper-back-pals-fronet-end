@@ -55,7 +55,7 @@ const DesktopNavigation = ({ openProfileMenu }) => {
           src={logo}
           className={styles.logo}
           alt="Logo"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/app")}
         />
 
         {/* Primary Navigation */}

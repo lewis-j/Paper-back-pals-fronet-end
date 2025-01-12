@@ -36,7 +36,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user && status === condition.SUCCEEDED) {
-      navigate("/");
+      navigate("app");
     }
   }, [status, user, navigate, asyncErrors]);
 

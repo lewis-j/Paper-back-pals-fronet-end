@@ -5,6 +5,9 @@ import Tesseract from "tesseract.js";
 import styles from "./OCRButton.module.scss";
 import { CameraCapture } from "../CameraCapture/CameraCapture";
 
+const BASE_PATH =
+  process.env.NODE_ENV === "production" ? process.env.PUBLIC_URL : "";
+
 const OCRButton = ({ onTextExtracted, disabled }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -16,11 +19,11 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
     setIsProcessing(true);
 
     try {
-      // Create a new worker instance
+      // Create a new worker instance with direct paths
       workerRef.current = await Tesseract.createWorker({
-        workerPath: "/tesseract-core/worker.min.js",
-        langPath: "/tesseract-core",
-        corePath: "/tesseract-core/tesseract-core.wasm.js",
+        workerPath: `${BASE_PATH}/tesseract-core/worker.min.js`,
+        langPath: `${BASE_PATH}/tesseract-core/lang-data`,
+        corePath: `${BASE_PATH}/tesseract-core/tesseract-core.wasm.js`,
         logger: (m) => {
           if (m.status === "recognizing text") {
             setProgress(parseInt(m.progress * 100));
@@ -28,12 +31,79 @@ const OCRButton = ({ onTextExtracted, disabled }) => {
         },
       });
 
-      // Initialize worker
+      // Initialize worker with simpler settings
       await workerRef.current.loadLanguage("eng");
       await workerRef.current.initialize("eng");
+      await workerRef.current.setParameters({
+        tessedit_pageseg_mode: "3", // Fully automatic page segmentation, but no OSD
+        textord_min_linesize: "3.0",
+        classify_min_scale: "2.0",
+      });
 
+      const preprocessImage = async (blob) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const MAX_SIZE = 3072;
+            const MIN_SIZE = 1536;
+            let width = img.width;
+            let height = img.height;
+
+            console.log("Original dimensions:", { width, height });
+
+            if (width < MIN_SIZE && height < MIN_SIZE) {
+              if (width > height) {
+                height *= MIN_SIZE / width;
+                width = MIN_SIZE;
+              } else {
+                width *= MIN_SIZE / height;
+                height = MIN_SIZE;
+              }
+            } else if (width > height && width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            } else if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+
+            width = Math.round(width);
+            height = Math.round(height);
+            console.log("Processed dimensions:", { width, height });
+
+            canvas.width = width;
+            canvas.height = height;
+
+            // Enhanced settings for larger text
+            ctx.filter = "contrast(1.3) brightness(1.05) saturate(0.9)";
+
+            // Draw with slight blur to reduce noise
+            ctx.drawImage(img, 0, 0, width, height);
+            ctx.filter = "blur(1px)";
+            ctx.globalCompositeOperation = "destination-over";
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+
+            canvas.toBlob(
+              (processedBlob) => {
+                const imageUrl = URL.createObjectURL(processedBlob);
+                console.log("Optimized image URL:", imageUrl);
+                window.open(imageUrl, "_blank");
+                resolve(processedBlob);
+              },
+              "image/jpeg",
+              0.95
+            );
+          };
+          img.src = URL.createObjectURL(blob);
+        });
+      };
+      const optimizedImage = await preprocessImage(photoBlob);
       // Recognize text
-      const result = await workerRef.current.recognize(photoBlob);
+      const result = await workerRef.current.recognize(optimizedImage);
 
       // Clean up the extracted text
       const extractedText = result.data.text

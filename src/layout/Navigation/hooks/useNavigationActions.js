@@ -3,7 +3,7 @@ import { setNotificationsIsOpen } from "../../../features/Notifications/notifica
 import { setChatOpen } from "../../../features/Chat/chatSlice";
 import { logout } from "../../../features/Authentication";
 
-const useHandleAction = (openProfileMenu) => {
+const useHandleAction = (openProfileMenu = null) => {
   const dispatch = useDispatch();
   const handleAction = (action) => {
     switch (action) {

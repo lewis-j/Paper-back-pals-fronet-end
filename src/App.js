@@ -15,8 +15,8 @@ import { Footer, Navigation } from "./layout";
 import { Login, Signup, ResetPassword } from "./features/Authentication";
 import styles from "./style/App.module.scss";
 import { AllResults } from "./pages/SearchResults/AllResults";
-import { fetchNotifications } from "./features/Notifications";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import { AuthWrapper } from "./features/Authentication/components/AuthWrapper/AuthWrapper";
 
 const Library = lazy(() =>
   import("./pages").then((module) => ({ default: module.Library }))
@@ -35,41 +35,8 @@ const ProfilePage = lazy(() =>
 );
 
 function App() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
   const userStatus = useSelector((state) => state.authUser.status);
-  const currentUser = useSelector((state) => state.authUser.currentUser);
-
   const isLoading = userStatus === asyncStatus.LOADING;
-  const isSucceeded = userStatus === asyncStatus.SUCCEEDED;
-  const isIdle = userStatus === asyncStatus.IDLE;
-
-  useEffect(() => {
-    const excludedPaths = ["landing-page"];
-    const isExcludedPath = excludedPaths.some(
-      (path) => location.pathname === `/${path}`
-    );
-
-    if (isIdle && !isExcludedPath && !currentUser) {
-      console.log("fetching user in app.js");
-      dispatch(fetchUser())
-        .unwrap()
-        .catch((error) => {
-          if (error.status === 401) {
-            navigate("/landing-page");
-          }
-          console.error("Failed to fetch user:", error);
-        });
-    }
-  }, [dispatch, isIdle, navigate, location.pathname, currentUser]);
-
-  useEffect(() => {
-    if (currentUser && isSucceeded) {
-      console.log("fetching notifications");
-      dispatch(fetchNotifications());
-    }
-  }, [dispatch, currentUser, isSucceeded]);
 
   if (isLoading) {
     return <PageLoading />;
@@ -78,22 +45,24 @@ function App() {
   return (
     <div className={styles.wrapper}>
       <Routes>
-        <Route path="landing-page" element={<LandingPage />}>
+        <Route path="/" element={<LandingPage />}>
           <Route index element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route
-          path="/"
+          path="/app"
           element={
-            <PrivateRoute>
-              <Suspense fallback={<PageLoading />}>
-                <div className={styles.pageContent}>
-                  <Navigation />
-                </div>
-              </Suspense>
-            </PrivateRoute>
+            <AuthWrapper>
+              <PrivateRoute>
+                <Suspense fallback={<PageLoading />}>
+                  <div className={styles.pageContent}>
+                    <Navigation />
+                  </div>
+                </Suspense>
+              </PrivateRoute>
+            </AuthWrapper>
           }
         >
           <Route index element={<DashboardPage />} />
@@ -105,8 +74,8 @@ function App() {
           <Route path="friends" element={<FriendsPage />}>
             <Route path="library" element={<FriendsLibrary />} />
           </Route>
-          <Route path="/borrowing-history" element={<BorrowingHistory />} />
-          <Route path="/lending-history" element={<LendingHistory />} />
+          <Route path="borrowing-history" element={<BorrowingHistory />} />
+          <Route path="lending-history" element={<LendingHistory />} />
         </Route>
 
         <Route path="/privacy" element={<PrivacyPolicy />} />

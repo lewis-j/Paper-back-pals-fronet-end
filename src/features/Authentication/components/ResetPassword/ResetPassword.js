@@ -26,7 +26,7 @@ export default function ResetPassword() {
 
   useEffect(() => {
     if (loading) return;
-    if (user && status === condition.SUCCEEDED) navigate("/");
+    if (user && status === condition.SUCCEEDED) navigate("app");
   }, [user, loading, status, navigate]);
 
   async function handleSubmit(e) {

@@ -48,7 +48,7 @@ export default function Signup() {
 
   useEffect(() => {
     if (user && status === condition.SUCCEEDED) {
-      navigate("/");
+      navigate("app");
     }
   }, [status, user, navigate]);
 

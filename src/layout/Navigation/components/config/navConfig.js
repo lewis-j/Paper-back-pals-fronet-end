@@ -12,14 +12,14 @@ import {
 
 export const navItems = {
   primary: [
-    { id: "home", label: "Home", icon: faHome, path: "/" },
+    { id: "home", label: "Home", icon: faHome, path: "/app" },
     {
       id: "borrowed",
       label: "Borrowed",
       icon: faBookOpenReader,
-      path: "/borrowed",
+      path: "borrowed",
     },
-    { id: "library", label: "Library", icon: faBook, path: "/library" },
+    { id: "library", label: "Library", icon: faBook, path: "library" },
   ],
   secondary: [
     {
@@ -34,7 +34,7 @@ export const navItems = {
       icon: faMessage,
       action: "toggleChat",
     },
-    { id: "friends", label: "Friends", icon: faUsers, path: "/friends" },
+    { id: "friends", label: "Friends", icon: faUsers, path: "friends" },
     {
       id: "profile",
       label: "Profile",
@@ -47,9 +47,9 @@ export const navItems = {
       id: "profile",
       label: "Profile",
       icon: faCircleUser,
-      path: "/profile",
+      path: "profile",
     },
-    { id: "settings", label: "Settings", icon: faCog, path: "/settings" },
+    { id: "settings", label: "Settings", icon: faCog, path: "settings" },
     { id: "logout", label: "Logout", icon: faSignOut, action: "logout" },
   ],
 };

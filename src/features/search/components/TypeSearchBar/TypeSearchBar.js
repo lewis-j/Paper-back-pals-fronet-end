@@ -48,7 +48,7 @@ const TypeSearchBar = ({ searchType, customStyles, onClose, mobileView }) => {
         await dispatch(searchUsers({ query: searchInput })).unwrap();
       }
       setSearchInput("");
-      navigate("/results", { state: { searchType } });
+      navigate("/app/results", { state: { searchType } });
       if (onClose) onClose();
     } catch (error) {
       console.error("Error in TypeSearchBar", { error });

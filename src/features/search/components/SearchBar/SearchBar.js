@@ -66,7 +66,7 @@ const SearchBar = ({ customStyles, onClose, mobileView }) => {
     dispatch(setQuery(query));
     await dispatch(searchBooks({ query: query })).unwrap();
     setSearchInput("");
-    navigate("/results", { state: { searchType: "books" } });
+    navigate("/app/results", { state: { searchType: "books" } });
   };
 
   const dispatchUserSearch = async (query) => {
@@ -74,7 +74,7 @@ const SearchBar = ({ customStyles, onClose, mobileView }) => {
     try {
       await dispatch(searchUsers({ query: query })).unwrap();
       setSearchInput("");
-      navigate("/results", { state: { searchType: "users" } });
+      navigate("/app/results", { state: { searchType: "users" } });
     } catch (error) {
       console.error("Error in SearchBar", { ...error });
     }
@@ -88,7 +88,7 @@ const SearchBar = ({ customStyles, onClose, mobileView }) => {
       await dispatch(searchBooks({ query: searchInput })).unwrap();
       await dispatch(searchUsers({ query: searchInput })).unwrap();
       setSearchInput("");
-      navigate("/results", { state: { searchType: "all" } });
+      navigate("/app/results", { state: { searchType: "all" } });
       if (onClose) onClose();
     } catch (error) {
       console.error("Error in SearchBar", { error });

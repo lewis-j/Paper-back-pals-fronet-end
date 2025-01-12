@@ -13,11 +13,7 @@ const PrivateRoute = ({ children }) => {
     return <PageLoading />;
   }
 
-  return currentUser && isSucceeded ? (
-    children
-  ) : (
-    <Navigate to="/landing-page" />
-  );
+  return currentUser && isSucceeded ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

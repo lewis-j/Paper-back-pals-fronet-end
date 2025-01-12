@@ -18,7 +18,7 @@ const SearchModal = ({ isOpen, onClose, searchType }) => {
       const result = await dispatch(searchBooks({ query: text })).unwrap();
       dispatch(setQuery(text));
       console.log("result", result);
-      navigate("/results");
+      navigate("/app/results");
     } catch (error) {
       console.error("Error in onTextExtracted", { error });
     }

@@ -6,9 +6,11 @@ import { Avatar } from "../../../../components";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import useHandleAction from "../../hooks/useNavigationActions";
 
 const AccountMenu = ({ onClose }) => {
   const navigate = useNavigate();
+  const handleAction = useHandleAction();
   const { profilePic, username } = useSelector(
     (state) => state.authUser.currentUser
   );
@@ -31,7 +33,11 @@ const AccountMenu = ({ onClose }) => {
             key={item.id}
             className={styles.navLink}
             onClick={() => {
-              navigate(item.path);
+              if (item.action) {
+                handleAction(item.action);
+              } else {
+                navigate(item.path);
+              }
               onClose();
             }}
           >
