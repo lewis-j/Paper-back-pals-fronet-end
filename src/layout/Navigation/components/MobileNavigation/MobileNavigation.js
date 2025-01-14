@@ -65,6 +65,10 @@ const MobileNavigation = ({ openProfileMenu }) => {
               className={styles.logo}
               alt="Logo"
               onClick={() => navigate("/app")}
+              loading="eager"
+              fetchPriority="high"
+              width="150"
+              height="40"
             />
           ) : (
             <div ref={searchContainerRef} className={styles.searchContainer}>

@@ -69,7 +69,7 @@ const ProfilePage = () => {
         </div>
         <div
           className={`${styles.clickable} ${styles.stat}`}
-          onClick={() => navigate("/lending-history")}
+          onClick={() => navigate("lending-history")}
           role="button"
           tabIndex={0}
         >
@@ -79,7 +79,7 @@ const ProfilePage = () => {
         </div>
         <div
           className={`${styles.clickable} ${styles.stat}`}
-          onClick={() => navigate("/friends")}
+          onClick={() => navigate("friends")}
           role="button"
           tabIndex={0}
         >

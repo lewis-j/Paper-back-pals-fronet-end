@@ -9,8 +9,17 @@
 }
 
 .container {
+  position: relative;
+}
+
+.sectionsWrapper {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  min-height: 0; // Prevents grid blowout
   margin-bottom: 4rem;
 }
+
 .requestBadge {
   position: absolute;
   left: 50%;
