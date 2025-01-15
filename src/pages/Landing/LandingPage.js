@@ -21,19 +21,15 @@ const Hero = () => {
                   <img src={logo_white} alt="Paper back pals logo" />
                 </div>
                 <div className={styles.btnWrapper}>
-                  <Button
-                    icon={faArrowDown}
-                    variant="menu-white-outline"
-                    size="lg"
-                  >
-                    <Link
-                      className={styles.learnMoreLink}
-                      smooth
-                      to="/landing-page#Demo"
+                  <Link className={styles.learnMoreLink} smooth to="#Demo">
+                    <Button
+                      icon={faArrowDown}
+                      variant="menu-white-outline"
+                      size="lg"
                     >
                       Learn more
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Col>
@@ -104,21 +100,21 @@ const LandingPage = () => {
         <TutorialSection />
         <div className={styles.divider} />
         <div className={styles.toTopBtnContianer}>
-          <Button
-            icon={faArrowUp}
-            variant="granite-outline"
-            className={styles.toTopBtn}
+          <Link
+            smooth
+            to="signup/#signup"
+            scroll={(el) =>
+              el.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
           >
-            <Link
-              smooth
-              to="/landing-page/signup/#signup"
-              scroll={(el) =>
-                el.scrollIntoView({ behavior: "smooth", block: "start" })
-              }
+            <Button
+              icon={faArrowUp}
+              variant="granite-outline"
+              className={styles.toTopBtn}
             >
               Sign Up
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </div>
     </>
