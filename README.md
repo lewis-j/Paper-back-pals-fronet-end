@@ -4,7 +4,7 @@
 
 ## Overview
 
-**Paperback Pals** is a unique platform that enables friends to share and borrow books from their personal libraries. By providing a structured and accountable process, it ensures a seamless borrowing experience while keeping track of book statuses and transactions.
+**Paperback Pals** is a platform that enables friends to share and borrow books from their personal libraries. By providing a structured and accountable process, it ensures a seamless borrowing experience while keeping track of book statuses and transactions.
 
 **Note**: This is a portfolio demonstration project and includes basic security measures. In a production environment, additional privacy and security features would be implemented to comply with GDPR, CCPA, and other regulations.
 
